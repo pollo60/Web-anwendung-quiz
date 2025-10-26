@@ -1039,7 +1039,100 @@
     </div>
 
     <script>
-        const questions = [
+        // Funktion zum Mischen eines Arrays
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Funktion zum Generieren einer zufälligen Frage aus einer Basis-Frage
+        function generateRandomQuestionType(baseQuestion) {
+            const possibleTypes = ["multiple", "checkbox", "text", "fillblank", "sort", "matching"];
+            let randomType = possibleTypes[Math.floor(Math.random() * possibleTypes.length)];
+            
+            // Kopiere die Basis-Frage
+            let question = { ...baseQuestion };
+            question.type = randomType;
+
+            // Generiere zusätzliche falsche Antworten aus dem Pool
+            const wrongAnswersPool = [
+                "JavaScript", "Python", "Ruby", "Java", "PHP", "C++",
+                "MongoDB", "MySQL", "PostgreSQL", "Redis",
+                "React", "Angular", "Vue.js", "Svelte",
+                "Docker", "Kubernetes", "Jenkins", "Git",
+                "REST", "GraphQL", "SOAP", "gRPC",
+                "AWS", "Azure", "Google Cloud", "Heroku",
+                "Linux", "Windows", "macOS", "Unix",
+                "HTTP", "HTTPS", "FTP", "SSH",
+                "HTML", "CSS", "XML", "JSON"
+            ];
+
+            switch(randomType) {
+                case "multiple":
+                case "checkbox":
+                    // Stelle sicher, dass die richtige Antwort dabei ist
+                    let correctAnswers = Array.isArray(baseQuestion.correct) ? 
+                        baseQuestion.correct.map(i => baseQuestion.options[i]) : 
+                        [baseQuestion.options[baseQuestion.correct]];
+                    
+                    // Wähle zufällige falsche Antworten
+                    let wrongOptions = shuffleArray(wrongAnswersPool
+                        .filter(opt => !correctAnswers.includes(opt)))
+                        .slice(0, randomType === "multiple" ? 3 : 4);
+                    
+                    // Kombiniere und mische die Optionen
+                    question.options = shuffleArray([...correctAnswers, ...wrongOptions]);
+                    
+                    // Aktualisiere die korrekten Indizes
+                    if(randomType === "multiple") {
+                        question.correct = question.options.indexOf(correctAnswers[0]);
+                    } else {
+                        question.correct = correctAnswers.map(ans => 
+                            question.options.indexOf(ans));
+                    }
+                    break;
+
+                case "fillblank":
+                    let words = baseQuestion.question.split(' ');
+                    let blanks = [];
+                    // Wähle 1-3 wichtige Wörter aus
+                    for(let i = 0; i < words.length; i++) {
+                        if(words[i].length > 4 && blanks.length < 3) {
+                            blanks.push(words[i]);
+                            words[i] = '_____';
+                        }
+                    }
+                    question.question = words.join(' ');
+                    question.blanks = blanks;
+                    break;
+
+                case "sort":
+                    // Erstelle eine sortierbare Liste von Konzepten
+                    question.items = shuffleArray([
+                        ...baseQuestion.options,
+                        ...wrongAnswersPool.slice(0, 3)
+                    ]);
+                    question.correct = [...question.items].sort();
+                    break;
+
+                case "matching":
+                    // Erstelle Paare zum Zuordnen
+                    question.pairs = [
+                        { left: "Begriff 1", right: "Definition 1" },
+                        { left: "Begriff 2", right: "Definition 2" },
+                        { left: "Begriff 3", right: "Definition 3" },
+                        { left: "Begriff 4", right: "Definition 4" }
+                    ];
+                    break;
+            }
+
+            return question;
+        }
+
+        const baseQuestions = [
             // LEVEL EASY (Einfach)
             {
                 difficulty: 1,
@@ -1672,10 +1765,10 @@
 
         function initializeQuestionPool() {
             questionPool = {
-                easy: questions.filter(q => q.difficulty === 1),
-                medium: questions.filter(q => q.difficulty === 2),
-                hard: questions.filter(q => q.difficulty === 3),
-                expert: questions.filter(q => q.difficulty === 4)
+                easy: baseQuestions.filter(q => q.difficulty === 1),
+                medium: baseQuestions.filter(q => q.difficulty === 2),
+                hard: baseQuestions.filter(q => q.difficulty === 3),
+                expert: baseQuestions.filter(q => q.difficulty === 4)
             };
         }
 
@@ -1685,9 +1778,13 @@
             
             while (selectedQuestions.length < count && availableQuestions.length > 0) {
                 const randomIndex = Math.floor(Math.random() * availableQuestions.length);
-                const question = availableQuestions.splice(randomIndex, 1)[0];
-                selectedQuestions.push(question);
-                usedQuestions.add(question);
+                const baseQuestion = availableQuestions.splice(randomIndex, 1)[0];
+                
+                // Generiere eine zufällige Variante der Frage
+                const randomizedQuestion = generateRandomQuestionType(baseQuestion);
+                
+                selectedQuestions.push(randomizedQuestion);
+                usedQuestions.add(baseQuestion);
             }
 
             return selectedQuestions;
