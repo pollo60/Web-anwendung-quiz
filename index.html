@@ -656,6 +656,79 @@
             transform: translateY(-2px);
         }
 
+        .mode-selection {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .mode-btn {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            padding: 10px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mode-btn.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .timer-display {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+            color: white;
+        }
+
+        .leaderboard {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .leaderboard-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+
+        .leaderboard-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .leaderboard-entry:last-child {
+            border-bottom: none;
+        }
+
+        .entry-name {
+            font-weight: 500;
+        }
+
+        .entry-score {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .entry-time {
+            color: #718096;
+            font-size: 14px;
+        }
+
         @media (max-width: 600px) {
             .container {
                 border-radius: 0;
@@ -698,6 +771,9 @@
                 <span>XP: <strong id="xpDisplay">0</strong></span>
             </div>
             <div class="level-badge" id="levelBadge">Level 1</div>
+            <div id="timerDisplay" class="timer-display" style="display: none;">
+                Zeit: <span id="timer">00:00</span>
+            </div>
             <h1>📚 Web-basierte Anwendungssysteme</h1>
             <p>Interaktiver Wissenstest</p>
             <div class="progress-container">
@@ -772,22 +848,25 @@
                     </div>
                 </div>
 
-                <div class="share-box">
-                    <div style="font-weight:600; margin-bottom:10px;">✨ Mit anderen teilen</div>
-                    <a
-                        id="whatsappShareBtn"
-                        class="btn btn-whatsapp"
-                        href="#"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style="text-decoration:none; display:inline-block; margin-bottom:10px;"
-                    >Auf WhatsApp teilen 💬</a>
-                    <div class="share-hint" id="shareHint">
-                        Schick einfach die HTML-Datei rum oder lad sie irgendwo hoch und teile den Link 👍
-                    </div>
-                </div>
+            <div id="leaderboardSection" class="leaderboard">
+                <div class="leaderboard-title">🏆 Session Bestenliste</div>
+                <div id="leaderboardContent"></div>
+            </div>
 
-                <div class="buttons" style="margin-top:40px;">
+            <div class="share-box">
+                <div style="font-weight:600; margin-bottom:10px;">✨ Mit anderen teilen</div>
+                <a
+                    id="whatsappShareBtn"
+                    class="btn btn-whatsapp"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style="text-decoration:none; display:inline-block; margin-bottom:10px;"
+                >Auf WhatsApp teilen 💬</a>
+                <div class="share-hint" id="shareHint">
+                    Schick einfach die HTML-Datei rum oder lad sie irgendwo hoch und teile den Link 👍
+                </div>
+            </div>                <div class="buttons" style="margin-top:40px;">
                     <button class="btn btn-primary" id="restartBtn">Nochmal versuchen</button>
                 </div>
             </div>
@@ -1339,8 +1418,16 @@
             hard: [],
             expert: []
         };
-        let questionPool = {};
+        let questionPool = {
+            easy: [],
+            medium: [],
+            hard: [],
+            expert: []
+        };
         let usedQuestions = new Set();
+        let startTime = 0;
+        let currentTime = 0;
+        let timerInterval = null;
 
         // Level calculations
         function getXPForLevel(lvl) {
@@ -1401,6 +1488,83 @@
             else if (selectedLevel === 'expert') document.body.classList.add('level-expert');
         }
 
+        function formatTime(ms) {
+            const seconds = Math.floor(ms / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        function updateTimer() {
+            if (!isSpeedrunMode) return;
+            currentTime = Date.now();
+            const elapsed = currentTime - startTime;
+            document.getElementById('timer').textContent = formatTime(elapsed);
+        }
+
+        function initializeQuestionPool() {
+            questionPool = {
+                easy: questions.filter(q => q.difficulty === 1),
+                medium: questions.filter(q => q.difficulty === 2),
+                hard: questions.filter(q => q.difficulty === 3),
+                expert: questions.filter(q => q.difficulty === 4)
+            };
+        }
+
+        function selectQuestionsFromPool(level, count) {
+            const availableQuestions = questionPool[level].filter(q => !usedQuestions.has(q));
+            const selectedQuestions = [];
+            
+            while (selectedQuestions.length < count && availableQuestions.length > 0) {
+                const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+                const question = availableQuestions.splice(randomIndex, 1)[0];
+                selectedQuestions.push(question);
+                usedQuestions.add(question);
+            }
+
+            return selectedQuestions;
+        }
+
+        function updateLeaderboard(level, score, time = null) {
+            const entry = {
+                name: playerName,
+                score: score,
+                time: time,
+                xp: xp,
+                timestamp: Date.now()
+            };
+
+            sessionLeaderboard[level].push(entry);
+            sessionLeaderboard[level].sort((a, b) => {
+                if (isSpeedrunMode) {
+                    return (b.score - a.score) || (a.time - b.time);
+                }
+                return b.score - a.score;
+            });
+
+            // Nur die Top 5 behalten
+            sessionLeaderboard[level] = sessionLeaderboard[level].slice(0, 5);
+        }
+
+        function displayLeaderboard() {
+            const leaderboardContent = document.getElementById('leaderboardContent');
+            const currentLevel = selectedLevel;
+            const entries = sessionLeaderboard[currentLevel];
+
+            if (entries.length === 0) {
+                leaderboardContent.innerHTML = '<div class="leaderboard-entry">Noch keine Einträge</div>';
+                return;
+            }
+
+            leaderboardContent.innerHTML = entries.map((entry, index) => `
+                <div class="leaderboard-entry">
+                    <span class="entry-name">${index + 1}. ${entry.name}</span>
+                    <span class="entry-score">${Math.round((entry.score / filteredQuestions.length) * 100)}% (${entry.xp} XP)</span>
+                    ${isSpeedrunMode ? `<span class="entry-time">${formatTime(entry.time)}</span>` : ''}
+                </div>
+            `).join('');
+        }
+
         function startQuiz() {
             if (!selectedLevel) return;
 
@@ -1408,14 +1572,27 @@
             const nameInput = document.getElementById('playerName');
             playerName = (nameInput.value || "Spieler/in").trim();
 
-            // Filter questions by difficulty
-            const difficultyMap = { easy: 1, medium: 2, hard: 3, expert: 4 };
-            const maxDifficulty = difficultyMap[selectedLevel];
+            initializeQuestionPool();
 
-            filteredQuestions = questions.filter(q => q.difficulty <= maxDifficulty);
+            if (isSpeedrunMode) {
+                // Im Speedrun-Modus: Zufällige Fragen aus allen Schwierigkeitsgraden
+                const questionCounts = { easy: 5, medium: 5, hard: 5, expert: 5 };
+                filteredQuestions = [];
+                Object.entries(questionCounts).forEach(([level, count]) => {
+                    filteredQuestions = filteredQuestions.concat(selectQuestionsFromPool(level, count));
+                });
+                filteredQuestions = filteredQuestions.sort(() => Math.random() - 0.5);
 
-            // Shuffle questions
-            filteredQuestions = filteredQuestions.sort(() => Math.random() - 0.5);
+                // Timer starten
+                startTime = Date.now();
+                document.getElementById('timerDisplay').style.display = 'block';
+                timerInterval = setInterval(updateTimer, 1000);
+            } else {
+                // Normaler Modus: Fragen nach Schwierigkeitsgrad filtern
+                const difficultyMap = { easy: 1, medium: 2, hard: 3, expert: 4 };
+                const maxDifficulty = difficultyMap[selectedLevel];
+                filteredQuestions = selectQuestionsFromPool(selectedLevel, 10);
+            }
 
             document.getElementById('startScreen').style.display = 'none';
             updateBodyClass();
@@ -1756,15 +1933,27 @@
             if (isCorrect) {
                 score++;
                 correctAnswers++;
-                xp += question.xp;
+                let gainedXP = question.xp;
+                // Bonus XP im Speedrun-Modus
+                if (isSpeedrunMode) {
+                    gainedXP = Math.floor(gainedXP * 1.5); // 50% mehr XP im Speedrun
+                }
+                xp += gainedXP;
                 updateXPDisplay();
                 checkLevelUp();
                 feedback.className = 'feedback correct show';
-                feedback.innerHTML = `<strong>✓ Richtig!</strong> <span class="xp-gain">+${question.xp} XP</span><br>${question.explanation}`;
+                feedback.innerHTML = `<strong>✓ Richtig!</strong> <span class="xp-gain">+${gainedXP} XP</span><br>${question.explanation}`;
             } else {
                 wrongAnswers++;
+                let xpPenalty = 0;
+                // XP-Bestrafung bei mittlerem und höherem Schwierigkeitsgrad
+                if (question.difficulty >= 2 || isSpeedrunMode) {
+                    xpPenalty = Math.floor(question.xp * (isSpeedrunMode ? 0.75 : 0.5));
+                    xp = Math.max(0, xp - xpPenalty);
+                    updateXPDisplay();
+                }
                 feedback.className = 'feedback wrong show';
-                feedback.innerHTML = `<strong>✗ Leider falsch.</strong><br>${question.explanation}`;
+                feedback.innerHTML = `<strong>✗ Leider falsch.</strong>${xpPenalty > 0 ? ` <span class="xp-gain" style="background: #f56565">-${xpPenalty} XP</span>` : ''}<br>${question.explanation}`;
             }
 
             userAnswers[currentQuestion] = isCorrect;
@@ -1797,6 +1986,11 @@
             const resultScreen = document.getElementById('resultScreen');
             const questionsContainer = document.getElementById('questionsContainer');
 
+            if (isSpeedrunMode) {
+                clearInterval(timerInterval);
+                currentTime = Date.now();
+            }
+
             questionsContainer.style.display = 'none';
             resultScreen.classList.add('show');
 
@@ -1817,13 +2011,23 @@
 
             // Name dynamisch einbauen
             document.getElementById('resultMessage').textContent = playerName + ': ' + message;
-            document.getElementById('resultDetails').textContent =
-                `Du hast ${score} von ${filteredQuestions.length} Fragen richtig beantwortet.`;
+            
+            let detailsText = `Du hast ${score} von ${filteredQuestions.length} Fragen richtig beantwortet.`;
+            if (isSpeedrunMode) {
+                const elapsedTime = currentTime - startTime;
+                detailsText += `\nBenötigte Zeit: ${formatTime(elapsedTime)}`;
+                updateLeaderboard(selectedLevel, score, elapsedTime);
+            } else {
+                updateLeaderboard(selectedLevel, score);
+            }
+            document.getElementById('resultDetails').textContent = detailsText;
 
             document.getElementById('statCorrect').textContent = correctAnswers;
             document.getElementById('statWrong').textContent = wrongAnswers;
             document.getElementById('statXP').textContent = xp;
             document.getElementById('statLevel').textContent = level;
+
+            displayLeaderboard();
 
             // WhatsApp Share Link erzeugen (Text dynamisch)
             const shareText = encodeURIComponent(
@@ -1848,6 +2052,13 @@
             level = 1;
             selectedLevel = null;
             playerName = "";
+            
+            // Reset Timer und Speedrun-Modus
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            document.getElementById('timerDisplay').style.display = 'none';
+            isSpeedrunMode = false;
 
             document.getElementById('resultScreen').classList.remove('show');
             document.getElementById('questionsContainer').style.display = 'block';
@@ -1861,7 +2072,24 @@
             document.querySelectorAll('.level-card').forEach(card => {
                 card.classList.remove('selected');
             });
+
+            // Reset Mode Auswahl
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            document.querySelector('.mode-btn[data-mode="normal"]').classList.add('selected');
+
             document.getElementById('startBtn').disabled = true;
+            
+            // Reset Question Pool und Timer
+            usedQuestions.clear();
+            document.getElementById('timer').textContent = '00:00';
+            
+            // Reset player name input
+            document.getElementById('playerName').value = '';
+            
+            // Validate start conditions
+            validateStartConditions();
         }
 
         function updateProgress() {
@@ -1877,7 +2105,35 @@
                     document.querySelectorAll('.level-card').forEach(c => c.classList.remove('selected'));
                     this.classList.add('selected');
                     selectedLevel = this.dataset.level;
-                    document.getElementById('startBtn').disabled = false;
+                    validateStartConditions();
+                });
+            });
+
+            // Mode selection
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('selected'));
+                    this.classList.add('selected');
+                    isSpeedrunMode = this.dataset.mode === 'speedrun';
+                    validateStartConditions();
+                });
+            });
+
+            // Name input validation
+            document.getElementById('playerName').addEventListener('input', validateStartConditions);
+
+            function validateStartConditions() {
+                const nameInput = document.getElementById('playerName');
+                const startBtn = document.getElementById('startBtn');
+                startBtn.disabled = !selectedLevel || !nameInput.value.trim();
+            }
+
+            // Mode selection
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('selected'));
+                    this.classList.add('selected');
+                    isSpeedrunMode = this.dataset.mode === 'speedrun';
                 });
             });
 
