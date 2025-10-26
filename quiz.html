@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web-basierte Anwendungssysteme - Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+            transition: background 0.5s ease;
+        }
+
+        body.level-easy {
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+        }
+
+        body.level-medium {
+            background: linear-gradient(135deg, #f09819 0%, #edde5d 100%);
+        }
+
+        body.level-hard {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+        }
+
+        body.level-expert {
+            background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .level-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+        }
+
+        .xp-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .progress-container {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            height: 8px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ff6b6b, #4834d4);
+            transition: width 0.3s ease;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            animation: glowing 2s infinite, progressPulse 1s ease-in-out infinite;
+        }
+        
+        @keyframes glowing {
+            0% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+            50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.8); }
+            100% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+        }
+        
+        @keyframes progressPulse {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .question-container {
+            display: none;
+        }
+
+        .question-container.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes levelUp {
+            0% { transform: scale(0) rotate(0deg); opacity: 0; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+            100% { transform: scale(1) rotate(360deg); opacity: 1; }
+        }
+
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .level-up-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s;
+        }
+
+        .level-up-overlay.show {
+            display: flex;
+        }
+
+        .level-up-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            animation: levelUp 0.8s ease;
+        }
+
+        .level-up-content h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            z-index: 999;
+            animation: confetti 3s ease-out;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .question-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .difficulty-indicator {
+            display: flex;
+            gap: 5px;
+        }
+
+        .difficulty-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #e2e8f0;
+        }
+
+        .difficulty-dot.active {
+            background: #667eea;
+        }
+
+        .question-text {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            color: #2d3748;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+        }
+
+        .option::before {
+            content: attr(data-letter);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .option:hover {
+            background: #edf2f7;
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .option.selected::before {
+            background: white;
+            color: #667eea;
+        }
+
+        .option.correct {
+            background: #48bb78;
+            color: white;
+            border-color: #48bb78;
+            animation: pulse 0.5s;
+        }
+
+        .option.correct::before {
+            background: white;
+            color: #48bb78;
+        }
+
+        .option.wrong {
+            background: #f56565;
+            color: white;
+            border-color: #f56565;
+            animation: shake 0.5s;
+        }
+
+        .option.wrong::before {
+            background: white;
+            color: #f56565;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .text-input, .blank-input, .name-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .blank-input {
+            display: inline-block;
+            width: 200px;
+            margin: 0 5px;
+        }
+
+        .text-input:focus,
+        .blank-input:focus,
+        .name-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .sortable-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sortable-item {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            cursor: move;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sortable-item:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+        }
+
+        .sortable-item.dragging {
+            opacity: 0.5;
+        }
+
+        .drag-handle {
+            cursor: move;
+            font-size: 20px;
+            color: #a0aec0;
+        }
+
+        .matching-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .matching-column {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .matching-item {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .matching-item:hover {
+            background: #edf2f7;
+            border-color: #667eea;
+        }
+
+        .matching-item.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .feedback.correct {
+            background: #c6f6d5;
+            color: #22543d;
+            border: 2px solid #48bb78;
+        }
+
+        .feedback.wrong {
+            background: #fed7d7;
+            color: #742a2a;
+            border: 2px solid #f56565;
+        }
+
+        .feedback.warning {
+            background: #fffbea;
+            color: #744210;
+            border: 2px solid #f6e05e;
+        }
+
+        .xp-gain {
+            display: inline-block;
+            background: #ffd700;
+            color: #000;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-left: 10px;
+            animation: pulse 0.5s;
+        }
+
+        .result-container {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .result-container.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .score-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .score-text {
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+        }
+
+        .result-message {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+
+        .result-details {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 8px;
+        }
+
+        .start-screen {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .start-screen h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #2d3748;
+        }
+
+        .start-screen p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .player-name-wrapper {
+            max-width: 400px;
+            margin: 0 auto 20px;
+            text-align: left;
+        }
+
+        .player-name-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #4a5568;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .level-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .level-card {
+            background: #f7fafc;
+            border: 3px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 30px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .level-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .level-card.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .level-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .level-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .level-description {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .share-box {
+            background: #f7fafc;
+            border: 2px dashed #cbd5e0;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: center;
+            font-size: 14px;
+            color: #4a5568;
+        }
+
+        .share-hint {
+            font-size: 13px;
+            color: #718096;
+            margin-top: 8px;
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: #fff;
+        }
+
+        .btn-whatsapp:hover {
+            box-shadow: 0 10px 20px rgba(37,211,102,0.4);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                border-radius: 0;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .question-text {
+                font-size: 16px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .matching-container {
+                grid-template-columns: 1fr;
+            }
+
+            .level-selection {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="level-up-overlay" id="levelUpOverlay">
+        <div class="level-up-content">
+            <h2 id="levelUpMessage"></h2>
+            <p id="levelUpDescription"></p>
+            <button class="btn btn-primary" id="levelUpContinue">Weiter</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="xp-container">
+                <span>XP: <strong id="xpDisplay">0</strong></span>
+            </div>
+            <div class="level-badge" id="levelBadge">Level 1</div>
+            <h1>📚 Web-basierte Anwendungssysteme</h1>
+            <p>Interaktiver Wissenstest</p>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- START SCREEN -->
+            <div id="startScreen" class="start-screen">
+                <h2>Willkommen zum Quiz!</h2>
+                <p>Wähle deinen Schwierigkeitsgrad und teste dein Wissen!</p>
+
+                <div class="player-name-wrapper">
+                    <label class="player-name-label" for="playerName">Dein Name (für die Auswertung)</label>
+                    <input id="playerName" class="name-input" type="text" placeholder="z.B. Luca, Marie, etc.">
+                </div>
+
+                <div class="level-selection">
+                    <div class="level-card" data-level="easy">
+                        <div class="level-icon">🌱</div>
+                        <div class="level-name">Einfach</div>
+                        <div class="level-description">Grundlagen & Basiswissen</div>
+                    </div>
+                    <div class="level-card" data-level="medium">
+                        <div class="level-icon">⚡</div>
+                        <div class="level-name">Mittel</div>
+                        <div class="level-description">Fortgeschrittene Konzepte</div>
+                    </div>
+                    <div class="level-card" data-level="hard">
+                        <div class="level-icon">🔥</div>
+                        <div class="level-name">Schwer</div>
+                        <div class="level-description">Komplexe Themen</div>
+                    </div>
+                    <div class="level-card" data-level="expert">
+                        <div class="level-icon">💎</div>
+                        <div class="level-name">Experte</div>
+                        <div class="level-description">Master-Level</div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" id="startBtn" disabled>Quiz starten</button>
+            </div>
+
+            <!-- QUESTIONS -->
+            <div id="questionsContainer"></div>
+
+            <!-- RESULT SCREEN -->
+            <div id="resultScreen" class="result-container">
+                <div class="score-circle">
+                    <div class="score-text" id="scoreText"></div>
+                </div>
+                <div class="result-message" id="resultMessage"></div>
+                <div class="result-details" id="resultDetails"></div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="statCorrect">0</div>
+                        <div class="stat-label">Richtig</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statWrong">0</div>
+                        <div class="stat-label">Falsch</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statXP">0</div>
+                        <div class="stat-label">XP Gewonnen</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statLevel">1</div>
+                        <div class="stat-label">Level Erreicht</div>
+                    </div>
+                </div>
+
+                <div class="share-box">
+                    <div style="font-weight:600; margin-bottom:10px;">✨ Mit anderen teilen</div>
+                    <a
+                        id="whatsappShareBtn"
+                        class="btn btn-whatsapp"
+                        href="#"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style="text-decoration:none; display:inline-block; margin-bottom:10px;"
+                    >Auf WhatsApp teilen 💬</a>
+                    <div class="share-hint" id="shareHint">
+                        Schick einfach die HTML-Datei rum oder lad sie irgendwo hoch und teile den Link 👍
+                    </div>
+                </div>
+
+                <div class="buttons" style="margin-top:40px;">
+                    <button class="btn btn-primary" id="restartBtn">Nochmal versuchen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            // LEVEL EASY (Einfach)
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Wer erfand das World Wide Web?",
+                options: [
+                    "Steve Jobs",
+                    "Tim Berners-Lee",
+                    "Bill Gates",
+                    "Linus Torvalds"
+                ],
+                correct: 1,
+                explanation: "Tim Berners-Lee erfand das WWW (zusammen mit Robert Cailiau).",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist der Vorläufer des Internets?",
+                options: [
+                    "BITNET",
+                    "MILNET",
+                    "ARPANET",
+                    "NSFNET"
+                ],
+                correct: 2,
+                explanation: "ARPANET war der Vorläufer des Internets und wurde entwickelt, um ein Netzwerk zu schaffen, das auch bei Teilausfällen funktioniert.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "fillblank",
+                question: "TCP steht für _____ Control Protocol und IP für _____ Protocol.",
+                blanks: ["transmission", "internet"],
+                explanation: "TCP (Transmission Control Protocol) und IP (Internet Protocol) sind die grundlegenden Protokolle des Internets.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Wofür steht die Abkürzung HTTP?",
+                options: [
+                    "High Transfer Text Protocol",
+                    "Hypertext Transfer Protocol",
+                    "Hyperlink Text Transfer Protocol",
+                    "Home Tool Transfer Protocol"
+                ],
+                correct: 1,
+                explanation: "HTTP steht für Hypertext Transfer Protocol - das Übertragungsprotokoll des WWW.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "checkbox",
+                question: "Welche gehören zu den grundlegenden Protokollen des Internets? (Mehrfachauswahl)",
+                options: [
+                    "HTML",
+                    "TCP",
+                    "CSS",
+                    "IP"
+                ],
+                correct: [1, 3],
+                explanation: "TCP (Transmission Control Protocol) und IP (Internet Protocol) sind die grundlegenden Protokolle. HTML und CSS sind keine Netzwerkprotokolle.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist GitHub?",
+                options: [
+                    "Ein Texteditor",
+                    "Eine Codehosting-Plattform für Versionskontrolle",
+                    "Eine Programmiersprache",
+                    "Ein Betriebssystem"
+                ],
+                correct: 1,
+                explanation: "GitHub ist eine Codehosting-Plattform für die Versionskontrolle und Zusammenarbeit in Projekten.",
+                xp: 10
+            },
+
+            // LEVEL MEDIUM (Mittel)
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist eine Bean in Spring?",
+                options: [
+                    "Eine JavaScript-Bibliothek",
+                    "Eine Datenbank-Tabelle",
+                    "Ein verwaltetes Java-Objekt innerhalb des Spring Containers",
+                    "Ein Konfigurationsfile"
+                ],
+                correct: 2,
+                explanation: "Eine Bean ist ein verwaltetes Java-Objekt innerhalb des Spring Containers. Die Bean wird erstellt, überwacht und gelöscht.",
+                xp: 20
+            },
+            {
+                difficulty: 2,
+                type: "matching",
+                question: "Ordne die Spring-Annotationen ihrer Funktion zu:",
+                pairs: [
+                    { left: "@SpringBootApplication", right: "Kennzeichnet die Main-Klasse" },
+                    { left: "@Component", right: "Macht die Klasse zu einer Bean" },
+                    { left: "@Autowired", right: "Injiziert ein Bean-Objekt" },
+                    { left: "@Bean", right: "Definiert eine Bean-Methode" }
+                ],
+                explanation: "@SpringBootApplication markiert die Main-Klasse, @Component macht Klassen zu Beans, @Autowired injiziert Dependencies, @Bean definiert Bean-Methoden.",
+                xp: 25
+            },
+            {
+                difficulty: 2,
+                type: "fillblank",
+                question: "In Spring Boot wird die Konfiguration in der Datei _____ im Ordner _____ gespeichert.",
+                blanks: ["application.properties", "resources"],
+                explanation: "Die Datei application.properties im Ordner resources enthält die Konfiguration für Spring Boot Anwendungen.",
+                xp: 20
+            },
+            {
+                difficulty: 2,
+                type: "checkbox",
+                question: "Welche HTTP-Methoden gehören zu Version 1.1? (Mehrfachauswahl)",
+                options: [
+                    "GET",
+                    "FETCH",
+                    "POST",
+                    "PUT",
+                    "SEND"
+                ],
+                correct: [0, 2, 3],
+                explanation: "HTTP 1.1 umfasst unter anderem: GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE und PATCH. FETCH und SEND sind keine HTTP-Methoden.",
+                xp: 20
+            },
+            {
+                difficulty: 2,
+                type: "sort",
+                question: "Sortiere die Log-Level von niedrigster zu höchster Priorität:",
+                items: ["ERROR", "WARN", "INFO", "DEBUG", "TRACE"],
+                correct: ["TRACE", "DEBUG", "INFO", "WARN", "ERROR"],
+                explanation: "Die Log-Level von niedrigster zu höchster Priorität: TRACE (am detailliertesten) → DEBUG → INFO → WARN → ERROR (kritischste Fehler).",
+                xp: 25
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was bewirkt das Keep-Alive Header-Feld in HTTP?",
+                options: [
+                    "Verhindert Timeout beim Server",
+                    "Speichert Cookies dauerhaft",
+                    "Hält TCP-Verbindung offen für mehrere Anfragen",
+                    "Aktiviert Caching im Browser"
+                ],
+                correct: 2,
+                explanation: "Keep-Alive hält die TCP-Verbindung zwischen Client und Server offen, damit mehrere HTTP-Anfragen über dieselbe Verbindung möglich sind.",
+                xp: 20
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist Maven?",
+                options: [
+                    "Ein Web-Framework",
+                    "Eine Datenbank",
+                    "Eine Programmiersprache",
+                    "Ein Build-Management-Tool für Java-Projekte"
+                ],
+                correct: 3,
+                explanation: "Maven ist ein Build-Management-Tool, das den Software-Erstellungszyklus verwaltet. Konfiguration erfolgt in pom.xml.",
+                xp: 20
+            },
+            {
+                difficulty: 2,
+                type: "fillblank",
+                question: "Um den Log-Level für ein Package auf DEBUG zu setzen, verwendet man in application.properties: logging.level._____.fra.uas=_____",
+                blanks: ["edu", "debug"],
+                explanation: "Mit logging.level.edu.fra.uas=debug wird der Log-Level für das Package edu.fra.uas auf DEBUG gesetzt.",
+                xp: 20
+            },
+
+            // LEVEL HARD (Schwer)
+            {
+                difficulty: 3,
+                type: "checkbox",
+                question: "Welche Neuerungen brachte HTTP/2 mit sich? (Mehrfachauswahl)",
+                options: [
+                    "Kompression der Header",
+                    "Textuelle statt binäre Daten",
+                    "Server Push möglich",
+                    "Mehrere TCP-Verbindungen nötig",
+                    "Binäre Daten statt textueller Daten"
+                ],
+                correct: [0, 2, 4],
+                explanation: "HTTP/2 verwendet: Header-Kompression, binäre statt textuelle Daten, Server Push und nur EINE TCP-Verbindung (nicht mehrere).",
+                xp: 30
+            },
+            {
+                difficulty: 3,
+                type: "sort",
+                question: "Sortiere die Schichten der 3-Tier-Architektur von oben nach unten:",
+                items: ["Datenhaltungsschicht", "Anwendungslogik-Schicht", "Präsentationsschicht"],
+                correct: ["Präsentationsschicht", "Anwendungslogik-Schicht", "Datenhaltungsschicht"],
+                explanation: "3-Tier-Architektur von oben: Präsentationsschicht (UI) → Anwendungslogik (Business Logic) → Datenhaltung (Datenbank).",
+                xp: 30
+            },
+            {
+                difficulty: 3,
+                type: "matching",
+                question: "Ordne die REST-Prinzipien ihrer Beschreibung zu:",
+                pairs: [
+                    { left: "Stateless", right: "Zustandslosigkeit der Anfragen" },
+                    { left: "Cacheability", right: "Responses können gecacht werden" },
+                    { left: "Uniform Interface", right: "Einheitliche Schnittstelle" },
+                    { left: "HATEOAS", right: "Links zu verwandten Ressourcen" }
+                ],
+                explanation: "REST-Prinzipien: Stateless (zustandslos), Cacheability (cachebar), Uniform Interface (einheitlich), HATEOAS (Hypermedia as Engine of Application State).",
+                xp: 35
+            },
+            {
+                difficulty: 3,
+                type: "checkbox",
+                question: "Welche HTTP-Methoden sind 'safe' (sicher)? (Mehrfachauswahl)",
+                options: [
+                    "POST",
+                    "GET",
+                    "PUT",
+                    "HEAD",
+                    "DELETE"
+                ],
+                correct: [1, 3],
+                explanation: "Safe (sicher) sind nur GET und HEAD - sie ändern keine Daten auf dem Server. POST, PUT und DELETE ändern Daten.",
+                xp: 30
+            },
+            {
+                difficulty: 3,
+                type: "fillblank",
+                question: "Die Annotation _____ kennzeichnet Test-Methoden in JUnit, während _____ die Test-Klasse für Spring Boot markiert.",
+                blanks: ["@Test", "@SpringBootTest"],
+                explanation: "@Test markiert einzelne Test-Methoden, @SpringBootTest kennzeichnet die Test-Klasse für Spring Boot.",
+                xp: 30
+            },
+            {
+                difficulty: 3,
+                type: "multiple",
+                question: "Was passiert, wenn die @Autowired Annotation entfernt wird?",
+                options: [
+                    "Das Programm läuft schneller",
+                    "Die Bean wird nicht injiziert und es gibt eine NullPointerException",
+                    "Die Bean wird automatisch erstellt",
+                    "Das Programm kompiliert nicht"
+                ],
+                correct: 1,
+                explanation: "Ohne @Autowired wird das Bean-Objekt nicht injiziert und bleibt null, was zu einer NullPointerException führt, wenn darauf zugegriffen wird.",
+                xp: 30
+            },
+            {
+                difficulty: 3,
+                type: "multiple",
+                question: "Welche Operationen unterstützt GraphQL?",
+                options: [
+                    "SELECT, INSERT, UPDATE, DELETE",
+                    "GET, POST, PUT, DELETE",
+                    "Query, Mutation, Subscription",
+                    "READ, WRITE, UPDATE"
+                ],
+                correct: 2,
+                explanation: "GraphQL unterstützt: Query (Abfragen), Mutation (Änderungen), Subscription (Echtzeit-Updates).",
+                xp: 30
+            },
+
+            // LEVEL EXPERT (Experte)
+            {
+                difficulty: 4,
+                type: "matching",
+                question: "Ordne die Komponenten des MVC-Patterns ihrer Rolle zu:",
+                pairs: [
+                    { left: "Model", right: "Datenmodell und Geschäftslogik" },
+                    { left: "View", right: "Darstellung der Benutzeroberfläche" },
+                    { left: "Controller", right: "Steuerung und Vermittlung" },
+                    { left: "@RequestMapping", right: "Verknüpfung von URLs mit Methoden" }
+                ],
+                explanation: "MVC: Model (Daten/Logik), View (UI), Controller (Steuerung). @RequestMapping verbindet HTTP-Requests mit Handler-Methoden.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "sort",
+                question: "Sortiere den Maven Build-Zyklus in der richtigen Reihenfolge:",
+                items: ["Installation", "Validierung", "Verifizierung", "Kompilierung", "Testen", "Paketieren"],
+                correct: ["Validierung", "Kompilierung", "Testen", "Paketieren", "Verifizierung", "Installation"],
+                explanation: "Maven Build-Zyklus: Validierung → Kompilierung → Testen → Paketieren → Integrationstests → Verifizierung → Installation → Verteilung.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "fillblank",
+                question: "In der pom.xml wird die Spring Boot Version im _____ -Tag mit dem artifactId _____ definiert.",
+                blanks: ["parent", "spring-boot-starter-parent"],
+                explanation: "Der <parent>-Tag mit artifactId 'spring-boot-starter-parent' bestimmt die Spring Boot Framework-Version.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "checkbox",
+                question: "Welche Eigenschaften hat Spring Boot? (Mehrfachauswahl)",
+                options: [
+                    "Benötigt externe War-Dateien",
+                    "Eingebettete Container (Tomcat, Jetty)",
+                    "Automatische Konfiguration soweit möglich",
+                    "Generierung von Code und Konfiguration",
+                    "Keine externen Laufzeitabhängigkeiten"
+                ],
+                correct: [1, 2, 4],
+                explanation: "Spring Boot: eingebettete Container, automatische Konfiguration, keine externen Laufzeitabhängigkeiten, KEINE War-Dateien nötig, KEINE Code-Generierung.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "multiple",
+                question: "Welches Protokoll nutzt gRPC als Transportprotokoll und zu welcher OSI-Schicht gehört es?",
+                options: [
+                    "WebSocket, Schicht 6",
+                    "TCP, Schicht 4",
+                    "HTTP/2, Schicht 7",
+                    "HTTP/1.1, Schicht 7"
+                ],
+                correct: 2,
+                explanation: "gRPC nutzt HTTP/2 als Transportprotokoll, welches zur OSI-Schicht 7 (Anwendungsschicht) gehört.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "multiple",
+                question: "Was ist das besondere Feature von gRPC im Vergleich zu REST und GraphQL?",
+                options: [
+                    "Automatische Dokumentation",
+                    "Browser-Unterstützung",
+                    "Bidirektionales Streaming",
+                    "JSON-Format"
+                ],
+                correct: 2,
+                explanation: "gRPC unterstützt bidirektionales Streaming in verschiedenen Formen: Unary, Server-Streaming, Client-Streaming, Bidirectional-Streaming.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "fillblank",
+                question: "Eine SPA (Single Page Application) lädt Inhalte dynamisch per _____ nach, ohne die Seite neu zu _____.",
+                blanks: ["ajax", "laden"],
+                explanation: "Bei einer SPA läuft die Anwendung auf einer HTML-Seite. Inhalte werden dynamisch per AJAX nachgeladen, ohne Seitenneuladung.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "checkbox",
+                question: "Welche sind serverseitige Technologien? (Mehrfachauswahl)",
+                options: [
+                    "JavaScript (Client)",
+                    "PHP",
+                    "Java Servlets",
+                    "CSS",
+                    "Node.js"
+                ],
+                correct: [1, 2, 4],
+                explanation: "Serverseitige Technologien: PHP, Java Servlets, Node.js, Python (Django), Ruby on Rails. JavaScript und CSS laufen primär clientseitig.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "matching",
+                question: "Ordne die URL-Bestandteile dem Beispiel zu: http://fb2.fra-uas.de:8080/ebis/urls.html?prof=lehmann",
+                pairs: [
+                    { left: "Scheme", right: "http://" },
+                    { left: "Hostname", right: "fb2.fra-uas.de" },
+                    { left: "Port", right: ":8080" },
+                    { left: "Query", right: "?prof=lehmann" }
+                ],
+                explanation: "URL-Struktur: Scheme (Protokoll) → Hostname (Domain) → Port → Path (Pfad) → Query (Parameter).",
+                xp: 45
+            },
+            {
+                difficulty: 4,
+                type: "multiple",
+                question: "Wofür steht die Abkürzung PHP (rekursives Akronym)?",
+                options: [
+                    "Personal Home Page",
+                    "Private Hypertext Processor",
+                    "PHP: Hypertext Preprocessor",
+                    "Public HTML Protocol"
+                ],
+                correct: 2,
+                explanation: "PHP steht für 'PHP: Hypertext Preprocessor' - ein rekursives Akronym. PHP ist eine serverseitige Skriptsprache.",
+                xp: 40
+            },
+
+            // Zusätzliche gemischte Fragen
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist der Unterschied zwischen Internet und World Wide Web (WWW)?",
+                options: [
+                    "WWW ist älter als das Internet",
+                    "Es gibt keinen Unterschied",
+                    "Internet ist nur für E-Mails, WWW für Webseiten",
+                    "Internet ist die physikalische Verbindung, WWW ist die Client-Server-Aufteilung"
+                ],
+                correct: 3,
+                explanation: "Internet ist die Verbindung unzähliger Subnetze (physikalische Verbindung). WWW ist die Aufteilung in Web-Client und Web-Server zur Adressierung von Dateien.",
+                xp: 20
+            },
+            {
+                difficulty: 3,
+                type: "multiple",
+                question: "Was ist HATEOAS im Kontext von REST?",
+                options: [
+                    "Ein HTTP-Header",
+                    "Eine Datenbank-Technologie",
+                    "Hypermedia as Engine of Application State - Links in Responses",
+                    "Ein JavaScript Framework"
+                ],
+                correct: 2,
+                explanation: "HATEOAS (Hypermedia as the Engine of Application State): Der Server liefert in Responses Links zu verwandten Ressourcen mit.",
+                xp: 30
+            },
+            {
+                difficulty: 3,
+                type: "fillblank",
+                question: "Um eine Datei für Logging anzugeben, verwendet man logging._____ und für ein Verzeichnis logging._____",
+                blanks: ["file", "path"],
+                explanation: "Mit logging.file gibt man eine Datei an, mit logging.path ein Verzeichnis. Ohne Angabe wird in spring.log geschrieben.",
+                xp: 30
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Wofür steht AJAX?",
+                options: [
+                    "Advanced Java and XML",
+                    "Asynchronous JavaScript and XML",
+                    "Automatic JSON and XML",
+                    "Application JavaScript Architecture XML"
+                ],
+                correct: 1,
+                explanation: "AJAX steht für Asynchronous JavaScript and XML - ermöglicht asynchrone Datenübertragung ohne Seitenneuladung.",
+                xp: 20
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Wer ist für die Standardisierung von HTML zuständig?",
+                options: [
+                    "W3C (World Wide Web Consortium)",
+                    "Microsoft",
+                    "Google",
+                    "ISO"
+                ],
+                correct: 0,
+                explanation: "Das W3C (World Wide Web Consortium) ist für die Standardisierung von HTML zuständig.",
+                xp: 10
+            },
+            {
+                difficulty: 3,
+                type: "multiple",
+                question: "Was ist das Ziel von Responsive Web Design?",
+                options: [
+                    "Automatische Updates",
+                    "Optimale Darstellung auf verschiedenen Bildschirmgrößen",
+                    "Schnellere Serverantworten",
+                    "Bessere Suchmaschinenoptimierung"
+                ],
+                correct: 1,
+                explanation: "Responsive Web Design sorgt für optimale Darstellung und Bedienbarkeit auf verschiedenen Geräten und Bildschirmgrößen.",
+                xp: 30
+            },
+            {
+                difficulty: 2,
+                type: "fillblank",
+                question: "Git wurde 2005 von _____ _____ entwickelt.",
+                blanks: ["Linus", "Torvalds"],
+                explanation: "Git ist ein Open-Source-Versionskontrollsystem, das 2005 von Linus Torvalds entwickelt wurde.",
+                xp: 20
+            },
+            {
+                difficulty: 4,
+                type: "multiple",
+                question: "Welche Java-Bibliothek wird in Spring Boot Tests für aussagekräftige Assertions verwendet?",
+                options: [
+                    "Hamcrest",
+                    "JUnit Basic",
+                    "AssertJ",
+                    "Mockito"
+                ],
+                correct: 2,
+                explanation: "AssertJ wird verwendet. Tests werden mit verketteten Methodenaufrufen lesbarer und Fehlermeldungen sind detaillierter als bei Hamcrest.",
+                xp: 40
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was war der erste Dienst des Internets?",
+                options: [
+                    "World Wide Web",
+                    "E-Mail (1972)",
+                    "FTP",
+                    "Telnet"
+                ],
+                correct: 1,
+                explanation: "1972 wurde das E-Mail-Protokoll von Ray Tomlinson für das ARPANET entwickelt - der erste Dienst des Internets.",
+                xp: 10
+            },
+            {
+                difficulty: 3,
+                type: "checkbox",
+                question: "Welche Basiskonzepte gehören zum WWW? (Mehrfachauswahl)",
+                options: [
+                    "Client-Server Architektur",
+                    "Peer-to-Peer Netzwerk",
+                    "Hypermedia-Inhalte",
+                    "URIs (Links)",
+                    "Blockchain"
+                ],
+                correct: [0, 2, 3],
+                explanation: "WWW-Basiskonzepte: Client-Server Architektur, Hypermedia-Inhalte, URIs, HTML, HTTP. Peer-to-Peer und Blockchain gehören nicht dazu.",
+                xp: 30
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = [];
+        let selectedLevel = null;
+        let filteredQuestions = [];
+        let xp = 0;
+        let level = 1;
+        let correctAnswers = 0;
+        let wrongAnswers = 0;
+        let playerName = "";
+        let isSpeedrunMode = false;
+        let speedrunTimer = 0;
+        let speedrunInterval = null;
+        let sessionLeaderboard = {
+            easy: [],
+            medium: [],
+            hard: [],
+            expert: []
+        };
+        let questionPool = {};
+        let usedQuestions = new Set();
+
+        // Level calculations
+        function getXPForLevel(lvl) {
+            return lvl * 100;
+        }
+
+        function checkLevelUp() {
+            const requiredXP = getXPForLevel(level);
+            if (xp >= requiredXP) {
+                level++;
+                showLevelUp();
+                updateLevelBadge();
+            }
+        }
+
+        function showLevelUp() {
+            const overlay = document.getElementById('levelUpOverlay');
+            const message = document.getElementById('levelUpMessage');
+            const description = document.getElementById('levelUpDescription');
+
+            message.textContent = `🎉 Level ${level} erreicht!`;
+            description.textContent = `Du hast ${getXPForLevel(level)} XP erreicht!`;
+
+            overlay.classList.add('show');
+            createConfetti();
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = ['#667eea', '#764ba2', '#48bb78', '#f56565', '#ffd700'][Math.floor(Math.random() * 5)];
+                    document.body.appendChild(confetti);
+
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        function updateXPDisplay() {
+            document.getElementById('xpDisplay').textContent = xp;
+        }
+
+        function updateLevelBadge() {
+            const badge = document.getElementById('levelBadge');
+            const icons = ['🌱', '⚡', '🔥', '💎', '👑'];
+            const icon = icons[Math.min(level - 1, icons.length - 1)];
+            badge.textContent = `${icon} Level ${level}`;
+        }
+
+        function updateBodyClass() {
+            document.body.className = '';
+            if (selectedLevel === 'easy') document.body.classList.add('level-easy');
+            else if (selectedLevel === 'medium') document.body.classList.add('level-medium');
+            else if (selectedLevel === 'hard') document.body.classList.add('level-hard');
+            else if (selectedLevel === 'expert') document.body.classList.add('level-expert');
+        }
+
+        function startQuiz() {
+            if (!selectedLevel) return;
+
+            // Name übernehmen (fallback: "Spieler/in")
+            const nameInput = document.getElementById('playerName');
+            playerName = (nameInput.value || "Spieler/in").trim();
+
+            // Filter questions by difficulty
+            const difficultyMap = { easy: 1, medium: 2, hard: 3, expert: 4 };
+            const maxDifficulty = difficultyMap[selectedLevel];
+
+            filteredQuestions = questions.filter(q => q.difficulty <= maxDifficulty);
+
+            // Shuffle questions
+            filteredQuestions = filteredQuestions.sort(() => Math.random() - 0.5);
+
+            document.getElementById('startScreen').style.display = 'none';
+            updateBodyClass();
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const container = document.getElementById('questionsContainer');
+            const question = filteredQuestions[currentQuestion];
+
+            let optionsHTML = '';
+            const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+            if (question.type === 'multiple') {
+                optionsHTML = question.options.map((option, index) => `
+                    <div class="option" data-index="${index}" data-letter="${letters[index]}">
+                        <span>${option}</span>
+                    </div>
+                `).join('');
+            } else if (question.type === 'checkbox') {
+                optionsHTML = question.options.map((option, index) => `
+                    <div class="option">
+                        <input type="checkbox" id="option${index}">
+                        <label for="option${index}" style="cursor: pointer; flex: 1;">${option}</label>
+                    </div>
+                `).join('');
+            } else if (question.type === 'text') {
+                optionsHTML = `<input type="text" class="text-input" id="textAnswer" placeholder="Deine Antwort eingeben...">`;
+            } else if (question.type === 'fillblank') {
+                let questionText = question.question;
+                question.blanks.forEach((_, i) => {
+                    questionText = questionText.replace('_____', `<input type="text" class="blank-input" id="blank${i}" placeholder="...">`);
+                });
+                optionsHTML = `<div style="font-size: 18px; line-height: 2;">${questionText}</div>`;
+            } else if (question.type === 'sort') {
+                optionsHTML = `<div class="sortable-container" id="sortableContainer">
+                    ${question.items.sort(() => Math.random() - 0.5).map((item) => `
+                        <div class="sortable-item" draggable="true" data-item="${item}">
+                            <span class="drag-handle">☰</span>
+                            <span>${item}</span>
+                        </div>
+                    `).join('')}
+                </div>`;
+            } else if (question.type === 'matching') {
+                const leftItems = question.pairs.map(p => p.left).sort(() => Math.random() - 0.5);
+                const rightItems = question.pairs.map(p => p.right).sort(() => Math.random() - 0.5);
+
+                optionsHTML = `
+                    <div class="matching-container">
+                        <div class="matching-column" id="leftColumn">
+                            ${leftItems.map((item) => `
+                                <div class="matching-item" data-value="${item}" data-side="left">
+                                    ${item}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="matching-column" id="rightColumn">
+                            ${rightItems.map((item) => `
+                                <div class="matching-item" data-value="${item}" data-side="right">
+                                    ${item}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div id="matchingPairs" style="margin-top: 20px; display: none;"></div>
+                `;
+            }
+
+            const difficultyDots = Array(4).fill(0).map((_, i) =>
+                `<div class="difficulty-dot ${i < question.difficulty ? 'active' : ''}"></div>`
+            ).join('');
+
+            container.innerHTML = `
+                <div class="question-container active">
+                    <div class="question-header">
+                        <span class="question-number">Frage ${currentQuestion + 1}/${filteredQuestions.length}</span>
+                        <div class="difficulty-indicator">${difficultyDots}</div>
+                    </div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options" id="optionsContainer">
+                        ${optionsHTML}
+                    </div>
+                    <div class="feedback" id="feedback"></div>
+                    <div class="buttons">
+                        ${currentQuestion > 0 ? '<button class="btn btn-secondary" id="prevBtn">← Zurück</button>' : ''}
+                        <button class="btn btn-primary" id="checkBtn">Prüfen</button>
+                    </div>
+                </div>
+            `;
+
+            updateProgress();
+            attachEventListeners();
+        }
+
+        function showWarning(msg) {
+            const feedback = document.getElementById('feedback');
+            feedback.className = 'feedback warning show';
+            feedback.innerHTML = `<strong>⚠ Hinweis:</strong> ${msg}`;
+        }
+
+        function attachEventListeners() {
+            const question = filteredQuestions[currentQuestion];
+
+            if (question.type === 'multiple') {
+                document.querySelectorAll('.option').forEach(option => {
+                    option.addEventListener('click', function() {
+                        selectOption(parseInt(this.dataset.index));
+                    });
+                });
+            }
+
+            if (question.type === 'sort') {
+                const container = document.getElementById('sortableContainer');
+                const items = container.querySelectorAll('.sortable-item');
+
+                items.forEach(item => {
+                    item.addEventListener('dragstart', handleDragStart);
+                    item.addEventListener('dragover', handleDragOver);
+                    item.addEventListener('drop', handleDrop);
+                    item.addEventListener('dragend', handleDragEnd);
+                });
+            }
+
+            if (question.type === 'matching') {
+                let selectedLeft = null;
+                let selectedRight = null;
+                const pairs = [];
+
+                document.querySelectorAll('.matching-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        if (this.dataset.side === 'left') {
+                            document.querySelectorAll('[data-side="left"]').forEach(i => i.classList.remove('selected'));
+                            this.classList.add('selected');
+                            selectedLeft = this.dataset.value;
+                        } else {
+                            document.querySelectorAll('[data-side="right"]').forEach(i => i.classList.remove('selected'));
+                            this.classList.add('selected');
+                            selectedRight = this.dataset.value;
+                        }
+
+                        if (selectedLeft && selectedRight) {
+                            pairs.push({ left: selectedLeft, right: selectedRight });
+                            document.querySelectorAll('.matching-item.selected').forEach(i => {
+                                i.style.opacity = '0.3';
+                                i.style.pointerEvents = 'none';
+                            });
+                            selectedLeft = null;
+                            selectedRight = null;
+                        }
+
+                        // Store pairs for checking
+                        window.matchingPairs = pairs;
+                    });
+                });
+            }
+
+            const checkBtn = document.getElementById('checkBtn');
+            if (checkBtn) {
+                checkBtn.addEventListener('click', checkAnswer);
+            }
+
+            const prevBtn = document.getElementById('prevBtn');
+            if (prevBtn) {
+                prevBtn.addEventListener('click', previousQuestion);
+            }
+        }
+
+        let draggedItem = null;
+
+        function handleDragStart(e) {
+            draggedItem = this;
+            this.classList.add('dragging');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            if (this !== draggedItem) {
+                const container = document.getElementById('sortableContainer');
+                const items = Array.from(container.children);
+                const draggedIndex = items.indexOf(draggedItem);
+                const targetIndex = items.indexOf(this);
+
+                if (draggedIndex < targetIndex) {
+                    this.parentNode.insertBefore(draggedItem, this.nextSibling);
+                } else {
+                    this.parentNode.insertBefore(draggedItem, this);
+                }
+            }
+        }
+
+        function handleDragEnd() {
+            this.classList.remove('dragging');
+        }
+
+        function selectOption(index) {
+            const question = filteredQuestions[currentQuestion];
+            if (question.type !== 'multiple') return;
+
+            const options = document.querySelectorAll('.option');
+            options.forEach((opt, i) => {
+                opt.classList.remove('selected');
+                if (i === index) {
+                    opt.classList.add('selected');
+                }
+            });
+        }
+
+        function checkAnswer() {
+            const question = filteredQuestions[currentQuestion];
+            const feedback = document.getElementById('feedback');
+            let isCorrect = false;
+
+            if (question.type === 'multiple') {
+                const selected = document.querySelector('.option.selected');
+                if (!selected) {
+                    showWarning('Bitte wähle eine Antwort aus!');
+                    return;
+                }
+
+                const selectedIndex = parseInt(selected.dataset.index);
+                isCorrect = selectedIndex === question.correct;
+
+                const options = document.querySelectorAll('.option');
+                options.forEach((opt, i) => {
+                    if (i === question.correct) {
+                        opt.classList.add('correct');
+                    } else if (i === selectedIndex && !isCorrect) {
+                        opt.classList.add('wrong');
+                    }
+                    opt.style.pointerEvents = 'none';
+                });
+
+            } else if (question.type === 'checkbox') {
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                const selected = [];
+                checkboxes.forEach((cb, i) => {
+                    if (cb.checked) selected.push(i);
+                });
+
+                if (selected.length === 0) {
+                    showWarning('Bitte wähle mindestens eine Antwort aus!');
+                    return;
+                }
+
+                isCorrect = selected.length === question.correct.length &&
+                           selected.every(i => question.correct.includes(i));
+
+                const options = document.querySelectorAll('.option');
+                options.forEach((opt, i) => {
+                    const isCorrectAnswer = question.correct.includes(i);
+                    const isSelected = selected.includes(i);
+
+                    if (isCorrectAnswer) {
+                        opt.classList.add('correct');
+                    } else if (isSelected) {
+                        opt.classList.add('wrong');
+                    }
+                });
+
+                checkboxes.forEach(cb => cb.disabled = true);
+
+            } else if (question.type === 'text') {
+                const answer = document.getElementById('textAnswer').value.trim().toLowerCase();
+                if (!answer) {
+                    showWarning('Bitte gib eine Antwort ein!');
+                    return;
+                }
+
+                isCorrect = question.correct.some(correct =>
+                    answer.includes(correct.toLowerCase())
+                );
+
+                const textInput = document.getElementById('textAnswer');
+                textInput.style.borderColor = isCorrect ? '#48bb78' : '#f56565';
+                textInput.disabled = true;
+            } else if (question.type === 'fillblank') {
+                const blanks = question.blanks;
+                const answers = blanks.map((_, i) => {
+                    const input = document.getElementById(`blank${i}`);
+                    return input ? input.value.trim() : '';
+                });
+
+                if (answers.some(a => !a)) {
+                    showWarning('Bitte fülle alle Lücken aus!');
+                    return;
+                }
+
+                isCorrect = answers.every((answer, i) =>
+                    answer.toLowerCase() === blanks[i].toLowerCase()
+                );
+
+                answers.forEach((_, i) => {
+                    const input = document.getElementById(`blank${i}`);
+                    if (input) {
+                        const right = input.value.trim().toLowerCase() === blanks[i].toLowerCase();
+                        input.style.borderColor = right ? '#48bb78' : '#f56565';
+                        input.disabled = true;
+                    }
+                });
+            } else if (question.type === 'sort') {
+                const container = document.getElementById('sortableContainer');
+                const items = Array.from(container.children);
+                const userOrder = items.map(item => item.dataset.item);
+
+                isCorrect = JSON.stringify(userOrder) === JSON.stringify(question.correct);
+
+                items.forEach((item, i) => {
+                    item.draggable = false;
+                    if (item.dataset.item === question.correct[i]) {
+                        item.classList.add('correct');
+                    } else {
+                        item.classList.add('wrong');
+                    }
+                });
+            } else if (question.type === 'matching') {
+                const userPairs = window.matchingPairs || [];
+
+                if (userPairs.length !== question.pairs.length) {
+                    showWarning('Bitte ordne alle Paare zu!');
+                    return;
+                }
+
+                isCorrect = userPairs.every(userPair =>
+                    question.pairs.some(correctPair =>
+                        correctPair.left === userPair.left && correctPair.right === userPair.right
+                    )
+                );
+
+                document.querySelectorAll('.matching-item').forEach(item => {
+                    item.style.pointerEvents = 'none';
+                });
+            }
+
+            if (isCorrect) {
+                score++;
+                correctAnswers++;
+                xp += question.xp;
+                updateXPDisplay();
+                checkLevelUp();
+                feedback.className = 'feedback correct show';
+                feedback.innerHTML = `<strong>✓ Richtig!</strong> <span class="xp-gain">+${question.xp} XP</span><br>${question.explanation}`;
+            } else {
+                wrongAnswers++;
+                feedback.className = 'feedback wrong show';
+                feedback.innerHTML = `<strong>✗ Leider falsch.</strong><br>${question.explanation}`;
+            }
+
+            userAnswers[currentQuestion] = isCorrect;
+
+            const checkBtn = document.getElementById('checkBtn');
+            checkBtn.textContent = currentQuestion === filteredQuestions.length - 1 ? 'Ergebnis anzeigen' : 'Weiter →';
+            checkBtn.removeEventListener('click', checkAnswer);
+            checkBtn.addEventListener('click', nextQuestion);
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+
+            if (currentQuestion >= filteredQuestions.length) {
+                showResults();
+            } else {
+                renderQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+            }
+        }
+
+        function showResults() {
+            const percentage = Math.round((score / filteredQuestions.length) * 100);
+            const resultScreen = document.getElementById('resultScreen');
+            const questionsContainer = document.getElementById('questionsContainer');
+
+            questionsContainer.style.display = 'none';
+            resultScreen.classList.add('show');
+
+            document.getElementById('scoreText').textContent = percentage + '%';
+
+            let message = '';
+            if (percentage >= 90) {
+                message = '🎉 Hervorragend!';
+            } else if (percentage >= 75) {
+                message = '👍 Sehr gut!';
+            } else if (percentage >= 60) {
+                message = '✓ Gut gemacht!';
+            } else if (percentage >= 50) {
+                message = '📚 Weiter üben!';
+            } else {
+                message = '💪 Nicht aufgeben!';
+            }
+
+            // Name dynamisch einbauen
+            document.getElementById('resultMessage').textContent = playerName + ': ' + message;
+            document.getElementById('resultDetails').textContent =
+                `Du hast ${score} von ${filteredQuestions.length} Fragen richtig beantwortet.`;
+
+            document.getElementById('statCorrect').textContent = correctAnswers;
+            document.getElementById('statWrong').textContent = wrongAnswers;
+            document.getElementById('statXP').textContent = xp;
+            document.getElementById('statLevel').textContent = level;
+
+            // WhatsApp Share Link erzeugen (Text dynamisch)
+            const shareText = encodeURIComponent(
+                `${playerName} hat gerade ${percentage}% im Quiz "Web-basierte Anwendungssysteme" erreicht.\n` +
+                `Level ${level}, ${xp} XP.\n` +
+                `Willst du es auch spielen? Frag mich nach der HTML-Datei oder nimm den Link 👇`
+            );
+
+            const waUrl = `https://wa.me/?text=${shareText}`;
+
+            const waBtn = document.getElementById('whatsappShareBtn');
+            waBtn.setAttribute('href', waUrl);
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            userAnswers = [];
+            correctAnswers = 0;
+            wrongAnswers = 0;
+            xp = 0;
+            level = 1;
+            selectedLevel = null;
+            playerName = "";
+
+            document.getElementById('resultScreen').classList.remove('show');
+            document.getElementById('questionsContainer').style.display = 'block';
+            document.getElementById('startScreen').style.display = 'block';
+            document.body.className = '';
+
+            updateXPDisplay();
+            updateLevelBadge();
+
+            // Reset Level Auswahl
+            document.querySelectorAll('.level-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.getElementById('startBtn').disabled = true;
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / filteredQuestions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Level selection
+            document.querySelectorAll('.level-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    document.querySelectorAll('.level-card').forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedLevel = this.dataset.level;
+                    document.getElementById('startBtn').disabled = false;
+                });
+            });
+
+            const startBtn = document.getElementById('startBtn');
+            if (startBtn) {
+                startBtn.addEventListener('click', startQuiz);
+            }
+
+            const restartBtn = document.getElementById('restartBtn');
+            if (restartBtn) {
+                restartBtn.addEventListener('click', restartQuiz);
+            }
+
+            const levelUpContinue = document.getElementById('levelUpContinue');
+            if (levelUpContinue) {
+                levelUpContinue.addEventListener('click', function() {
+                    document.getElementById('levelUpOverlay').classList.remove('show');
+                });
+            }
+
+            updateProgress();
+            updateXPDisplay();
+            updateLevelBadge();
+        });
+    </script>
+</body>
+</html>
