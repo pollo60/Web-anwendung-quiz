@@ -93,23 +93,55 @@
 
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #ffd700, #ff6b6b, #4834d4);
+            background: linear-gradient(90deg, 
+                #ffd700, #ff6b6b, #4834d4, #ff6b6b, #ffd700);
+            background-size: 500% 100%;
             transition: width 0.3s ease;
             border-radius: 10px;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
-            animation: glowing 2s infinite, progressPulse 1s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            animation: glowing 2s infinite, 
+                      progressPulse 1s ease-in-out infinite,
+                      gradientMove 8s linear infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: shimmer 2s infinite;
         }
         
         @keyframes glowing {
-            0% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
-            50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.8); }
-            100% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+            0% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+            50% { box-shadow: 0 0 35px rgba(255, 215, 0, 1); }
+            100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
         }
         
         @keyframes progressPulse {
-            0% { opacity: 0.8; }
+            0% { opacity: 0.85; }
             50% { opacity: 1; }
-            100% { opacity: 0.8; }
+            100% { opacity: 0.85; }
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 0%; }
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
 
         .content {
@@ -729,6 +761,103 @@
             font-size: 14px;
         }
 
+        .mode-btn {
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            min-width: 150px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .mode-btn.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+
+        .session-leaderboard {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .leaderboard-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #2d3748;
+        }
+
+        .leaderboard-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            background: #f7fafc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .leaderboard-content {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .leaderboard-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-entry:hover {
+            background: #f7fafc;
+        }
+
+        .entry-rank {
+            font-weight: bold;
+            color: #667eea;
+            width: 30px;
+        }
+
+        .entry-name {
+            flex: 1;
+            margin: 0 10px;
+        }
+
+        .entry-score {
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .entry-time {
+            margin-left: 15px;
+            color: #718096;
+            font-size: 0.9em;
+        }
+
         @media (max-width: 600px) {
             .container {
                 border-radius: 0;
@@ -752,6 +881,11 @@
 
             .level-selection {
                 grid-template-columns: 1fr;
+            }
+
+            .mode-btn {
+                min-width: 120px;
+                padding: 15px;
             }
         }
     </style>
@@ -792,6 +926,30 @@
                     <input id="playerName" class="name-input" type="text" placeholder="z.B. Luca, Marie, etc.">
                 </div>
 
+                <div class="mode-selection" style="margin-bottom: 30px;">
+                    <label style="display: block; margin-bottom: 15px; color: #4a5568; font-weight: 600; font-size: 1.1em;">Wähle deinen Spielmodus:</label>
+                    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <button class="mode-btn selected" data-mode="normal">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🎯</div>
+                            <div style="font-weight: 600;">Normal</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Klassisches Quiz</div>
+                        </button>
+                        <button class="mode-btn" data-mode="speedrun">
+                            <div style="font-size: 24px; margin-bottom: 8px;">⚡</div>
+                            <div style="font-weight: 600;">Speedrun</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Gegen die Zeit</div>
+                        </button>
+                        <button class="mode-btn" data-mode="practice" id="practiceBtn">
+                            <div style="font-size: 24px; margin-bottom: 8px;">📚</div>
+                            <div style="font-weight: 600;">Übung</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Falsche Fragen üben</div>
+                        </button>
+                    </div>
+                    <div id="practiceInfo" style="display: none; margin-top: 15px; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px; font-size: 14px; color: #4a5568;">
+                        Im Übungsmodus kannst du die Fragen wiederholen, die du in den letzten Durchläufen falsch beantwortet hast.
+                    </div>
+                </div>
+
                 <div class="level-selection">
                     <div class="level-card" data-level="easy">
                         <div class="level-icon">🌱</div>
@@ -829,26 +987,33 @@
                 <div class="result-message" id="resultMessage"></div>
                 <div class="result-details" id="resultDetails"></div>
 
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value" id="statCorrect">0</div>
-                        <div class="stat-label">Richtig</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="statWrong">0</div>
-                        <div class="stat-label">Falsch</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="statXP">0</div>
-                        <div class="stat-label">XP Gewonnen</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="statLevel">1</div>
-                        <div class="stat-label">Level Erreicht</div>
-                    </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="statCorrect">0</div>
+                    <div class="stat-label">Richtig</div>
                 </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statWrong">0</div>
+                    <div class="stat-label">Falsch</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statXP">0</div>
+                    <div class="stat-label">XP Gewonnen</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statLevel">1</div>
+                    <div class="stat-label">Level Erreicht</div>
+                </div>
+            </div>
 
-            <div id="leaderboardSection" class="leaderboard">
+            <div class="session-leaderboard">
+                <h3 class="leaderboard-title">🏆 Session Bestenliste</h3>
+                <div class="leaderboard-tabs">
+                    <button class="tab-btn active" data-mode="normal">Normal</button>
+                    <button class="tab-btn" data-mode="speedrun">Speedrun</button>
+                </div>
+                <div id="leaderboardContent" class="leaderboard-content"></div>
+            </div>            <div id="leaderboardSection" class="leaderboard">
                 <div class="leaderboard-title">🏆 Session Bestenliste</div>
                 <div id="leaderboardContent"></div>
             </div>
@@ -874,7 +1039,100 @@
     </div>
 
     <script>
-        const questions = [
+        // Funktion zum Mischen eines Arrays
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Funktion zum Generieren einer zufälligen Frage aus einer Basis-Frage
+        function generateRandomQuestionType(baseQuestion) {
+            const possibleTypes = ["multiple", "checkbox", "text", "fillblank", "sort", "matching"];
+            let randomType = possibleTypes[Math.floor(Math.random() * possibleTypes.length)];
+            
+            // Kopiere die Basis-Frage
+            let question = { ...baseQuestion };
+            question.type = randomType;
+
+            // Generiere zusätzliche falsche Antworten aus dem Pool
+            const wrongAnswersPool = [
+                "JavaScript", "Python", "Ruby", "Java", "PHP", "C++",
+                "MongoDB", "MySQL", "PostgreSQL", "Redis",
+                "React", "Angular", "Vue.js", "Svelte",
+                "Docker", "Kubernetes", "Jenkins", "Git",
+                "REST", "GraphQL", "SOAP", "gRPC",
+                "AWS", "Azure", "Google Cloud", "Heroku",
+                "Linux", "Windows", "macOS", "Unix",
+                "HTTP", "HTTPS", "FTP", "SSH",
+                "HTML", "CSS", "XML", "JSON"
+            ];
+
+            switch(randomType) {
+                case "multiple":
+                case "checkbox":
+                    // Stelle sicher, dass die richtige Antwort dabei ist
+                    let correctAnswers = Array.isArray(baseQuestion.correct) ? 
+                        baseQuestion.correct.map(i => baseQuestion.options[i]) : 
+                        [baseQuestion.options[baseQuestion.correct]];
+                    
+                    // Wähle zufällige falsche Antworten
+                    let wrongOptions = shuffleArray(wrongAnswersPool
+                        .filter(opt => !correctAnswers.includes(opt)))
+                        .slice(0, randomType === "multiple" ? 3 : 4);
+                    
+                    // Kombiniere und mische die Optionen
+                    question.options = shuffleArray([...correctAnswers, ...wrongOptions]);
+                    
+                    // Aktualisiere die korrekten Indizes
+                    if(randomType === "multiple") {
+                        question.correct = question.options.indexOf(correctAnswers[0]);
+                    } else {
+                        question.correct = correctAnswers.map(ans => 
+                            question.options.indexOf(ans));
+                    }
+                    break;
+
+                case "fillblank":
+                    let words = baseQuestion.question.split(' ');
+                    let blanks = [];
+                    // Wähle 1-3 wichtige Wörter aus
+                    for(let i = 0; i < words.length; i++) {
+                        if(words[i].length > 4 && blanks.length < 3) {
+                            blanks.push(words[i]);
+                            words[i] = '_____';
+                        }
+                    }
+                    question.question = words.join(' ');
+                    question.blanks = blanks;
+                    break;
+
+                case "sort":
+                    // Erstelle eine sortierbare Liste von Konzepten
+                    question.items = shuffleArray([
+                        ...baseQuestion.options,
+                        ...wrongAnswersPool.slice(0, 3)
+                    ]);
+                    question.correct = [...question.items].sort();
+                    break;
+
+                case "matching":
+                    // Erstelle Paare zum Zuordnen
+                    question.pairs = [
+                        { left: "Begriff 1", right: "Definition 1" },
+                        { left: "Begriff 2", right: "Definition 2" },
+                        { left: "Begriff 3", right: "Definition 3" },
+                        { left: "Begriff 4", right: "Definition 4" }
+                    ];
+                    break;
+            }
+
+            return question;
+        }
+
+        const baseQuestions = [
             // LEVEL EASY (Einfach)
             {
                 difficulty: 1,
@@ -1410,6 +1668,7 @@
         let wrongAnswers = 0;
         let playerName = "";
         let isSpeedrunMode = false;
+        let isPracticeMode = false;
         let speedrunTimer = 0;
         let speedrunInterval = null;
         let sessionLeaderboard = {
@@ -1425,6 +1684,8 @@
             expert: []
         };
         let usedQuestions = new Set();
+        let wrongAnsweredQuestions = [];
+        let lastFiveRuns = [];
         let startTime = 0;
         let currentTime = 0;
         let timerInterval = null;
@@ -1504,10 +1765,10 @@
 
         function initializeQuestionPool() {
             questionPool = {
-                easy: questions.filter(q => q.difficulty === 1),
-                medium: questions.filter(q => q.difficulty === 2),
-                hard: questions.filter(q => q.difficulty === 3),
-                expert: questions.filter(q => q.difficulty === 4)
+                easy: baseQuestions.filter(q => q.difficulty === 1),
+                medium: baseQuestions.filter(q => q.difficulty === 2),
+                hard: baseQuestions.filter(q => q.difficulty === 3),
+                expert: baseQuestions.filter(q => q.difficulty === 4)
             };
         }
 
@@ -1517,9 +1778,13 @@
             
             while (selectedQuestions.length < count && availableQuestions.length > 0) {
                 const randomIndex = Math.floor(Math.random() * availableQuestions.length);
-                const question = availableQuestions.splice(randomIndex, 1)[0];
-                selectedQuestions.push(question);
-                usedQuestions.add(question);
+                const baseQuestion = availableQuestions.splice(randomIndex, 1)[0];
+                
+                // Generiere eine zufällige Variante der Frage
+                const randomizedQuestion = generateRandomQuestionType(baseQuestion);
+                
+                selectedQuestions.push(randomizedQuestion);
+                usedQuestions.add(baseQuestion);
             }
 
             return selectedQuestions;
@@ -1548,25 +1813,45 @@
 
         function displayLeaderboard() {
             const leaderboardContent = document.getElementById('leaderboardContent');
-            const currentLevel = selectedLevel;
-            const entries = sessionLeaderboard[currentLevel];
+            // pick a sensible current level: selectedLevel, or first level with entries, or 'easy'
+            const currentLevel = selectedLevel || Object.keys(sessionLeaderboard).find(k => sessionLeaderboard[k] && sessionLeaderboard[k].length > 0) || 'easy';
+            const entries = sessionLeaderboard[currentLevel] || [];
+            const tabBtn = document.querySelector('.tab-btn.active');
+            const currentMode = tabBtn ? tabBtn.dataset.mode : 'normal';
 
-            if (entries.length === 0) {
-                leaderboardContent.innerHTML = '<div class="leaderboard-entry">Noch keine Einträge</div>';
+            const filteredEntries = entries.filter(entry => 
+                currentMode === 'speedrun' ? entry.time != null : entry.time == null
+            );
+
+            if (filteredEntries.length === 0) {
+                leaderboardContent.innerHTML = '<div class="leaderboard-entry" style="justify-content: center; color: #718096;">Noch keine Einträge</div>';
                 return;
             }
 
-            leaderboardContent.innerHTML = entries.map((entry, index) => `
-                <div class="leaderboard-entry">
-                    <span class="entry-name">${index + 1}. ${entry.name}</span>
-                    <span class="entry-score">${Math.round((entry.score / filteredQuestions.length) * 100)}% (${entry.xp} XP)</span>
-                    ${isSpeedrunMode ? `<span class="entry-time">${formatTime(entry.time)}</span>` : ''}
-                </div>
-            `).join('');
+            leaderboardContent.innerHTML = filteredEntries
+                .sort((a, b) => {
+                    if (currentMode === 'speedrun') {
+                        // Sortiere nach Punktzahl und Zeit im Speedrun-Modus
+                        const scoreComp = b.score - a.score;
+                        return scoreComp !== 0 ? scoreComp : (a.time || 0) - (b.time || 0);
+                    }
+                    // Sortiere nur nach Punktzahl im normalen Modus
+                    return b.score - a.score;
+                })
+                .slice(0, 5)
+                .map((entry, index) => `
+                    <div class="leaderboard-entry">
+                        <span class="entry-rank">${index + 1}.</span>
+                        <span class="entry-name">${entry.name}</span>
+                        <span class="entry-score">${Math.round((entry.score / (filteredQuestions.length || 1)) * 100)}% (${entry.xp} XP)</span>
+                        ${entry.time ? `<span class="entry-time">${formatTime(entry.time)}</span>` : ''}
+                    </div>
+                `).join('');
         }
 
         function startQuiz() {
-            if (!selectedLevel) return;
+            // allow starting when practice mode is selected (no level required)
+            if (!isPracticeMode && !selectedLevel) return;
 
             // Name übernehmen (fallback: "Spieler/in")
             const nameInput = document.getElementById('playerName');
@@ -1574,7 +1859,25 @@
 
             initializeQuestionPool();
 
-            if (isSpeedrunMode) {
+            if (isPracticeMode) {
+                // Übungsmodus: Hole falsch beantwortete Fragen der letzten 5 Durchläufe
+                const recentWrongQuestions = wrongAnsweredQuestions
+                    .filter(q => Date.now() - q.timestamp < 5 * 24 * 60 * 60 * 1000) // Letzte 5 Tage
+                    .map(q => q.question);
+                
+                if (recentWrongQuestions.length === 0) {
+                    alert('Keine kürzlich falsch beantworteten Fragen verfügbar. Wechsel zum normalen Modus.');
+                    isPracticeMode = false;
+                    const normalModeBtn = document.querySelector('.mode-btn[data-mode="normal"]');
+                    normalModeBtn.click();
+                    return;
+                }
+
+                filteredQuestions = recentWrongQuestions
+                    .sort(() => Math.random() - 0.5)
+                    .slice(0, Math.min(10, recentWrongQuestions.length));
+
+            } else if (isSpeedrunMode) {
                 // Im Speedrun-Modus: Zufällige Fragen aus allen Schwierigkeitsgraden
                 const questionCounts = { easy: 5, medium: 5, hard: 5, expert: 5 };
                 filteredQuestions = [];
@@ -1635,12 +1938,7 @@
                             <span>${item}</span>
                         </div>
                     `).join('')}
-                </div>`;
-            } else if (question.type === 'matching') {
-                const leftItems = question.pairs.map(p => p.left).sort(() => Math.random() - 0.5);
-                const rightItems = question.pairs.map(p => p.right).sort(() => Math.random() - 0.5);
-
-                optionsHTML = `
+                </div>
                     <div class="matching-container">
                         <div class="matching-column" id="leftColumn">
                             ${leftItems.map((item) => `
@@ -1952,6 +2250,19 @@
                     xp = Math.max(0, xp - xpPenalty);
                     updateXPDisplay();
                 }
+
+                // Speichere falsch beantwortete Frage
+                if (!isPracticeMode) {
+                    wrongAnsweredQuestions.push({
+                        question: question,
+                        timestamp: Date.now()
+                    });
+                    // Behalte nur die letzten 50 falsch beantworteten Fragen
+                    if (wrongAnsweredQuestions.length > 50) {
+                        wrongAnsweredQuestions.shift();
+                    }
+                }
+
                 feedback.className = 'feedback wrong show';
                 feedback.innerHTML = `<strong>✗ Leider falsch.</strong>${xpPenalty > 0 ? ` <span class="xp-gain" style="background: #f56565">-${xpPenalty} XP</span>` : ''}<br>${question.explanation}`;
             }
@@ -2027,6 +2338,7 @@
             document.getElementById('statXP').textContent = xp;
             document.getElementById('statLevel').textContent = level;
 
+            // updateLeaderboard() was already called with level/time above; avoid empty call
             displayLeaderboard();
 
             // WhatsApp Share Link erzeugen (Text dynamisch)
@@ -2109,12 +2421,25 @@
                 });
             });
 
-            // Mode selection
+            // Mode selection (sets speedrun / practice flags and updates UI)
             document.querySelectorAll('.mode-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('selected'));
                     this.classList.add('selected');
-                    isSpeedrunMode = this.dataset.mode === 'speedrun';
+                    const mode = this.dataset.mode;
+                    isSpeedrunMode = mode === 'speedrun';
+                    isPracticeMode = mode === 'practice';
+
+                    // show/hide practice info
+                    const practiceInfo = document.getElementById('practiceInfo');
+                    if (practiceInfo) practiceInfo.style.display = isPracticeMode ? 'block' : 'none';
+
+                    // disable level selection in practice mode
+                    document.querySelectorAll('.level-card').forEach(card => {
+                        card.style.pointerEvents = isPracticeMode ? 'none' : 'auto';
+                        card.style.opacity = isPracticeMode ? '0.6' : '1';
+                    });
+
                     validateStartConditions();
                 });
             });
@@ -2125,17 +2450,12 @@
             function validateStartConditions() {
                 const nameInput = document.getElementById('playerName');
                 const startBtn = document.getElementById('startBtn');
-                startBtn.disabled = !selectedLevel || !nameInput.value.trim();
+                const nameOk = !!nameInput.value.trim();
+                // allow starting when practice mode is selected without level choice
+                startBtn.disabled = !(nameOk && (isPracticeMode || selectedLevel));
             }
 
-            // Mode selection
-            document.querySelectorAll('.mode-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('selected'));
-                    this.classList.add('selected');
-                    isSpeedrunMode = this.dataset.mode === 'speedrun';
-                });
-            });
+            // (removed duplicate mode selection handler)
 
             const startBtn = document.getElementById('startBtn');
             if (startBtn) {
@@ -2154,6 +2474,15 @@
                 });
             }
 
+            // Leaderboard Tab-Wechsel
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    displayLeaderboard();
+                });
+            });
+
             updateProgress();
             updateXPDisplay();
             updateLevelBadge();
@@ -2161,5 +2490,3 @@
     </script>
 </body>
 </html>
-
-
