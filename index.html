@@ -943,7 +943,7 @@
                             <div style="font-size: 24px; margin-bottom: 8px;">📚</div>
                             <div style="font-weight: 600;">Übung</div>
                             <div style="font-size: 0.8em; opacity: 0.8;">Falsche Fragen üben</div>
-                        </button>
+                    </button>
                     </div>
                     <div id="practiceInfo" style="display: none; margin-top: 15px; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px; font-size: 14px; color: #4a5568;">
                         Im Übungsmodus kannst du die Fragen wiederholen, die du in den letzten Durchläufen falsch beantwortet hast.
@@ -970,6 +970,11 @@
                         <div class="level-icon">💎</div>
                         <div class="level-name">Experte</div>
                         <div class="level-description">Master-Level</div>
+                    </div>
+                    <div class="level-card" data-level="vorlesung">
+                        <div class="level-icon">🎓</div>
+                        <div class="level-name">Vorlesung</div>
+                        <div class="level-description">Einführungsthemen</div>
                     </div>
                 </div>
 
@@ -1071,15 +1076,6 @@
             let question = JSON.parse(JSON.stringify(baseQuestion));
             question.type = randomType;
 
-            // Baue einen Pool mit echten falschen Optionen aus allen Basisfragen (falls vorhanden).
-            const globalOptionPool = baseQuestions.flatMap(q => q.options || []).filter(Boolean);
-
-            // Hilfsfunktion: wähle n eindeutige Items aus Pool, die nicht in `exclude` sind.
-            function sampleFromPool(pool, exclude = [], n = 3) {
-                const candidates = pool.filter(p => !exclude.includes(p));
-                return shuffleArray([...new Set(candidates)]).slice(0, n);
-            }
-
             switch (randomType) {
                 case "multiple":
                 case "checkbox": {
@@ -1095,14 +1091,27 @@
                         correctValues = [baseQuestion.correct];
                     }
 
-                    // Fallback: falls keine Optionen gegeben sind, benutze globalPool
-                    const wrongPool = globalOptionPool.length ? globalOptionPool : [
-                        "JavaScript","Python","Java","PHP","C++","HTML","CSS","JSON"
-                    ];
-
-                    // Wähle passende Anzahl falscher Antworten
-                    const wrongNeeded = randomType === 'multiple' ? Math.max(0, 3) : Math.max(0, 4);
-                    const wrongOptions = sampleFromPool(wrongPool, correctValues, wrongNeeded);
+                    // Bestimme den Pool für falsche Antworten
+                    let wrongOptions = [];
+                    if (baseQuestion.wrongAnswerPool && wrongAnswerPools[baseQuestion.wrongAnswerPool]) {
+                        // Nutze den vordefinierten Pool, wenn verfügbar
+                        const pool = wrongAnswerPools[baseQuestion.wrongAnswerPool];
+                        const wrongNeeded = randomType === 'multiple' ? 3 : 4;
+                        wrongOptions = getRandomElements(pool.filter(opt => !correctValues.includes(opt)), wrongNeeded);
+                    } else if (baseQuestion.options) {
+                        // Fallback: Nutze die vorhandenen Optionen
+                        wrongOptions = baseQuestion.options.filter((opt, idx) => 
+                            !baseQuestion.correct.includes(idx) && !correctValues.includes(opt)
+                        );
+                    } else {
+                        // Absoluter Fallback: Generische falsche Antworten
+                        wrongOptions = [
+                            "Keine gültige Option",
+                            "Nicht zutreffend",
+                            "Alternative Option",
+                            "Weitere Möglichkeit"
+                        ];
+                    }
 
                     // Kombiniere - sicherstellen, dass alle Optionen eindeutig sind
                     question.options = shuffleArray([...new Set([...correctValues, ...wrongOptions])]);
@@ -1205,71 +1214,327 @@
             return question;
         }
 
-        const baseQuestions = [
-            // LEVEL EASY (Einfach)
+        // Pool von falschen Antworten für verschiedene Themenbereiche
+        const wrongAnswerPools = {
+            protocols: [
+                "FTP - File Transfer Protocol",
+                "SMTP - Simple Mail Transfer Protocol",
+                "TCP - Transmission Control Protocol",
+                "UDP - User Datagram Protocol",
+                "IMAP - Internet Message Access Protocol",
+                "POP3 - Post Office Protocol",
+                "DNS - Domain Name System",
+                "DHCP - Dynamic Host Configuration Protocol"
+            ],
+            networkComponents: [
+                "Router zur Datenverwaltung",
+                "Firewall zur Datenspeicherung",
+                "Switch zur Datenanalyse",
+                "Gateway zur Datenverschlüsselung",
+                "Hub zur Datenverarbeitung",
+                "Bridge zur Datenkompression"
+            ],
+            webTechnologies: [
+                "Ein Browser-Plugin",
+                "Eine Programmierbibliothek",
+                "Ein Datenbankserver",
+                "Ein Betriebssystem-Modul",
+                "Ein Hardware-Treiber",
+                "Eine Desktop-Anwendung"
+            ],
+            people: [
+                "Bill Gates",
+                "Steve Jobs",
+                "Mark Zuckerberg",
+                "Larry Page",
+                "Sergey Brin",
+                "Jeff Bezos"
+            ],
+            concepts: [
+                "Nur für lokale Netzwerke",
+                "Ausschließlich für E-Mails",
+                "Nur für Dateiübertragung",
+                "Speziell für Spiele",
+                "Nur für mobile Geräte",
+                "Ausschließlich für Unternehmen"
+            ]
+        };
+
+        // Hilfsfunktion zum Mischen und Auswählen von n Elementen aus einem Array
+        function getRandomElements(array, n) {
+            const shuffled = [...array].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, n);
+        }
+
+        const vorlesungQuestions = [
             {
-                difficulty: 1,
                 type: "multiple",
-                question: "Wer erfand das World Wide Web?",
+                question: "Was ist das Basisprotokoll des WWW?",
                 options: [
-                    "Steve Jobs",
-                    "Tim Berners-Lee",
-                    "Bill Gates",
-                    "Linus Torvalds"
+                    "FTP - File Transfer Protocol",
+                    "HTTP - Hypertext Transfer Protocol",
+                    "SMTP - Simple Mail Transfer Protocol",
+                    "TCP - Transmission Control Protocol"
+                ],
+                wrongAnswerPool: "protocols",
+                correct: 1,
+                explanation: "HTTP (Hypertext Transfer Protocol) ist das Basisprotokoll des WWW.",
+                xp: 10
+            },
+            {
+                type: "text",
+                question: "Was ist eine Web-Anwendung? (Geben Sie die Definition ein)",
+                correct: "Eine auf Web-Technologien basierende Client-Server-Anwendung mit Bedienung über Webbrowser oder dedizierte Clients",
+                explanation: "Eine Web-Anwendung ist eine auf Web-Technologien basierende Client-Server-Anwendung. Bedienung erfolgt über Webbrowser oder dedizierte Clients, mit Webserver, Applikationsserver und Datenbanksystem serverseitig. Die Kommunikation erfolgt über HTTP, typischerweise unter Einsatz von Webframeworks.",
+                xp: 10
+            },
+            {
+                type: "checkbox",
+                question: "Welche Vorteile bietet eine web-basierte Anwendung? (Wählen Sie mindestens 5)",
+                options: [
+                    "Parallele Nutzung",
+                    "Informationsaustausch in Echtzeit",
+                    "Zugriff von überall",
+                    "Nutzung durch Thin-Clients/kleine Geräte",
+                    "Einfacher Datenaustausch über standardisierte Schnittstellen",
+                    "Keine Nutzer-Updates nötig",
+                    "Skalierbarkeit",
+                    "Modularisierung (Microservices/Web Services)"
+                ],
+                correct: [0, 1, 2, 3, 4, 5, 6, 7],
+                explanation: "Web-basierte Anwendungen bieten zahlreiche Vorteile: Parallele Nutzung, Echtzeit-Informationsaustausch, universeller Zugriff, Thin-Client-Nutzung, standardisierte Schnittstellen, automatische Updates, Skalierbarkeit und Modularisierung.",
+                xp: 15
+            },
+            {
+                type: "checkbox",
+                question: "Welche HTTP-Methoden gehören zu Version 1.1?",
+                options: [
+                    "GET",
+                    "HEAD",
+                    "POST",
+                    "PUT",
+                    "DELETE",
+                    "CONNECT",
+                    "OPTIONS",
+                    "TRACE",
+                    "PATCH"
+                ],
+                correct: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                explanation: "HTTP 1.1 umfasst die Methoden: GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE und PATCH.",
+                xp: 15
+            },
+            {
+                type: "multiple",
+                question: "Wozu dient das Keep-Alive Header-Feld in HTTP?",
+                options: [
+                    "Zum dauerhaften Speichern von Cookies",
+                    "Zur Wiederverwendung der TCP-Verbindung für mehrere Anfragen",
+                    "Zum Caching von Webseitendaten",
+                    "Zur Authentifizierung von Benutzern"
                 ],
                 correct: 1,
-                explanation: "Tim Berners-Lee erfand das WWW (zusammen mit Robert Cailiau).",
+                explanation: "Keep-Alive hält die TCP-Verbindung zwischen Client und Server offen, damit mehrere HTTP-Anfragen über dieselbe Verbindung möglich sind. Dies ermöglicht auch Pipelining.",
                 xp: 10
             },
             {
-                difficulty: 1,
+                type: "text",
+                question: "Wie ist der prinzipielle Aufbau von HTTP-Nachrichten?",
+                correct: "Start-Zeile → Header-Felder → Leerzeile → Body",
+                explanation: "HTTP-Nachrichten bestehen aus: Start-Zeile (Request-Line oder Status-Line) → Header-Felder → Leerzeile → Body (Nutzdaten).",
+                xp: 10
+            },
+            {
                 type: "multiple",
-                question: "Was ist der Vorläufer des Internets?",
+                question: "Was ist der Unterschied zwischen HTTP-Anfrage und HTTP-Statusinformation in der Start-Zeile?",
                 options: [
-                    "BITNET",
-                    "MILNET",
-                    "ARPANET",
-                    "NSFNET"
+                    "Request: Method SP Request-URI SP HTTP-Version CRLF; Response: HTTP-Version SP Status-Code SP Reason-Phrase CRLF",
+                    "Kein Unterschied, beide haben das gleiche Format",
+                    "Request verwendet GET, Response verwendet POST",
+                    "Request enthält immer einen Body, Response nie"
                 ],
-                correct: 2,
-                explanation: "ARPANET war der Vorläufer des Internets und wurde entwickelt, um ein Netzwerk zu schaffen, das auch bei Teilausfällen funktioniert.",
-                xp: 10
+                correct: 0,
+                explanation: "Request-Start-Line: Method SP Request-URI SP HTTP-Version CRLF; Response-Start-Line: HTTP-Version SP Status-Code SP Reason-Phrase CRLF",
+                xp: 15
             },
             {
-                difficulty: 1,
-                type: "fillblank",
-                question: "TCP steht für _____ Control Protocol und IP für _____ Protocol.",
-                blanks: ["transmission", "internet"],
-                explanation: "TCP (Transmission Control Protocol) und IP (Internet Protocol) sind die grundlegenden Protokolle des Internets.",
+                type: "checkbox",
+                question: "Welche Verbesserungen wurden durch HTTP 1.1 eingeführt?",
+                options: [
+                    "Verbindung wird standardmäßig nicht sofort getrennt",
+                    "Unterstützung für mehrere Anfragen über dieselbe Verbindung",
+                    "Pipelining",
+                    "Effizientere Nutzung der TCP-Verbindung"
+                ],
+                correct: [0, 1, 2, 3],
+                explanation: "HTTP 1.1 brachte folgende Verbesserungen: persistente Verbindungen, Multiplexing von Anfragen, Pipelining und effizientere TCP-Nutzung.",
+                xp: 15
+            },
+            {
+                type: "checkbox",
+                question: "Welche Neuerungen brachte HTTP/2?",
+                options: [
+                    "Nur noch eine TCP-Verbindung nötig",
+                    "Kompression der Header",
+                    "Binäres statt textbasiertes Protokoll",
+                    "Server Push möglich",
+                    "Unterteilung in Streams und Frames"
+                ],
+                wrongAnswerPool: "protocols",
+                additionalWrongAnswers: [
+                    "Ausschließlich verschlüsselte Verbindungen",
+                    "Unterstützung nur für mobile Geräte",
+                    "Automatische Übersetzung von Inhalten",
+                    "Integrierte Firewall-Funktionen",
+                    "Direkte Datenbankanbindung"
+                ],
+                correct: [0, 1, 2, 3, 4],
+                explanation: "HTTP/2 führte ein: Single TCP Connection, Header-Kompression, binäres Protokoll, Server Push und Stream/Frame-Struktur.",
                 xp: 15
             },
             {
                 difficulty: 1,
                 type: "multiple",
-                question: "Wofür steht die Abkürzung HTTP?",
+                question: "Was ist der Unterschied zwischen Internet und World Wide Web (WWW)?",
                 options: [
-                    "High Transfer Text Protocol",
-                    "Hypertext Transfer Protocol",
-                    "Hyperlink Text Transfer Protocol",
-                    "Home Tool Transfer Protocol"
+                    "Das Internet ist neuer als das WWW",
+                    "WWW und Internet sind dasselbe",
+                    "Internet ist die physikalische Verbindung; WWW ist die Aufteilung in Web-Client und Web-Server",
+                    "Internet ist nur für E-Mails, WWW nur für Webseiten"
+                ],
+                correct: 2,
+                explanation: "Internet ist die Verbindung unzähliger Subnetze (Interconnected Network, physikalische Verbindung). World Wide Web ist die Aufteilung der Kommunikation in Web-Client und Web-Server zur gezielten Adressierung von Dateien.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Wie hieß der Vorläufer des Internet und was waren dessen Ziele?",
+                options: [
+                    "ARPANET; Ziel war ein ausfallsicheres, weltweites Rechnernetz",
+                    "BITNET; Ziel war E-Mail-Kommunikation",
+                    "NSFNET; Ziel war wissenschaftlicher Austausch",
+                    "CSNET; Ziel war Verbindung von Universitäten"
+                ],
+                correct: 0,
+                explanation: "ARPANET war der Vorläufer. Ziele: Ein Netz, in dem weltweit Rechner verbunden sind, das auch funktioniert, wenn Teile ausgefallen sind.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Wie waren die Rechner des ARPANET untergliedert?",
+                options: [
+                    "Nur Server und Clients",
+                    "Hosts (Benutzerrechner), IMPs (Netzrechner), TIPs (Terminal-Zugang)",
+                    "Mainframes und Terminals",
+                    "Workstations und Peripheriegeräte"
                 ],
                 correct: 1,
-                explanation: "HTTP steht für Hypertext Transfer Protocol - das Übertragungsprotokoll des WWW.",
+                explanation: "Die Rechner waren untergliedert in: Hosts (Benutzerrechner), Interface Message Processor (IMP, Netzrechner zur Nachrichtenzerlegung und Paketvermittlung), Terminal IMP (TIP, spezielle IMPs für direkten Terminalzugang)",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Wozu dienten die Interface Message Processors (IMP)?",
+                options: [
+                    "Zur Benutzerauthentifizierung",
+                    "Zur Nachrichtenzerlegung und Paketvermittlung",
+                    "Zur Datenspeicherung",
+                    "Zur Grafikverarbeitung"
+                ],
+                correct: 1,
+                explanation: "Die Interface Message Processors (IMPs) waren Netzrechner zur Nachrichtenzerlegung und Paketvermittlung.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was versteht man unter Paketvermittlung?",
+                options: [
+                    "Versenden von Bytes durch elektromagnetische Signale",
+                    "Physische Zustellung von Paketen",
+                    "Speicherung von Daten in Paketen",
+                    "Verwaltung von Netzwerkprotokollen"
+                ],
+                correct: 0,
+                explanation: "Unter Paketvermittlung versteht man das Versenden von Bytes durch elektromagnetische Signale.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was war der erste Dienst des Internets?",
+                options: [
+                    "World Wide Web (1989)",
+                    "E-Mail-Protokoll (1972, Ray Tomlinson)",
+                    "FTP (1971)",
+                    "Telnet (1969)"
+                ],
+                correct: 1,
+                explanation: "1972 wurde das E-Mail-Protokoll von Ray Tomlinson für das ARPANET entwickelt - der erste Dienst des Internets.",
                 xp: 10
             },
             {
                 difficulty: 1,
                 type: "checkbox",
-                question: "Welche gehören zu den grundlegenden Protokollen des Internets? (Mehrfachauswahl)",
+                question: "Welche sind die grundlegenden Protokolle des Internet?",
                 options: [
-                    "HTML",
                     "TCP",
-                    "CSS",
-                    "IP"
+                    "IP",
+                    "HTTP",
+                    "FTP"
                 ],
-                correct: [1, 3],
-                explanation: "TCP (Transmission Control Protocol) und IP (Internet Protocol) sind die grundlegenden Protokolle. HTML und CSS sind keine Netzwerkprotokolle.",
-                xp: 15
+                correct: [0, 1],
+                explanation: "Die grundlegenden Protokolle des Internet sind TCP und IP.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Wer erfand das WWW?",
+                options: [
+                    "Tim Berners-Lee",
+                    "Vint Cerf",
+                    "Larry Page",
+                    "Bill Gates"
+                ],
+                correct: 0,
+                explanation: "Tim Berners-Lee erfand das World Wide Web (zusammen mit Robert Cailliau).",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "checkbox",
+                question: "Was sind die Basiskonzepte des WWW?",
+                options: [
+                    "Client-Server-Architektur",
+                    "Hypermedia-Inhalte",
+                    "Links auf Objekte im Netz (URIs)",
+                    "Textauszeichnungssprache HTML",
+                    "Übertragungsprotokoll HTTP"
+                ],
+                correct: [0, 1, 2, 3, 4],
+                explanation: "Die Basiskonzepte des WWW sind: Client-Server-Architektur, Hypermedia-Inhalte, Links auf Objekte im Netz (URIs), Textauszeichnungssprache HTML und das Übertragungsprotokoll HTTP.",
+                xp: 10
+            }
+        ];
+
+        const baseQuestions = [
+            // LEVEL EASY (Einfach)
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist GitHub?",
+                options: [
+                    "Ein Texteditor",
+                    "Eine Codehosting-Plattform für Versionskontrolle",
+                    "Eine Programmiersprache",
+                    "Ein Betriebssystem"
+                ],
+                correct: 1,
+                explanation: "GitHub ist eine Codehosting-Plattform für die Versionskontrolle und Zusammenarbeit in Projekten.",
+                xp: 10
             },
             {
                 difficulty: 1,
@@ -1324,41 +1589,12 @@
             },
             {
                 difficulty: 2,
-                type: "checkbox",
-                question: "Welche HTTP-Methoden gehören zu Version 1.1? (Mehrfachauswahl)",
-                options: [
-                    "GET",
-                    "FETCH",
-                    "POST",
-                    "PUT",
-                    "SEND"
-                ],
-                correct: [0, 2, 3],
-                explanation: "HTTP 1.1 umfasst unter anderem: GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE und PATCH. FETCH und SEND sind keine HTTP-Methoden.",
-                xp: 20
-            },
-            {
-                difficulty: 2,
                 type: "sort",
                 question: "Sortiere die Log-Level von niedrigster zu höchster Priorität:",
                 items: ["ERROR", "WARN", "INFO", "DEBUG", "TRACE"],
                 correct: ["TRACE", "DEBUG", "INFO", "WARN", "ERROR"],
                 explanation: "Die Log-Level von niedrigster zu höchster Priorität: TRACE (am detailliertesten) → DEBUG → INFO → WARN → ERROR (kritischste Fehler).",
                 xp: 25
-            },
-            {
-                difficulty: 2,
-                type: "multiple",
-                question: "Was bewirkt das Keep-Alive Header-Feld in HTTP?",
-                options: [
-                    "Verhindert Timeout beim Server",
-                    "Speichert Cookies dauerhaft",
-                    "Hält TCP-Verbindung offen für mehrere Anfragen",
-                    "Aktiviert Caching im Browser"
-                ],
-                correct: 2,
-                explanation: "Keep-Alive hält die TCP-Verbindung zwischen Client und Server offen, damit mehrere HTTP-Anfragen über dieselbe Verbindung möglich sind.",
-                xp: 20
             },
             {
                 difficulty: 2,
@@ -1384,21 +1620,6 @@
             },
 
             // LEVEL HARD (Schwer)
-            {
-                difficulty: 3,
-                type: "checkbox",
-                question: "Welche Neuerungen brachte HTTP/2 mit sich? (Mehrfachauswahl)",
-                options: [
-                    "Kompression der Header",
-                    "Textuelle statt binäre Daten",
-                    "Server Push möglich",
-                    "Mehrere TCP-Verbindungen nötig",
-                    "Binäre Daten statt textueller Daten"
-                ],
-                correct: [0, 2, 4],
-                explanation: "HTTP/2 verwendet: Header-Kompression, binäre statt textuelle Daten, Server Push und nur EINE TCP-Verbindung (nicht mehrere).",
-                xp: 30
-            },
             {
                 difficulty: 3,
                 type: "sort",
@@ -1599,20 +1820,6 @@
             },
 
             // Zusätzliche gemischte Fragen
-            {
-                difficulty: 2,
-                type: "multiple",
-                question: "Was ist der Unterschied zwischen Internet und World Wide Web (WWW)?",
-                options: [
-                    "WWW ist älter als das Internet",
-                    "Es gibt keinen Unterschied",
-                    "Internet ist nur für E-Mails, WWW für Webseiten",
-                    "Internet ist die physikalische Verbindung, WWW ist die Client-Server-Aufteilung"
-                ],
-                correct: 3,
-                explanation: "Internet ist die Verbindung unzähliger Subnetze (physikalische Verbindung). WWW ist die Aufteilung in Web-Client und Web-Server zur Adressierung von Dateien.",
-                xp: 20
-            },
             {
                 difficulty: 3,
                 type: "multiple",
@@ -1846,7 +2053,26 @@
         }
 
         function selectQuestionsFromPool(level, count) {
-            const availableQuestions = questionPool[level].filter(q => !usedQuestions.has(q));
+            // Wenn wir im Vorlesungsmodus sind, gib die Vorlesungsfragen direkt zurück
+            if (level === 'vorlesung') {
+                return shuffleArray([...vorlesungQuestions]);
+            }
+            
+            // Für andere Modi: Filtere Fragen, die ähnlich zu Vorlesungsfragen sind
+            const isVorlesungRelated = (q) => {
+                const keywords = ['WWW', 'World Wide Web', 'Internet', 'ARPANET', 'HTTP', 
+                                'TCP', 'IP', 'Tim Berners-Lee', 'IMP', 'Interface Message', 
+                                'Paketvermittlung', 'Web-Client', 'Web-Server'];
+                return keywords.some(keyword => 
+                    q.question.includes(keyword) || 
+                    (q.explanation && q.explanation.includes(keyword))
+                );
+            };
+
+            const availableQuestions = questionPool[level]
+                .filter(q => !usedQuestions.has(q))
+                .filter(q => !isVorlesungRelated(q));  // Hier filtern wir vorlesungsähnliche Fragen
+
             const selectedQuestions = [];
             
             while (selectedQuestions.length < count && availableQuestions.length > 0) {
@@ -1923,8 +2149,8 @@
         }
 
         function startQuiz() {
-            // allow starting when practice mode is selected (no level required)
-            if (!isPracticeMode && !selectedLevel) return;
+            // allow starting when practice mode or vorlesung mode is selected (no level required)
+            if (!isPracticeMode && !document.querySelector('.mode-btn[data-mode="vorlesung"].selected') && !selectedLevel) return;
 
             // Name übernehmen (fallback: "Spieler/in")
             const nameInput = document.getElementById('playerName');
@@ -1957,6 +2183,9 @@
                 filteredQuestions = shuffleArray(recentWrongQuestions)
                     .slice(0, Math.min(10, recentWrongQuestions.length));
 
+            } else if (selectedLevel === 'vorlesung') {
+                // Vorlesungsmodus: Verwende die vordefinierten Vorlesungsfragen
+                filteredQuestions = [...vorlesungQuestions];
             } else if (isSpeedrunMode) {
                 // Im Speedrun-Modus: Zufällige Fragen aus allen Schwierigkeitsgraden
                 const questionCounts = { easy: 5, medium: 5, hard: 5, expert: 5 };
