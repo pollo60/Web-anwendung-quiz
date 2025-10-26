@@ -77,10 +77,12 @@
         .container {
             max-width: 900px;
             margin: 0 auto;
-            background: #000;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
             border: 4px solid #fff;
             position: relative;
             image-rendering: pixelated;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            border-radius: 12px;
         }
 
         .container::before {
@@ -90,8 +92,9 @@
             left: -4px;
             right: -4px;
             bottom: -4px;
-            border: 4px solid #000;
+            border: 4px solid rgba(255,255,255,0.2);
             pointer-events: none;
+            border-radius: 12px;
         }
 
         .container::after {
@@ -101,18 +104,20 @@
             left: -2px;
             right: -2px;
             bottom: -2px;
-            border: 2px solid #444;
+            border: 2px solid rgba(255,255,255,0.1);
             pointer-events: none;
+            border-radius: 12px;
         }
 
         .header {
-            background: #000;
+            background: linear-gradient(135deg, #2c3e50, #2980b9);
             color: #fff;
             padding: 20px;
             text-align: center;
             position: relative;
-            border-bottom: 4px solid #fff;
+            border-bottom: 4px solid rgba(255,255,255,0.2);
             image-rendering: pixelated;
+            border-radius: 8px 8px 0 0;
         }
 
         .level-badge {
@@ -146,7 +151,7 @@
             font-size: 16px;
             margin: 15px 0;
             text-transform: uppercase;
-            color: #fff;
+            color: #FFD700;
             text-shadow: 2px 2px #000,
                          -2px 2px #000,
                          2px -2px #000,
@@ -345,11 +350,11 @@
         }
 
         .option {
-            background: #000;
-            border: 2px solid #fff;
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            border: 2px solid rgba(255,255,255,0.3);
             padding: 12px;
             cursor: pointer;
-            transition: all 0.2s step-end;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -357,59 +362,65 @@
             margin-bottom: 8px;
             color: #fff;
             font-size: 12px;
-            text-shadow: 2px 2px #000;
+            text-shadow: 1px 1px rgba(0,0,0,0.5);
             image-rendering: pixelated;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .option::before {
             content: attr(data-letter);
             width: 24px;
             height: 24px;
-            background: #000;
-            border: 2px solid #fff;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 10px;
             flex-shrink: 0;
             margin-right: 8px;
-            color: #FFD700;
+            color: #fff;
         }
 
         .option:hover {
-            background: #333;
-            border-color: #FFD700;
-            transform: translate(2px, 0);
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
         .option.selected {
-            background: #1a1a4a;
-            color: #7FFF00;
-            border-color: #7FFF00;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: #fff;
+            border-color: rgba(255,255,255,0.8);
         }
 
         .option.selected::before {
-            border-color: #7FFF00;
-            color: #7FFF00;
+            border-color: #fff;
+            color: #fff;
+            background: rgba(255,255,255,0.2);
         }
 
         .option.correct {
-            background: #006400;
-            color: #7FFF00;
-            border-color: #7FFF00;
-            animation: pixelPulse 0.5s step-end;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: #fff;
+            border-color: #fff;
+            animation: pixelPulse 0.5s ease;
         }
 
         .option.correct::before {
-            border-color: #7FFF00;
-            color: #7FFF00;
+            border-color: #fff;
+            color: #fff;
+            background: rgba(255,255,255,0.3);
         }
 
         .option.wrong {
-            background: #8B0000;
-            color: #FF6347;
-            border-color: #FF6347;
-            animation: pixelShake 0.5s step-end;
+            background: linear-gradient(135deg, #c0392b, #e74c3c);
+            color: #fff;
+            border-color: rgba(255,255,255,0.5);
+            animation: pixelShake 0.5s ease;
         }
 
         .option.wrong::before {
@@ -453,11 +464,14 @@
         .text-input, .blank-input, .name-input {
             width: 100%;
             padding: 15px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
             font-size: 16px;
             font-family: inherit;
-            transition: border-color 0.3s;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .blank-input {
@@ -470,7 +484,15 @@
         .blank-input:focus,
         .name-input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #3498db;
+            background: rgba(255,255,255,0.15);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .text-input::placeholder,
+        .blank-input::placeholder,
+        .name-input::placeholder {
+            color: rgba(255,255,255,0.5);
         }
 
         .sortable-container {
@@ -547,45 +569,58 @@
 
         .btn {
             flex: 1;
-            padding: 12px;
-            border: 2px solid #fff;
-            background: #000;
+            padding: 12px 24px;
+            border: none;
+            background: linear-gradient(135deg, #3498db, #2980b9);
             font-size: 12px;
             cursor: pointer;
-            transition: all 0.2s step-end;
+            transition: all 0.3s ease;
             text-align: center;
             color: #fff;
             text-transform: uppercase;
             margin: 4px;
             image-rendering: pixelated;
             position: relative;
-            text-shadow: 2px 2px #000;
+            text-shadow: 1px 1px rgba(0,0,0,0.3);
             font-family: 'Press Start 2P', cursive;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            min-width: 120px;
         }
 
         .btn-primary {
-            background: #000;
-            border-color: #7FFF00;
-            color: #7FFF00;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: #fff;
         }
 
-        .btn-primary:hover {
-            background: #003300;
-            transform: translate(0, -2px);
+        .btn-primary:hover:not(:disabled) {
+            background: linear-gradient(135deg, #2980b9, #2573a7);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
         }
 
         .btn-secondary {
-            background: #e2e8f0;
-            color: #4a5568;
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            color: #fff;
         }
 
-        .btn-secondary:hover {
-            background: #cbd5e0;
+        .btn-secondary:hover:not(:disabled) {
+            background: linear-gradient(135deg, #7f8c8d, #6c7a7d);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
         }
 
         .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            background: #95a5a6;
+        }
+
+        .btn:active:not(:disabled) {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .feedback {
@@ -1327,210 +1362,6 @@
         // Funktion zum Generieren einer zufälligen Variante einer Basis-Frage.
         // Ziel: häufig den Basistyp beibehalten, aber sinnvolle Varianten (insb. matching/sort)
         // erzeugen und dabei korrekte Antworten konsistent halten.
-        function generateRandomQuestionType(baseQuestion) {
-            const possibleTypes = ["multiple", "checkbox", "text", "fillblank", "sort", "matching"];
-
-            // Wenn die Basisfrage speziell 'matching' oder 'sort' (oder 'fillblank') ist,
-            // behalten wir diesen Typ BEVORZUGT bei, weil Konversionen hier oft unsinnig werden.
-            let randomType;
-            if (baseQuestion.type === 'matching' || baseQuestion.type === 'sort' || baseQuestion.type === 'fillblank') {
-                // zwinge den Basistyp, um unerwünschte Umwandlungen zu vermeiden
-                randomType = baseQuestion.type;
-            } else if (Math.random() < 0.6 && possibleTypes.includes(baseQuestion.type)) {
-                // ansonsten bevorzugen wir den Basistyp in ~60% der Fälle
-                randomType = baseQuestion.type;
-            } else {
-                randomType = possibleTypes[Math.floor(Math.random() * possibleTypes.length)];
-            }
-
-            // Deep-clone der Basisfrage, damit wir die Originaldaten nicht verändern.
-            let question = JSON.parse(JSON.stringify(baseQuestion));
-            question.type = randomType;
-
-            switch (randomType) {
-                case "multiple":
-                case "checkbox": {
-                    // Bestimme korrekte Antworten als Werte (nicht Indizes)
-                    let correctValues = [];
-                    if (Array.isArray(baseQuestion.correct)) {
-                        correctValues = baseQuestion.correct
-                            .map(i => baseQuestion.options && baseQuestion.options[i])
-                            .filter(Boolean);
-                    } else if (baseQuestion.options && typeof baseQuestion.correct === 'number') {
-                        correctValues = [baseQuestion.options[baseQuestion.correct]];
-                    } else if (typeof baseQuestion.correct === 'string') {
-                        correctValues = [baseQuestion.correct];
-                    }
-
-                    // Bestimme den Pool für falsche Antworten
-                    let wrongOptions = [];
-                    if (baseQuestion.wrongAnswerPool && wrongAnswerPools[baseQuestion.wrongAnswerPool]) {
-                        // Nutze den vordefinierten Pool, wenn verfügbar
-                        const pool = wrongAnswerPools[baseQuestion.wrongAnswerPool];
-                        const wrongNeeded = randomType === 'multiple' ? 3 : 4;
-                        wrongOptions = getRandomElements(pool.filter(opt => !correctValues.includes(opt)), wrongNeeded);
-                    } else if (baseQuestion.options) {
-                        // Fallback: Nutze die vorhandenen Optionen
-                        wrongOptions = baseQuestion.options.filter((opt, idx) => 
-                            !baseQuestion.correct.includes(idx) && !correctValues.includes(opt)
-                        );
-                    } else {
-                        // Absoluter Fallback: Generische falsche Antworten
-                        wrongOptions = [
-                            "Keine gültige Option",
-                            "Nicht zutreffend",
-                            "Alternative Option",
-                            "Weitere Möglichkeit"
-                        ];
-                    }
-
-                    // Kombiniere - sicherstellen, dass alle Optionen eindeutig sind
-                    question.options = shuffleArray([...new Set([...correctValues, ...wrongOptions])]);
-
-                    // Setze korrekte Indizes entsprechend der neuen options-Liste
-                    if (randomType === 'multiple') {
-                        question.correct = question.options.indexOf(correctValues[0]);
-                    } else {
-                        question.correct = correctValues
-                            .map(val => question.options.indexOf(val))
-                            .filter(i => i >= 0);
-                    }
-                    break;
-                }
-
-                case 'fillblank': {
-                    // Wenn die Basisfrage bereits blanks hat, bewahre sie, sonst extrahiere bis zu 3 Wörter
-                    if (Array.isArray(baseQuestion.blanks) && baseQuestion.blanks.length) {
-                        question.blanks = [...baseQuestion.blanks];
-                        // Stelle sicher, dass die Frage Platzhalter enthält
-                        if (!question.question.includes('_____')) {
-                            let words = question.question.split(' ');
-                            let replaced = 0;
-                            for (let i = 0; i < words.length && replaced < question.blanks.length; i++) {
-                                if (words[i].length > 3) {
-                                    words[i] = '_____' ;
-                                    replaced++;
-                                }
-                            }
-                            question.question = words.join(' ');
-                        }
-                    } else {
-                        let words = (question.question || '').split(' ');
-                        let blanks = [];
-                        for (let i = 0; i < words.length && blanks.length < 3; i++) {
-                            if (words[i] && words[i].length > 4) {
-                                blanks.push(words[i]);
-                                words[i] = '_____';
-                            }
-                        }
-                        const candidateQuestion = words.join(' ').trim();
-                        // Wenn durch Ersetzung der Text praktisch leer/unsinnig wird, revert auf das Original
-                        if (!candidateQuestion || candidateQuestion.replace(/_+/g, '').trim().length < 2) {
-                            // Fallback: behalte Originalfrage und leere blanks (so wird kein leerer Satz angezeigt)
-                            question.question = baseQuestion.question || question.question;
-                            question.blanks = [];
-                            question.type = baseQuestion.type || 'text';
-                        } else {
-                            question.question = candidateQuestion;
-                            question.blanks = blanks;
-                        }
-                    }
-                    break;
-                }
-
-                case 'sort': {
-                    // Wenn die Basisfrage eine items-/correct-Kombination hat, benutze diese als Quelle.
-                    if (Array.isArray(baseQuestion.items) && Array.isArray(baseQuestion.correct) && baseQuestion.correct.length) {
-                        // items sind die benoetigten Elemente (unsortiert anzeigen), correct ist die richtige Reihenfolge
-                        question.items = shuffleArray([...baseQuestion.items]);
-                        question.correct = [...baseQuestion.correct];
-                    } else if (Array.isArray(baseQuestion.items)) {
-                        question.items = shuffleArray([...baseQuestion.items]);
-                        // Falls keine correct-Reihenfolge vorliegt, nehme die umgekehrte Reihenfolge als plausible Ordnung
-                        question.correct = [...baseQuestion.items].slice().reverse();
-                    } else {
-                        // Fallback: sammle einige Begriffe aus dem globalen Pool
-                        const sample = sampleFromPool(globalOptionPool, [], 5);
-                        question.items = shuffleArray(sample);
-                        question.correct = [...sample].slice().reverse();
-                    }
-                    break;
-                }
-
-                case 'matching': {
-                    // Wenn die Basisfrage Paare hat, benutze diese (aber mische die Seiten für die UI)
-                    if (Array.isArray(baseQuestion.pairs) && baseQuestion.pairs.length) {
-                        question.pairs = JSON.parse(JSON.stringify(baseQuestion.pairs));
-                        // Create shuffled left/right arrays for rendering convenience
-                        question.left = shuffleArray(question.pairs.map(p => p.left));
-                        question.right = shuffleArray(question.pairs.map(p => p.right));
-                    } else {
-                        // Erzeuge einfache Platzhalter-Paare als Fallback
-                        question.pairs = [
-                            { left: 'Begriff A', right: 'Definition A' },
-                            { left: 'Begriff B', right: 'Definition B' },
-                            { left: 'Begriff C', right: 'Definition C' }
-                        ];
-                        question.left = shuffleArray(question.pairs.map(p => p.left));
-                        question.right = shuffleArray(question.pairs.map(p => p.right));
-                    }
-                    break;
-                }
-
-                // 'text' oder default: nichts zusätzlich nötig
-                default:
-                    break;
-            }
-
-            return question;
-        }
-
-        // Pool von falschen Antworten für verschiedene Themenbereiche
-        const wrongAnswerPools = {
-            protocols: [
-                "FTP - File Transfer Protocol",
-                "SMTP - Simple Mail Transfer Protocol",
-                "TCP - Transmission Control Protocol",
-                "UDP - User Datagram Protocol",
-                "IMAP - Internet Message Access Protocol",
-                "POP3 - Post Office Protocol",
-                "DNS - Domain Name System",
-                "DHCP - Dynamic Host Configuration Protocol"
-            ],
-            networkComponents: [
-                "Router zur Datenverwaltung",
-                "Firewall zur Datenspeicherung",
-                "Switch zur Datenanalyse",
-                "Gateway zur Datenverschlüsselung",
-                "Hub zur Datenverarbeitung",
-                "Bridge zur Datenkompression"
-            ],
-            webTechnologies: [
-                "Ein Browser-Plugin",
-                "Eine Programmierbibliothek",
-                "Ein Datenbankserver",
-                "Ein Betriebssystem-Modul",
-                "Ein Hardware-Treiber",
-                "Eine Desktop-Anwendung"
-            ],
-            people: [
-                "Bill Gates",
-                "Steve Jobs",
-                "Mark Zuckerberg",
-                "Larry Page",
-                "Sergey Brin",
-                "Jeff Bezos"
-            ],
-            concepts: [
-                "Nur für lokale Netzwerke",
-                "Ausschließlich für E-Mails",
-                "Nur für Dateiübertragung",
-                "Speziell für Spiele",
-                "Nur für mobile Geräte",
-                "Ausschließlich für Unternehmen"
-            ]
-        };
-
         // Hilfsfunktion zum Mischen und Auswählen von n Elementen aus einem Array
         function getRandomElements(array, n) {
             const shuffled = [...array].sort(() => 0.5 - Math.random());
@@ -1555,7 +1386,7 @@
             {
                 type: "text",
                 question: "Was ist eine Web-Anwendung? (Geben Sie die Definition ein)",
-                correct: "Eine auf Web-Technologien basierende Client-Server-Anwendung mit Bedienung über Webbrowser oder dedizierte Clients",
+                correct: ["web-anwendung", "client-server", "webbrowser", "web-technologien"],
                 explanation: "Eine Web-Anwendung ist eine auf Web-Technologien basierende Client-Server-Anwendung. Bedienung erfolgt über Webbrowser oder dedizierte Clients, mit Webserver, Applikationsserver und Datenbanksystem serverseitig. Die Kommunikation erfolgt über HTTP, typischerweise unter Einsatz von Webframeworks.",
                 xp: 10
             },
@@ -1608,9 +1439,9 @@
                 xp: 10
             },
             {
-                type: "text",
-                question: "Wie ist der prinzipielle Aufbau von HTTP-Nachrichten?",
-                correct: "Start-Zeile → Header-Felder → Leerzeile → Body",
+                type: "fillblank",
+                question: "HTTP-Nachrichten bestehen aus: _____ → _____ → Leerzeile → Body",
+                blanks: ["Start-Zeile", "Header-Felder"],
                 explanation: "HTTP-Nachrichten bestehen aus: Start-Zeile (Request-Line oder Status-Line) → Header-Felder → Leerzeile → Body (Nutzdaten).",
                 xp: 10
             },
@@ -1792,21 +1623,337 @@
         ];
 
         const baseQuestions = [
+            // NEUE SPRING BOOT & ENTWICKLUNG FRAGEN
+
             // LEVEL EASY (Einfach)
             {
                 difficulty: 1,
                 type: "multiple",
-                question: "Was ist GitHub?",
+                question: "Wohin schreibt Spring Boot Logs standardmäßig ohne zusätzliche Konfiguration?",
                 options: [
-                    "Ein Texteditor",
-                    "Eine Codehosting-Plattform für Versionskontrolle",
-                    "Eine Programmiersprache",
-                    "Ein Betriebssystem"
+                    "In die Konsole (Standard Output)",
+                    "In eine Datei namens 'application.log'",
+                    "In eine Datenbank",
+                    "In das Windows Event Log"
                 ],
-                correct: 1,
-                explanation: "GitHub ist eine Codehosting-Plattform für die Versionskontrolle und Zusammenarbeit in Projekten.",
+                correct: 0,
+                explanation: "Standardmäßig schreibt Spring Boot alle Logs in die Konsole (Standard Output). Für andere Ziele ist zusätzliche Konfiguration nötig.",
                 xp: 10
             },
+            {
+                difficulty: 1,
+                type: "checkbox",
+                question: "Welche Log-Level sind in Spring Boot standardmäßig verfügbar? (Mehrfachauswahl)",
+                options: [
+                    "ERROR",
+                    "WARN",
+                    "INFO",
+                    "DEBUG",
+                    "TRACE"
+                ],
+                correct: [0, 1, 2, 3, 4],
+                explanation: "Spring Boot unterstützt die Standard-Log-Level: ERROR (kritisch), WARN (Warnungen), INFO (Information), DEBUG (Entwicklung) und TRACE (detailliert).",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist das grundlegende Schema für User Stories?",
+                options: [
+                    "Als <Rolle> möchte ich <Ziel>, damit <Nutzen>",
+                    "Wenn <Bedingung> dann <Aktion>",
+                    "Gegeben <Zustand> wenn <Ereignis> dann <Ergebnis>",
+                    "Falls <Problem> soll <Lösung> implementiert werden"
+                ],
+                correct: 0,
+                explanation: "User Stories folgen dem Schema: 'Als <Rolle> möchte ich <Ziel>, damit <Nutzen>'. Dies macht Anforderungen verständlich und nutzerorientiert.",
+                xp: 10
+            },
+
+            // LEVEL MEDIUM (Mittel)
+            {
+                difficulty: 2,
+                type: "matching",
+                question: "Ordne die Logging-Properties ihren Effekten zu:",
+                pairs: [
+                    { left: "logging.file", right: "Definiert eine spezifische Log-Datei" },
+                    { left: "logging.path", right: "Setzt das Verzeichnis für Log-Dateien" },
+                    { left: "logging.level.*", right: "Konfiguriert Log-Level für Packages" },
+                    { left: "logging.pattern.console", right: "Bestimmt das Format der Konsolenausgabe" }
+                ],
+                explanation: "Die verschiedenen Logging-Properties steuern unterschiedliche Aspekte: Dateien, Pfade, Level und Ausgabeformat.",
+                xp: 25
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was bewirkt logging.level.edu.fra.uas=debug in der Konfiguration?",
+                options: [
+                    "Setzt DEBUG-Level für das spezifische Package und Unterpackages",
+                    "Aktiviert Debugging für die gesamte Anwendung",
+                    "Loggt nur Fehler aus dem edu.fra.uas Package",
+                    "Deaktiviert Logging für andere Packages"
+                ],
+                correct: 0,
+                explanation: "Diese Einstellung setzt das Log-Level DEBUG für das Package edu.fra.uas und alle seine Unterpackages. Andere Packages bleiben unberührt.",
+                xp: 20
+            },
+
+            // LEVEL HARD (Schwer)
+            {
+                difficulty: 3,
+                type: "checkbox",
+                question: "Welche Vorteile bietet strukturiertes Logging (SLF4J/Logback) gegenüber System.out.println in Spring Boot? (Mehrfachauswahl)",
+                options: [
+                    "Konfigurierbare Log-Level und Filter",
+                    "Performance durch asynchrones Logging",
+                    "Standardisierte Formatierung",
+                    "Integration mit Spring Boot Actuator",
+                    "Automatische Dateirotation"
+                ],
+                correct: [0, 1, 2, 3, 4],
+                explanation: "Strukturiertes Logging bietet viele Vorteile: konfigurierbare Level, bessere Performance, einheitliche Formate, Monitoring-Integration und Dateiverwaltung.",
+                xp: 30
+            },
+            {
+                difficulty: 3,
+                type: "multiple",
+                question: "Was passiert, wenn @Autowired an einer Feldstelle entfernt wird?",
+                options: [
+                    "Das Feld bleibt null und führt zu NullPointerException bei Verwendung",
+                    "Spring erstellt automatisch eine neue Instanz",
+                    "Die Anwendung startet nicht",
+                    "Es wird eine Warnung ausgegeben"
+                ],
+                correct: 0,
+                explanation: "Ohne @Autowired erfolgt keine Dependency Injection. Das Feld bleibt null, was bei Verwendung zu einer NullPointerException führt.",
+                xp: 30
+            },
+
+            // LEVEL EXPERT (Experte)
+            {
+                difficulty: 4,
+                type: "matching",
+                question: "Ordne die Test-Konzepte ihren Haupteigenschaften zu:",
+                pairs: [
+                    { left: "@SpringBootTest", right: "Lädt den vollständigen Application Context" },
+                    { left: "AssertJ", right: "Bietet fluent assertions und bessere Fehlermeldungen" },
+                    { left: "Slice Tests", right: "Testet nur spezifische Schichten der Anwendung" },
+                    { left: "Unit Tests", right: "Testet isolierte Komponenten ohne Spring Context" }
+                ],
+                explanation: "@SpringBootTest ist für Integrationstests mit vollem Context, AssertJ verbessert die Testlesbarkeit, Slice Tests fokussieren einzelne Schichten, Unit Tests sind am schnellsten.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "multiple",
+                question: "Welche Funktion hat der <parent>-Eintrag in der pom.xml bei Spring Boot?",
+                options: [
+                    "Definiert Versionen, Dependencies und Plugins durch Vererbung",
+                    "Ist nur für Multi-Modul-Projekte erforderlich",
+                    "Dient ausschließlich der Dokumentation",
+                    "Wird nur für Test-Konfigurationen verwendet"
+                ],
+                correct: 0,
+                explanation: "Der <parent>-Eintrag ermöglicht die Vererbung von Versionen, Dependencies und Plugin-Konfigurationen vom Spring Boot Parent POM, was die Projektkonfiguration vereinfacht.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "checkbox",
+                question: "Was sind die Besonderheiten eines CommandLineRunner als @Bean? (Mehrfachauswahl)",
+                options: [
+                    "Wird nach Kontext-Initialisierung ausgeführt",
+                    "Kann mehrfach im Projekt definiert werden",
+                    "Hat Zugriff auf andere Beans",
+                    "Ermöglicht Start-up Logik",
+                    "Unterstützt Ordering mit @Order"
+                ],
+                correct: [0, 1, 2, 3, 4],
+                explanation: "CommandLineRunner als @Bean: läuft nach Kontext-Start, mehrfache Definition möglich, hat Bean-Zugriff, ideal für Start-up Logik, unterstützt Reihenfolge via @Order.",
+                xp: 45
+            },
+
+            // ORIGINAL FRAGEN
+            // LEVEL EASY (Einfach)
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist eine Bean im Spring-Container?",
+                options: [
+                    "Ein Java-Objekt, das von Spring verwaltet wird",
+                    "Eine Datenbankverbindung",
+                    "Ein UI-Element",
+                    "Eine Konfigurationsdatei"
+                ],
+                correct: 0,
+                explanation: "Eine Bean ist ein Java-Objekt, das vom Spring Container verwaltet wird - inklusive Erstellung, Konfiguration und Lebenszyklus-Management.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Welches Log-Level zeigt die wichtigsten Fehler an?",
+                options: [
+                    "DEBUG",
+                    "INFO",
+                    "ERROR",
+                    "TRACE"
+                ],
+                correct: 2,
+                explanation: "ERROR ist das Log-Level für die kritischsten Fehlermeldungen. Es zeigt schwerwiegende Probleme an, die sofortige Aufmerksamkeit erfordern.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist ein Fork in GitHub?",
+                options: [
+                    "Eine Kopie eines Repositories unter deinem eigenen Account",
+                    "Ein Branch in einem Repository",
+                    "Ein Pull Request",
+                    "Ein Commit in der Historie"
+                ],
+                correct: 0,
+                explanation: "Ein Fork ist eine persönliche Kopie eines fremden Repositories unter deinem GitHub-Account. Dies ermöglicht es dir, Änderungen vorzunehmen, ohne das Original zu beeinflussen.",
+                xp: 10
+            },
+
+            // LEVEL MEDIUM (Mittel)
+            {
+                difficulty: 2,
+                type: "matching",
+                question: "Ordne die Log-Level ihrer typischen Verwendung zu:",
+                pairs: [
+                    { left: "ERROR", right: "Kritische Fehler, die sofortige Aktion erfordern" },
+                    { left: "WARN", right: "Potenziell schädliche Situationen" },
+                    { left: "INFO", right: "Wichtige Geschäftsereignisse" },
+                    { left: "DEBUG", right: "Detaillierte Entwicklerinformationen" }
+                ],
+                explanation: "Die Log-Level haben unterschiedliche Prioritäten und Verwendungszwecke: ERROR für kritische Fehler, WARN für Warnungen, INFO für wichtige Events, DEBUG für Entwicklerdetails.",
+                xp: 25
+            },
+            {
+                difficulty: 2,
+                type: "checkbox",
+                question: "Welche Vorteile bietet strukturiertes Logging gegenüber System.out.println? (Mehrfachauswahl)",
+                options: [
+                    "Konfigurierbare Log-Level",
+                    "Bessere Filterbarkeit",
+                    "Mehrere Ausgabekanäle möglich",
+                    "Formatierte Zeitstempel",
+                    "Schnellere Ausführung"
+                ],
+                correct: [0, 1, 2, 3],
+                explanation: "Strukturiertes Logging bietet viele Vorteile: konfigurierbare Level, Filterbarkeit, multiple Ausgabekanäle und automatische Zeitstempel. Die Ausführungsgeschwindigkeit ist nicht primär relevant.",
+                xp: 20
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist die Hauptaufgabe des CommandLineRunner in Spring Boot?",
+                options: [
+                    "Datenbankverbindungen aufbauen",
+                    "Code beim Anwendungsstart ausführen",
+                    "REST-Endpunkte definieren",
+                    "Logging konfigurieren"
+                ],
+                correct: 1,
+                explanation: "CommandLineRunner ist ein Interface, dessen run()-Methode nach der Initialisierung der Spring Boot App ausgeführt wird. Es eignet sich für Initialisierungscode beim Start.",
+                xp: 20
+            },
+
+            // LEVEL HARD (Schwer)
+            {
+                difficulty: 3,
+                type: "multiple",
+                question: "Was bedeutet 'Inversion of Control' im Spring-Kontext?",
+                options: [
+                    "Die Umkehrung der Programmflusssteuerung",
+                    "Das manuelle Erstellen von Objekten",
+                    "Die direkte Objektreferenzierung",
+                    "Die Verwendung von statischen Methoden"
+                ],
+                correct: 0,
+                explanation: "Inversion of Control bedeutet, dass die Kontrolle über Objekterstellung und -verwaltung an den Spring Container übertragen wird, statt sie selbst zu implementieren.",
+                xp: 30
+            },
+            {
+                difficulty: 3,
+                type: "checkbox",
+                question: "Welche Aussagen über Konstruktor-Injektion sind korrekt? (Mehrfachauswahl)",
+                options: [
+                    "Garantiert vollständige Initialisierung",
+                    "Unterstützt Immutability",
+                    "Macht Abhängigkeiten explizit",
+                    "Ist flexibler als Setter-Injektion",
+                    "Erfordert weniger Code als Feld-Injektion"
+                ],
+                correct: [0, 1, 2],
+                explanation: "Konstruktor-Injektion wird bevorzugt, weil sie vollständige Initialisierung garantiert, Immutability ermöglicht und Abhängigkeiten explizit macht. Sie ist nicht flexibler und erfordert mehr Code.",
+                xp: 30
+            },
+            {
+                difficulty: 3,
+                type: "matching",
+                question: "Ordne die Spring-Annotationen ihrer Hauptfunktion zu:",
+                pairs: [
+                    { left: "@SpringBootApplication", right: "Kombiniert mehrere Basis-Annotationen" },
+                    { left: "@Component", right: "Markiert Klasse als Spring-verwaltete Komponente" },
+                    { left: "@Bean", right: "Definiert Methode zur Bean-Erstellung" },
+                    { left: "@Autowired", right: "Injiziert Abhängigkeiten" }
+                ],
+                explanation: "Die Annotationen haben unterschiedliche Zwecke: @SpringBootApplication für App-Konfiguration, @Component für Komponenten-Scanning, @Bean für explizite Bean-Definition, @Autowired für Dependency Injection.",
+                xp: 35
+            },
+
+            // LEVEL EXPERT (Experte)
+            {
+                difficulty: 4,
+                type: "checkbox",
+                question: "Welche Konzepte sind Teil der Spring Boot Auto-Konfiguration? (Mehrfachauswahl)",
+                options: [
+                    "Konvention vor Konfiguration",
+                    "Bedingte Bean-Registrierung",
+                    "Externe Konfigurationsdateien",
+                    "Starter Dependencies",
+                    "Metriken und Health-Checks"
+                ],
+                correct: [0, 1, 2, 3, 4],
+                explanation: "Spring Boot's Auto-Konfiguration basiert auf mehreren Konzepten: Konventionen, bedingter Bean-Registrierung, externer Konfiguration, Starter Dependencies und integrierten Monitoring-Funktionen.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "matching",
+                question: "Ordne die Maven-Konzepte ihrer Bedeutung zu:",
+                pairs: [
+                    { left: "groupId", right: "Organisationsweiter, eindeutiger Identifier" },
+                    { left: "artifactId", right: "Name des Projekts/der Bibliothek" },
+                    { left: "version", right: "Spezifische Release-Kennung" },
+                    { left: "parent", right: "Vererbungshierarchie und gemeinsame Konfiguration" }
+                ],
+                explanation: "Maven POM-Elemente haben spezifische Rollen: groupId für Organisation, artifactId für Projektname, version für Release-Identifikation, parent für Vererbung.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "checkbox",
+                question: "Welche Aspekte unterscheiden Integration-Tests von Unit-Tests in Spring Boot? (Mehrfachauswahl)",
+                options: [
+                    "Vollständiger Spring Kontext wird geladen",
+                    "Testen mehrerer Komponenten zusammen",
+                    "Verwendung von @SpringBootTest",
+                    "Längere Ausführungszeit",
+                    "Externe Ressourcen können eingebunden sein"
+                ],
+                correct: [0, 1, 2, 3, 4],
+                explanation: "Integration-Tests unterscheiden sich durch: Laden des Spring Kontexts, Testing mehrerer Komponenten, @SpringBootTest Annotation, längere Laufzeit und mögliche externe Ressourcen.",
+                xp: 45
+            },
+
+            // ORIGINAL FRAGEN
+            // LEVEL EASY (Einfach)
             {
                 difficulty: 1,
                 type: "multiple",
@@ -2027,15 +2174,9 @@
             },
             {
                 difficulty: 4,
-                type: "multiple",
+                type: "text",
                 question: "Was ist das besondere Feature von gRPC im Vergleich zu REST und GraphQL?",
-                options: [
-                    "Automatische Dokumentation",
-                    "Browser-Unterstützung",
-                    "Bidirektionales Streaming",
-                    "JSON-Format"
-                ],
-                correct: 2,
+                correct: ["bidirektionales streaming", "bidirectional streaming", "streaming"],
                 explanation: "gRPC unterstützt bidirektionales Streaming in verschiedenen Formen: Unary, Server-Streaming, Client-Streaming, Bidirectional-Streaming.",
                 xp: 40
             },
@@ -2348,13 +2489,13 @@
             
             while (selectedQuestions.length < count && availableQuestions.length > 0) {
                 const randomIndex = Math.floor(Math.random() * availableQuestions.length);
-                const baseQuestion = availableQuestions.splice(randomIndex, 1)[0];
+                const question = availableQuestions.splice(randomIndex, 1)[0];
                 
-                // Generiere eine zufällige Variante der Frage
-                const randomizedQuestion = generateRandomQuestionType(baseQuestion);
+                // Verwende die Frage OHNE Typ-Änderung (Deep Clone)
+                const clonedQuestion = JSON.parse(JSON.stringify(question));
                 
-                selectedQuestions.push(randomizedQuestion);
-                usedQuestions.add(baseQuestion);
+                selectedQuestions.push(clonedQuestion);
+                usedQuestions.add(question);
             }
 
             return selectedQuestions;
@@ -2585,6 +2726,11 @@
         }
 
         function attachEventListeners() {
+            if (!filteredQuestions || currentQuestion >= filteredQuestions.length) {
+                console.error('Keine Fragen verfügbar oder ungültiger Index');
+                return;
+            }
+            
             const question = filteredQuestions[currentQuestion];
 
             if (question.type === 'multiple') {
@@ -2640,9 +2786,9 @@
                 });
             }
 
-            const checkBtn = document.getElementById('checkBtn');
-            if (checkBtn) {
-                checkBtn.addEventListener('click', checkAnswer);
+            const checkAnswerBtn = document.getElementById('checkBtn');
+            if (checkAnswerBtn) {
+                checkAnswerBtn.addEventListener('click', checkAnswer);
             }
 
             const prevBtn = document.getElementById('prevBtn');
@@ -2699,6 +2845,12 @@
             const question = filteredQuestions[currentQuestion];
             const feedback = document.getElementById('feedback');
             let isCorrect = false;
+            
+            // Deaktiviere den Button während der Prüfung
+            const checkButton = document.getElementById('checkBtn');
+            if (checkButton) {
+                checkButton.disabled = true;
+            }
 
             if (question.type === 'multiple') {
                 const selected = document.querySelector('.option.selected');
@@ -2862,10 +3014,13 @@
 
             userAnswers[currentQuestion] = isCorrect;
 
-            const checkBtn = document.getElementById('checkBtn');
-            checkBtn.textContent = currentQuestion === filteredQuestions.length - 1 ? 'Ergebnis anzeigen' : 'Weiter →';
-            checkBtn.removeEventListener('click', checkAnswer);
-            checkBtn.addEventListener('click', nextQuestion);
+            const nextBtn = document.getElementById('checkBtn');
+            if (nextBtn) {
+                nextBtn.textContent = currentQuestion === filteredQuestions.length - 1 ? 'Ergebnis anzeigen' : 'Weiter →';
+                const newNextBtn = nextBtn.cloneNode(true);
+                nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
+                newNextBtn.addEventListener('click', nextQuestion);
+            }
         }
 
         function nextQuestion() {
@@ -3055,24 +3210,33 @@
             // Name input validation
             document.getElementById('playerName').addEventListener('input', validateStartConditions);
 
-            function validateStartConditions() {
-                const nameInput = document.getElementById('playerName');
-                const startBtn = document.getElementById('startBtn');
-                const nameOk = !!nameInput.value.trim();
-                // allow starting when practice mode is selected without level choice
-                startBtn.disabled = !(nameOk && (isPracticeMode || selectedLevel));
-            }
-
-            // (removed duplicate mode selection handler)
-
+        function validateStartConditions() {
+            const nameInput = document.getElementById('playerName');
             const startBtn = document.getElementById('startBtn');
-            if (startBtn) {
-                startBtn.addEventListener('click', startQuiz);
+            const nameOk = !!nameInput.value.trim();
+            const vorlesungMode = document.querySelector('.mode-btn[data-mode="vorlesung"].selected');
+            
+            // Erlaube Start wenn:
+            // - Name eingegeben UND
+            // - (Übungsmodus ODER Level ausgewählt ODER Vorlesungsmodus)
+            startBtn.disabled = !(nameOk && (isPracticeMode || selectedLevel || vorlesungMode));
+            
+            // Visuelle Feedback für den User
+            if (!nameOk) {
+                nameInput.style.borderColor = 'rgba(231, 76, 60, 0.5)';  // Rötlich für Fehler
+            } else {
+                nameInput.style.borderColor = 'rgba(46, 204, 113, 0.5)';  // Grünlich für OK
+            }
+        }            // (removed duplicate mode selection handler)
+
+            const quizStartBtn = document.getElementById('startBtn');
+            if (quizStartBtn) {
+                quizStartBtn.addEventListener('click', startQuiz);
             }
 
-            const restartBtn = document.getElementById('restartBtn');
-            if (restartBtn) {
-                restartBtn.addEventListener('click', restartQuiz);
+            const quizRestartBtn = document.getElementById('restartBtn');
+            if (quizRestartBtn) {
+                quizRestartBtn.addEventListener('click', restartQuiz);
             }
 
             const levelUpContinue = document.getElementById('levelUpContinue');
