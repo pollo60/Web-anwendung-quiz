@@ -1048,84 +1048,157 @@
             return array;
         }
 
-        // Funktion zum Generieren einer zufälligen Frage aus einer Basis-Frage
+        // Funktion zum Generieren einer zufälligen Variante einer Basis-Frage.
+        // Ziel: häufig den Basistyp beibehalten, aber sinnvolle Varianten (insb. matching/sort)
+        // erzeugen und dabei korrekte Antworten konsistent halten.
         function generateRandomQuestionType(baseQuestion) {
             const possibleTypes = ["multiple", "checkbox", "text", "fillblank", "sort", "matching"];
-            let randomType = possibleTypes[Math.floor(Math.random() * possibleTypes.length)];
-            
-            // Kopiere die Basis-Frage
-            let question = { ...baseQuestion };
+
+            // Wenn die Basisfrage speziell 'matching' oder 'sort' (oder 'fillblank') ist,
+            // behalten wir diesen Typ BEVORZUGT bei, weil Konversionen hier oft unsinnig werden.
+            let randomType;
+            if (baseQuestion.type === 'matching' || baseQuestion.type === 'sort' || baseQuestion.type === 'fillblank') {
+                // zwinge den Basistyp, um unerwünschte Umwandlungen zu vermeiden
+                randomType = baseQuestion.type;
+            } else if (Math.random() < 0.6 && possibleTypes.includes(baseQuestion.type)) {
+                // ansonsten bevorzugen wir den Basistyp in ~60% der Fälle
+                randomType = baseQuestion.type;
+            } else {
+                randomType = possibleTypes[Math.floor(Math.random() * possibleTypes.length)];
+            }
+
+            // Deep-clone der Basisfrage, damit wir die Originaldaten nicht verändern.
+            let question = JSON.parse(JSON.stringify(baseQuestion));
             question.type = randomType;
 
-            // Generiere zusätzliche falsche Antworten aus dem Pool
-            const wrongAnswersPool = [
-                "JavaScript", "Python", "Ruby", "Java", "PHP", "C++",
-                "MongoDB", "MySQL", "PostgreSQL", "Redis",
-                "React", "Angular", "Vue.js", "Svelte",
-                "Docker", "Kubernetes", "Jenkins", "Git",
-                "REST", "GraphQL", "SOAP", "gRPC",
-                "AWS", "Azure", "Google Cloud", "Heroku",
-                "Linux", "Windows", "macOS", "Unix",
-                "HTTP", "HTTPS", "FTP", "SSH",
-                "HTML", "CSS", "XML", "JSON"
-            ];
+            // Baue einen Pool mit echten falschen Optionen aus allen Basisfragen (falls vorhanden).
+            const globalOptionPool = baseQuestions.flatMap(q => q.options || []).filter(Boolean);
 
-            switch(randomType) {
+            // Hilfsfunktion: wähle n eindeutige Items aus Pool, die nicht in `exclude` sind.
+            function sampleFromPool(pool, exclude = [], n = 3) {
+                const candidates = pool.filter(p => !exclude.includes(p));
+                return shuffleArray([...new Set(candidates)]).slice(0, n);
+            }
+
+            switch (randomType) {
                 case "multiple":
-                case "checkbox":
-                    // Stelle sicher, dass die richtige Antwort dabei ist
-                    let correctAnswers = Array.isArray(baseQuestion.correct) ? 
-                        baseQuestion.correct.map(i => baseQuestion.options[i]) : 
-                        [baseQuestion.options[baseQuestion.correct]];
-                    
-                    // Wähle zufällige falsche Antworten
-                    let wrongOptions = shuffleArray(wrongAnswersPool
-                        .filter(opt => !correctAnswers.includes(opt)))
-                        .slice(0, randomType === "multiple" ? 3 : 4);
-                    
-                    // Kombiniere und mische die Optionen
-                    question.options = shuffleArray([...correctAnswers, ...wrongOptions]);
-                    
-                    // Aktualisiere die korrekten Indizes
-                    if(randomType === "multiple") {
-                        question.correct = question.options.indexOf(correctAnswers[0]);
+                case "checkbox": {
+                    // Bestimme korrekte Antworten als Werte (nicht Indizes)
+                    let correctValues = [];
+                    if (Array.isArray(baseQuestion.correct)) {
+                        correctValues = baseQuestion.correct
+                            .map(i => baseQuestion.options && baseQuestion.options[i])
+                            .filter(Boolean);
+                    } else if (baseQuestion.options && typeof baseQuestion.correct === 'number') {
+                        correctValues = [baseQuestion.options[baseQuestion.correct]];
+                    } else if (typeof baseQuestion.correct === 'string') {
+                        correctValues = [baseQuestion.correct];
+                    }
+
+                    // Fallback: falls keine Optionen gegeben sind, benutze globalPool
+                    const wrongPool = globalOptionPool.length ? globalOptionPool : [
+                        "JavaScript","Python","Java","PHP","C++","HTML","CSS","JSON"
+                    ];
+
+                    // Wähle passende Anzahl falscher Antworten
+                    const wrongNeeded = randomType === 'multiple' ? Math.max(0, 3) : Math.max(0, 4);
+                    const wrongOptions = sampleFromPool(wrongPool, correctValues, wrongNeeded);
+
+                    // Kombiniere - sicherstellen, dass alle Optionen eindeutig sind
+                    question.options = shuffleArray([...new Set([...correctValues, ...wrongOptions])]);
+
+                    // Setze korrekte Indizes entsprechend der neuen options-Liste
+                    if (randomType === 'multiple') {
+                        question.correct = question.options.indexOf(correctValues[0]);
                     } else {
-                        question.correct = correctAnswers.map(ans => 
-                            question.options.indexOf(ans));
+                        question.correct = correctValues
+                            .map(val => question.options.indexOf(val))
+                            .filter(i => i >= 0);
                     }
                     break;
+                }
 
-                case "fillblank":
-                    let words = baseQuestion.question.split(' ');
-                    let blanks = [];
-                    // Wähle 1-3 wichtige Wörter aus
-                    for(let i = 0; i < words.length; i++) {
-                        if(words[i].length > 4 && blanks.length < 3) {
-                            blanks.push(words[i]);
-                            words[i] = '_____';
+                case 'fillblank': {
+                    // Wenn die Basisfrage bereits blanks hat, bewahre sie, sonst extrahiere bis zu 3 Wörter
+                    if (Array.isArray(baseQuestion.blanks) && baseQuestion.blanks.length) {
+                        question.blanks = [...baseQuestion.blanks];
+                        // Stelle sicher, dass die Frage Platzhalter enthält
+                        if (!question.question.includes('_____')) {
+                            let words = question.question.split(' ');
+                            let replaced = 0;
+                            for (let i = 0; i < words.length && replaced < question.blanks.length; i++) {
+                                if (words[i].length > 3) {
+                                    words[i] = '_____' ;
+                                    replaced++;
+                                }
+                            }
+                            question.question = words.join(' ');
+                        }
+                    } else {
+                        let words = (question.question || '').split(' ');
+                        let blanks = [];
+                        for (let i = 0; i < words.length && blanks.length < 3; i++) {
+                            if (words[i] && words[i].length > 4) {
+                                blanks.push(words[i]);
+                                words[i] = '_____';
+                            }
+                        }
+                        const candidateQuestion = words.join(' ').trim();
+                        // Wenn durch Ersetzung der Text praktisch leer/unsinnig wird, revert auf das Original
+                        if (!candidateQuestion || candidateQuestion.replace(/_+/g, '').trim().length < 2) {
+                            // Fallback: behalte Originalfrage und leere blanks (so wird kein leerer Satz angezeigt)
+                            question.question = baseQuestion.question || question.question;
+                            question.blanks = [];
+                            question.type = baseQuestion.type || 'text';
+                        } else {
+                            question.question = candidateQuestion;
+                            question.blanks = blanks;
                         }
                     }
-                    question.question = words.join(' ');
-                    question.blanks = blanks;
                     break;
+                }
 
-                case "sort":
-                    // Erstelle eine sortierbare Liste von Konzepten
-                    question.items = shuffleArray([
-                        ...baseQuestion.options,
-                        ...wrongAnswersPool.slice(0, 3)
-                    ]);
-                    question.correct = [...question.items].sort();
+                case 'sort': {
+                    // Wenn die Basisfrage eine items-/correct-Kombination hat, benutze diese als Quelle.
+                    if (Array.isArray(baseQuestion.items) && Array.isArray(baseQuestion.correct) && baseQuestion.correct.length) {
+                        // items sind die benoetigten Elemente (unsortiert anzeigen), correct ist die richtige Reihenfolge
+                        question.items = shuffleArray([...baseQuestion.items]);
+                        question.correct = [...baseQuestion.correct];
+                    } else if (Array.isArray(baseQuestion.items)) {
+                        question.items = shuffleArray([...baseQuestion.items]);
+                        // Falls keine correct-Reihenfolge vorliegt, nehme die umgekehrte Reihenfolge als plausible Ordnung
+                        question.correct = [...baseQuestion.items].slice().reverse();
+                    } else {
+                        // Fallback: sammle einige Begriffe aus dem globalen Pool
+                        const sample = sampleFromPool(globalOptionPool, [], 5);
+                        question.items = shuffleArray(sample);
+                        question.correct = [...sample].slice().reverse();
+                    }
                     break;
+                }
 
-                case "matching":
-                    // Erstelle Paare zum Zuordnen
-                    question.pairs = [
-                        { left: "Begriff 1", right: "Definition 1" },
-                        { left: "Begriff 2", right: "Definition 2" },
-                        { left: "Begriff 3", right: "Definition 3" },
-                        { left: "Begriff 4", right: "Definition 4" }
-                    ];
+                case 'matching': {
+                    // Wenn die Basisfrage Paare hat, benutze diese (aber mische die Seiten für die UI)
+                    if (Array.isArray(baseQuestion.pairs) && baseQuestion.pairs.length) {
+                        question.pairs = JSON.parse(JSON.stringify(baseQuestion.pairs));
+                        // Create shuffled left/right arrays for rendering convenience
+                        question.left = shuffleArray(question.pairs.map(p => p.left));
+                        question.right = shuffleArray(question.pairs.map(p => p.right));
+                    } else {
+                        // Erzeuge einfache Platzhalter-Paare als Fallback
+                        question.pairs = [
+                            { left: 'Begriff A', right: 'Definition A' },
+                            { left: 'Begriff B', right: 'Definition B' },
+                            { left: 'Begriff C', right: 'Definition C' }
+                        ];
+                        question.left = shuffleArray(question.pairs.map(p => p.left));
+                        question.right = shuffleArray(question.pairs.map(p => p.right));
+                    }
+                    break;
+                }
+
+                // 'text' oder default: nichts zusätzlich nötig
+                default:
                     break;
             }
 
@@ -1860,21 +1933,28 @@
             initializeQuestionPool();
 
             if (isPracticeMode) {
-                // Übungsmodus: Hole falsch beantwortete Fragen der letzten 5 Durchläufe
-                const recentWrongQuestions = wrongAnsweredQuestions
-                    .filter(q => Date.now() - q.timestamp < 5 * 24 * 60 * 60 * 1000) // Letzte 5 Tage
-                    .map(q => q.question);
-                
+                // Übungsmodus: Hole falsch beantwortete Fragen aus den letzten fünf Durchläufen (lastFiveRuns)
+                // lastFiveRuns ist ein Array von Arrays (je Lauf: falsch beantwortete Fragen als Frage-Objekte)
+                const combined = lastFiveRuns.flat();
+
+                // dedupliziere nach question-Text (falls vorhanden), sonst per JSON-String
+                const uniqueMap = new Map();
+                combined.forEach(q => {
+                    const key = q && q.question ? q.question : JSON.stringify(q);
+                    if (!uniqueMap.has(key)) uniqueMap.set(key, q);
+                });
+
+                const recentWrongQuestions = Array.from(uniqueMap.values());
+
                 if (recentWrongQuestions.length === 0) {
-                    alert('Keine kürzlich falsch beantworteten Fragen verfügbar. Wechsel zum normalen Modus.');
+                    alert('Keine falsch beantworteten Fragen aus den letzten Durchläufen verfügbar. Wechsel zum normalen Modus.');
                     isPracticeMode = false;
                     const normalModeBtn = document.querySelector('.mode-btn[data-mode="normal"]');
                     normalModeBtn.click();
                     return;
                 }
 
-                filteredQuestions = recentWrongQuestions
-                    .sort(() => Math.random() - 0.5)
+                filteredQuestions = shuffleArray(recentWrongQuestions)
                     .slice(0, Math.min(10, recentWrongQuestions.length));
 
             } else if (isSpeedrunMode) {
@@ -1915,6 +1995,7 @@
                         <span>${option}</span>
                     </div>
                 `).join('');
+
             } else if (question.type === 'checkbox') {
                 optionsHTML = question.options.map((option, index) => `
                     <div class="option">
@@ -1922,23 +2003,35 @@
                         <label for="option${index}" style="cursor: pointer; flex: 1;">${option}</label>
                     </div>
                 `).join('');
+
             } else if (question.type === 'text') {
                 optionsHTML = `<input type="text" class="text-input" id="textAnswer" placeholder="Deine Antwort eingeben...">`;
+
             } else if (question.type === 'fillblank') {
                 let questionText = question.question;
-                question.blanks.forEach((_, i) => {
+                (question.blanks || []).forEach((_, i) => {
                     questionText = questionText.replace('_____', `<input type="text" class="blank-input" id="blank${i}" placeholder="...">`);
                 });
                 optionsHTML = `<div style="font-size: 18px; line-height: 2;">${questionText}</div>`;
+
             } else if (question.type === 'sort') {
+                // Sort: zeige nur die sortierbaren Items (keine Matching-Spalten hier)
+                const itemsToShow = shuffleArray([...question.items || []]);
                 optionsHTML = `<div class="sortable-container" id="sortableContainer">
-                    ${question.items.sort(() => Math.random() - 0.5).map((item) => `
+                    ${itemsToShow.map((item) => `
                         <div class="sortable-item" draggable="true" data-item="${item}">
                             <span class="drag-handle">☰</span>
                             <span>${item}</span>
                         </div>
                     `).join('')}
-                </div>
+                </div>`;
+
+            } else if (question.type === 'matching') {
+                // Matching: benutze question.left / question.right wenn vorhanden, sonst paare aufteilen
+                const leftItems = question.left || (question.pairs || []).map(p => p.left);
+                const rightItems = question.right || (question.pairs || []).map(p => p.right);
+
+                optionsHTML = `
                     <div class="matching-container">
                         <div class="matching-column" id="leftColumn">
                             ${leftItems.map((item) => `
@@ -1960,7 +2053,7 @@
             }
 
             const difficultyDots = Array(4).fill(0).map((_, i) =>
-                `<div class="difficulty-dot ${i < question.difficulty ? 'active' : ''}"></div>`
+                `<div class="difficulty-dot ${i < (question.difficulty || 1) ? 'active' : ''}"></div>`
             ).join('');
 
             container.innerHTML = `
@@ -1969,7 +2062,7 @@
                         <span class="question-number">Frage ${currentQuestion + 1}/${filteredQuestions.length}</span>
                         <div class="difficulty-indicator">${difficultyDots}</div>
                     </div>
-                    <div class="question-text">${question.question}</div>
+                    <div class="question-text">${(question.question || 'Bitte ordne die Elemente zu.')}</div>
                     <div class="options" id="optionsContainer">
                         ${optionsHTML}
                     </div>
@@ -2324,12 +2417,13 @@
             document.getElementById('resultMessage').textContent = playerName + ': ' + message;
             
             let detailsText = `Du hast ${score} von ${filteredQuestions.length} Fragen richtig beantwortet.`;
+            const leaderboardLevel = selectedLevel || 'easy';
             if (isSpeedrunMode) {
                 const elapsedTime = currentTime - startTime;
                 detailsText += `\nBenötigte Zeit: ${formatTime(elapsedTime)}`;
-                updateLeaderboard(selectedLevel, score, elapsedTime);
+                updateLeaderboard(leaderboardLevel, score, elapsedTime);
             } else {
-                updateLeaderboard(selectedLevel, score);
+                updateLeaderboard(leaderboardLevel, score);
             }
             document.getElementById('resultDetails').textContent = detailsText;
 
@@ -2337,6 +2431,20 @@
             document.getElementById('statWrong').textContent = wrongAnswers;
             document.getElementById('statXP').textContent = xp;
             document.getElementById('statLevel').textContent = level;
+
+            // Speichere falsch beantwortete Fragen dieses Durchlaufs in lastFiveRuns (für Übungsmodus)
+            try {
+                const currentRunWrong = filteredQuestions
+                    .map((q, i) => ({ q: q, idx: i }))
+                    .filter(item => userAnswers[item.idx] === false)
+                    .map(item => JSON.parse(JSON.stringify(item.q))); // deep clone
+
+                lastFiveRuns.push(currentRunWrong);
+                if (lastFiveRuns.length > 5) lastFiveRuns.shift();
+            } catch (e) {
+                // Falls etwas schiefgeht, nicht blockieren (robuster gegen undefiniertheiten)
+                console.warn('Konnte lastFiveRuns nicht aktualisieren:', e);
+            }
 
             // updateLeaderboard() was already called with level/time above; avoid empty call
             displayLeaderboard();
