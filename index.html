@@ -2861,12 +2861,6 @@
             const question = filteredQuestions[currentQuestion];
             const feedback = document.getElementById('feedback');
             let isCorrect = false;
-            
-            // Deaktiviere den Button während der Prüfung
-            const checkButton = document.getElementById('checkBtn');
-            if (checkButton) {
-                checkButton.disabled = true;
-            }
 
             if (question.type === 'multiple') {
                 const selected = document.querySelector('.option.selected');
@@ -3033,6 +3027,7 @@
             const nextBtn = document.getElementById('checkBtn');
             if (nextBtn) {
                 nextBtn.textContent = currentQuestion === filteredQuestions.length - 1 ? 'Ergebnis anzeigen' : 'Weiter →';
+                nextBtn.disabled = false; // Button wieder aktivieren
                 const newNextBtn = nextBtn.cloneNode(true);
                 nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
                 newNextBtn.addEventListener('click', nextQuestion);
