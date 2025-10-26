@@ -761,6 +761,103 @@
             font-size: 14px;
         }
 
+        .mode-btn {
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            min-width: 150px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .mode-btn.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+
+        .session-leaderboard {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .leaderboard-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #2d3748;
+        }
+
+        .leaderboard-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            background: #f7fafc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .leaderboard-content {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .leaderboard-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-entry:hover {
+            background: #f7fafc;
+        }
+
+        .entry-rank {
+            font-weight: bold;
+            color: #667eea;
+            width: 30px;
+        }
+
+        .entry-name {
+            flex: 1;
+            margin: 0 10px;
+        }
+
+        .entry-score {
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .entry-time {
+            margin-left: 15px;
+            color: #718096;
+            font-size: 0.9em;
+        }
+
         @media (max-width: 600px) {
             .container {
                 border-radius: 0;
@@ -784,6 +881,11 @@
 
             .level-selection {
                 grid-template-columns: 1fr;
+            }
+
+            .mode-btn {
+                min-width: 120px;
+                padding: 15px;
             }
         }
     </style>
@@ -824,6 +926,30 @@
                     <input id="playerName" class="name-input" type="text" placeholder="z.B. Luca, Marie, etc.">
                 </div>
 
+                <div class="mode-selection" style="margin-bottom: 30px;">
+                    <label style="display: block; margin-bottom: 15px; color: #4a5568; font-weight: 600; font-size: 1.1em;">Wähle deinen Spielmodus:</label>
+                    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <button class="mode-btn selected" data-mode="normal">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🎯</div>
+                            <div style="font-weight: 600;">Normal</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Klassisches Quiz</div>
+                        </button>
+                        <button class="mode-btn" data-mode="speedrun">
+                            <div style="font-size: 24px; margin-bottom: 8px;">⚡</div>
+                            <div style="font-weight: 600;">Speedrun</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Gegen die Zeit</div>
+                        </button>
+                        <button class="mode-btn" data-mode="practice" id="practiceBtn">
+                            <div style="font-size: 24px; margin-bottom: 8px;">📚</div>
+                            <div style="font-weight: 600;">Übung</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Falsche Fragen üben</div>
+                        </button>
+                    </div>
+                    <div id="practiceInfo" style="display: none; margin-top: 15px; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px; font-size: 14px; color: #4a5568;">
+                        Im Übungsmodus kannst du die Fragen wiederholen, die du in den letzten Durchläufen falsch beantwortet hast.
+                    </div>
+                </div>
+
                 <div class="level-selection">
                     <div class="level-card" data-level="easy">
                         <div class="level-icon">🌱</div>
@@ -861,26 +987,33 @@
                 <div class="result-message" id="resultMessage"></div>
                 <div class="result-details" id="resultDetails"></div>
 
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value" id="statCorrect">0</div>
-                        <div class="stat-label">Richtig</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="statWrong">0</div>
-                        <div class="stat-label">Falsch</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="statXP">0</div>
-                        <div class="stat-label">XP Gewonnen</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="statLevel">1</div>
-                        <div class="stat-label">Level Erreicht</div>
-                    </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="statCorrect">0</div>
+                    <div class="stat-label">Richtig</div>
                 </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statWrong">0</div>
+                    <div class="stat-label">Falsch</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statXP">0</div>
+                    <div class="stat-label">XP Gewonnen</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statLevel">1</div>
+                    <div class="stat-label">Level Erreicht</div>
+                </div>
+            </div>
 
-            <div id="leaderboardSection" class="leaderboard">
+            <div class="session-leaderboard">
+                <h3 class="leaderboard-title">🏆 Session Bestenliste</h3>
+                <div class="leaderboard-tabs">
+                    <button class="tab-btn active" data-mode="normal">Normal</button>
+                    <button class="tab-btn" data-mode="speedrun">Speedrun</button>
+                </div>
+                <div id="leaderboardContent" class="leaderboard-content"></div>
+            </div>            <div id="leaderboardSection" class="leaderboard">
                 <div class="leaderboard-title">🏆 Session Bestenliste</div>
                 <div id="leaderboardContent"></div>
             </div>
@@ -1585,19 +1718,36 @@
             const leaderboardContent = document.getElementById('leaderboardContent');
             const currentLevel = selectedLevel;
             const entries = sessionLeaderboard[currentLevel];
+            const currentMode = document.querySelector('.tab-btn.active').dataset.mode;
 
-            if (entries.length === 0) {
-                leaderboardContent.innerHTML = '<div class="leaderboard-entry">Noch keine Einträge</div>';
+            const filteredEntries = entries.filter(entry => 
+                currentMode === 'speedrun' ? entry.time != null : entry.time == null
+            );
+
+            if (filteredEntries.length === 0) {
+                leaderboardContent.innerHTML = '<div class="leaderboard-entry" style="justify-content: center; color: #718096;">Noch keine Einträge</div>';
                 return;
             }
 
-            leaderboardContent.innerHTML = entries.map((entry, index) => `
-                <div class="leaderboard-entry">
-                    <span class="entry-name">${index + 1}. ${entry.name}</span>
-                    <span class="entry-score">${Math.round((entry.score / filteredQuestions.length) * 100)}% (${entry.xp} XP)</span>
-                    ${isSpeedrunMode ? `<span class="entry-time">${formatTime(entry.time)}</span>` : ''}
-                </div>
-            `).join('');
+            leaderboardContent.innerHTML = filteredEntries
+                .sort((a, b) => {
+                    if (currentMode === 'speedrun') {
+                        // Sortiere nach Punktzahl und Zeit im Speedrun-Modus
+                        const scoreComp = b.score - a.score;
+                        return scoreComp !== 0 ? scoreComp : a.time - b.time;
+                    }
+                    // Sortiere nur nach Punktzahl im normalen Modus
+                    return b.score - a.score;
+                })
+                .slice(0, 5)
+                .map((entry, index) => `
+                    <div class="leaderboard-entry">
+                        <span class="entry-rank">${index + 1}.</span>
+                        <span class="entry-name">${entry.name}</span>
+                        <span class="entry-score">${Math.round((entry.score / filteredQuestions.length) * 100)}% (${entry.xp} XP)</span>
+                        ${entry.time ? `<span class="entry-time">${formatTime(entry.time)}</span>` : ''}
+                    </div>
+                `).join('');
         }
 
         function startQuiz() {
@@ -2093,6 +2243,7 @@
             document.getElementById('statXP').textContent = xp;
             document.getElementById('statLevel').textContent = level;
 
+            updateLeaderboard();
             displayLeaderboard();
 
             // WhatsApp Share Link erzeugen (Text dynamisch)
@@ -2219,6 +2370,15 @@
                     document.getElementById('levelUpOverlay').classList.remove('show');
                 });
             }
+
+            // Leaderboard Tab-Wechsel
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    displayLeaderboard();
+                });
+            });
 
             updateProgress();
             updateXPDisplay();
