@@ -1025,6 +1025,34 @@
             border-color: transparent;
         }
 
+        .modifier-btn, .difficulty-btn {
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            min-width: 150px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #2d3748;
+        }
+
+        .modifier-btn:hover, .difficulty-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .modifier-btn.selected, .difficulty-btn.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+
+        .modifier-btn.active {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border-color: transparent;
+        }
+
         .session-leaderboard {
             background: #4a3810;
             background-image: 
@@ -1125,11 +1153,50 @@
             transition: all 0.2s step-end;
             font-family: 'Press Start 2P', cursive;
             font-size: 12px;
+            position: relative;
         }
 
         .leaderboard-entry:hover {
             background: rgba(139, 69, 19, 0.3);
             transform: translate(2px, 0);
+        }
+
+        .delete-entry-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 20px;
+            height: 20px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 12px;
+            cursor: pointer;
+            display: none;
+            font-family: Arial, sans-serif;
+            line-height: 18px;
+            text-align: center;
+        }
+
+        .leaderboard-entry:hover .delete-entry-btn {
+            display: block;
+        }
+
+        .delete-entry-btn:hover {
+            background: #c82333;
+            transform: scale(1.1);
+        }
+
+        .entry-details {
+            flex: 1;
+            margin: 0 10px;
+            text-align: center;
+        }
+
+        .entry-details small {
+            font-size: 10px;
+            opacity: 0.8;
         }
 
         .entry-rank {
@@ -1249,70 +1316,106 @@
                 <p>Wähle deinen Schwierigkeitsgrad und teste dein Wissen!</p>
 
                 <div class="session-leaderboard wooden-board">
-                    <h3 class="leaderboard-title">🏆 Bestenliste</h3>
-                    <div class="leaderboard-tabs">
-                        <button class="tab-btn active" data-mode="normal">Normal</button>
-                        <button class="tab-btn" data-mode="speedrun">Speedrun</button>
-                    </div>
+                    <h3 class="leaderboard-title">🏆 Timetrials Bestenliste</h3>
                     <div id="startLeaderboardContent" class="leaderboard-content">
-                        <div class="empty-leaderboard">Noch keine Einträge vorhanden.<br>Sei der Erste!</div>
+                        <div class="empty-leaderboard">Noch keine Timetrials vorhanden.<br>Spiele mit Timer + Schwierigkeit!</div>
                     </div>
                 </div>
 
                 <div class="player-name-wrapper">
                     <label class="player-name-label" for="playerName">Dein Name (für die Auswertung)</label>
                     <input id="playerName" class="name-input" type="text" placeholder="z.B. Luca, Marie, etc.">
+                    
+                    <!-- Disclaimer und Speicher-Option (wenn kein Name gespeichert) -->
+                    <div id="nameDisclaimer" style="margin-top: 10px; padding: 10px; background: rgba(52, 152, 219, 0.2); border-radius: 8px; font-size: 11px; color: #fff; text-align: left; display: none;">
+                        <strong>💾 Name speichern?</strong><br>
+                        Dein Name wird lokal gespeichert (nur in deinem Browser) und beim nächsten Mal automatisch geladen.
+                        <div style="margin-top: 8px; text-align: center;">
+                            <label style="display: inline-flex; align-items: center; cursor: pointer;">
+                                <input type="checkbox" id="saveNameCheckbox" style="margin-right: 5px;">
+                                <span style="font-size: 11px;">Name für nächstes Mal speichern</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Reset Button (nur wenn Name gespeichert) -->
+                    <div id="resetProgressContainer" style="margin-top: 10px; text-align: center; display: none;">
+                        <button id="resetProgressBtn" class="btn btn-secondary" style="font-size: 10px; padding: 8px 16px;">
+                            🔄 Fortschritt zurücksetzen
+                        </button>
+                    </div>
                 </div>
 
-                <div class="mode-selection" style="margin-bottom: 30px;">
-                    <label style="display: block; margin-bottom: 15px; color: #4a5568; font-weight: 600; font-size: 1.1em;">Wähle deinen Spielmodus:</label>
+                <div class="modifier-selection" style="margin-bottom: 30px;">
+                    <label style="display: block; margin-bottom: 15px; color: #fff; font-weight: 600; font-size: 1.1em; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Wähle deine Modifikatoren (mehrere möglich):</label>
                     <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                        <button class="mode-btn selected" data-mode="normal">
+                        <button class="modifier-btn" data-modifier="normal">
                             <div style="font-size: 24px; margin-bottom: 8px;">🎯</div>
                             <div style="font-weight: 600;">Normal</div>
                             <div style="font-size: 0.8em; opacity: 0.8;">Klassisches Quiz</div>
                         </button>
-                        <button class="mode-btn" data-mode="speedrun">
+                        <button class="modifier-btn" data-modifier="speedrun">
                             <div style="font-size: 24px; margin-bottom: 8px;">⚡</div>
-                            <div style="font-weight: 600;">Speedrun</div>
+                            <div style="font-weight: 600;">Timer</div>
                             <div style="font-size: 0.8em; opacity: 0.8;">Gegen die Zeit</div>
                         </button>
-                        <button class="mode-btn" data-mode="practice" id="practiceBtn">
+                        <button class="modifier-btn" data-modifier="practice">
                             <div style="font-size: 24px; margin-bottom: 8px;">📚</div>
                             <div style="font-weight: 600;">Übung</div>
-                            <div style="font-size: 0.8em; opacity: 0.8;">Falsche Fragen üben</div>
-                    </button>
+                            <div style="font-size: 0.8em; opacity: 0.8;">falsche Fragen wiederholen</div>
+                        </button>
                     </div>
-                    <div id="practiceInfo" style="display: none; margin-top: 15px; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px; font-size: 14px; color: #4a5568;">
+                    <div id="practiceInfo" style="display: none; margin-top: 15px; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px; font-size: 14px; color: #fff;">
                         Im Übungsmodus kannst du die Fragen wiederholen, die du in den letzten Durchläufen falsch beantwortet hast.
                     </div>
                 </div>
 
+                <div class="difficulty-selection" style="margin-bottom: 30px;">
+                    <label style="display: block; margin-bottom: 15px; color: #fff; font-weight: 600; font-size: 1.1em; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Wähle den Schwierigkeitsgrad:</label>
+                    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <button class="difficulty-btn selected" data-difficulty="all">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🌟</div>
+                            <div style="font-weight: 600;">Alle Fragen</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Keine Einschränkung</div>
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="easy">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🌱</div>
+                            <div style="font-weight: 600;">Einfach</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Grundlagen</div>
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="medium">
+                            <div style="font-size: 24px; margin-bottom: 8px;">⚡</div>
+                            <div style="font-weight: 600;">Mittel</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Fortgeschritten</div>
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="hard">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🔥</div>
+                            <div style="font-weight: 600;">Schwer</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Komplex</div>
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="expert">
+                            <div style="font-size: 24px; margin-bottom: 8px;">💎</div>
+                            <div style="font-weight: 600;">Experte</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Master-Level</div>
+                        </button>
+                    </div>
+                </div>
+
                 <div class="level-selection">
-                    <div class="level-card" data-level="easy">
-                        <div class="level-icon">🌱</div>
-                        <div class="level-name">Einfach</div>
-                        <div class="level-description">Grundlagen & Basiswissen</div>
+                    <div class="level-card" data-level="uebung">
+                        <div class="level-icon">📝</div>
+                        <div class="level-name">Fragen zur Übung</div>
+                        <div class="level-description">aus den aufgabenblättern</div>
                     </div>
-                    <div class="level-card" data-level="medium">
-                        <div class="level-icon">⚡</div>
-                        <div class="level-name">Mittel</div>
-                        <div class="level-description">Fortgeschrittene Konzepte</div>
-                    </div>
-                    <div class="level-card" data-level="hard">
-                        <div class="level-icon">🔥</div>
-                        <div class="level-name">Schwer</div>
-                        <div class="level-description">Komplexe Themen</div>
-                    </div>
-                    <div class="level-card" data-level="expert">
-                        <div class="level-icon">💎</div>
-                        <div class="level-name">Experte</div>
-                        <div class="level-description">Master-Level</div>
+                    <div class="level-card" data-level="vorlesung-offiziell">
+                        <div class="level-icon">🎓</div>
+                        <div class="level-name">VL Offiziell</div>
+                        <div class="level-description">Vom Fragen-Blatt</div>
                     </div>
                     <div class="level-card" data-level="vorlesung">
-                        <div class="level-icon">🎓</div>
-                        <div class="level-name">Vorlesung</div>
-                        <div class="level-description">Vom Fragen Blatt</div>
+                        <div class="level-icon">📡</div>
+                        <div class="level-name">Gemischt</div>
+                        <div class="level-description">allgemeine Fragen</div>
                     </div>
                     <div class="level-card" data-level="offiziell">
                         <div class="level-icon">📋</div>
@@ -1355,10 +1458,10 @@
             </div>
 
             <div class="session-leaderboard">
-                <h3 class="leaderboard-title">🏆 Session Bestenliste</h3>
+                <h3 class="leaderboard-title">🏆 Bestenliste</h3>
                 <div class="leaderboard-tabs">
-                    <button class="tab-btn active" data-mode="normal">Normal</button>
-                    <button class="tab-btn" data-mode="speedrun">Speedrun</button>
+                    <button class="tab-btn active" data-mode="timetrials">⚡ Timetrials</button>
+                    <button class="tab-btn" data-mode="normal">🎯 Normal</button>
                 </div>
                 <div id="leaderboardContent" class="leaderboard-content"></div>
             </div>            <div id="leaderboardSection" class="leaderboard">
@@ -2384,6 +2487,222 @@
                 explanation: "WWW-Basiskonzepte: Client-Server Architektur, Hypermedia-Inhalte, URIs, HTML, HTTP. Peer-to-Peer und Blockchain gehören nicht dazu.",
                 xp: 30
             }
+            ,
+            // ——— NEUE FRAGEN (global hinzufügen, ausser VL offiziell) ———
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist das Ziel von Logging in Spring Boot?",
+                options: [
+                    "Datenbankverwaltung",
+                    "Server-Überwachung",
+                    "Sicherheitsprüfung",
+                    "Fehlerbehebung und Programmverfolgung"
+                ],
+                correct: 3,
+                explanation: "Logging dient in erster Linie dazu, die Ausführung der Anwendung nachzuvollziehen und Fehler schneller zu finden und zu beheben.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Die Mainklasse in einem Spring Boot ist nicht mit der Annotation @SpringBootApplication versehen",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "Typischerweise ist die Main-Klasse mit @SpringBootApplication annotiert, was Auto-Konfiguration, Component-Scan und Konfiguration bündelt.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "In welcher Datei werden die Abhängigkeiten bei einem Spring Boot-Projekt verwaltet (Gradle)?",
+                options: [
+                    "settings.gradle",
+                    "application.properties",
+                    "build.gradle",
+                    "pom.xml"
+                ],
+                correct: 2,
+                explanation: "Bei Gradle werden Dependencies in der build.gradle gepflegt. Die pom.xml ist für Maven-Projekte.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was macht die Annotation @SpringBootApplication?",
+                options: [
+                    "Sie definiert eine REST-API",
+                    "Sie markiert die Main-Klasse einer Anwendung",
+                    "Sie erstellt ein Logging-Template",
+                    "Sie deaktiviert die automatische Konfiguration"
+                ],
+                correct: 1,
+                explanation: "@SpringBootApplication kennzeichnet die Hauptanwendung und kombiniert @Configuration, @EnableAutoConfiguration und @ComponentScan.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Eine Bean wird durch den Spring Container nicht automatisch ausgeführt",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "Beans werden verwaltet (instanziiert/verdrahtet), aber nicht \"ausgeführt\" wie ein Programm. Ausnahmen sind z.B. CommandLineRunner/Runner-Beans.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Die Annotation @SpringBootTest wird nicht verwendet, um anzugeben, dass ein JUnit-Test für die gesamte Spring-Anwendung ausgeführt wird",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "@SpringBootTest lädt typischerweise den vollständigen Application Context für Integrationstests – die Aussage ist daher falsch.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "System.out.println() sollte nicht in einer Produktionsumgebung verwendet werden, um Fehlerprotokolle auszugeben",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "In Produktion sollten strukturierte Logs (z.B. SLF4J/Logback) verwendet werden – println ist unstrukturiert und schlecht zu verarbeiten.",
+                xp: 10
+            }
+            // Hinweis: Die Frage zu "Fork in GitHub" existiert bereits in diesem Level, daher hier nicht erneut hinzugefügt.
+        ];
+
+        const neueVorlesungQuestions = [
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was sind die Hauptverbesserungen von HTTP/2 gegenüber HTTP/1.1?",
+                options: [
+                    "Nur HTTPS-Unterstützung",
+                    "Multiplexing, Header-Kompression, Server Push und binäres Protokoll",
+                    "Bessere Sicherheit durch Verschlüsselung",
+                    "Kleinere Dateigrößen durch automatische Kompression"
+                ],
+                correct: 1,
+                explanation: "HTTP/2 brachte wichtige Verbesserungen: Multiplexing (mehrere Anfragen parallel), Header-Kompression (HPACK), Server Push (proaktives Senden) und binäres statt textbasiertes Protokoll.",
+                xp: 20
+            },
+            {
+                difficulty: 3,
+                type: "sort",
+                question: "Sortiere die HTTP-Versionen nach ihrer Veröffentlichungsreihenfolge:",
+                items: ["HTTP/3", "HTTP/1.0", "HTTP/2", "HTTP/1.1"],
+                correct: ["HTTP/1.0", "HTTP/1.1", "HTTP/2", "HTTP/3"],
+                explanation: "HTTP-Versionen chronologisch: HTTP/1.0 (1996) → HTTP/1.1 (1997, Keep-Alive) → HTTP/2 (2015, Multiplexing) → HTTP/3 (2022, QUIC/UDP).",
+                xp: 30
+            },
+            {
+                difficulty: 2,
+                type: "checkbox",
+                question: "Welche HTTP-Methoden sind 'safe' (sicher) und ändern keine Serverdaten? (Mehrfachauswahl)",
+                options: [
+                    "GET",
+                    "POST", 
+                    "HEAD",
+                    "PUT",
+                    "OPTIONS"
+                ],
+                correct: [0, 2, 4],
+                explanation: "Safe HTTP-Methoden ändern keine Serverdaten: GET (Daten abrufen), HEAD (nur Header abrufen), OPTIONS (verfügbare Methoden abfragen). POST und PUT ändern Daten.",
+                xp: 25
+            }
+            ,
+            // ——— NEUE FRAGEN (global hinzufügen, ausser VL offiziell) ———
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist das Ziel von Logging in Spring Boot?",
+                options: [
+                    "Datenbankverwaltung",
+                    "Server-Überwachung",
+                    "Sicherheitsprüfung",
+                    "Fehlerbehebung und Programmverfolgung"
+                ],
+                correct: 3,
+                explanation: "Logging dient in erster Linie dazu, die Ausführung der Anwendung nachzuvollziehen und Fehler schneller zu finden und zu beheben.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Die Mainklasse in einem Spring Boot ist nicht mit der Annotation @SpringBootApplication versehen",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "Typischerweise ist die Main-Klasse mit @SpringBootApplication annotiert, was Auto-Konfiguration, Component-Scan und Konfiguration bündelt.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "In welcher Datei werden die Abhängigkeiten bei einem Spring Boot-Projekt verwaltet (Gradle)?",
+                options: [
+                    "settings.gradle",
+                    "application.properties",
+                    "build.gradle",
+                    "pom.xml"
+                ],
+                correct: 2,
+                explanation: "Bei Gradle werden Dependencies in der build.gradle gepflegt. Die pom.xml ist für Maven-Projekte.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was macht die Annotation @SpringBootApplication?",
+                options: [
+                    "Sie definiert eine REST-API",
+                    "Sie markiert die Main-Klasse einer Anwendung",
+                    "Sie erstellt ein Logging-Template",
+                    "Sie deaktiviert die automatische Konfiguration"
+                ],
+                correct: 1,
+                explanation: "@SpringBootApplication kennzeichnet die Hauptanwendung und kombiniert @Configuration, @EnableAutoConfiguration und @ComponentScan.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Eine Bean wird durch den Spring Container nicht automatisch ausgeführt",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "Beans werden verwaltet (instanziiert/verdrahtet), aber nicht \"ausgeführt\" wie ein Programm. Ausnahmen sind z.B. CommandLineRunner/Runner-Beans.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Die Annotation @SpringBootTest wird nicht verwendet, um anzugeben, dass ein JUnit-Test für die gesamte Spring-Anwendung ausgeführt wird",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "@SpringBootTest lädt typischerweise den vollständigen Application Context für Integrationstests – die Aussage ist daher falsch.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "System.out.println() sollte nicht in einer Produktionsumgebung verwendet werden, um Fehlerprotokolle auszugeben",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "In Produktion sollten strukturierte Logs (z.B. SLF4J/Logback) verwendet werden – println ist unstrukturiert und schlecht zu verarbeiten.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist ein Fork in GitHub?",
+                options: [
+                    "Eine neue Version eines Repositories",
+                    "Eine Kopie eines Repositories in einem anderen Konto",
+                    "Eine Zusammenführung von zwei Repositories",
+                    "Ein Backup eines Repositories"
+                ],
+                correct: 1,
+                explanation: "Ein Fork ist eine Kopie eines Repositories in einem anderen Konto. So können Änderungen unabhängig vom Original vorgenommen werden.",
+                xp: 10
+            }
         ];
 
         const ofizielleQuestions = [
@@ -2505,35 +2824,112 @@
                 explanation: "Spring Boot kann auch in Dateien, externe Logging-Systeme, Datenbanken und viele andere Ziele loggen, nicht nur in die Konsole.",
                 xp: 15
             }
+            ,
+            // ——— NEUE FRAGEN (global hinzufügen, ausser VL offiziell) ———
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist das Ziel von Logging in Spring Boot?",
+                options: [
+                    "Datenbankverwaltung",
+                    "Server-Überwachung",
+                    "Sicherheitsprüfung",
+                    "Fehlerbehebung und Programmverfolgung"
+                ],
+                correct: 3,
+                explanation: "Logging dient in erster Linie dazu, die Ausführung der Anwendung nachzuvollziehen und Fehler schneller zu finden und zu beheben.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Die Mainklasse in einem Spring Boot ist nicht mit der Annotation @SpringBootApplication versehen",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "Typischerweise ist die Main-Klasse mit @SpringBootApplication annotiert, was Auto-Konfiguration, Component-Scan und Konfiguration bündelt.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "In welcher Datei werden die Abhängigkeiten bei einem Spring Boot-Projekt verwaltet (Gradle)?",
+                options: [
+                    "settings.gradle",
+                    "application.properties",
+                    "build.gradle",
+                    "pom.xml"
+                ],
+                correct: 2,
+                explanation: "Bei Gradle werden Dependencies in der build.gradle gepflegt. Die pom.xml ist für Maven-Projekte.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was macht die Annotation @SpringBootApplication?",
+                options: [
+                    "Sie definiert eine REST-API",
+                    "Sie markiert die Main-Klasse einer Anwendung",
+                    "Sie erstellt ein Logging-Template",
+                    "Sie deaktiviert die automatische Konfiguration"
+                ],
+                correct: 1,
+                explanation: "@SpringBootApplication kennzeichnet die Hauptanwendung und kombiniert @Configuration, @EnableAutoConfiguration und @ComponentScan.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Eine Bean wird durch den Spring Container nicht automatisch ausgeführt",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "Beans werden verwaltet (instanziiert/verdrahtet), aber nicht \"ausgeführt\" wie ein Programm. Ausnahmen sind z.B. CommandLineRunner/Runner-Beans.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Die Annotation @SpringBootTest wird nicht verwendet, um anzugeben, dass ein JUnit-Test für die gesamte Spring-Anwendung ausgeführt wird",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "@SpringBootTest lädt typischerweise den vollständigen Application Context für Integrationstests – die Aussage ist daher falsch.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "System.out.println() sollte nicht in einer Produktionsumgebung verwendet werden, um Fehlerprotokolle auszugeben",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "In Produktion sollten strukturierte Logs (z.B. SLF4J/Logback) verwendet werden – println ist unstrukturiert und schlecht zu verarbeiten.",
+                xp: 10
+            }
+            // Hinweis: Die Fork-Frage existiert in diesem Level bereits, daher hier nicht erneut hinzugefügt.
         ];
 
         let currentQuestion = 0;
         let score = 0;
         let userAnswers = [];
         let selectedLevel = null;
+        let selectedDifficulty = 'all';
+        let activeModifiers = ['normal'];
         let filteredQuestions = [];
         let xp = 0;
         let level = 1;
         let correctAnswers = 0;
         let wrongAnswers = 0;
         let playerName = "";
-        let isSpeedrunMode = false;
-        let isPracticeMode = false;
         let speedrunTimer = 0;
         let speedrunInterval = null;
         let sessionLeaderboard = {
-            easy: [],
-            medium: [],
-            hard: [],
-            expert: [],
+            uebung: [],
+            'vorlesung-offiziell': [],
             vorlesung: [],
             offiziell: []
         };
         let questionPool = {
-            easy: [],
-            medium: [],
-            hard: [],
-            expert: [],
+            uebung: [],
+            'vorlesung-offiziell': [],
             vorlesung: [],
             offiziell: []
         };
@@ -2586,6 +2982,7 @@
 
         function updateXPDisplay() {
             document.getElementById('xpDisplay').textContent = xp;
+            saveProgressToLocalStorage(); // Speichere Fortschritt automatisch
         }
 
         function updateLevelBadge() {
@@ -2593,6 +2990,7 @@
             const icons = ['🌱', '⚡', '🔥', '💎', '👑'];
             const icon = icons[Math.min(level - 1, icons.length - 1)];
             badge.textContent = `${icon} Level ${level}`;
+            saveProgressToLocalStorage(); // Speichere Fortschritt automatisch
         }
 
         function updateBodyClass() {
@@ -2611,183 +3009,464 @@
         }
 
         function updateTimer() {
-            if (!isSpeedrunMode) return;
+            if (!activeModifiers.includes('speedrun')) return;
             currentTime = Date.now();
             const elapsed = currentTime - startTime;
             document.getElementById('timer').textContent = formatTime(elapsed);
         }
 
         function initializeQuestionPool() {
+            // Für 'vorlesung' (gemischt) alle Fragen aus allen Levels zusammenführen und deduplizieren
+            const mixedAll = [
+                ...baseQuestions,
+                ...neueVorlesungQuestions,
+                ...vorlesungQuestions,
+                ...ofizielleQuestions
+            ];
+            const uniqueMap = new Map();
+            mixedAll.forEach(q => {
+                const key = q && q.question ? q.question : JSON.stringify(q);
+                if (!uniqueMap.has(key)) uniqueMap.set(key, q);
+            });
+            const uniqueMixed = Array.from(uniqueMap.values());
+
             questionPool = {
-                easy: baseQuestions.filter(q => q.difficulty === 1),
-                medium: baseQuestions.filter(q => q.difficulty === 2),
-                hard: baseQuestions.filter(q => q.difficulty === 3),
-                expert: baseQuestions.filter(q => q.difficulty === 4),
-                vorlesung: [...vorlesungQuestions],
+                uebung: baseQuestions,
+                'vorlesung-offiziell': [...vorlesungQuestions],
+                vorlesung: uniqueMixed,
                 offiziell: [...ofizielleQuestions]
             };
         }
 
-        function selectQuestionsFromPool(level, count) {
-            // Wenn wir im Vorlesungsmodus sind, gib die Vorlesungsfragen direkt zurück
-            if (level === 'vorlesung') {
-                return shuffleArray([...vorlesungQuestions]);
+        function selectQuestionsFromPool(level, difficulty, count = 10) {
+            let sourceQuestions = [];
+            
+            // Hole Fragen basierend auf Level
+            if (level === 'uebung') {
+                sourceQuestions = [...baseQuestions];
+            } else if (level === 'vorlesung-offiziell') {
+                sourceQuestions = [...vorlesungQuestions];
+            } else if (level === 'vorlesung') {
+                // gemischt: Alle Fragen aus allen Levels, dedupliziert nach Fragetext
+                const mixedAll = [
+                    ...baseQuestions,
+                    ...neueVorlesungQuestions,
+                    ...vorlesungQuestions,
+                    ...ofizielleQuestions
+                ];
+                const uniqueMap = new Map();
+                mixedAll.forEach(q => {
+                    const key = q && q.question ? q.question : JSON.stringify(q);
+                    if (!uniqueMap.has(key)) uniqueMap.set(key, q);
+                });
+                sourceQuestions = Array.from(uniqueMap.values());
+            } else if (level === 'offiziell') {
+                sourceQuestions = [...ofizielleQuestions];
             }
             
-            // Wenn wir im Offiziellen Modus sind, gib die offiziellen Fragen direkt zurück
-            if (level === 'offiziell') {
-                return shuffleArray([...ofizielleQuestions]);
+            // Filtere nach Schwierigkeit wenn nicht "all"
+            if (difficulty !== 'all') {
+                const difficultyMap = { easy: 1, medium: 2, hard: 3, expert: 4 };
+                const targetDifficulty = difficultyMap[difficulty];
+                sourceQuestions = sourceQuestions.filter(q => q.difficulty === targetDifficulty);
             }
             
-            // Für andere Modi: Filtere Fragen, die ähnlich zu Vorlesungsfragen sind
-            const isVorlesungRelated = (q) => {
-                const keywords = ['WWW', 'World Wide Web', 'Internet', 'ARPANET', 'HTTP', 
-                                'TCP', 'IP', 'Tim Berners-Lee', 'IMP', 'Interface Message', 
-                                'Paketvermittlung', 'Web-Client', 'Web-Server'];
-                return keywords.some(keyword => 
-                    q.question.includes(keyword) || 
-                    (q.explanation && q.explanation.includes(keyword))
-                );
-            };
-
-            const availableQuestions = questionPool[level]
-                .filter(q => !usedQuestions.has(q))
-                .filter(q => !isVorlesungRelated(q));  // Hier filtern wir vorlesungsähnliche Fragen
-
-            const selectedQuestions = [];
-            
-            while (selectedQuestions.length < count && availableQuestions.length > 0) {
-                const randomIndex = Math.floor(Math.random() * availableQuestions.length);
-                const question = availableQuestions.splice(randomIndex, 1)[0];
-                
-                // Verwende die Frage OHNE Typ-Änderung (Deep Clone)
-                const clonedQuestion = JSON.parse(JSON.stringify(question));
-                
-                selectedQuestions.push(clonedQuestion);
-                usedQuestions.add(question);
-            }
-
-            return selectedQuestions;
-        }
-
-        function updateLeaderboard(level, score, time = null) {
-            const entry = {
-                name: playerName,
-                score: score,
-                time: time,
-                xp: xp,
-                timestamp: Date.now()
-            };
-
-            sessionLeaderboard[level].push(entry);
-            sessionLeaderboard[level].sort((a, b) => {
-                if (isSpeedrunMode) {
-                    return (b.score - a.score) || (a.time - b.time);
-                }
-                return b.score - a.score;
-            });
-
-            // Nur die Top 5 behalten
-            sessionLeaderboard[level] = sessionLeaderboard[level].slice(0, 5);
-        }
-
-        function displayLeaderboard() {
-            const leaderboardContent = document.getElementById('leaderboardContent');
-            // pick a sensible current level: selectedLevel, or first level with entries, or 'easy'
-            const currentLevel = selectedLevel || Object.keys(sessionLeaderboard).find(k => sessionLeaderboard[k] && sessionLeaderboard[k].length > 0) || 'easy';
-            const entries = sessionLeaderboard[currentLevel] || [];
-            const tabBtn = document.querySelector('.tab-btn.active');
-            const currentMode = tabBtn ? tabBtn.dataset.mode : 'normal';
-
-            const filteredEntries = entries.filter(entry => 
-                currentMode === 'speedrun' ? entry.time != null : entry.time == null
-            );
-
-            if (filteredEntries.length === 0) {
-                leaderboardContent.innerHTML = '<div class="leaderboard-entry" style="justify-content: center; color: #718096;">Noch keine Einträge</div>';
-                return;
-            }
-
-            leaderboardContent.innerHTML = filteredEntries
-                .sort((a, b) => {
-                    if (currentMode === 'speedrun') {
-                        // Sortiere nach Punktzahl und Zeit im Speedrun-Modus
-                        const scoreComp = b.score - a.score;
-                        return scoreComp !== 0 ? scoreComp : (a.time || 0) - (b.time || 0);
-                    }
-                    // Sortiere nur nach Punktzahl im normalen Modus
-                    return b.score - a.score;
-                })
-                .slice(0, 5)
-                .map((entry, index) => `
-                    <div class="leaderboard-entry">
-                        <span class="entry-rank">${index + 1}.</span>
-                        <span class="entry-name">${entry.name}</span>
-                        <span class="entry-score">${Math.round((entry.score / (filteredQuestions.length || 1)) * 100)}% (${entry.xp} XP)</span>
-                        ${entry.time ? `<span class="entry-time">${formatTime(entry.time)}</span>` : ''}
-                    </div>
-                `).join('');
-        }
-
-        function startQuiz() {
-            // allow starting when practice mode or vorlesung mode is selected (no level required)
-            if (!isPracticeMode && !document.querySelector('.mode-btn[data-mode="vorlesung"].selected') && !selectedLevel) return;
-
-            // Name übernehmen (fallback: "Spieler/in")
-            const nameInput = document.getElementById('playerName');
-            playerName = (nameInput.value || "Spieler/in").trim();
-
-            initializeQuestionPool();
-
-            if (isPracticeMode) {
-                // Übungsmodus: Hole falsch beantwortete Fragen aus den letzten fünf Durchläufen (lastFiveRuns)
-                // lastFiveRuns ist ein Array von Arrays (je Lauf: falsch beantwortete Fragen als Frage-Objekte)
+            // Wenn Übungsmodus aktiv ist, filtere nach falsch beantworteten Fragen
+            if (activeModifiers.includes('practice')) {
                 const combined = lastFiveRuns.flat();
-
-                // dedupliziere nach question-Text (falls vorhanden), sonst per JSON-String
                 const uniqueMap = new Map();
                 combined.forEach(q => {
                     const key = q && q.question ? q.question : JSON.stringify(q);
                     if (!uniqueMap.has(key)) uniqueMap.set(key, q);
                 });
-
                 const recentWrongQuestions = Array.from(uniqueMap.values());
+                
+                // Filtere sourceQuestions nach denen, die in recentWrongQuestions sind
+                sourceQuestions = sourceQuestions.filter(sq =>
+                    recentWrongQuestions.some(rwq => rwq.question === sq.question)
+                );
+            }
+            
+            return shuffleArray(sourceQuestions).slice(0, Math.min(count, sourceQuestions.length));
+        }
 
-                if (recentWrongQuestions.length === 0) {
-                    alert('Keine falsch beantworteten Fragen aus den letzten Durchläufen verfügbar. Wechsel zum normalen Modus.');
-                    isPracticeMode = false;
-                    const normalModeBtn = document.querySelector('.mode-btn[data-mode="normal"]');
-                    normalModeBtn.click();
-                    return;
+        function updateLeaderboard(level, score, time = null) {
+            const percentage = Math.round((score / filteredQuestions.length) * 100);
+            
+            // Prüfe ob es ein qualifiziertes Timetrial ist
+            const hasOnlyTimerModifier = activeModifiers.length === 1 && activeModifiers.includes('speedrun');
+            const hasDifficultySet = selectedDifficulty !== 'all';
+            const isQualifiedTimetrial = hasOnlyTimerModifier && hasDifficultySet && time;
+            
+            let entry;
+            
+            if (isQualifiedTimetrial) {
+                // Timetrial-Eintrag mit gewichtetem Score
+                const difficultyMultiplier = getDifficultyMultiplier(selectedDifficulty);
+                const timeBonus = calculateTimeBonus(time, filteredQuestions.length);
+                const finalScore = calculateWeightedScore(percentage, difficultyMultiplier, timeBonus);
+                
+                entry = {
+                    name: playerName,
+                    rawScore: score,
+                    percentage: percentage,
+                    difficulty: selectedDifficulty,
+                    finalScore: finalScore,
+                    time: time,
+                    xp: xp,
+                    level: selectedLevel,
+                    timestamp: Date.now(),
+                    questionCount: filteredQuestions.length
+                };
+            } else {
+                // Normal-Eintrag (ohne Timetrial-Qualifikation)
+                entry = {
+                    name: playerName,
+                    score: score,
+                    percentage: percentage,
+                    xp: xp,
+                    level: selectedLevel,
+                    timestamp: Date.now(),
+                    questionCount: filteredQuestions.length
+                };
+            }
+
+            sessionLeaderboard[level].push(entry);
+            
+            // Sortiere nach finalScore (Timetrials) oder score (Normal)
+            sessionLeaderboard[level].sort((a, b) => {
+                if (a.finalScore && b.finalScore) {
+                    return b.finalScore - a.finalScore;
                 }
+                return (b.score || 0) - (a.score || 0);
+            });
 
-                filteredQuestions = shuffleArray(recentWrongQuestions)
-                    .slice(0, Math.min(10, recentWrongQuestions.length));
+            // Nur die Top 20 behalten (für beide Modi)
+            sessionLeaderboard[level] = sessionLeaderboard[level].slice(0, 20);
+            
+            // Speichere Bestenliste im LocalStorage
+            saveLeaderboardToLocalStorage();
+        }
 
-            } else if (selectedLevel === 'vorlesung') {
-                // Vorlesungsmodus: Verwende die vordefinierten Vorlesungsfragen
-                filteredQuestions = [...vorlesungQuestions];
-            } else if (selectedLevel === 'offiziell') {
-                // Offizieller Modus: Verwende die offiziellen Fragen
-                filteredQuestions = [...ofizielleQuestions];
-            } else if (isSpeedrunMode) {
-                // Im Speedrun-Modus: Zufällige Fragen aus allen Schwierigkeitsgraden
-                const questionCounts = { easy: 5, medium: 5, hard: 5, expert: 5 };
-                filteredQuestions = [];
-                Object.entries(questionCounts).forEach(([level, count]) => {
-                    filteredQuestions = filteredQuestions.concat(selectQuestionsFromPool(level, count));
+        function getDifficultyMultiplier(difficulty) {
+            const multipliers = {
+                'easy': 1.0,
+                'medium': 1.5,
+                'hard': 2.0,
+                'expert': 2.5
+            };
+            return multipliers[difficulty] || 1.0;
+        }
+
+        function calculateTimeBonus(timeMs, questionCount) {
+            if (!timeMs) return 0;
+            
+            // Erwartete Zeit pro Frage (in Sekunden): 45s für einfach bis 90s für expert
+            const expectedTimePerQuestion = {
+                'easy': 45,
+                'medium': 60,
+                'hard': 75,
+                'expert': 90
+            };
+            
+            const expectedTime = (expectedTimePerQuestion[selectedDifficulty] || 60) * questionCount;
+            const actualTimeSeconds = timeMs / 1000;
+            
+            // Zeit-Bonus: Je schneller, desto mehr Bonus (max 50% Bonus)
+            const timeFactor = Math.max(0, (expectedTime - actualTimeSeconds) / expectedTime);
+            return Math.min(0.5, timeFactor); // Max 50% Zeitbonus
+        }
+
+        function calculateWeightedScore(percentage, difficultyMultiplier, timeBonus) {
+            // Basis-Score aus Prozent und Schwierigkeit
+            const baseScore = percentage * difficultyMultiplier;
+            
+            // Zeit-Bonus wird auf den Basis-Score angewendet
+            const finalScore = baseScore * (1 + timeBonus);
+            
+            return Math.round(finalScore * 10) / 10; // Eine Dezimalstelle
+        }
+
+        // Leaderboard LocalStorage functions
+        function saveLeaderboardToLocalStorage() {
+            try {
+                localStorage.setItem('quizLeaderboard', JSON.stringify(sessionLeaderboard));
+            } catch (e) {
+                console.warn('Konnte Bestenliste nicht speichern:', e);
+            }
+        }
+
+        function loadLeaderboardFromLocalStorage() {
+            try {
+                const stored = localStorage.getItem('quizLeaderboard');
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    // Merge mit der aktuellen Session-Bestenliste
+                    Object.keys(parsed).forEach(level => {
+                        if (parsed[level] && Array.isArray(parsed[level])) {
+                            sessionLeaderboard[level] = [...(sessionLeaderboard[level] || []), ...parsed[level]];
+                            // Sortieren und auf Top 10 begrenzen
+                            sessionLeaderboard[level].sort((a, b) => {
+                                if (a.time && b.time) {
+                                    return (b.score - a.score) || (a.time - b.time);
+                                }
+                                return b.score - a.score;
+                            });
+                            sessionLeaderboard[level] = sessionLeaderboard[level].slice(0, 10);
+                        }
+                    });
+                }
+            } catch (e) {
+                console.warn('Konnte Bestenliste nicht laden:', e);
+            }
+        }
+
+        // Name-related functions
+        function savePlayerName(name) {
+            try {
+                if (name && name.trim()) {
+                    localStorage.setItem('quizPlayerName', name.trim());
+                }
+            } catch (e) {
+                console.warn('Konnte Namen nicht speichern:', e);
+            }
+        }
+
+        function loadPlayerName() {
+            try {
+                const savedName = localStorage.getItem('quizPlayerName');
+                return savedName || '';
+            } catch (e) {
+                console.warn('Konnte Namen nicht laden:', e);
+                return '';
+            }
+        }
+
+        function clearPlayerName() {
+            try {
+                localStorage.removeItem('quizPlayerName');
+            } catch (e) {
+                console.warn('Konnte Namen nicht löschen:', e);
+            }
+        }
+
+        // Level und XP Speicher-Funktionen
+        function saveProgressToLocalStorage() {
+            try {
+                const progress = {
+                    xp: xp,
+                    level: level,
+                    timestamp: Date.now()
+                };
+                localStorage.setItem('quizProgress', JSON.stringify(progress));
+            } catch (e) {
+                console.warn('Konnte Fortschritt nicht speichern:', e);
+            }
+        }
+
+        function loadProgressFromLocalStorage() {
+            try {
+                const stored = localStorage.getItem('quizProgress');
+                if (stored) {
+                    const progress = JSON.parse(stored);
+                    if (progress.xp !== undefined && progress.level !== undefined) {
+                        xp = progress.xp;
+                        level = progress.level;
+                        updateXPDisplay();
+                        updateLevelBadge();
+                        return true;
+                    }
+                }
+            } catch (e) {
+                console.warn('Konnte Fortschritt nicht laden:', e);
+            }
+            return false;
+        }
+
+        function clearProgress() {
+            try {
+                localStorage.removeItem('quizProgress');
+            } catch (e) {
+                console.warn('Konnte Fortschritt nicht löschen:', e);
+            }
+        }
+
+        function displayLeaderboard() {
+            const leaderboardContent = document.getElementById('leaderboardContent');
+            if (!leaderboardContent) return;
+            
+            const currentLevel = selectedLevel || Object.keys(sessionLeaderboard).find(k => sessionLeaderboard[k] && sessionLeaderboard[k].length > 0) || 'uebung';
+            const entries = sessionLeaderboard[currentLevel] || [];
+            
+            // Prüfe welcher Tab aktiv ist
+            const activeTab = document.querySelector('.tab-btn.active');
+            const currentMode = activeTab ? activeTab.dataset.mode : 'timetrials';
+
+            let filteredEntries;
+            if (currentMode === 'timetrials') {
+                // Nur Timetrials anzeigen
+                filteredEntries = entries.filter(entry => entry.time != null && entry.finalScore != null);
+            } else {
+                // Normal-Modus: Alle Einträge ohne Timetrials
+                filteredEntries = entries.filter(entry => !entry.finalScore || entry.time == null);
+            }
+
+            if (filteredEntries.length === 0) {
+                const message = currentMode === 'timetrials' 
+                    ? 'Noch keine Timetrials-Einträge' 
+                    : 'Noch keine Normal-Einträge';
+                leaderboardContent.innerHTML = `<div class="leaderboard-entry" style="justify-content: center; color: #718096;">${message}</div>`;
+                return;
+            }
+
+            if (currentMode === 'timetrials') {
+                // Timetrials-Anzeige mit Score
+                leaderboardContent.innerHTML = filteredEntries
+                    .sort((a, b) => b.finalScore - a.finalScore)
+                    .slice(0, 15)
+                    .map((entry, index) => {
+                        const difficultyEmoji = {
+                            'easy': '🌱',
+                            'medium': '⚡',
+                            'hard': '🔥',
+                            'expert': '💎'
+                        };
+                        
+                        return `
+                            <div class="leaderboard-entry" data-entry-id="${entry.timestamp}">
+                                <span class="entry-rank">${index + 1}.</span>
+                                <span class="entry-name">${entry.name}</span>
+                                <span class="entry-details">
+                                    ${difficultyEmoji[entry.difficulty] || '❓'} ${entry.level || 'N/A'}<br>
+                                    <small>${entry.percentage}% • Score: ${entry.finalScore}</small>
+                                </span>
+                                <span class="entry-time">${formatTime(entry.time)}</span>
+                                <button class="delete-entry-btn" data-entry-id="${entry.timestamp}" title="Eintrag löschen">×</button>
+                            </div>
+                        `;
+                    }).join('');
+            } else {
+                // Normal-Modus-Anzeige
+                leaderboardContent.innerHTML = filteredEntries
+                    .sort((a, b) => (b.rawScore || b.score) - (a.rawScore || a.score))
+                    .slice(0, 15)
+                    .map((entry, index) => {
+                        return `
+                            <div class="leaderboard-entry" data-entry-id="${entry.timestamp}">
+                                <span class="entry-rank">${index + 1}.</span>
+                                <span class="entry-name">${entry.name}</span>
+                                <span class="entry-details">
+                                    ${entry.level || 'N/A'}<br>
+                                    <small>${entry.percentage || Math.round(((entry.score || 0) / (entry.questionCount || 1)) * 100)}% • ${entry.xp || 0} XP</small>
+                                </span>
+                                <button class="delete-entry-btn" data-entry-id="${entry.timestamp}" title="Eintrag löschen">×</button>
+                            </div>
+                        `;
+                    }).join('');
+            }
+                
+            // Füge Event-Listener für Lösch-Buttons hinzu
+            document.querySelectorAll('.delete-entry-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const entryId = parseInt(this.dataset.entryId);
+                    deleteLeaderboardEntry(currentLevel, entryId);
                 });
-                filteredQuestions = filteredQuestions.sort(() => Math.random() - 0.5);
+            });
+        }
 
-                // Timer starten
+        function deleteLeaderboardEntry(level, entryId) {
+            if (confirm('Diesen Leaderboard-Eintrag wirklich löschen?')) {
+                sessionLeaderboard[level] = sessionLeaderboard[level].filter(entry => entry.timestamp !== entryId);
+                saveLeaderboardToLocalStorage();
+                displayLeaderboard();
+                displayStartLeaderboard(); // Aktualisiere auch Start-Anzeige
+            }
+        }
+
+        function displayStartLeaderboard() {
+            const startLeaderboardContent = document.getElementById('startLeaderboardContent');
+            if (!startLeaderboardContent) return;
+            
+            // Sammle alle Timetrials aus allen Leveln
+            const allEntries = [];
+            Object.keys(sessionLeaderboard).forEach(level => {
+                sessionLeaderboard[level].forEach(entry => {
+                    if (entry.time != null && entry.finalScore != null) {
+                        allEntries.push({...entry, levelName: level});
+                    }
+                });
+            });
+
+            if (allEntries.length === 0) {
+                startLeaderboardContent.innerHTML = '<div class="empty-leaderboard">Noch keine Timetrials vorhanden.<br>Spiele mit Timer + Schwierigkeit!</div>';
+                return;
+            }
+
+            // Zeige Top 5 über alle Level
+            startLeaderboardContent.innerHTML = allEntries
+                .sort((a, b) => b.finalScore - a.finalScore)
+                .slice(0, 5)
+                .map((entry, index) => {
+                    const difficultyEmoji = {
+                        'easy': '🌱',
+                        'medium': '⚡', 
+                        'hard': '🔥',
+                        'expert': '💎'
+                    };
+                    
+                    return `
+                        <div class="leaderboard-entry">
+                            <span class="entry-rank">${index + 1}.</span>
+                            <span class="entry-name">${entry.name}</span>
+                            <span class="entry-details">
+                                ${difficultyEmoji[entry.difficulty] || '❓'} ${entry.levelName}<br>
+                                <small>${entry.percentage}% • ${entry.finalScore}</small>
+                            </span>
+                            <span class="entry-time">${formatTime(entry.time)}</span>
+                        </div>
+                    `;
+                }).join('');
+        }
+
+        function startQuiz() {
+            // Validiere Auswahl
+            if (!selectedLevel) {
+                alert('Bitte wähle ein Level aus!');
+                return;
+            }
+
+            // Name übernehmen (fallback: "Spieler/in")
+            const nameInput = document.getElementById('playerName');
+            playerName = (nameInput.value || "Spieler/in").trim();
+            
+            // Speichere Namen wenn Checkbox aktiv ist
+            const saveNameCheckbox = document.getElementById('saveNameCheckbox');
+            if (saveNameCheckbox && saveNameCheckbox.checked && nameInput.value && nameInput.value.trim()) {
+                savePlayerName(nameInput.value.trim());
+                updateNameUIState();
+            }
+
+            initializeQuestionPool();
+
+            // Hole Fragen basierend auf Level, Schwierigkeitsgrad und Modifiern
+            filteredQuestions = selectQuestionsFromPool(selectedLevel, selectedDifficulty, 15);
+            
+            // Prüfe ob Fragen verfügbar sind
+            if (filteredQuestions.length === 0) {
+                if (activeModifiers.includes('practice')) {
+                    alert('Keine falsch beantworteten Fragen für diese Kombination verfügbar. Versuche andere Einstellungen.');
+                } else {
+                    alert('Keine Fragen für diese Kombination verfügbar. Versuche andere Einstellungen.');
+                }
+                return;
+            }
+
+            // Timer starten wenn Speedrun-Modifier aktiv
+            if (activeModifiers.includes('speedrun')) {
                 startTime = Date.now();
                 document.getElementById('timerDisplay').style.display = 'block';
                 timerInterval = setInterval(updateTimer, 1000);
-            } else {
-                // Normaler Modus: Fragen nach Schwierigkeitsgrad filtern
-                const difficultyMap = { easy: 1, medium: 2, hard: 3, expert: 4 };
-                const maxDifficulty = difficultyMap[selectedLevel];
-                filteredQuestions = selectQuestionsFromPool(selectedLevel, 10);
             }
 
             document.getElementById('startScreen').style.display = 'none';
@@ -2803,9 +3482,24 @@
             const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
 
             if (question.type === 'multiple') {
-                optionsHTML = question.options.map((option, index) => `
+                // Erstelle Array mit Optionen und ihren ursprünglichen Indizes
+                const optionsWithIndex = question.options.map((option, index) => ({
+                    text: option,
+                    originalIndex: index
+                }));
+                
+                // Mische die Optionen zufällig
+                const shuffledOptions = shuffleArray([...optionsWithIndex]);
+                
+                // Finde den neuen Index der korrekten Antwort
+                const newCorrectIndex = shuffledOptions.findIndex(opt => opt.originalIndex === question.correct);
+                
+                // Speichere die neue korrekte Antwort für später
+                question._shuffledCorrect = newCorrectIndex;
+                
+                optionsHTML = shuffledOptions.map((option, index) => `
                     <div class="option" data-index="${index}" data-letter="${letters[index]}">
-                        <span>${option}</span>
+                        <span>${option.text}</span>
                     </div>
                 `).join('');
 
@@ -3026,11 +3720,13 @@
                 }
 
                 const selectedIndex = parseInt(selected.dataset.index);
-                isCorrect = selectedIndex === question.correct;
+                // Verwende den gemischten korrekten Index wenn verfügbar, sonst den ursprünglichen
+                const correctIndex = question._shuffledCorrect !== undefined ? question._shuffledCorrect : question.correct;
+                isCorrect = selectedIndex === correctIndex;
 
                 const options = document.querySelectorAll('.option');
                 options.forEach((opt, i) => {
-                    if (i === question.correct) {
+                    if (i === correctIndex) {
                         opt.classList.add('correct');
                     } else if (i === selectedIndex && !isCorrect) {
                         opt.classList.add('wrong');
@@ -3144,7 +3840,7 @@
                 correctAnswers++;
                 let gainedXP = question.xp;
                 // Bonus XP im Speedrun-Modus
-                if (isSpeedrunMode) {
+                if (activeModifiers.includes('speedrun')) {
                     gainedXP = Math.floor(gainedXP * 1.5); // 50% mehr XP im Speedrun
                 }
                 xp += gainedXP;
@@ -3156,14 +3852,14 @@
                 wrongAnswers++;
                 let xpPenalty = 0;
                 // XP-Bestrafung bei mittlerem und höherem Schwierigkeitsgrad
-                if (question.difficulty >= 2 || isSpeedrunMode) {
-                    xpPenalty = Math.floor(question.xp * (isSpeedrunMode ? 0.75 : 0.5));
+                if (question.difficulty >= 2 || activeModifiers.includes('speedrun')) {
+                    xpPenalty = Math.floor(question.xp * (activeModifiers.includes('speedrun') ? 0.75 : 0.5));
                     xp = Math.max(0, xp - xpPenalty);
                     updateXPDisplay();
                 }
 
                 // Speichere falsch beantwortete Frage
-                if (!isPracticeMode) {
+                if (!activeModifiers.includes('practice')) {
                     wrongAnsweredQuestions.push({
                         question: question,
                         timestamp: Date.now()
@@ -3212,7 +3908,7 @@
             const resultScreen = document.getElementById('resultScreen');
             const questionsContainer = document.getElementById('questionsContainer');
 
-            if (isSpeedrunMode) {
+            if (activeModifiers.includes('speedrun')) {
                 clearInterval(timerInterval);
                 currentTime = Date.now();
             }
@@ -3239,13 +3935,27 @@
             document.getElementById('resultMessage').textContent = playerName + ': ' + message;
             
             let detailsText = `Du hast ${score} von ${filteredQuestions.length} Fragen richtig beantwortet.`;
-            const leaderboardLevel = selectedLevel || 'easy';
-            if (isSpeedrunMode) {
+            const leaderboardLevel = selectedLevel || 'uebung';
+            
+            // Leaderboard-Update für alle Modi
+            if (activeModifiers.includes('speedrun')) {
                 const elapsedTime = currentTime - startTime;
                 detailsText += `\nBenötigte Zeit: ${formatTime(elapsedTime)}`;
                 updateLeaderboard(leaderboardLevel, score, elapsedTime);
+                
+                // Zeige Score nur bei qualifizierten Timetrials
+                const hasOnlyTimerModifier = activeModifiers.length === 1 && activeModifiers.includes('speedrun');
+                const hasDifficultySet = selectedDifficulty !== 'all';
+                
+                if (hasOnlyTimerModifier && hasDifficultySet) {
+                    const difficultyMultiplier = getDifficultyMultiplier(selectedDifficulty);
+                    const timeBonus = calculateTimeBonus(elapsedTime, filteredQuestions.length);
+                    const finalScore = calculateWeightedScore(percentage, difficultyMultiplier, timeBonus);
+                    detailsText += `\n⚡ Timetrial-Score: ${finalScore} (${selectedDifficulty.toUpperCase()})`;
+                }
             } else {
-                updateLeaderboard(leaderboardLevel, score);
+                // Normal-Modus ohne Timer
+                updateLeaderboard(leaderboardLevel, score, null);
             }
             document.getElementById('resultDetails').textContent = detailsText;
 
@@ -3270,6 +3980,7 @@
 
             // updateLeaderboard() was already called with level/time above; avoid empty call
             displayLeaderboard();
+            displayStartLeaderboard(); // Aktualisiere auch Start-Anzeige
 
             // WhatsApp Share Link erzeugen (Text dynamisch)
             const shareText = encodeURIComponent(
@@ -3290,17 +4001,19 @@
             userAnswers = [];
             correctAnswers = 0;
             wrongAnswers = 0;
-            xp = 0;
-            level = 1;
+            // XP und Level NICHT zurücksetzen - bleiben bestehen!
+            // xp = 0; // ENTFERNT
+            // level = 1; // ENTFERNT
             selectedLevel = null;
+            selectedDifficulty = 'all';
+            activeModifiers = ['normal'];
             playerName = "";
             
-            // Reset Timer und Speedrun-Modus
+            // Reset Timer
             if (timerInterval) {
                 clearInterval(timerInterval);
             }
             document.getElementById('timerDisplay').style.display = 'none';
-            isSpeedrunMode = false;
 
             document.getElementById('resultScreen').classList.remove('show');
             document.getElementById('questionsContainer').style.display = 'block';
@@ -3315,11 +4028,17 @@
                 card.classList.remove('selected');
             });
 
-            // Reset Mode Auswahl
-            document.querySelectorAll('.mode-btn').forEach(btn => {
+            // Reset Modifier Auswahl
+            document.querySelectorAll('.modifier-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector('.modifier-btn[data-modifier="normal"]').classList.add('active');
+
+            // Reset Difficulty Auswahl
+            document.querySelectorAll('.difficulty-btn').forEach(btn => {
                 btn.classList.remove('selected');
             });
-            document.querySelector('.mode-btn[data-mode="normal"]').classList.add('selected');
+            document.querySelector('.difficulty-btn[data-difficulty="all"]').classList.add('selected');
 
             document.getElementById('startBtn').disabled = true;
             
@@ -3351,43 +4070,120 @@
                 });
             });
 
-            // Mode selection (sets speedrun / practice flags and updates UI)
-            document.querySelectorAll('.mode-btn').forEach(btn => {
+            // Modifier selection (multiple selection possible)
+            document.querySelectorAll('.modifier-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('selected'));
-                    this.classList.add('selected');
-                    const mode = this.dataset.mode;
-                    isSpeedrunMode = mode === 'speedrun';
-                    isPracticeMode = mode === 'practice';
-
+                    const modifier = this.dataset.modifier;
+                    
+                    if (modifier === 'normal') {
+                        // Normal ersetzt alle anderen Modifier
+                        activeModifiers = ['normal'];
+                        document.querySelectorAll('.modifier-btn').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                    } else {
+                        // Entferne Normal wenn anderer Modifier gewählt wird
+                        const normalIndex = activeModifiers.indexOf('normal');
+                        if (normalIndex > -1) {
+                            activeModifiers.splice(normalIndex, 1);
+                            document.querySelector('.modifier-btn[data-modifier="normal"]').classList.remove('active');
+                        }
+                        
+                        // Toggle des gewählten Modifiers
+                        const index = activeModifiers.indexOf(modifier);
+                        if (index > -1) {
+                            activeModifiers.splice(index, 1);
+                            this.classList.remove('active');
+                        } else {
+                            activeModifiers.push(modifier);
+                            this.classList.add('active');
+                        }
+                        
+                        // Falls keine Modifier aktiv, setze Normal
+                        if (activeModifiers.length === 0) {
+                            activeModifiers = ['normal'];
+                            document.querySelector('.modifier-btn[data-modifier="normal"]').classList.add('active');
+                        }
+                    }
+                    
                     // show/hide practice info
                     const practiceInfo = document.getElementById('practiceInfo');
-                    if (practiceInfo) practiceInfo.style.display = isPracticeMode ? 'block' : 'none';
+                    if (practiceInfo) practiceInfo.style.display = activeModifiers.includes('practice') ? 'block' : 'none';
+                    
+                    validateStartConditions();
+                });
+            });
 
-                    // disable level selection in practice mode
-                    document.querySelectorAll('.level-card').forEach(card => {
-                        card.style.pointerEvents = isPracticeMode ? 'none' : 'auto';
-                        card.style.opacity = isPracticeMode ? '0.6' : '1';
-                    });
-
+            // Difficulty selection
+            document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedDifficulty = this.dataset.difficulty;
                     validateStartConditions();
                 });
             });
 
             // Name input validation
-            document.getElementById('playerName').addEventListener('input', validateStartConditions);
+            document.getElementById('playerName').addEventListener('input', function() {
+                validateStartConditions();
+                updateNameUIState();
+            });
+
+            // Checkbox für Namen speichern
+            const saveNameCheckbox = document.getElementById('saveNameCheckbox');
+            if (saveNameCheckbox) {
+                saveNameCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        const nameInput = document.getElementById('playerName');
+                        if (nameInput.value.trim()) {
+                            savePlayerName(nameInput.value.trim());
+                            updateNameUIState();
+                        }
+                    } else {
+                        clearPlayerName();
+                        updateNameUIState();
+                    }
+                });
+            }
+
+            // Leaderboard Tab-Wechsel
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    displayLeaderboard();
+                });
+            });
+
+        function updateNameUIState() {
+            const savedName = loadPlayerName();
+            const hasStoredName = !!savedName;
+            
+            const nameDisclaimer = document.getElementById('nameDisclaimer');
+            const resetProgressContainer = document.getElementById('resetProgressContainer');
+            const saveNameCheckbox = document.getElementById('saveNameCheckbox');
+            
+            if (hasStoredName) {
+                // Zeige Reset-Button, verstecke Disclaimer
+                if (nameDisclaimer) nameDisclaimer.style.display = 'none';
+                if (resetProgressContainer) resetProgressContainer.style.display = 'block';
+                if (saveNameCheckbox) saveNameCheckbox.checked = true;
+            } else {
+                // Zeige Disclaimer, verstecke Reset-Button
+                if (nameDisclaimer) nameDisclaimer.style.display = 'block';
+                if (resetProgressContainer) resetProgressContainer.style.display = 'none';
+                if (saveNameCheckbox) saveNameCheckbox.checked = false;
+            }
+        }
 
         function validateStartConditions() {
             const nameInput = document.getElementById('playerName');
             const startBtn = document.getElementById('startBtn');
             const nameOk = !!nameInput.value.trim();
-            const vorlesungMode = document.querySelector('.mode-btn[data-mode="vorlesung"].selected');
-            const specialLevel = selectedLevel === 'vorlesung' || selectedLevel === 'offiziell';
             
             // Erlaube Start wenn:
-            // - Name eingegeben UND
-            // - (Übungsmodus ODER Level ausgewählt ODER Vorlesungsmodus ODER Offizieller Modus)
-            startBtn.disabled = !(nameOk && (isPracticeMode || selectedLevel || vorlesungMode || specialLevel));
+            // - Name eingegeben UND Level ausgewählt
+            startBtn.disabled = !(nameOk && selectedLevel);
             
             // Visuelle Feedback für den User
             if (!nameOk) {
@@ -3414,18 +4210,48 @@
                 });
             }
 
-            // Leaderboard Tab-Wechsel
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    displayLeaderboard();
+            // Reset Progress Button
+            const resetProgressBtn = document.getElementById('resetProgressBtn');
+            if (resetProgressBtn) {
+                resetProgressBtn.addEventListener('click', function() {
+                    if (confirm('Möchtest du wirklich deinen gesamten Fortschritt (Level & XP) zurücksetzen?')) {
+                        xp = 0;
+                        level = 1;
+                        updateXPDisplay();
+                        updateLevelBadge();
+                        clearProgress();
+                        alert('Fortschritt wurde zurückgesetzt!');
+                    }
                 });
-            });
+            }
+
+            // Leaderboard wird automatisch bei Änderungen aktualisiert
 
             updateProgress();
             updateXPDisplay();
             updateLevelBadge();
+            
+            // Lade gespeicherte Bestenliste
+            loadLeaderboardFromLocalStorage();
+            
+            // Verwende spezielle Anzeige für Start-Leaderboard
+            displayStartLeaderboard();
+            
+            // Lade gespeicherten Fortschritt (Level & XP)
+            loadProgressFromLocalStorage();
+            
+            // Lade gespeicherten Namen
+            const savedName = loadPlayerName();
+            if (savedName) {
+                document.getElementById('playerName').value = savedName;
+                validateStartConditions();
+            }
+            
+            // Aktualisiere Namen-UI (Disclaimer/Reset-Button)
+            updateNameUIState();
+            
+            // Setze Standard-Modifier aktiv
+            document.querySelector('.modifier-btn[data-modifier="normal"]').classList.add('active');
         });
     </script>
 </body>
