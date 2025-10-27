@@ -3797,32 +3797,62 @@
             }
         }
 
-        // Level und XP Speicher-Funktionen
+        // Level und XP Speicher-Funktionen (pro Name)
+        function getNameKey(name) {
+            return (name && name.trim()) ? name.trim() : '__anonymous__';
+        }
+
+        function saveProgressMap(map) {
+            localStorage.setItem('quizProgressByName', JSON.stringify(map));
+        }
+
+        function loadProgressMap() {
+            try {
+                const raw = localStorage.getItem('quizProgressByName');
+                return raw ? JSON.parse(raw) : {};
+            } catch (e) {
+                return {};
+            }
+        }
+
         function saveProgressToLocalStorage() {
             try {
-                const progress = {
-                    xp: xp,
-                    level: level,
-                    timestamp: Date.now()
-                };
-                localStorage.setItem('quizProgress', JSON.stringify(progress));
+                const map = loadProgressMap();
+                const key = getNameKey(playerName);
+                map[key] = { xp: xp, level: level, timestamp: Date.now() };
+                saveProgressMap(map);
+                // Backwards-Compat: für alte Version ggf. generischen Fortschritt aktualisieren, wenn anonym
+                if (key === '__anonymous__') {
+                    localStorage.setItem('quizProgress', JSON.stringify(map[key]));
+                }
             } catch (e) {
                 console.warn('Konnte Fortschritt nicht speichern:', e);
             }
         }
 
-        function loadProgressFromLocalStorage() {
+        function loadProgressForName(name) {
             try {
-                const stored = localStorage.getItem('quizProgress');
-                if (stored) {
-                    const progress = JSON.parse(stored);
-                    if (progress.xp !== undefined && progress.level !== undefined) {
-                        xp = progress.xp;
-                        level = progress.level;
-                        updateXPDisplay();
-                        updateLevelBadge();
-                        return true;
+                const key = getNameKey(name);
+                const map = loadProgressMap();
+                let progress = map[key];
+                // Fallback: migriere alten generischen Fortschritt, falls vorhanden und kein Eintrag existiert
+                if (!progress) {
+                    const legacy = localStorage.getItem('quizProgress');
+                    if (legacy) {
+                        const legacyProgress = JSON.parse(legacy);
+                        if (legacyProgress && legacyProgress.xp !== undefined && legacyProgress.level !== undefined) {
+                            progress = legacyProgress;
+                            map[key] = legacyProgress;
+                            saveProgressMap(map);
+                        }
                     }
+                }
+                if (progress && progress.xp !== undefined && progress.level !== undefined) {
+                    xp = progress.xp;
+                    level = progress.level;
+                    updateXPDisplay();
+                    updateLevelBadge();
+                    return true;
                 }
             } catch (e) {
                 console.warn('Konnte Fortschritt nicht laden:', e);
@@ -3830,9 +3860,17 @@
             return false;
         }
 
-        function clearProgress() {
+        function clearProgressForName(name) {
             try {
-                localStorage.removeItem('quizProgress');
+                const key = getNameKey(name);
+                const map = loadProgressMap();
+                if (map[key]) {
+                    delete map[key];
+                    saveProgressMap(map);
+                }
+                if (key === '__anonymous__') {
+                    localStorage.removeItem('quizProgress');
+                }
             } catch (e) {
                 console.warn('Konnte Fortschritt nicht löschen:', e);
             }
@@ -4814,7 +4852,8 @@
                         level = 1;
                         updateXPDisplay();
                         updateLevelBadge();
-                        clearProgress();
+                        // Fortschritt nur für den aktuellen Namen löschen
+                        clearProgressForName(playerName);
                         // Name & UI zurücksetzen
                         clearPlayerName();
                         clearSessionName();
@@ -4853,10 +4892,7 @@
             
             // Verwende spezielle Anzeige für Start-Leaderboard
             displayStartLeaderboard();
-            
-            // Lade gespeicherten Fortschritt (Level & XP)
-            loadProgressFromLocalStorage();
-            
+
             // Lade Namen: zuerst aus der Sitzung, sonst aus dauerhaftem Speicher
             const sessionName = loadSessionName();
             const savedName = loadPlayerName();
@@ -4864,7 +4900,16 @@
             if (initialName) {
                 document.getElementById('playerName').value = initialName;
                 playerName = initialName;
+                // Lade Fortschritt für diesen Namen
+                if (!loadProgressForName(playerName)) {
+                    xp = 0; level = 1; updateXPDisplay(); updateLevelBadge();
+                }
                 validateStartConditions();
+            } else {
+                // Kein Name: lade anonymen Fortschritt
+                if (!loadProgressForName('')) {
+                    xp = 0; level = 1; updateXPDisplay(); updateLevelBadge();
+                }
             }
 
             // Session-Name live mitführen, ohne Pflicht zum Speichern
@@ -4873,6 +4918,10 @@
                 nameInputEl.addEventListener('input', function() {
                     playerName = this.value.trim();
                     saveSessionName(playerName);
+                    // Lade (oder initialisiere) Fortschritt des eingegebenen Namens
+                    if (!loadProgressForName(playerName)) {
+                        xp = 0; level = 1; updateXPDisplay(); updateLevelBadge();
+                    }
                     validateStartConditions();
                 });
             }
