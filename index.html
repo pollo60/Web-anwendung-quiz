@@ -3617,7 +3617,7 @@
                 ? (() => {
                     const difficultyMultiplier = getDifficultyMultiplier(selectedDifficulty);
                     const timeBonus = calculateTimeBonus(time, filteredQuestions.length);
-                    const finalScore = calculateWeightedScore(percentage, difficultyMultiplier, timeBonus);
+                    const finalScore = calculateWeightedScore(percentage, difficultyMultiplier, timeBonus, filteredQuestions.length);
                     return {
                         name: playerName,
                         rawScore: score,
@@ -3690,13 +3690,22 @@
             return Math.min(0.5, timeFactor); // Max 50% Zeitbonus
         }
 
-        function calculateWeightedScore(percentage, difficultyMultiplier, timeBonus) {
+        function calculateWeightedScore(percentage, difficultyMultiplier, timeBonus, questionCount) {
             // Basis-Score aus Prozent und Schwierigkeit
             const baseScore = percentage * difficultyMultiplier;
-            
-            // Zeit-Bonus wird auf den Basis-Score angewendet
-            const finalScore = baseScore * (1 + timeBonus);
-            
+
+            // Zeit-Bonus: Je schneller, desto mehr Bonus
+            const timeFactor = (1 + timeBonus);
+
+            // Fragen-Faktor: längere Sets sollen deutlich höher bewertet werden als sehr kurze
+            // Referenz: 15 Fragen = 1.0; exponentiell gewichtet, damit 3 Fragen stark benachteiligt werden
+            const baseline = 15;
+            const qc = Math.max(1, questionCount || baseline);
+            const ratio = qc / baseline;
+            const questionFactorRaw = Math.pow(ratio, 1.25); // starke Gewichtung
+            const questionFactor = Math.min(2.5, Math.max(0.4, questionFactorRaw)); // begrenzen
+
+            const finalScore = baseScore * timeFactor * questionFactor;
             return Math.round(finalScore * 10) / 10; // Eine Dezimalstelle
         }
 
@@ -4567,7 +4576,7 @@
                 if (hasOnlyTimerModifier && hasDifficultySet) {
                     const difficultyMultiplier = getDifficultyMultiplier(selectedDifficulty);
                     const timeBonus = calculateTimeBonus(elapsedTime, filteredQuestions.length);
-                    const finalScore = calculateWeightedScore(percentage, difficultyMultiplier, timeBonus);
+                    const finalScore = calculateWeightedScore(percentage, difficultyMultiplier, timeBonus, filteredQuestions.length);
                     detailsText += `\n⚡ Timetrial-Score: ${finalScore} (${selectedDifficulty.toUpperCase()})`;
                 }
             } else {
