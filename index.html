@@ -1135,6 +1135,48 @@
             border: 2px solid #8B4513;
         }
 
+        /* Schönes, thematisch passendes X für die Holz-Tafel */
+        .clear-all-btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #8B4513; /* Holzrahmen-Farbe */
+            background: radial-gradient(circle at 35% 35%, #ff6b6b, #e53e3e 60%, #c53030 100%);
+            color: #fff;
+            cursor: pointer;
+            box-shadow:
+                0 2px 0 #2a1f0d,               /* leichter Holz-Schatten oben */
+                0 4px 8px rgba(0,0,0,0.5),     /* Tiefe zur Tafel */
+                inset 0 2px 4px rgba(255,255,255,0.2),
+                inset 0 -2px 4px rgba(0,0,0,0.2);
+            text-shadow: 0 1px 0 rgba(0,0,0,0.6);
+            font-size: 18px;
+            line-height: 28px;
+            text-align: center;
+            image-rendering: pixelated;
+            transition: transform 0.08s step-end, box-shadow 0.08s step-end;
+        }
+
+        .clear-all-btn:hover {
+            transform: translateY(-1px);
+            box-shadow:
+                0 3px 0 #2a1f0d,
+                0 6px 10px rgba(0,0,0,0.6),
+                inset 0 2px 4px rgba(255,255,255,0.25),
+                inset 0 -2px 4px rgba(0,0,0,0.25);
+        }
+
+        .clear-all-btn:active {
+            transform: translateY(1px);
+            box-shadow:
+                0 1px 0 #2a1f0d,
+                0 2px 6px rgba(0,0,0,0.5),
+                inset 0 1px 3px rgba(0,0,0,0.3);
+        }
+
         .empty-leaderboard {
             text-align: center;
             padding: 20px;
@@ -1318,7 +1360,7 @@
 
                 <div class="session-leaderboard wooden-board" style="position: relative;">
                     <h3 class="leaderboard-title">🏆 Bestenliste</h3>
-                    <button id="clearAllLeaderboardBtn" title="Alle Einträge löschen" style="position:absolute; right:10px; top:10px; background:#e53e3e; color:#fff; border:none; border-radius:50%; width:28px; height:28px; cursor:pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.4);">×</button>
+                    <button id="clearAllLeaderboardBtn" class="clear-all-btn" title="Alle Einträge löschen">×</button>
                     <div class="leaderboard-tabs">
                         <button class="tab-btn start-tab-btn active" data-mode="timetrials">⚡ Timetrials</button>
                         <button class="tab-btn start-tab-btn" data-mode="normal">🎯 Normal</button>
@@ -1329,8 +1371,8 @@
                 </div>
 
                 <div class="player-name-wrapper">
-                    <label class="player-name-label" for="playerName">Dein Name (optional, für die Auswertung)</label>
-                    <input id="playerName" class="name-input" type="text" placeholder="z.B. Luca, Marie (optional)">
+                    <label class="player-name-label" for="playerName">Name (optional)</label>
+                    <input id="playerName" class="name-input" type="text" placeholder="z.B. Luca, Marie">
                     
                     <!-- Disclaimer und Speicher-Option (wenn kein Name gespeichert) -->
                     <div id="nameDisclaimer" style="margin-top: 10px; padding: 10px; background: rgba(52, 152, 219, 0.2); border-radius: 8px; font-size: 11px; color: #fff; text-align: left; display: none;">
@@ -3725,6 +3767,38 @@
             }
         }
 
+        // Session-Name (nur für aktuelle Sitzung; unabhängig von "Name speichern")
+        function saveSessionName(name) {
+            try {
+                if (typeof sessionStorage !== 'undefined') {
+                    sessionStorage.setItem('quizSessionName', (name || '').trim());
+                }
+            } catch (e) {
+                // nicht kritisch
+            }
+        }
+
+        function loadSessionName() {
+            try {
+                if (typeof sessionStorage !== 'undefined') {
+                    return sessionStorage.getItem('quizSessionName') || '';
+                }
+            } catch (e) {
+                // nicht kritisch
+            }
+            return '';
+        }
+
+        function clearSessionName() {
+            try {
+                if (typeof sessionStorage !== 'undefined') {
+                    sessionStorage.removeItem('quizSessionName');
+                }
+            } catch (e) {
+                // nicht kritisch
+            }
+        }
+
         // Level und XP Speicher-Funktionen
         function saveProgressToLocalStorage() {
             try {
@@ -3937,6 +4011,7 @@
             // Name übernehmen (fallback: "Spieler/in")
             const nameInput = document.getElementById('playerName');
             playerName = (nameInput.value || "Spieler/in").trim();
+            saveSessionName(playerName); // für aktuelle Sitzung merken
             
             // Speichere Namen wenn Checkbox aktiv ist
             const saveNameCheckbox = document.getElementById('saveNameCheckbox');
@@ -4505,7 +4580,7 @@
             selectedLevel = null;
             selectedDifficulty = 'all';
             activeModifiers = ['normal'];
-            playerName = "";
+            // Name in dieser Sitzung beibehalten
             
             // Reset Timer
             if (timerInterval) {
@@ -4544,8 +4619,11 @@
             usedQuestions.clear();
             document.getElementById('timer').textContent = '00:00';
             
-            // Reset player name input
-            document.getElementById('playerName').value = '';
+            // Name im Feld belassen (Session-Komfort)
+            const sessionName = loadSessionName();
+            if (sessionName) {
+                document.getElementById('playerName').value = sessionName;
+            }
             
             // Validate start conditions
             validateStartConditions();
@@ -4733,6 +4811,7 @@
                         clearProgress();
                         // Name & UI zurücksetzen
                         clearPlayerName();
+                        clearSessionName();
                         const nameInput = document.getElementById('playerName');
                         if (nameInput) nameInput.value = '';
                         updateNameUIState();
@@ -4772,11 +4851,24 @@
             // Lade gespeicherten Fortschritt (Level & XP)
             loadProgressFromLocalStorage();
             
-            // Lade gespeicherten Namen
+            // Lade Namen: zuerst aus der Sitzung, sonst aus dauerhaftem Speicher
+            const sessionName = loadSessionName();
             const savedName = loadPlayerName();
-            if (savedName) {
-                document.getElementById('playerName').value = savedName;
+            const initialName = sessionName || savedName;
+            if (initialName) {
+                document.getElementById('playerName').value = initialName;
+                playerName = initialName;
                 validateStartConditions();
+            }
+
+            // Session-Name live mitführen, ohne Pflicht zum Speichern
+            const nameInputEl = document.getElementById('playerName');
+            if (nameInputEl) {
+                nameInputEl.addEventListener('input', function() {
+                    playerName = this.value.trim();
+                    saveSessionName(playerName);
+                    validateStartConditions();
+                });
             }
             
             // Aktualisiere Namen-UI (Disclaimer/Reset-Button)
