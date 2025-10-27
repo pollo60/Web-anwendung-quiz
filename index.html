@@ -1763,9 +1763,124 @@
         ];
 
         const baseQuestions = [
+            // NEUE FRAGEN (nur falls nicht schon enthalten)
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Eine Spring-Boot-Anwendung kann eigenständig und ohne externe Laufzeitabhängigkeiten ausgeführt werden",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "Spring Boot-Anwendungen sind als Fat JARs/Executable JARs lauffähig und benötigen keine externen Laufzeitabhängigkeiten.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist die Funktion der Annotation @Autowired?",
+                options: [
+                    "Sie gibt an, dass eine Methode als Spring Bean registriert werden soll",
+                    "Sie markiert die Main-Methode des Programms",
+                    "Sie erstellt eine neue Bean im Spring Container",
+                    "Sie injiziert eine Bean in eine andere Klasse und stellt diese zur Verfügung"
+                ],
+                correct: 3,
+                explanation: "@Autowired injiziert eine Bean in eine andere Klasse und stellt sie dort zur Verfügung.",
+                xp: 20
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "In welcher Datei werden die Abhängigkeiten bei einem Spring Boot-Projekt verwaltet (Gradle)?",
+                options: [
+                    "pom.xml",
+                    "settings.gradle",
+                    "build.gradle",
+                    "application.properties"
+                ],
+                correct: 2,
+                explanation: "Bei Gradle werden Dependencies in der build.gradle gepflegt. Die pom.xml ist für Maven-Projekte.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Welche Log-Level sind standardmäßig in Spring Boot aktiviert?",
+                options: [
+                    "TRACE, WARN, DEBUG",
+                    "DEBUG, INFO, ERROR",
+                    "ERROR, WARN, INFO",
+                    "ERROR, TRACE, INFO"
+                ],
+                correct: 2,
+                explanation: "Standardmäßig sind ERROR, WARN und INFO in Spring Boot aktiviert. DEBUG und TRACE müssen explizit aktiviert werden.",
+                xp: 10
+            },
             // NEUE SPRING BOOT & ENTWICKLUNG FRAGEN
 
             // LEVEL EASY (Einfach)
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was macht die Methode setMessage() in der Klasse MessageService?",
+                options: [
+                    "Sie gibt den Wert der Variablen message zurück",
+                    "Sie initialisiert die Bean message",
+                    "Sie setzt den Wert der Variablen message",
+                    "Sie speichert eine Nachricht in einer Datenbank"
+                ],
+                correct: 2,
+                explanation: "Die Methode setMessage() setzt den Wert der Variablen message in der Klasse MessageService.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Welche Log-Level sind standardmäßig in Spring Boot aktiviert?",
+                options: [
+                    "ERROR, WARN, INFO",
+                    "TRACE, DEBUG, INFO",
+                    "WARN, INFO, DEBUG",
+                    "INFO, DEBUG, TRACE"
+                ],
+                correct: 0,
+                explanation: "Standardmäßig sind ERROR, WARN und INFO in Spring Boot aktiviert. DEBUG und TRACE müssen explizit aktiviert werden.",
+                xp: 10
+            },
+            // LEVEL MEDIUM (Mittel)
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist die Funktion der Annotation @Autowired?",
+                options: [
+                    "Sie definiert eine REST-API",
+                    "Sie injiziert eine Bean in eine andere Klasse und stellt diese zur Verfügung",
+                    "Sie markiert eine Testklasse",
+                    "Sie konfiguriert Logging-Optionen"
+                ],
+                correct: 1,
+                explanation: "@Autowired injiziert eine Bean in eine andere Klasse und stellt sie dort zur Verfügung.",
+                xp: 20
+            },
+            // LEVEL HARD (Schwer)
+            {
+                difficulty: 3,
+                type: "multiple",
+                question: "Die Methode assertThat() wird nicht von JUnit nativ bereitgestellt.",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "assertThat() stammt aus Bibliotheken wie AssertJ oder Hamcrest, nicht aus JUnit selbst.",
+                xp: 30
+            },
+            // LEVEL EXPERT (Experte)
+            {
+                difficulty: 4,
+                type: "multiple",
+                question: "Mit Maven können Abhängigkeiten eines Projekts automatisch aufgelöst werden.",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "Maven löst Abhängigkeiten automatisch über die pom.xml auf und lädt sie aus Repositories herunter.",
+                xp: 40
+            },
             {
                 difficulty: 1,
                 type: "multiple",
@@ -2571,6 +2686,105 @@
         ];
 
         const neueVorlesungQuestions = [
+            // NEUE FRAGEN (nur falls nicht schon enthalten)
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Eine Spring-Boot-Anwendung kann eigenständig und ohne externe Laufzeitabhängigkeiten ausgeführt werden",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "Spring Boot-Anwendungen sind als Fat JARs/Executable JARs lauffähig und benötigen keine externen Laufzeitabhängigkeiten.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist die Funktion der Annotation @Autowired?",
+                options: [
+                    "Sie gibt an, dass eine Methode als Spring Bean registriert werden soll",
+                    "Sie markiert die Main-Methode des Programms",
+                    "Sie erstellt eine neue Bean im Spring Container",
+                    "Sie injiziert eine Bean in eine andere Klasse und stellt diese zur Verfügung"
+                ],
+                correct: 3,
+                explanation: "@Autowired injiziert eine Bean in eine andere Klasse und stellt sie dort zur Verfügung.",
+                xp: 20
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "In welcher Datei werden die Abhängigkeiten bei einem Spring Boot-Projekt verwaltet (Gradle)?",
+                options: [
+                    "pom.xml",
+                    "settings.gradle",
+                    "build.gradle",
+                    "application.properties"
+                ],
+                correct: 2,
+                explanation: "Bei Gradle werden Dependencies in der build.gradle gepflegt. Die pom.xml ist für Maven-Projekte.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Welche Log-Level sind standardmäßig in Spring Boot aktiviert?",
+                options: [
+                    "TRACE, WARN, DEBUG",
+                    "DEBUG, INFO, ERROR",
+                    "ERROR, WARN, INFO",
+                    "ERROR, TRACE, INFO"
+                ],
+                correct: 2,
+                explanation: "Standardmäßig sind ERROR, WARN und INFO in Spring Boot aktiviert. DEBUG und TRACE müssen explizit aktiviert werden.",
+                xp: 10
+            },
+            // Ergänzung: Nur falls nicht schon enthalten
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was macht die Methode setMessage() in der Klasse MessageService?",
+                options: [
+                    "Sie gibt den Wert der Variablen message zurück",
+                    "Sie initialisiert die Bean message",
+                    "Sie setzt den Wert der Variablen message",
+                    "Sie speichert eine Nachricht in einer Datenbank"
+                ],
+                correct: 2,
+                explanation: "Die Methode setMessage() setzt den Wert der Variablen message in der Klasse MessageService.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist die Funktion der Annotation @Autowired?",
+                options: [
+                    "Sie definiert eine REST-API",
+                    "Sie injiziert eine Bean in eine andere Klasse und stellt diese zur Verfügung",
+                    "Sie markiert eine Testklasse",
+                    "Sie konfiguriert Logging-Optionen"
+                ],
+                correct: 1,
+                explanation: "@Autowired injiziert eine Bean in eine andere Klasse und stellt sie dort zur Verfügung.",
+                xp: 20
+            },
+            {
+                difficulty: 3,
+                type: "multiple",
+                question: "Die Methode assertThat() wird nicht von JUnit nativ bereitgestellt.",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "assertThat() stammt aus Bibliotheken wie AssertJ oder Hamcrest, nicht aus JUnit selbst.",
+                xp: 30
+            },
+            {
+                difficulty: 4,
+                type: "multiple",
+                question: "Mit Maven können Abhängigkeiten eines Projekts automatisch aufgelöst werden.",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "Maven löst Abhängigkeiten automatisch über die pom.xml auf und lädt sie aus Repositories herunter.",
+                xp: 40
+            },
             {
                 difficulty: 2,
                 type: "multiple",
@@ -2706,6 +2920,119 @@
         ];
 
         const ofizielleQuestions = [
+            // NEUE FRAGEN (nur falls nicht schon enthalten)
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Eine Spring-Boot-Anwendung kann eigenständig und ohne externe Laufzeitabhängigkeiten ausgeführt werden",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "Spring Boot-Anwendungen sind als Fat JARs/Executable JARs lauffähig und benötigen keine externen Laufzeitabhängigkeiten.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist die Funktion der Annotation @Autowired?",
+                options: [
+                    "Sie gibt an, dass eine Methode als Spring Bean registriert werden soll",
+                    "Sie markiert die Main-Methode des Programms",
+                    "Sie erstellt eine neue Bean im Spring Container",
+                    "Sie injiziert eine Bean in eine andere Klasse und stellt diese zur Verfügung"
+                ],
+                correct: 3,
+                explanation: "@Autowired injiziert eine Bean in eine andere Klasse und stellt sie dort zur Verfügung.",
+                xp: 20
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "In welcher Datei werden die Abhängigkeiten bei einem Spring Boot-Projekt verwaltet (Gradle)?",
+                options: [
+                    "pom.xml",
+                    "settings.gradle",
+                    "build.gradle",
+                    "application.properties"
+                ],
+                correct: 2,
+                explanation: "Bei Gradle werden Dependencies in der build.gradle gepflegt. Die pom.xml ist für Maven-Projekte.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Welche Log-Level sind standardmäßig in Spring Boot aktiviert?",
+                options: [
+                    "TRACE, WARN, DEBUG",
+                    "DEBUG, INFO, ERROR",
+                    "ERROR, WARN, INFO",
+                    "ERROR, TRACE, INFO"
+                ],
+                correct: 2,
+                explanation: "Standardmäßig sind ERROR, WARN und INFO in Spring Boot aktiviert. DEBUG und TRACE müssen explizit aktiviert werden.",
+                xp: 10
+            },
+            // Ergänzung: Nur falls nicht schon enthalten
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was macht die Methode setMessage() in der Klasse MessageService?",
+                options: [
+                    "Sie gibt den Wert der Variablen message zurück",
+                    "Sie initialisiert die Bean message",
+                    "Sie setzt den Wert der Variablen message",
+                    "Sie speichert eine Nachricht in einer Datenbank"
+                ],
+                correct: 2,
+                explanation: "Die Methode setMessage() setzt den Wert der Variablen message in der Klasse MessageService.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Welche Log-Level sind standardmäßig in Spring Boot aktiviert?",
+                options: [
+                    "ERROR, WARN, INFO",
+                    "TRACE, DEBUG, INFO",
+                    "WARN, INFO, DEBUG",
+                    "INFO, DEBUG, TRACE"
+                ],
+                correct: 0,
+                explanation: "Standardmäßig sind ERROR, WARN und INFO in Spring Boot aktiviert. DEBUG und TRACE müssen explizit aktiviert werden.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist die Funktion der Annotation @Autowired?",
+                options: [
+                    "Sie definiert eine REST-API",
+                    "Sie injiziert eine Bean in eine andere Klasse und stellt diese zur Verfügung",
+                    "Sie markiert eine Testklasse",
+                    "Sie konfiguriert Logging-Optionen"
+                ],
+                correct: 1,
+                explanation: "@Autowired injiziert eine Bean in eine andere Klasse und stellt sie dort zur Verfügung.",
+                xp: 20
+            },
+            {
+                difficulty: 3,
+                type: "multiple",
+                question: "Die Methode assertThat() wird nicht von JUnit nativ bereitgestellt.",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "assertThat() stammt aus Bibliotheken wie AssertJ oder Hamcrest, nicht aus JUnit selbst.",
+                xp: 30
+            },
+            {
+                difficulty: 4,
+                type: "multiple",
+                question: "Mit Maven können Abhängigkeiten eines Projekts automatisch aufgelöst werden.",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "Maven löst Abhängigkeiten automatisch über die pom.xml auf und lädt sie aus Repositories herunter.",
+                xp: 40
+            },
             {
                 difficulty: 1,
                 type: "multiple",
