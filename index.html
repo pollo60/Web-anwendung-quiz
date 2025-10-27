@@ -145,6 +145,7 @@
             image-rendering: pixelated;
             color: #FFD700;
             text-shadow: 2px 2px #000;
+            overflow: hidden;
         }
 
         .header h1 {
@@ -197,7 +198,7 @@
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
+            left: 0;
             width: 100%;
             height: 100%;
             background: linear-gradient(
@@ -228,8 +229,17 @@
         }
 
         @keyframes shimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
+            0% { 
+                left: -100%; 
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% { 
+                left: 100%; 
+                opacity: 0;
+            }
         }
 
         .content {
@@ -508,19 +518,22 @@
         }
 
         .sortable-item {
-            background: #f7fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
             padding: 16px;
             cursor: move;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 12px;
+            color: #fff;
+            font-size: 14px;
+            text-shadow: 1px 1px rgba(0,0,0,0.5);
         }
 
         .sortable-item:hover {
-            background: #edf2f7;
+            background: linear-gradient(135deg, #3498db, #2980b9);
             transform: translateX(5px);
         }
 
@@ -547,23 +560,26 @@
         }
 
         .matching-item {
-            background: #f7fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
             padding: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
+            color: #fff;
+            font-size: 14px;
+            text-shadow: 1px 1px rgba(0,0,0,0.5);
         }
 
         .matching-item:hover {
-            background: #edf2f7;
-            border-color: #667eea;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-color: rgba(255,255,255,0.5);
         }
 
         .matching-item.selected {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: #fff;
+            border-color: rgba(255,255,255,0.8);
         }
 
         .buttons {
@@ -2047,9 +2063,9 @@
             {
                 difficulty: 2,
                 type: "fillblank",
-                question: "Um den Log-Level für ein Package auf DEBUG zu setzen, verwendet man in application.properties: logging.level._____.fra.uas=_____",
-                blanks: ["edu", "debug"],
-                explanation: "Mit logging.level.edu.fra.uas=debug wird der Log-Level für das Package edu.fra.uas auf DEBUG gesetzt.",
+                question: "Um den Log-Level für ein Package auf DEBUG zu setzen, verwendet man in application.properties: logging.level.<Packagename>=_____",
+                blanks: ["DEBUG"],
+                explanation: "Mit logging.level.<packagename>=DEBUG wird der Log-Level für ein Package auf DEBUG gesetzt.",
                 xp: 20
             },
 
