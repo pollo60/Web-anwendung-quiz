@@ -1314,6 +1314,11 @@
                         <div class="level-name">Vorlesung</div>
                         <div class="level-description">Vom Fragen Blatt</div>
                     </div>
+                    <div class="level-card" data-level="offiziell">
+                        <div class="level-icon">📋</div>
+                        <div class="level-name">Offizielle Fragen</div>
+                        <div class="level-description">Neue offizielle Testfragen</div>
+                    </div>
                 </div>
 
                 <button class="btn btn-primary" id="startBtn" disabled>Quiz starten</button>
@@ -2381,6 +2386,127 @@
             }
         ];
 
+        const ofizielleQuestions = [
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist eine Bean in Spring Boot?",
+                options: [
+                    "Eine Java-Datei",
+                    "Ein verwaltetes Java-Objekt im Spring Container",
+                    "Eine Logging-Konfiguration",
+                    "Eine Datenbankverbindung"
+                ],
+                correct: 1,
+                explanation: "Eine Bean ist ein verwaltetes Java-Objekt im Spring Container, das von Spring verwaltet wird - inklusive Erstellung, Konfiguration und Lebenszyklus-Management.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist ein Fork in GitHub?",
+                options: [
+                    "Eine Kopie eines Repositories in einem anderen Konto",
+                    "Eine Zusammenführung von zwei Repositories",
+                    "Eine neue Version eines Repositories",
+                    "Ein Backup eines Repositories"
+                ],
+                correct: 0,
+                explanation: "Ein Fork ist eine Kopie eines Repositories in einem anderen Konto. Dies ermöglicht es, Änderungen vorzunehmen, ohne das Original zu beeinflussen.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Die Methode init() ist ohne die Annotation @Bean immer noch automatisch ausführbar.",
+                options: [
+                    "Wahr",
+                    "Falsch"
+                ],
+                correct: 1,
+                explanation: "Ohne @Bean wird init() nicht automatisch als Bean registriert und auch nicht ausgeführt.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Spring Boot kann mit eingebetteten Servern wie Tomcat oder Jetty arbeiten.",
+                options: [
+                    "Wahr",
+                    "Falsch"
+                ],
+                correct: 0,
+                explanation: "Spring Boot kommt mit eingebetteten Servern wie Tomcat, Jetty oder Undertow und erfordert keine externe Server-Installation.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist GitHub?",
+                options: [
+                    "Eine Codehosting-Plattform für Versionskontrolle und Zusammenarbeit",
+                    "Ein Cloud-Speicher-Dienst",
+                    "Ein Framework für Webentwicklung",
+                    "Ein Web-Browser"
+                ],
+                correct: 0,
+                explanation: "GitHub ist eine Codehosting-Plattform für Versionskontrolle und Zusammenarbeit in Projekten, basierend auf Git.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Die Annotation @Test markiert eine Methode als zu testender Code.",
+                options: [
+                    "Wahr",
+                    "Falsch"
+                ],
+                correct: 0,
+                explanation: "@Test markiert eine Methode als Test-Methode, die vom Testing-Framework ausgeführt wird, nicht als zu testenden Code.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Der Eintrag in der pom.xml-Datei <groupId>edu.fra.uas</groupId> nennt man auch …",
+                options: [
+                    "Keines der oben genannten",
+                    "Annotation",
+                    "Projektversion",
+                    "Gruppenkennung (package)"
+                ],
+                correct: 3,
+                explanation: "Die groupId ist die Gruppenkennung (package), die organisationsweite, eindeutige Identifikation für Maven-Projekte.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Welche Annotation wird verwendet, um eine Klasse als Bean verfügbar zu machen?",
+                options: [
+                    "@Override",
+                    "@Service",
+                    "@Component",
+                    "@Autowired"
+                ],
+                correct: 2,
+                explanation: "@Component markiert eine Klasse als Spring-Bean. @Service und andere sind spezialisierte Varianten von @Component.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Logging in Spring Boot kann ausschließlich in die Konsole ausgegeben werden.",
+                options: [
+                    "Wahr",
+                    "Falsch"
+                ],
+                correct: 1,
+                explanation: "Spring Boot kann auch in Dateien, externe Logging-Systeme, Datenbanken und viele andere Ziele loggen, nicht nur in die Konsole.",
+                xp: 15
+            }
+        ];
+
         let currentQuestion = 0;
         let score = 0;
         let userAnswers = [];
@@ -2399,13 +2525,17 @@
             easy: [],
             medium: [],
             hard: [],
-            expert: []
+            expert: [],
+            vorlesung: [],
+            offiziell: []
         };
         let questionPool = {
             easy: [],
             medium: [],
             hard: [],
-            expert: []
+            expert: [],
+            vorlesung: [],
+            offiziell: []
         };
         let usedQuestions = new Set();
         let wrongAnsweredQuestions = [];
@@ -2492,7 +2622,9 @@
                 easy: baseQuestions.filter(q => q.difficulty === 1),
                 medium: baseQuestions.filter(q => q.difficulty === 2),
                 hard: baseQuestions.filter(q => q.difficulty === 3),
-                expert: baseQuestions.filter(q => q.difficulty === 4)
+                expert: baseQuestions.filter(q => q.difficulty === 4),
+                vorlesung: [...vorlesungQuestions],
+                offiziell: [...ofizielleQuestions]
             };
         }
 
@@ -2500,6 +2632,11 @@
             // Wenn wir im Vorlesungsmodus sind, gib die Vorlesungsfragen direkt zurück
             if (level === 'vorlesung') {
                 return shuffleArray([...vorlesungQuestions]);
+            }
+            
+            // Wenn wir im Offiziellen Modus sind, gib die offiziellen Fragen direkt zurück
+            if (level === 'offiziell') {
+                return shuffleArray([...ofizielleQuestions]);
             }
             
             // Für andere Modi: Filtere Fragen, die ähnlich zu Vorlesungsfragen sind
@@ -2630,6 +2767,9 @@
             } else if (selectedLevel === 'vorlesung') {
                 // Vorlesungsmodus: Verwende die vordefinierten Vorlesungsfragen
                 filteredQuestions = [...vorlesungQuestions];
+            } else if (selectedLevel === 'offiziell') {
+                // Offizieller Modus: Verwende die offiziellen Fragen
+                filteredQuestions = [...ofizielleQuestions];
             } else if (isSpeedrunMode) {
                 // Im Speedrun-Modus: Zufällige Fragen aus allen Schwierigkeitsgraden
                 const questionCounts = { easy: 5, medium: 5, hard: 5, expert: 5 };
@@ -3242,11 +3382,12 @@
             const startBtn = document.getElementById('startBtn');
             const nameOk = !!nameInput.value.trim();
             const vorlesungMode = document.querySelector('.mode-btn[data-mode="vorlesung"].selected');
+            const specialLevel = selectedLevel === 'vorlesung' || selectedLevel === 'offiziell';
             
             // Erlaube Start wenn:
             // - Name eingegeben UND
-            // - (Übungsmodus ODER Level ausgewählt ODER Vorlesungsmodus)
-            startBtn.disabled = !(nameOk && (isPracticeMode || selectedLevel || vorlesungMode));
+            // - (Übungsmodus ODER Level ausgewählt ODER Vorlesungsmodus ODER Offizieller Modus)
+            startBtn.disabled = !(nameOk && (isPracticeMode || selectedLevel || vorlesungMode || specialLevel));
             
             // Visuelle Feedback für den User
             if (!nameOk) {
