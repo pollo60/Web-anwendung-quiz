@@ -4058,6 +4058,45 @@
             document.getElementById('progressBar').style.width = progress + '%';
         }
 
+        // Globale Hilfsfunktionen (müssen außerhalb DOMContentLoaded liegen, da sie auch von globalen Funktionen aufgerufen werden)
+        function updateNameUIState() {
+            const savedName = loadPlayerName();
+            const hasStoredName = !!savedName;
+            
+            const nameDisclaimer = document.getElementById('nameDisclaimer');
+            const resetProgressContainer = document.getElementById('resetProgressContainer');
+            const saveNameCheckbox = document.getElementById('saveNameCheckbox');
+            
+            if (hasStoredName) {
+                // Zeige Reset-Button, verstecke Disclaimer
+                if (nameDisclaimer) nameDisclaimer.style.display = 'none';
+                if (resetProgressContainer) resetProgressContainer.style.display = 'block';
+                if (saveNameCheckbox) saveNameCheckbox.checked = true;
+            } else {
+                // Zeige Disclaimer, verstecke Reset-Button
+                if (nameDisclaimer) nameDisclaimer.style.display = 'block';
+                if (resetProgressContainer) resetProgressContainer.style.display = 'none';
+                if (saveNameCheckbox) saveNameCheckbox && (saveNameCheckbox.checked = false);
+            }
+        }
+
+        function validateStartConditions() {
+            const nameInput = document.getElementById('playerName');
+            const startBtn = document.getElementById('startBtn');
+            if (!nameInput || !startBtn) return;
+            const nameOk = !!nameInput.value.trim();
+            
+            // Erlaube Start wenn: Name eingegeben UND Level ausgewählt
+            startBtn.disabled = !(nameOk && selectedLevel);
+            
+            // Visuelles Feedback
+            if (!nameOk) {
+                nameInput.style.borderColor = 'rgba(231, 76, 60, 0.5)';
+            } else {
+                nameInput.style.borderColor = 'rgba(46, 204, 113, 0.5)';
+            }
+        }
+
         // Initialize on load
         document.addEventListener('DOMContentLoaded', function() {
             // Level selection
@@ -4155,43 +4194,7 @@
                 });
             });
 
-        function updateNameUIState() {
-            const savedName = loadPlayerName();
-            const hasStoredName = !!savedName;
-            
-            const nameDisclaimer = document.getElementById('nameDisclaimer');
-            const resetProgressContainer = document.getElementById('resetProgressContainer');
-            const saveNameCheckbox = document.getElementById('saveNameCheckbox');
-            
-            if (hasStoredName) {
-                // Zeige Reset-Button, verstecke Disclaimer
-                if (nameDisclaimer) nameDisclaimer.style.display = 'none';
-                if (resetProgressContainer) resetProgressContainer.style.display = 'block';
-                if (saveNameCheckbox) saveNameCheckbox.checked = true;
-            } else {
-                // Zeige Disclaimer, verstecke Reset-Button
-                if (nameDisclaimer) nameDisclaimer.style.display = 'block';
-                if (resetProgressContainer) resetProgressContainer.style.display = 'none';
-                if (saveNameCheckbox) saveNameCheckbox.checked = false;
-            }
-        }
-
-        function validateStartConditions() {
-            const nameInput = document.getElementById('playerName');
-            const startBtn = document.getElementById('startBtn');
-            const nameOk = !!nameInput.value.trim();
-            
-            // Erlaube Start wenn:
-            // - Name eingegeben UND Level ausgewählt
-            startBtn.disabled = !(nameOk && selectedLevel);
-            
-            // Visuelle Feedback für den User
-            if (!nameOk) {
-                nameInput.style.borderColor = 'rgba(231, 76, 60, 0.5)';  // Rötlich für Fehler
-            } else {
-                nameInput.style.borderColor = 'rgba(46, 204, 113, 0.5)';  // Grünlich für OK
-            }
-        }            // (removed duplicate mode selection handler)
+            // (removed duplicate mode selection handler)
 
             const quizStartBtn = document.getElementById('startBtn');
             if (quizStartBtn) {
