@@ -175,6 +175,7 @@
             transition: width 0.3s step-end;
             position: relative;
             image-rendering: pixelated;
+            overflow: hidden; /* Clip shimmer/stripe effects innerhalb der aktuellen Breite */
         }
 
         .progress-bar::after {
@@ -208,7 +209,7 @@
                 transparent
             );
             animation: shimmer 2s infinite;
-            overflow: hidden;
+            /* Clipping durch .progress-bar */
         }
         
         @keyframes glowing {
@@ -237,7 +238,7 @@
                 opacity: 1;
             }
             100% { 
-                left: 100%; 
+                left: 100%;
                 opacity: 0;
             }
         }
@@ -1315,21 +1316,26 @@
                 <h2>Willkommen zum Quiz!</h2>
                 <p>Wähle deinen Schwierigkeitsgrad und teste dein Wissen!</p>
 
-                <div class="session-leaderboard wooden-board">
-                    <h3 class="leaderboard-title">🏆 Timetrials Bestenliste</h3>
+                <div class="session-leaderboard wooden-board" style="position: relative;">
+                    <h3 class="leaderboard-title">🏆 Bestenliste</h3>
+                    <button id="clearAllLeaderboardBtn" title="Alle Einträge löschen" style="position:absolute; right:10px; top:10px; background:#e53e3e; color:#fff; border:none; border-radius:50%; width:28px; height:28px; cursor:pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.4);">×</button>
+                    <div class="leaderboard-tabs">
+                        <button class="tab-btn start-tab-btn active" data-mode="timetrials">⚡ Timetrials</button>
+                        <button class="tab-btn start-tab-btn" data-mode="normal">🎯 Normal</button>
+                    </div>
                     <div id="startLeaderboardContent" class="leaderboard-content">
-                        <div class="empty-leaderboard">Noch keine Timetrials vorhanden.<br>Spiele mit Timer + Schwierigkeit!</div>
+                        <div class="empty-leaderboard">Noch keine Einträge vorhanden.<br>Spiele eine Runde – mit oder ohne Timer.</div>
                     </div>
                 </div>
 
                 <div class="player-name-wrapper">
-                    <label class="player-name-label" for="playerName">Dein Name (für die Auswertung)</label>
-                    <input id="playerName" class="name-input" type="text" placeholder="z.B. Luca, Marie, etc.">
+                    <label class="player-name-label" for="playerName">Dein Name (optional, für die Auswertung)</label>
+                    <input id="playerName" class="name-input" type="text" placeholder="z.B. Luca, Marie (optional)">
                     
                     <!-- Disclaimer und Speicher-Option (wenn kein Name gespeichert) -->
                     <div id="nameDisclaimer" style="margin-top: 10px; padding: 10px; background: rgba(52, 152, 219, 0.2); border-radius: 8px; font-size: 11px; color: #fff; text-align: left; display: none;">
                         <strong>💾 Name speichern?</strong><br>
-                        Dein Name wird lokal gespeichert (nur in deinem Browser) und beim nächsten Mal automatisch geladen.
+                        Du kannst mit oder ohne Namen spielen. Wenn du möchtest, wird dein Name lokal gespeichert (nur in deinem Browser) und beim nächsten Mal automatisch geladen.
                         <div style="margin-top: 8px; text-align: center;">
                             <label style="display: inline-flex; align-items: center; cursor: pointer;">
                                 <input type="checkbox" id="saveNameCheckbox" style="margin-right: 5px;">
@@ -1457,17 +1463,7 @@
                 </div>
             </div>
 
-            <div class="session-leaderboard">
-                <h3 class="leaderboard-title">🏆 Bestenliste</h3>
-                <div class="leaderboard-tabs">
-                    <button class="tab-btn active" data-mode="timetrials">⚡ Timetrials</button>
-                    <button class="tab-btn" data-mode="normal">🎯 Normal</button>
-                </div>
-                <div id="leaderboardContent" class="leaderboard-content"></div>
-            </div>            <div id="leaderboardSection" class="leaderboard">
-                <div class="leaderboard-title">🏆 Session Bestenliste</div>
-                <div id="leaderboardContent"></div>
-            </div>
+            <!-- Session-Bestenliste auf der Ergebnisseite entfernt laut Anforderung -->
 
             <div class="share-box">
                 <div style="font-weight:600; margin-bottom:10px;">✨ Mit anderen teilen</div>
@@ -2713,11 +2709,25 @@
                 correct: 0,
                 explanation: "Die pom.xml (Project Object Model) enthält die gesamte Maven-Projektkonfiguration inkl. Dependencies, Plugins und Build-Einstellungen.",
                 xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "matching",
+                question: "Ordnen Sie die einzelnen Log-Level den entsprechenden Meldungen zu",
+                pairs: [
+                    { left: "ERROR", right: "Fehler (wie behandelte Ausnahme oder zu analysierende Probleme)" },
+                    { left: "WARN", right: "Situation, die nicht erwartet werden und zu Fehler führen könnte" },
+                    { left: "INFO", right: "Informationen zu auftretenden Ereignissen (z.B. Start/Ende, DB-Verbindung)" },
+                    { left: "DEBUG", right: "Debugging inklusive Informationen zum Programmablauf" },
+                    { left: "TRACE", right: "Ausführlicheres Debugging inklusive detaillierter Informationen zum Ablauf" }
+                ],
+                explanation: "ERROR = kritische Fehler, WARN = potenziell problematische Situationen, INFO = wichtige Ereignisse, DEBUG = Details für Entwickler, TRACE = sehr detaillierte Ablaufverfolgung.",
+                xp: 25
             }
             // Hinweis: Die Frage zu "Fork in GitHub" existiert bereits in diesem Level, daher hier nicht erneut hinzugefügt.
         ];
 
-        const neueVorlesungQuestions = [
+    const neueVorlesungQuestions = [
             // NEUE FRAGEN (nur falls nicht schon enthalten)
             {
                 difficulty: 1,
@@ -2769,6 +2779,20 @@
                 correct: 2,
                 explanation: "Standardmäßig sind ERROR, WARN und INFO in Spring Boot aktiviert. DEBUG und TRACE müssen explizit aktiviert werden.",
                 xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "matching",
+                question: "Ordnen Sie die einzelnen Log-Level den entsprechenden Meldungen zu",
+                pairs: [
+                    { left: "ERROR", right: "Fehler (wie behandelte Ausnahme oder zu analysierende Probleme)" },
+                    { left: "WARN", right: "Situation, die nicht erwartet werden und zu Fehler führen könnte" },
+                    { left: "INFO", right: "Informationen zu auftretenden Ereignissen (z.B. Start/Ende, DB-Verbindung)" },
+                    { left: "DEBUG", right: "Debugging inklusive Informationen zum Programmablauf" },
+                    { left: "TRACE", right: "Ausführlicheres Debugging inklusive detaillierter Informationen zum Ablauf" }
+                ],
+                explanation: "ERROR = kritische Fehler, WARN = potenziell problematische Situationen, INFO = wichtige Ereignisse, DEBUG = Details für Entwickler, TRACE = sehr detaillierte Ablaufverfolgung.",
+                xp: 25
             },
             // Ergänzung: Nur falls nicht schon enthalten
             {
@@ -2980,6 +3004,20 @@
                 correct: 0,
                 explanation: "Die pom.xml (Project Object Model) enthält die gesamte Maven-Projektkonfiguration inkl. Dependencies, Plugins und Build-Einstellungen.",
                 xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "matching",
+                question: "Ordnen Sie die einzelnen Log-Level den entsprechenden Meldungen zu",
+                pairs: [
+                    { left: "ERROR", right: "Fehler (wie behandelte Ausnahme oder zu analysierende Probleme)" },
+                    { left: "WARN", right: "Situation, die nicht erwartet werden und zu Fehler führen könnte" },
+                    { left: "INFO", right: "Informationen zu auftretenden Ereignissen (z.B. Start/Ende, DB-Verbindung)" },
+                    { left: "DEBUG", right: "Debugging inklusive Informationen zum Programmablauf" },
+                    { left: "TRACE", right: "Ausführlicheres Debugging inklusive detaillierter Informationen zum Ablauf" }
+                ],
+                explanation: "ERROR = kritische Fehler, WARN = potenziell problematische Situationen, INFO = wichtige Ereignisse, DEBUG = Details für Entwickler, TRACE = sehr detaillierte Ablaufverfolgung.",
+                xp: 25
             }
         ];
 
@@ -3810,46 +3848,69 @@
         function displayStartLeaderboard() {
             const startLeaderboardContent = document.getElementById('startLeaderboardContent');
             if (!startLeaderboardContent) return;
-            
-            // Sammle alle Timetrials aus allen Leveln
-            const allEntries = [];
+
+            // aktiven Modus von Start-Tabs bestimmen
+            const activeStartTab = document.querySelector('.start-tab-btn.active');
+            const mode = activeStartTab ? activeStartTab.dataset.mode : 'timetrials';
+
+            // Sammle alle Einträge aus allen Leveln
+            let allEntries = [];
             Object.keys(sessionLeaderboard).forEach(level => {
                 sessionLeaderboard[level].forEach(entry => {
-                    if (entry.time != null && entry.finalScore != null) {
-                        allEntries.push({...entry, levelName: level});
-                    }
+                    allEntries.push({ ...entry, levelName: level });
                 });
             });
 
+            // Filter nach Modus
+            if (mode === 'timetrials') {
+                allEntries = allEntries.filter(e => e.time != null && e.finalScore != null);
+            } else {
+                allEntries = allEntries.filter(e => !e.finalScore || e.time == null);
+            }
+
             if (allEntries.length === 0) {
-                startLeaderboardContent.innerHTML = '<div class="empty-leaderboard">Noch keine Timetrials vorhanden.<br>Spiele mit Timer + Schwierigkeit!</div>';
+                const msg = mode === 'timetrials'
+                    ? 'Noch keine Timetrials vorhanden.<br>Spiele mit Timer + Schwierigkeit!'
+                    : 'Noch keine Normal-Einträge vorhanden.<br>Spiele ohne Timer.';
+                startLeaderboardContent.innerHTML = `<div class="empty-leaderboard">${msg}</div>`;
                 return;
             }
 
-            // Zeige Top 5 über alle Level
-            startLeaderboardContent.innerHTML = allEntries
-                .sort((a, b) => b.finalScore - a.finalScore)
-                .slice(0, 5)
-                .map((entry, index) => {
-                    const difficultyEmoji = {
-                        'easy': '🌱',
-                        'medium': '⚡', 
-                        'hard': '🔥',
-                        'expert': '💎'
-                    };
-                    
-                    return `
+            if (mode === 'timetrials') {
+                // Top 5 Timetrials über alle Level
+                startLeaderboardContent.innerHTML = allEntries
+                    .sort((a, b) => b.finalScore - a.finalScore)
+                    .slice(0, 5)
+                    .map((entry, index) => {
+                        const difficultyEmoji = { 'easy': '🌱', 'medium': '⚡', 'hard': '🔥', 'expert': '💎' };
+                        return `
+                            <div class="leaderboard-entry">
+                                <span class="entry-rank">${index + 1}.</span>
+                                <span class="entry-name">${entry.name}</span>
+                                <span class="entry-details">
+                                    ${difficultyEmoji[entry.difficulty] || '❓'} ${entry.levelName}<br>
+                                    <small>${entry.percentage}% • Score: ${entry.finalScore}</small>
+                                </span>
+                                <span class="entry-time">${formatTime(entry.time)}</span>
+                            </div>
+                        `;
+                    }).join('');
+            } else {
+                // Top 5 Normal über alle Level
+                startLeaderboardContent.innerHTML = allEntries
+                    .sort((a, b) => (b.rawScore || b.score) - (a.rawScore || a.score))
+                    .slice(0, 5)
+                    .map((entry, index) => `
                         <div class="leaderboard-entry">
                             <span class="entry-rank">${index + 1}.</span>
                             <span class="entry-name">${entry.name}</span>
                             <span class="entry-details">
-                                ${difficultyEmoji[entry.difficulty] || '❓'} ${entry.levelName}<br>
-                                <small>${entry.percentage}% • ${entry.finalScore}</small>
+                                ${entry.levelName}<br>
+                                <small>${entry.percentage || Math.round(((entry.score || 0) / (entry.questionCount || 1)) * 100)}% • ${entry.xp || 0} XP</small>
                             </span>
-                            <span class="entry-time">${formatTime(entry.time)}</span>
                         </div>
-                    `;
-                }).join('');
+                    `).join('');
+            }
         }
 
         function startQuiz() {
@@ -4508,15 +4569,16 @@
             const startBtn = document.getElementById('startBtn');
             if (!nameInput || !startBtn) return;
             const nameOk = !!nameInput.value.trim();
-            
-            // Erlaube Start wenn: Name eingegeben UND Level ausgewählt
-            startBtn.disabled = !(nameOk && selectedLevel);
-            
-            // Visuelles Feedback
-            if (!nameOk) {
-                nameInput.style.borderColor = 'rgba(231, 76, 60, 0.5)';
-            } else {
+            const levelOk = !!selectedLevel;
+
+            // Start ist erlaubt, sobald ein Level ausgewählt wurde (Name optional)
+            startBtn.disabled = !levelOk;
+
+            // Visuelles Feedback: Grün wenn Name gesetzt, sonst neutral
+            if (nameOk) {
                 nameInput.style.borderColor = 'rgba(46, 204, 113, 0.5)';
+            } else {
+                nameInput.style.borderColor = '';
             }
         }
 
@@ -4608,12 +4670,21 @@
                 });
             }
 
-            // Leaderboard Tab-Wechsel
+            // Leaderboard Tab-Wechsel (Ergebnisseite)
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                     displayLeaderboard();
+                });
+            });
+
+            // Start-Leaderboard Tab-Wechsel (Hauptmenü)
+            document.querySelectorAll('.start-tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.start-tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    displayStartLeaderboard();
                 });
             });
 
@@ -4640,13 +4711,34 @@
             const resetProgressBtn = document.getElementById('resetProgressBtn');
             if (resetProgressBtn) {
                 resetProgressBtn.addEventListener('click', function() {
-                    if (confirm('Möchtest du wirklich deinen gesamten Fortschritt (Level & XP) zurücksetzen?')) {
+                    if (confirm('Möchtest du wirklich deinen gesamten Fortschritt (Level & XP) und ggf. gespeicherten Namen zurücksetzen?')) {
                         xp = 0;
                         level = 1;
                         updateXPDisplay();
                         updateLevelBadge();
                         clearProgress();
+                        // Name & UI zurücksetzen
+                        clearPlayerName();
+                        const nameInput = document.getElementById('playerName');
+                        if (nameInput) nameInput.value = '';
+                        updateNameUIState();
                         alert('Fortschritt wurde zurückgesetzt!');
+                    }
+                });
+            }
+
+            // Clear-All-Button für Start-Leaderboard
+            const clearAllBtn = document.getElementById('clearAllLeaderboardBtn');
+            if (clearAllBtn) {
+                clearAllBtn.addEventListener('click', function() {
+                    if (confirm('Komplette Bestenliste wirklich löschen?')) {
+                        Object.keys(sessionLeaderboard).forEach(level => sessionLeaderboard[level] = []);
+                        saveLeaderboardToLocalStorage();
+                        displayStartLeaderboard();
+                        // Falls Ergebnis-Leaderboard sichtbar wäre
+                        if (document.getElementById('leaderboardContent')) {
+                            displayLeaderboard();
+                        }
                     }
                 });
             }
