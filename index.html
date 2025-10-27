@@ -3610,52 +3610,48 @@
         function updateLeaderboard(level, score, time = null) {
             const percentage = Math.round((score / filteredQuestions.length) * 100);
             
-            // Prüfe ob es ein qualifiziertes Timetrial ist
-            const hasOnlyTimerModifier = activeModifiers.length === 1 && activeModifiers.includes('speedrun');
-            const hasDifficultySet = selectedDifficulty !== 'all';
-            const isQualifiedTimetrial = hasOnlyTimerModifier && hasDifficultySet && time;
+            // Jede Runde mit aktivem Timer wird als Timetrial gewertet
+            const isTimetrial = activeModifiers.includes('speedrun') && !!time;
             
-            let entry;
-            
-            if (isQualifiedTimetrial) {
-                // Timetrial-Eintrag mit gewichtetem Score
-                const difficultyMultiplier = getDifficultyMultiplier(selectedDifficulty);
-                const timeBonus = calculateTimeBonus(time, filteredQuestions.length);
-                const finalScore = calculateWeightedScore(percentage, difficultyMultiplier, timeBonus);
-                
-                entry = {
-                    name: playerName,
-                    rawScore: score,
-                    percentage: percentage,
-                    difficulty: selectedDifficulty,
-                    finalScore: finalScore,
-                    time: time,
-                    xp: xp,
-                    level: selectedLevel,
-                    timestamp: Date.now(),
-                    questionCount: filteredQuestions.length
-                };
-            } else {
-                // Normal-Eintrag (ohne Timetrial-Qualifikation)
-                entry = {
+            const entry = isTimetrial
+                ? (() => {
+                    const difficultyMultiplier = getDifficultyMultiplier(selectedDifficulty);
+                    const timeBonus = calculateTimeBonus(time, filteredQuestions.length);
+                    const finalScore = calculateWeightedScore(percentage, difficultyMultiplier, timeBonus);
+                    return {
+                        name: playerName,
+                        rawScore: score,
+                        percentage: percentage,
+                        difficulty: selectedDifficulty, // auch 'all' wird gespeichert
+                        finalScore: finalScore,
+                        time: time,
+                        xp: xp,
+                        level: selectedLevel,
+                        timestamp: Date.now(),
+                        questionCount: filteredQuestions.length
+                    };
+                })()
+                : {
                     name: playerName,
                     score: score,
                     percentage: percentage,
+                    difficulty: selectedDifficulty, // für Anzeige auch im Normal-Modus
                     xp: xp,
                     level: selectedLevel,
                     timestamp: Date.now(),
                     questionCount: filteredQuestions.length
                 };
-            }
 
             sessionLeaderboard[level].push(entry);
             
-            // Sortiere nach finalScore (Timetrials) oder score (Normal)
+            // Sortierung: Timetrials nach finalScore, sonst nach (score|rawScore)
             sessionLeaderboard[level].sort((a, b) => {
-                if (a.finalScore && b.finalScore) {
+                if (a.finalScore != null && b.finalScore != null) {
                     return b.finalScore - a.finalScore;
                 }
-                return (b.score || 0) - (a.score || 0);
+                const aBase = (a.score != null ? a.score : (a.rawScore != null ? a.rawScore : 0));
+                const bBase = (b.score != null ? b.score : (b.rawScore != null ? b.rawScore : 0));
+                return bBase - aBase;
             });
 
             // Nur die Top 20 behalten (für beide Modi)
@@ -3722,12 +3718,14 @@
                     Object.keys(parsed).forEach(level => {
                         if (parsed[level] && Array.isArray(parsed[level])) {
                             sessionLeaderboard[level] = [...(sessionLeaderboard[level] || []), ...parsed[level]];
-                            // Sortieren und auf Top 10 begrenzen
+                            // Sortieren und auf Top 10 begrenzen (Timetrials nach finalScore, sonst score/rawScore)
                             sessionLeaderboard[level].sort((a, b) => {
-                                if (a.time && b.time) {
-                                    return (b.score - a.score) || (a.time - b.time);
+                                if (a.finalScore != null && b.finalScore != null) {
+                                    return b.finalScore - a.finalScore;
                                 }
-                                return b.score - a.score;
+                                const aBase = (a.score != null ? a.score : (a.rawScore != null ? a.rawScore : 0));
+                                const bBase = (b.score != null ? b.score : (b.rawScore != null ? b.rawScore : 0));
+                                return bBase - aBase;
                             });
                             sessionLeaderboard[level] = sessionLeaderboard[level].slice(0, 10);
                         }
@@ -3878,7 +3876,8 @@
                             'easy': '🌱',
                             'medium': '⚡',
                             'hard': '🔥',
-                            'expert': '💎'
+                            'expert': '💎',
+                            'all': '🌟'
                         };
                         
                         return `
@@ -3886,7 +3885,7 @@
                                 <span class="entry-rank">${index + 1}.</span>
                                 <span class="entry-name">${entry.name}</span>
                                 <span class="entry-details">
-                                    ${difficultyEmoji[entry.difficulty] || '❓'} ${entry.level || 'N/A'}<br>
+                                    ${difficultyEmoji[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.level || 'N/A'}<br>
                                     <small>${entry.percentage}% • Score: ${entry.finalScore}</small>
                                 </span>
                                 <span class="entry-time">${formatTime(entry.time)}</span>
@@ -3897,15 +3896,22 @@
             } else {
                 // Normal-Modus-Anzeige
                 leaderboardContent.innerHTML = filteredEntries
-                    .sort((a, b) => (b.rawScore || b.score) - (a.rawScore || a.score))
+                    .sort((a, b) => (b.rawScore || b.score || 0) - (a.rawScore || a.score || 0))
                     .slice(0, 15)
                     .map((entry, index) => {
+                        const difficultyEmoji = {
+                            'easy': '🌱',
+                            'medium': '⚡',
+                            'hard': '🔥',
+                            'expert': '💎',
+                            'all': '🌟'
+                        };
                         return `
                             <div class="leaderboard-entry" data-entry-id="${entry.timestamp}">
                                 <span class="entry-rank">${index + 1}.</span>
                                 <span class="entry-name">${entry.name}</span>
                                 <span class="entry-details">
-                                    ${entry.level || 'N/A'}<br>
+                                    ${difficultyEmoji[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.level || 'N/A'}<br>
                                     <small>${entry.percentage || Math.round(((entry.score || 0) / (entry.questionCount || 1)) * 100)}% • ${entry.xp || 0} XP</small>
                                 </span>
                                 <button class="delete-entry-btn" data-entry-id="${entry.timestamp}" title="Eintrag löschen">×</button>
@@ -3970,13 +3976,13 @@
                     .sort((a, b) => b.finalScore - a.finalScore)
                     .slice(0, 5)
                     .map((entry, index) => {
-                        const difficultyEmoji = { 'easy': '🌱', 'medium': '⚡', 'hard': '🔥', 'expert': '💎' };
+                        const difficultyEmoji = { 'easy': '🌱', 'medium': '⚡', 'hard': '🔥', 'expert': '💎', 'all': '🌟' };
                         return `
                             <div class="leaderboard-entry">
                                 <span class="entry-rank">${index + 1}.</span>
                                 <span class="entry-name">${entry.name}</span>
                                 <span class="entry-details">
-                                    ${difficultyEmoji[entry.difficulty] || '❓'} ${entry.levelName}<br>
+                                    ${difficultyEmoji[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.levelName}<br>
                                     <small>${entry.percentage}% • Score: ${entry.finalScore}</small>
                                 </span>
                                 <span class="entry-time">${formatTime(entry.time)}</span>
@@ -3986,14 +3992,14 @@
             } else {
                 // Top 5 Normal über alle Level
                 startLeaderboardContent.innerHTML = allEntries
-                    .sort((a, b) => (b.rawScore || b.score) - (a.rawScore || a.score))
+                    .sort((a, b) => (b.rawScore || b.score || 0) - (a.rawScore || a.score || 0))
                     .slice(0, 5)
                     .map((entry, index) => `
                         <div class="leaderboard-entry">
                             <span class="entry-rank">${index + 1}.</span>
                             <span class="entry-name">${entry.name}</span>
                             <span class="entry-details">
-                                ${entry.levelName}<br>
+                                ${({easy:'🌱',medium:'⚡',hard:'🔥',expert:'💎',all:'🌟'})[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.levelName}<br>
                                 <small>${entry.percentage || Math.round(((entry.score || 0) / (entry.questionCount || 1)) * 100)}% • ${entry.xp || 0} XP</small>
                             </span>
                         </div>
