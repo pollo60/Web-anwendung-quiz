@@ -297,7 +297,7 @@ body.level-expert {
 
     /* Leaderboard compact */
     .wooden-board {
-        padding: 10px;
+        padding: 8px;
     }
     .leaderboard-title {
         font-size: 0; /* Hide text */
@@ -323,11 +323,11 @@ body.level-expert {
     .leaderboard-content { 
         max-height: 200px; 
         overflow: auto; 
-        padding: 4px;
+        padding: 2px;
     }
     .leaderboard-entry {
-        gap: 4px;
-        padding: 4px 2px;
+        gap: 3px;
+        padding: 3px 2px;
         font-size: 9px;
         flex-wrap: nowrap;
     }
@@ -335,7 +335,8 @@ body.level-expert {
         display: none; /* Hide rank on mobile */
     }
     .leaderboard-entry .entry-name { 
-        max-width: 38%; 
+        min-width: 45px;
+        max-width: 45%; 
         overflow: hidden; 
         text-overflow: ellipsis; 
         white-space: nowrap;
@@ -343,7 +344,7 @@ body.level-expert {
         flex-shrink: 0;
     }
     .leaderboard-entry .entry-details { 
-        max-width: 20%; 
+        max-width: 16%; 
         overflow: visible;
         text-overflow: clip; 
         white-space: nowrap;
@@ -354,22 +355,22 @@ body.level-expert {
         display: none; /* Hide details on mobile */
     }
     .leaderboard-entry .entry-time { 
-        font-size: 10px;
+        font-size: 9px;
         flex-shrink: 0;
         margin-left: auto;
     }
     .delete-entry-btn { 
-        transform: scale(0.8); 
-        width: 18px;
-        height: 18px;
-        font-size: 11px;
-        line-height: 16px;
+        transform: scale(0.75); 
+        width: 16px;
+        height: 16px;
+        font-size: 10px;
+        line-height: 14px;
     }
     .clear-all-btn {
-        width: 26px;
-        height: 26px;
-        font-size: 16px;
-        line-height: 22px;
+        width: 24px;
+        height: 24px;
+        font-size: 14px;
+        line-height: 20px;
         right: 6px;
         top: 6px;
     }
@@ -380,7 +381,7 @@ body.level-expert {
 
     /* Level grid fixes */
     .level-selection {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr !important;
         gap: 8px;
         margin: 16px 0;
         padding: 0;
@@ -389,7 +390,10 @@ body.level-expert {
         padding: 8px 6px;
         margin: 0;
         min-width: auto;
-        transform: rotate(0deg); /* Remove rotation on mobile */
+        transform: rotate(0deg) !important; /* Remove rotation on mobile */
+    }
+    .level-card:last-child { 
+        grid-column: auto !important; /* All cards in 2x2 grid */
     }
     .level-card .level-icon { 
         font-size: 16px;
@@ -400,9 +404,6 @@ body.level-expert {
         margin-bottom: 0;
     }
     .level-card .level-description { display: none; }
-    .level-card:last-child { 
-        grid-column: auto; /* All cards in 2-column grid */
-    }
 
     /* Question header tightening */
     .question-header { padding-bottom: 10px; margin-bottom: 12px; }
@@ -1093,8 +1094,10 @@ body.level-expert {
     margin: 30px 0;
 }
 
-.level-card:last-child {
-    grid-column: 2 / 3;
+@media (min-width: 601px) {
+    .level-card:last-child {
+        grid-column: 2 / 3;
+    }
 }
 
 .level-card {
