@@ -1488,13 +1488,26 @@
                     return;
                 }
 
-                isCorrect = selected.length === question.correct.length &&
-                           selected.every(i => question.correct.includes(i));
+                // Normalisiere korrekte Antworten: unterstützt Zahlen, Strings und Sonderfälle ('all', '*')
+                const optionCount = (question.options || []).length;
+                let correctIndices = [];
+                if (Array.isArray(question.correct)) {
+                    correctIndices = question.correct
+                        .map(v => (typeof v === 'string' ? parseInt(v, 10) : v))
+                        .filter(v => Number.isInteger(v) && v >= 0 && v < optionCount);
+                } else if (question.correct === 'all' || question.correct === '*') {
+                    correctIndices = Array.from({ length: optionCount }, (_, i) => i);
+                }
+
+                const selectedSet = new Set(selected);
+                const correctSet = new Set(correctIndices);
+                // Set-Gleichheit: exakt die richtigen Antworten, keine extra/fehlenden
+                isCorrect = selectedSet.size === correctSet.size && [...selectedSet].every(i => correctSet.has(i));
 
                 const options = document.querySelectorAll('.option');
                 options.forEach((opt, i) => {
-                    const isCorrectAnswer = question.correct.includes(i);
-                    const isSelected = selected.includes(i);
+                    const isCorrectAnswer = correctSet.has(i);
+                    const isSelected = selectedSet.has(i);
 
                     if (isCorrectAnswer) {
                         opt.classList.add('correct');
