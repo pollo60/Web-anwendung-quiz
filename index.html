@@ -460,11 +460,11 @@
             container.style.position = 'absolute';
             container.style.inset = '0';
             container.style.pointerEvents = 'none';
-            container.style.zIndex = '2';
+            container.style.zIndex = '10'; // Above everything else
             overlay.appendChild(container);
 
-            const count = 36 + Math.floor(Math.random() * 16); // 36-51 dots
-            const maxR = Math.min(window.innerWidth, window.innerHeight) * 0.22; // explosion radius
+            const count = 50 + Math.floor(Math.random() * 20); // 50-69 dots (more visible)
+            const maxR = Math.min(window.innerWidth, window.innerHeight) * 0.25; // slightly larger radius
             for (let i = 0; i < count; i++) {
                 const dot = document.createElement('div');
                 dot.className = 'burst-dot';
@@ -472,8 +472,8 @@
                 const dist = (maxR * 0.35) + Math.random() * (maxR * 0.65);
                 const dx = Math.cos(angle) * dist;
                 const dy = Math.sin(angle) * dist;
-                const size = (3 + Math.random() * 5).toFixed(0) + 'px';
-                const time = (480 + Math.random() * 400).toFixed(0) + 'ms';
+                const size = (5 + Math.random() * 8).toFixed(0) + 'px'; // larger: 5-13px
+                const time = (550 + Math.random() * 450).toFixed(0) + 'ms'; // slightly longer
                 dot.style.setProperty('--dx', dx + 'px');
                 dot.style.setProperty('--dy', dy + 'px');
                 dot.style.setProperty('--s', size);
@@ -482,7 +482,7 @@
             }
 
             // Cleanup shortly after animation completes
-            setTimeout(() => container.remove(), 1200);
+            setTimeout(() => container.remove(), 1400);
         }
 
         function triggerLensFlare() {

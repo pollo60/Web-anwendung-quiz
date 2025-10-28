@@ -962,24 +962,33 @@ body.level-expert {
     border-radius: 50%;
     transform: translate(-50%, -50%);
     pointer-events: none;
-    z-index: 2; /* under lens flare, above rays */
+    z-index: 100; /* Very high to be visible */
     background: radial-gradient(circle at 50% 50%,
         rgba(255, 250, 200, 1) 0%,
-        rgba(255, 230, 140, 0.95) 45%,
-        rgba(255, 210, 80, 0.0) 70%);
+        rgba(255, 230, 140, 1) 30%,
+        rgba(255, 210, 80, 0.8) 60%,
+        rgba(255, 200, 50, 0.0) 100%);
     box-shadow:
-        0 0 6px rgba(255, 220, 120, 0.9),
-        0 0 14px rgba(255, 240, 160, 0.6),
-        0 0 28px rgba(255, 255, 200, 0.35);
-    mix-blend-mode: screen;
+        0 0 8px rgba(255, 220, 120, 1),
+        0 0 16px rgba(255, 240, 160, 0.8),
+        0 0 32px rgba(255, 255, 200, 0.5);
     animation: burstMove var(--t, 700ms) ease-out forwards;
     opacity: 0;
 }
 
 @keyframes burstMove {
-    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
-    15% { opacity: 1; transform: translate(calc(-50% + var(--dx, 0px) * 0.15), calc(-50% + var(--dy, 0px) * 0.15)) scale(1); }
-    100% { opacity: 0; transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px))) scale(0.9); }
+    0% { 
+        opacity: 0; 
+        transform: translate(-50%, -50%) scale(0.3); 
+    }
+    15% { 
+        opacity: 1; 
+        transform: translate(calc(-50% + var(--dx, 0px) * 0.15), calc(-50% + var(--dy, 0px) * 0.15)) scale(1.1); 
+    }
+    100% { 
+        opacity: 0; 
+        transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px))) scale(0.8); 
+    }
 }
 
 .level-up-content h2 {
@@ -1904,16 +1913,15 @@ body.level-expert {
         0 4px 8px rgba(0,0,0,0.5),
         inset 0 2px 4px rgba(255,255,255,0.2),
         inset 0 -2px 4px rgba(0,0,0,0.2);
-    text-shadow: 0 1px 0 rgba(0,0,0,0.6);
     font-size: 18px;
-    line-height: 32px;
     text-align: center;
-    image-rendering: pixelated;
+    font-family: Arial, sans-serif;
     transition: transform 0.08s step-end, box-shadow 0.08s step-end;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
+    margin: 0;
 }
 
 .clear-all-btn:hover {
