@@ -406,9 +406,7 @@
 
         function updateLevelBadge() {
             const badge = document.getElementById('levelBadge');
-            const icons = ['🌱', '⚡', '🔥', '💎', '👑'];
-            const icon = icons[Math.min(level - 1, icons.length - 1)];
-            badge.textContent = `${icon} Level ${level}`;
+            badge.textContent = `Level ${level}`;
             updateTitlePlaque();
             saveProgressToLocalStorage(); // Speichere Fortschritt automatisch
         }
