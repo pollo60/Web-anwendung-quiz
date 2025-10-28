@@ -300,34 +300,36 @@ body.level-expert {
         padding: 8px;
     }
     .leaderboard-title {
-        font-size: 0; /* Hide text */
-        margin: 0 0 6px 0;
+        font-size: 0; /* Hide text completely */
+        margin: 0 0 4px 0;
+        line-height: 0;
     }
     .leaderboard-title::before {
         content: '🏆';
-        font-size: 18px;
+        font-size: 16px;
         display: inline-block;
+        line-height: 1;
     }
     .leaderboard-tabs { 
         gap: 4px; 
-        margin-bottom: 8px;
+        margin-bottom: 6px;
     }
     .leaderboard-tabs .tab-btn,
     .tab-btn.start-tab-btn {
-        font-size: 9px;
-        padding: 5px 6px;
-        border-radius: 4px;
+        font-size: 8px;
+        padding: 4px 5px;
+        border-radius: 3px;
         letter-spacing: 0;
         margin: 0 2px;
     }
     .leaderboard-content { 
-        max-height: 200px; 
+        max-height: 180px; 
         overflow: auto; 
-        padding: 2px;
+        padding: 4px 2px 4px 6px; /* More left padding, less right */
     }
     .leaderboard-entry {
-        gap: 3px;
-        padding: 3px 2px;
+        gap: 4px;
+        padding: 3px 1px 3px 3px; /* More left, less right */
         font-size: 9px;
         flex-wrap: nowrap;
     }
@@ -358,52 +360,137 @@ body.level-expert {
         font-size: 9px;
         flex-shrink: 0;
         margin-left: auto;
+        padding-right: 4px; /* Space from right border */
     }
     .delete-entry-btn { 
-        transform: scale(0.75); 
-        width: 16px;
-        height: 16px;
-        font-size: 10px;
-        line-height: 14px;
+        transform: scale(0.7); 
+        width: 14px;
+        height: 14px;
+        font-size: 9px;
+        line-height: 12px;
     }
     .clear-all-btn {
-        width: 24px;
-        height: 24px;
-        font-size: 14px;
-        line-height: 20px;
-        right: 6px;
-        top: 6px;
+        width: 22px;
+        height: 22px;
+        font-size: 13px;
+        line-height: 18px;
+        right: 5px;
+        top: 5px;
     }
 
     /* Name input placeholder sizing; content updated via JS */
     .name-input::placeholder { font-size: 12px; }
     .name-input { font-size: 12px; padding: 10px 12px; }
 
-    /* Level grid fixes */
+    /* Modifier selection - 2xN grid, compact */
+    .modifier-selection {
+        margin-bottom: 16px !important;
+    }
+    .modifier-selection > label {
+        text-align: center !important;
+        display: block !important;
+    }
+    .modifier-selection > div {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 6px !important;
+        justify-items: center !important;
+        padding: 0 4px !important;
+    }
+    .modifier-btn {
+        min-width: auto !important;
+        width: 100% !important;
+        padding: 8px 6px !important;
+        margin: 0 !important;
+        font-size: 10px !important;
+        text-align: center !important;
+    }
+    .modifier-btn > div:first-child {
+        font-size: 16px !important;
+        margin-bottom: 3px !important;
+    }
+    .modifier-btn > div:nth-child(2) {
+        font-size: 9px !important;
+        font-weight: 600;
+    }
+    .modifier-btn > div:last-child {
+        font-size: 7px !important;
+        opacity: 0.75;
+        line-height: 1.2;
+    }
+
+    /* Difficulty selection - "Alle Fragen" centered top, others 2xN grid */
+    .difficulty-selection {
+        margin-bottom: 16px !important;
+    }
+    .difficulty-selection > label {
+        text-align: center !important;
+        display: block !important;
+    }
+    .difficulty-selection > div {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 6px !important;
+        justify-items: center !important;
+        padding: 0 4px !important;
+    }
+    .difficulty-btn {
+        min-width: auto !important;
+        width: 100% !important;
+        padding: 8px 6px !important;
+        margin: 0 !important;
+        font-size: 10px !important;
+        text-align: center !important;
+    }
+    .difficulty-btn[data-difficulty="all"] {
+        grid-column: 1 / -1 !important;
+        width: 60% !important;
+        margin-bottom: 4px !important;
+    }
+    .difficulty-btn > div:first-child {
+        font-size: 16px !important;
+        margin-bottom: 3px !important;
+    }
+    .difficulty-btn > div:nth-child(2) {
+        font-size: 9px !important;
+        font-weight: 600;
+    }
+    .difficulty-btn > div:last-child {
+        font-size: 7px !important;
+        opacity: 0.75;
+        line-height: 1.2;
+    }
+
+    /* Level grid fixes - 2x2 grid, all inside dashboard */
     .level-selection {
         grid-template-columns: 1fr 1fr !important;
-        gap: 8px;
-        margin: 16px 0;
-        padding: 0;
+        gap: 6px !important;
+        margin: 12px 0 !important;
+        padding: 0 !important;
     }
     .level-card {
-        padding: 8px 6px;
-        margin: 0;
-        min-width: auto;
+        padding: 6px 4px !important;
+        margin: 0 !important;
+        min-width: auto !important;
+        max-width: none !important;
         transform: rotate(0deg) !important; /* Remove rotation on mobile */
+        box-shadow: 1px 1px 3px rgba(0,0,0,0.2) !important;
     }
     .level-card:last-child { 
         grid-column: auto !important; /* All cards in 2x2 grid */
     }
     .level-card .level-icon { 
-        font-size: 16px;
-        margin-bottom: 4px;
+        font-size: 14px !important;
+        margin-bottom: 3px !important;
     }
     .level-card .level-name { 
-        font-size: 9px;
-        margin-bottom: 0;
+        font-size: 8px !important;
+        margin-bottom: 0 !important;
+        line-height: 1.3 !important;
     }
-    .level-card .level-description { display: none; }
+    .level-card .level-description { 
+        display: none !important;
+    }
 
     /* Question header tightening */
     .question-header { padding-bottom: 10px; margin-bottom: 12px; }
@@ -418,38 +505,32 @@ body.level-expert {
     /* Matching layout stack */
     .matching-container { grid-template-columns: 1fr; }
 
-    /* Mode button compact */
-    .mode-btn { min-width: 120px; padding: 12px; }
+    /* Content padding */
+    .content { padding: 10px; }
+
+    /* Modifier/Difficulty selection wrapper spacing */
+    .modifier-selection, .difficulty-selection {
+        margin-bottom: 14px !important;
+    }
+}
 
     /* Modifier and Difficulty buttons compact */
     .modifier-btn, .difficulty-btn { min-width: 120px; padding: 12px; }
 
     /* Shrink section labels (override inline sizes) */
     .modifier-selection > label, .difficulty-selection > label { 
-        font-size: 0.85em !important; 
+        font-size: 0.8em !important; 
         line-height: 1.3 !important;
-        margin-bottom: 10px !important;
-    }
-
-    /* Compact modifier/difficulty button content */
-    .modifier-btn > div, .difficulty-btn > div {
-        font-size: 0.9em;
-    }
-    .modifier-btn > div:first-child, .difficulty-btn > div:first-child {
-        font-size: 18px !important;
-        margin-bottom: 4px !important;
-    }
-    .modifier-btn > div:last-child, .difficulty-btn > div:last-child {
-        font-size: 0.7em !important;
-        opacity: 0.7;
+        margin-bottom: 8px !important;
+        text-align: center !important;
     }
 
     /* Content padding */
-    .content { padding: 12px; }
+    .content { padding: 10px; }
 
     /* Modifier/Difficulty selection wrapper spacing */
     .modifier-selection, .difficulty-selection {
-        margin-bottom: 20px !important;
+        margin-bottom: 14px !important;
     }
 }
 
