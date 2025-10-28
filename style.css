@@ -516,7 +516,7 @@ body.level-expert {
         z-index: 1;
     }
 
-    /* Level grid fixes - 2x2 grid, all inside dashboard */
+    /* Level grid fixes - Mobile: Gemischt oben mittig, dann 2er-Reihe, dann Übung unten mittig */
     .level-selection {
         grid-template-columns: 1fr 1fr !important;
         gap: 6px !important;
@@ -531,8 +531,25 @@ body.level-expert {
         transform: rotate(0deg) !important; /* Remove rotation on mobile */
         box-shadow: 1px 1px 3px rgba(0,0,0,0.2) !important;
     }
-    .level-card:last-child { 
-        grid-column: auto !important; /* All cards in 2x2 grid */
+    /* Mobile Layout: Gemischt oben mittig, VL-Offiziell & Offizielle nebeneinander, Übung unten mittig */
+    .level-card:nth-child(1) {
+        grid-column: 1 / -1 !important; /* "Gemischt" spans both columns (top center) */
+        width: 60% !important;
+        margin: 0 auto 4px auto !important;
+    }
+    .level-card:nth-child(2) {
+        grid-column: 1 / -1 !important; /* "Fragen zur Übung" spans both columns (bottom center) */
+        width: 60% !important;
+        margin: 4px auto 0 auto !important;
+        grid-row: 3 !important;
+    }
+    .level-card:nth-child(3) {
+        grid-column: 1 / 2 !important; /* "VL Offiziell" left */
+        grid-row: 2 !important;
+    }
+    .level-card:nth-child(4) {
+        grid-column: 2 / 3 !important; /* "Offizielle Fragen" right */
+        grid-row: 2 !important;
     }
     .level-card .level-icon { 
         font-size: 14px !important;
@@ -1301,9 +1318,22 @@ body.level-expert {
     margin: 30px 0;
 }
 
+/* Desktop: "Gemischt" oben mittig, andere 3 in Reihe darunter */
 @media (min-width: 601px) {
-    .level-card:last-child {
-        grid-column: 2 / 3;
+    .level-card:first-child {
+        grid-column: 2 / 3; /* "Gemischt" in der Mitte */
+    }
+    .level-card:nth-child(2) {
+        grid-column: 1 / 2; /* "Fragen zur Übung" links */
+        grid-row: 2;
+    }
+    .level-card:nth-child(3) {
+        grid-column: 2 / 3; /* "VL Offiziell" mitte */
+        grid-row: 2;
+    }
+    .level-card:nth-child(4) {
+        grid-column: 3 / 4; /* "Offizielle Fragen" rechts */
+        grid-row: 2;
     }
 }
 
