@@ -434,6 +434,26 @@ body.level-expert {
         opacity: 0.75;
         line-height: 1.2;
     }
+    
+    /* Shimmer effect for selected modifier buttons on mobile */
+    .modifier-btn.selected::after,
+    .modifier-btn.active::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            45deg,
+            transparent 30%,
+            rgba(255, 255, 255, 0.4) 50%,
+            transparent 70%
+        );
+        animation: mobileShimmer 2.5s infinite;
+        pointer-events: none;
+        z-index: 1;
+    }
 
     /* Difficulty selection - "Alle Fragen" centered top, others 2xN grid */
     .difficulty-selection {
@@ -476,6 +496,25 @@ body.level-expert {
         opacity: 0.75;
         line-height: 1.2;
     }
+    
+    /* Shimmer effect for selected difficulty buttons on mobile */
+    .difficulty-btn.selected::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            45deg,
+            transparent 30%,
+            rgba(255, 255, 255, 0.4) 50%,
+            transparent 70%
+        );
+        animation: mobileShimmer 2.5s infinite;
+        pointer-events: none;
+        z-index: 1;
+    }
 
     /* Level grid fixes - 2x2 grid, all inside dashboard */
     .level-selection {
@@ -507,6 +546,39 @@ body.level-expert {
     .level-card .level-description { 
         display: none !important;
     }
+    
+    /* Shimmer effect for selected level cards on mobile */
+    .level-card.selected {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .level-card.selected::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            45deg,
+            transparent 30%,
+            rgba(255, 215, 0, 0.3) 50%,
+            transparent 70%
+        );
+        animation: mobileShimmer 2.5s infinite;
+        pointer-events: none;
+        z-index: 10;
+    }
+    
+    @keyframes mobileShimmer {
+        0% {
+            transform: translateX(-100%) translateY(-100%) rotate(45deg);
+        }
+        100% {
+            transform: translateX(100%) translateY(100%) rotate(45deg);
+        }
+    }
 
     /* Question header tightening */
     .question-header { padding-bottom: 10px; margin-bottom: 12px; }
@@ -532,6 +604,44 @@ body.level-expert {
 
     /* Modifier and Difficulty buttons compact */
     .modifier-btn, .difficulty-btn { min-width: 120px; padding: 12px; }
+    
+    /* Mobile shimmer effect for selected buttons */
+    .modifier-btn.selected,
+    .modifier-btn.active,
+    .difficulty-btn.selected,
+    .level-card.selected {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .modifier-btn.selected::after,
+    .modifier-btn.active::after,
+    .difficulty-btn.selected::after,
+    .level-card.selected::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            45deg,
+            transparent 30%,
+            rgba(255, 255, 255, 0.3) 50%,
+            transparent 70%
+        );
+        animation: shimmerEffect 2s infinite;
+        pointer-events: none;
+    }
+    
+    @keyframes shimmerEffect {
+        0% {
+            transform: translateX(-100%) translateY(-100%) rotate(45deg);
+        }
+        100% {
+            transform: translateX(100%) translateY(100%) rotate(45deg);
+        }
+    }
 
     /* Shrink section labels (override inline sizes) */
     .modifier-selection > label, .difficulty-selection > label { 
