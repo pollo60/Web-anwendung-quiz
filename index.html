@@ -837,6 +837,12 @@
                     .sort((a, b) => b.finalScore - a.finalScore)
                     .slice(0, 15)
                     .map((entry, index) => {
+                        const levelEmoji = {
+                            'uebung': '📝',
+                            'vorlesung-offiziell': '🎓',
+                            'vorlesung': '📡',
+                            'offiziell': '📋'
+                        };
                         const difficultyEmoji = {
                             'easy': '🌱',
                             'medium': '⚡',
@@ -850,8 +856,8 @@
                                 <span class="entry-rank">${index + 1}.</span>
                                 <span class="entry-name">${entry.name}</span>
                                 <span class="entry-details">
-                                    ${difficultyEmoji[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.level || 'N/A'}<br>
-                                    <small>${entry.percentage}% • Score: ${entry.finalScore}</small>
+                                    ${levelEmoji[entry.level] || '📚'}<br>
+                                    <small>${difficultyEmoji[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.level || 'N/A'}<br>${entry.percentage}% • Score: ${entry.finalScore}</small>
                                 </span>
                                 <span class="entry-time">${formatTime(entry.time)}</span>
                                 <button class="delete-entry-btn" data-entry-id="${entry.timestamp}" title="Eintrag löschen">×</button>
@@ -864,6 +870,12 @@
                     .sort((a, b) => (b.rawScore || b.score || 0) - (a.rawScore || a.score || 0))
                     .slice(0, 15)
                     .map((entry, index) => {
+                        const levelEmoji = {
+                            'uebung': '📝',
+                            'vorlesung-offiziell': '🎓',
+                            'vorlesung': '📡',
+                            'offiziell': '📋'
+                        };
                         const difficultyEmoji = {
                             'easy': '🌱',
                             'medium': '⚡',
@@ -871,14 +883,16 @@
                             'expert': '💎',
                             'all': '🌟'
                         };
+                        const scoreText = `${entry.rawScore || entry.score || 0}/${entry.questionCount || 10}`;
                         return `
                             <div class="leaderboard-entry" data-entry-id="${entry.timestamp}">
                                 <span class="entry-rank">${index + 1}.</span>
                                 <span class="entry-name">${entry.name}</span>
                                 <span class="entry-details">
-                                    ${difficultyEmoji[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.level || 'N/A'}<br>
-                                    <small>${entry.percentage || Math.round(((entry.score || 0) / (entry.questionCount || 1)) * 100)}% • ${entry.xp || 0} XP</small>
+                                    ${levelEmoji[entry.level] || '📚'}<br>
+                                    <small>${difficultyEmoji[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.level || 'N/A'}<br>${entry.percentage || Math.round(((entry.score || 0) / (entry.questionCount || 1)) * 100)}% • ${entry.xp || 0} XP</small>
                                 </span>
+                                <span class="entry-time">${scoreText}</span>
                                 <button class="delete-entry-btn" data-entry-id="${entry.timestamp}" title="Eintrag löschen">×</button>
                             </div>
                         `;
@@ -929,7 +943,7 @@
 
             if (allEntries.length === 0) {
                 const msg = mode === 'timetrials'
-                    ? 'Noch keine Timetrials vorhanden.<br>Spiele mit Timer + Schwierigkeit!'
+                    ? 'Noch keine Timetrials vorhanden.<br>Spiele mit Timer!'
                     : 'Noch keine Normal-Einträge vorhanden.<br>Spiele ohne Timer.';
                 startLeaderboardContent.innerHTML = `<div class="empty-leaderboard">${msg}</div>`;
                 return;
@@ -941,14 +955,20 @@
                     .sort((a, b) => b.finalScore - a.finalScore)
                     .slice(0, 5)
                     .map((entry, index) => {
+                        const levelEmoji = {
+                            'uebung': '📝',
+                            'vorlesung-offiziell': '🎓',
+                            'vorlesung': '📡',
+                            'offiziell': '📋'
+                        };
                         const difficultyEmoji = { 'easy': '🌱', 'medium': '⚡', 'hard': '🔥', 'expert': '💎', 'all': '🌟' };
                         return `
                             <div class="leaderboard-entry">
                                 <span class="entry-rank">${index + 1}.</span>
                                 <span class="entry-name">${entry.name}</span>
                                 <span class="entry-details">
-                                    ${difficultyEmoji[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.levelName}<br>
-                                    <small>${entry.percentage}% • Score: ${entry.finalScore}</small>
+                                    ${levelEmoji[entry.levelName] || '📚'}<br>
+                                    <small>${difficultyEmoji[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.levelName}<br>${entry.percentage}% • Score: ${entry.finalScore}</small>
                                 </span>
                                 <span class="entry-time">${formatTime(entry.time)}</span>
                             </div>
@@ -959,16 +979,25 @@
                 startLeaderboardContent.innerHTML = allEntries
                     .sort((a, b) => (b.rawScore || b.score || 0) - (a.rawScore || a.score || 0))
                     .slice(0, 5)
-                    .map((entry, index) => `
+                    .map((entry, index) => {
+                        const levelEmoji = {
+                            'uebung': '📝',
+                            'vorlesung-offiziell': '🎓',
+                            'vorlesung': '📡',
+                            'offiziell': '📋'
+                        };
+                        const scoreText = `${entry.rawScore || entry.score || 0}/${entry.questionCount || 10}`;
+                        return `
                         <div class="leaderboard-entry">
                             <span class="entry-rank">${index + 1}.</span>
                             <span class="entry-name">${entry.name}</span>
                             <span class="entry-details">
-                                ${({easy:'🌱',medium:'⚡',hard:'🔥',expert:'💎',all:'🌟'})[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.levelName}<br>
-                                <small>${entry.percentage || Math.round(((entry.score || 0) / (entry.questionCount || 1)) * 100)}% • ${entry.xp || 0} XP</small>
+                                ${levelEmoji[entry.levelName] || '📚'}<br>
+                                <small>${({easy:'🌱',medium:'⚡',hard:'🔥',expert:'💎',all:'🌟'})[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.levelName}<br>${entry.percentage || Math.round(((entry.score || 0) / (entry.questionCount || 1)) * 100)}% • ${entry.xp || 0} XP</small>
                             </span>
+                            <span class="entry-time">${scoreText}</span>
                         </div>
-                    `).join('');
+                    `}).join('');
             }
         }
 

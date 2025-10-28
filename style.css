@@ -300,9 +300,13 @@ body.level-expert {
         padding: 10px;
     }
     .leaderboard-title {
-        font-size: 11px;
+        font-size: 0; /* Hide text */
         margin: 0 0 6px 0;
-        letter-spacing: 0;
+    }
+    .leaderboard-title::before {
+        content: '🏆';
+        font-size: 18px;
+        display: inline-block;
     }
     .leaderboard-tabs { 
         gap: 4px; 
@@ -328,12 +332,10 @@ body.level-expert {
         flex-wrap: nowrap;
     }
     .leaderboard-entry .entry-rank { 
-        font-size: 9px;
-        width: 20px;
-        flex-shrink: 0;
+        display: none; /* Hide rank on mobile */
     }
     .leaderboard-entry .entry-name { 
-        max-width: 28%; 
+        max-width: 38%; 
         overflow: hidden; 
         text-overflow: ellipsis; 
         white-space: nowrap;
@@ -341,19 +343,20 @@ body.level-expert {
         flex-shrink: 0;
     }
     .leaderboard-entry .entry-details { 
-        max-width: 38%; 
-        overflow: hidden; 
-        text-overflow: ellipsis; 
+        max-width: 20%; 
+        overflow: visible;
+        text-overflow: clip; 
         white-space: nowrap;
-        font-size: 8px;
-        flex-shrink: 1;
+        font-size: 14px; /* Emoji size */
+        flex-shrink: 0;
     }
     .leaderboard-entry .entry-details small {
-        font-size: 7px;
+        display: none; /* Hide details on mobile */
     }
     .leaderboard-entry .entry-time { 
-        font-size: 9px;
+        font-size: 10px;
         flex-shrink: 0;
+        margin-left: auto;
     }
     .delete-entry-btn { 
         transform: scale(0.8); 
@@ -378,19 +381,28 @@ body.level-expert {
     /* Level grid fixes */
     .level-selection {
         grid-template-columns: 1fr 1fr;
-        gap: 10px;
+        gap: 8px;
         margin: 16px 0;
         padding: 0;
     }
     .level-card {
-        padding: 10px;
-        margin: 4px;
+        padding: 8px 6px;
+        margin: 0;
         min-width: auto;
+        transform: rotate(0deg); /* Remove rotation on mobile */
     }
-    .level-card .level-icon { font-size: 18px; }
-    .level-card .level-name { font-size: 11px; }
+    .level-card .level-icon { 
+        font-size: 16px;
+        margin-bottom: 4px;
+    }
+    .level-card .level-name { 
+        font-size: 9px;
+        margin-bottom: 0;
+    }
     .level-card .level-description { display: none; }
-    .level-card:last-child { grid-column: auto; }
+    .level-card:last-child { 
+        grid-column: auto; /* All cards in 2-column grid */
+    }
 
     /* Question header tightening */
     .question-header { padding-bottom: 10px; margin-bottom: 12px; }
