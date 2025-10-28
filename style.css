@@ -1,3 +1,20 @@
+.level-badge-wrap {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    text-align: center;
+}
+
+.level-badge-wrap .level-badge {
+    position: static;
+    display: inline-block;
+}
+
+.level-badge-wrap .title-plaque {
+    position: static;
+    display: inline-block;
+    margin-top: 6px;
+}
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 * {
