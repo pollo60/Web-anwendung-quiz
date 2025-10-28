@@ -370,11 +370,51 @@
                 message.textContent = `🎉 Level ${level} erreicht!`;
                 description.textContent = `Du hast ${getXPForLevel(level)} XP erreicht!`;
 
+                // Prepare rays container
+                injectHolyRays();
                 overlay.classList.add('show');
             }
             
             // Effekt immer zeigen (auch bei Speedrun)
             createConfetti();
+        }
+
+        function injectHolyRays() {
+            const overlay = document.getElementById('levelUpOverlay');
+            if (!overlay) return;
+            // Cleanup if exists
+            const existing = document.getElementById('levelUpRays');
+            if (existing) existing.remove();
+            const rays = document.createElement('div');
+            rays.id = 'levelUpRays';
+            // Insert behind content
+            overlay.insertAdjacentElement('afterbegin', rays);
+
+            // Create bundles of vertical rays with slight rotations
+            const configs = [
+                { rot: -10, count: 3 },
+                { rot: -4, count: 2 },
+                { rot: 3, count: 2 },
+                { rot: 9, count: 3 }
+            ];
+            configs.forEach(cfg => {
+                for (let i = 0; i < cfg.count; i++) {
+                    const ray = document.createElement('div');
+                    ray.className = 'holy-ray';
+                    const width = 6 + Math.random() * 16; // 6-22px
+                    const alpha = 0.35 + Math.random() * 0.35; // 0.35-0.7
+                    const pulse = (2.2 + Math.random() * 1.2).toFixed(2) + 's';
+                    const rot = (cfg.rot + (Math.random() * 2 - 1)).toFixed(2) + 'deg';
+                    ray.style.setProperty('--w', width + 'px');
+                    ray.style.setProperty('--alpha', alpha.toFixed(2));
+                    ray.style.setProperty('--pulse', pulse);
+                    ray.style.setProperty('--rot', rot);
+                    // Slight lateral offsets for bundles
+                    const offset = (Math.random() * 60 - 30); // -30px to +30px
+                    ray.style.marginLeft = offset + 'px';
+                    rays.appendChild(ray);
+                }
+            });
         }
 
         function createConfetti() {
@@ -1855,6 +1895,8 @@
             if (levelUpContinue) {
                 levelUpContinue.addEventListener('click', function() {
                     document.getElementById('levelUpOverlay').classList.remove('show');
+                    const rays = document.getElementById('levelUpRays');
+                    if (rays) rays.remove();
                 });
             }
 
