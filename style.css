@@ -391,7 +391,7 @@ body.level-expert {
         width: 22px;
         height: 22px;
         font-size: 13px;
-        line-height: 18px;
+        line-height: 22px;
         right: 5px;
         top: 5px;
     }
@@ -1906,10 +1906,14 @@ body.level-expert {
         inset 0 -2px 4px rgba(0,0,0,0.2);
     text-shadow: 0 1px 0 rgba(0,0,0,0.6);
     font-size: 18px;
-    line-height: 28px;
+    line-height: 32px;
     text-align: center;
     image-rendering: pixelated;
     transition: transform 0.08s step-end, box-shadow 0.08s step-end;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
 }
 
 .clear-all-btn:hover {

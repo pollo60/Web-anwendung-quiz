@@ -541,11 +541,9 @@
     "correct": [
       0,
       1,
-      2,
-      3,
-      4
+      3
     ],
-    "explanation": "Spring Boot's Auto-Konfiguration basiert auf mehreren Konzepten: Konventionen, bedingter Bean-Registrierung, externer Konfiguration, Starter Dependencies und integrierten Monitoring-Funktionen.",
+    "explanation": "Spring Boot's Auto-Konfiguration basiert auf mehreren Konzepten: Konventionen, bedingter Bean-Registrierung und Starter Dependencies. Externe Konfigurationsdateien und Metriken sind separate Features.",
     "xp": 40,
     "tags": [
       "uebung"

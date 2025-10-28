@@ -371,7 +371,8 @@
                 const description = document.getElementById('levelUpDescription');
 
                 message.textContent = `🎉 Level ${level} erreicht!`;
-                description.textContent = `Du hast ${getXPForLevel(level)} XP erreicht!`;
+                // Show XP needed for CURRENT level (not next)
+                description.textContent = `Du hast ${getXPForLevel(level - 1)} XP erreicht!`;
 
                 // Prepare rays container
                 injectHolyRays();
@@ -1285,17 +1286,21 @@
                 const leftItems = question.left || (question.pairs || []).map(p => p.left);
                 const rightItems = question.right || (question.pairs || []).map(p => p.right);
 
+                // Shuffle both columns for randomization
+                const shuffledLeftItems = shuffleArray([...leftItems]);
+                const shuffledRightItems = shuffleArray([...rightItems]);
+
                 optionsHTML = `
                     <div class="matching-container">
                         <div class="matching-column" id="leftColumn">
-                            ${leftItems.map((item) => `
+                            ${shuffledLeftItems.map((item) => `
                                 <div class="matching-item" data-value="${item}" data-side="left">
                                     ${item}
                                 </div>
                             `).join('')}
                         </div>
                         <div class="matching-column" id="rightColumn">
-                            ${rightItems.map((item) => `
+                            ${shuffledRightItems.map((item) => `
                                 <div class="matching-item" data-value="${item}" data-side="right">
                                     ${item}
                                 </div>
