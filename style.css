@@ -323,13 +323,13 @@ body.level-expert {
         margin: 0 2px;
     }
     .leaderboard-content { 
-        max-height: 180px; 
+        max-height: 220px; /* Increased from 180px */
         overflow: auto; 
-        padding: 4px 2px 4px 6px; /* More left padding, less right */
+        padding: 4px 6px 4px 4px; /* Left: 4px, Right: 6px for balance */
     }
     .leaderboard-entry {
-        gap: 4px;
-        padding: 3px 1px 3px 3px; /* More left, less right */
+        gap: 5px; /* Increased from 4px */
+        padding: 3px 2px; /* Balanced padding */
         font-size: 9px;
         flex-wrap: nowrap;
     }
@@ -338,7 +338,7 @@ body.level-expert {
     }
     .leaderboard-entry .entry-name { 
         min-width: 45px;
-        max-width: 45%; 
+        max-width: 42%; /* Reduced from 45% */
         overflow: hidden; 
         text-overflow: ellipsis; 
         white-space: nowrap;
@@ -360,7 +360,7 @@ body.level-expert {
         font-size: 9px;
         flex-shrink: 0;
         margin-left: auto;
-        padding-right: 4px; /* Space from right border */
+        padding-right: 2px; /* Reduced from 4px */
     }
     .delete-entry-btn { 
         transform: scale(0.7); 
