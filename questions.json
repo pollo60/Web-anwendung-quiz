@@ -906,15 +906,18 @@
     ]
   },
   {
-    "difficulty": 4,
-    "type": "fillblank",
-    "question": "In der pom.xml wird die Spring Boot Version im _____ -Tag mit dem artifactId _____ definiert.",
-    "blanks": [
-      "parent",
-      "spring-boot-starter-parent"
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Wo wird in einer Maven-basierten Spring-Boot-Anwendung die Spring Boot Version üblicherweise festgelegt?",
+    "options": [
+      "Im <dependencies>-Block der pom.xml",
+      "Im <parent>-Tag der pom.xml mit artifactId 'spring-boot-starter-parent'",
+      "In der application.properties",
+      "In der Klasse mit @SpringBootApplication"
     ],
-    "explanation": "Der <parent>-Tag mit artifactId 'spring-boot-starter-parent' bestimmt die Spring Boot Framework-Version.",
-    "xp": 40,
+    "correct": 1,
+    "explanation": "In Maven-Projekten wird die Spring Boot Version über den <parent>-Eintrag mit artifactId 'spring-boot-starter-parent' definiert. Die Version vererbt sich dann auf die Starter-Abhängigkeiten.",
+    "xp": 20,
     "tags": [
       "uebung"
     ]

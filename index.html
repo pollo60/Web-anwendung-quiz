@@ -133,7 +133,7 @@
                 <label style="display: block; margin-bottom: 15px; margin-top: 20px; color: #fff; font-weight: 600; font-size: 1.1em; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); text-align: center;">Wähle dein Level:</label>
                 
                 <div class="level-selection">
-                    <div class="level-card" data-level="vorlesung">
+                    <div class="level-card" data-level="gemischt">
                         <div class="level-icon">⚖️</div>
                         <div class="level-name">Gemischt</div>
                         <div class="level-description">Alle Fragen</div>
@@ -298,7 +298,10 @@
             const tagMapping = {
                 'uebung': ['uebung'],
                 'vorlesung-offiziell': ['vl-offiziell'],
-                'vorlesung': ['uebung', 'neue-vorlesung', 'vl-offiziell', 'offiziell'], // alle außer nichts
+                // "Gemischt" fasst alle Fragen zusammen
+                'gemischt': ['uebung', 'neue-vorlesung', 'vl-offiziell', 'offiziell'],
+                // Rückwärtskompatibilität: alte Schlüsselbezeichnung weiterhin unterstützen
+                'vorlesung': ['uebung', 'neue-vorlesung', 'vl-offiziell', 'offiziell'],
                 'offiziell': ['offiziell']
             };
             
@@ -311,10 +314,10 @@
         // RÜCKWÄRTSKOMPATIBILITÄT: Alte Arrays bleiben bestehen für andere Funktionen
         // (können später entfernt werden wenn alle Referenzen ersetzt sind)
 
-        let currentQuestion = 0;
+    let currentQuestion = 0;
         let score = 0;
         let userAnswers = [];
-        let selectedLevel = 'vorlesung'; // Default: "Gemischt"
+    let selectedLevel = 'gemischt'; // Default: "Gemischt"
         let selectedDifficulty = 'all';
         let activeModifiers = ['normal'];
         let filteredQuestions = [];
@@ -328,13 +331,13 @@
         let sessionLeaderboard = {
             uebung: [],
             'vorlesung-offiziell': [],
-            vorlesung: [],
+            gemischt: [],
             offiziell: []
         };
         let questionPool = {
             uebung: [],
             'vorlesung-offiziell': [],
-            vorlesung: [],
+            gemischt: [],
             offiziell: []
         };
         let usedQuestions = new Set();
@@ -373,6 +376,8 @@
                 // Prepare rays container
                 injectHolyRays();
                 overlay.classList.add('show');
+                // Quick lens flare flash
+                triggerLensFlare();
             }
             
             // Effekt immer zeigen (auch bei Speedrun)
@@ -383,8 +388,17 @@
             const overlay = document.getElementById('levelUpOverlay');
             if (!overlay) return;
             // Cleanup if exists
+            const existingAureole = document.getElementById('levelUpAureole');
+            if (existingAureole) existingAureole.remove();
             const existing = document.getElementById('levelUpRays');
             if (existing) existing.remove();
+            const existingFlare = document.getElementById('levelUpLensFlare');
+            if (existingFlare) existingFlare.remove();
+            
+            // Aureole: rotating conic gradient behind rays
+            const aureole = document.createElement('div');
+            aureole.id = 'levelUpAureole';
+            overlay.insertAdjacentElement('afterbegin', aureole);
             const rays = document.createElement('div');
             rays.id = 'levelUpRays';
             // Insert behind content
@@ -415,6 +429,40 @@
                     rays.appendChild(ray);
                 }
             });
+            
+            // Add a few bright, thin core rays with flicker
+            const coreCount = 4 + Math.floor(Math.random() * 3); // 4-6
+            for (let i = 0; i < coreCount; i++) {
+                const core = document.createElement('div');
+                core.className = 'core-ray';
+                const width = (2 + Math.random() * 2).toFixed(1) + 'px'; // 2-4px
+                const alpha = (0.85 + Math.random() * 0.15).toFixed(2);
+                const pulse = (1.3 + Math.random() * 0.7).toFixed(2) + 's';
+                const flicker = (1.4 + Math.random() * 1.2).toFixed(2) + 's';
+                const rot = (-15 + Math.random() * 30).toFixed(2) + 'deg'; // around vertical
+                core.style.setProperty('--w', width);
+                core.style.setProperty('--alpha', alpha);
+                core.style.setProperty('--pulse', pulse);
+                core.style.setProperty('--flicker', flicker);
+                core.style.setProperty('--rot', rot);
+                core.style.marginLeft = (Math.random() * 20 - 10).toFixed(1) + 'px';
+                rays.appendChild(core);
+            }
+        }
+
+        function triggerLensFlare() {
+            const overlay = document.getElementById('levelUpOverlay');
+            if (!overlay) return;
+            const flare = document.createElement('div');
+            flare.className = 'lens-flare';
+            flare.id = 'levelUpLensFlare';
+            overlay.appendChild(flare);
+            const remove = () => flare.remove();
+            flare.addEventListener('animationend', remove, { once: true });
+            // Fallback removal in case animation event is missed
+            setTimeout(() => {
+                if (document.body.contains(flare)) remove();
+            }, 400);
         }
 
         function createConfetti() {
@@ -474,12 +522,12 @@
             if (lvl >= 90) return 'Götterschlächter';
             if (lvl >= 80) return 'Aethertyrann';
             if (lvl >= 70) return 'Weltenadel';
-            if (lvl >= 60) return 'Schattenwache';
-            if (lvl >= 50) return 'Paladin';
-            if (lvl >= 40) return 'Erzmagus';
-            if (lvl >= 30) return 'Runenmagus';
-            if (lvl >= 20) return 'Schwertmagier';
-            if (lvl >= 10) return 'Aetherlehrling';
+            if (lvl >= 60) return 'Hochadel';
+            if (lvl >= 50) return 'Erzmagier';
+            if (lvl >= 40) return 'Paladin';
+            if (lvl >= 30) return 'Schwertmagier';
+            if (lvl >= 20) return 'Magier';
+            if (lvl >= 10) return 'Lehrling';
             return 'Bauernkind';
         }
 
@@ -517,7 +565,7 @@
             questionPool = {
                 uebung: getQuestionsByLevel('uebung'),
                 'vorlesung-offiziell': getQuestionsByLevel('vorlesung-offiziell'),
-                vorlesung: getQuestionsByLevel('vorlesung'),
+                gemischt: getQuestionsByLevel('gemischt'),
                 offiziell: getQuestionsByLevel('offiziell')
             };
         }
@@ -688,6 +736,13 @@
                 const stored = localStorage.getItem('quizLeaderboard');
                 if (stored) {
                     const parsed = JSON.parse(stored);
+                    // Migration: altes Level "vorlesung" zu neuem "gemischt" migrieren
+                    if (parsed && parsed.vorlesung && Array.isArray(parsed.vorlesung)) {
+                        const migrated = parsed.vorlesung.map(e => ({ ...e, level: 'gemischt' }));
+                        parsed.gemischt = [ ...(parsed.gemischt || []), ...migrated ];
+                        delete parsed.vorlesung;
+                        try { localStorage.setItem('quizLeaderboard', JSON.stringify(parsed)); } catch(_) {}
+                    }
                     // Merge mit der aktuellen Session-Bestenliste
                     Object.keys(parsed).forEach(level => {
                         if (parsed[level] && Array.isArray(parsed[level])) {
@@ -887,7 +942,9 @@
                         const levelEmoji = {
                             'uebung': '📝',
                             'vorlesung-offiziell': '🎓',
-                            'vorlesung': '📡',
+                            'gemischt': '⚖️',
+                            // Rückwärtskompatibilität
+                            'vorlesung': '⚖️',
                             'offiziell': '📋'
                         };
                         const difficultyEmoji = {
@@ -920,7 +977,9 @@
                         const levelEmoji = {
                             'uebung': '📝',
                             'vorlesung-offiziell': '🎓',
-                            'vorlesung': '📡',
+                            'gemischt': '⚖️',
+                            // Rückwärtskompatibilität
+                            'vorlesung': '⚖️',
                             'offiziell': '📋'
                         };
                         const difficultyEmoji = {
@@ -1005,17 +1064,34 @@
                         const levelEmoji = {
                             'uebung': '📝',
                             'vorlesung-offiziell': '🎓',
-                            'vorlesung': '📡',
+                            'gemischt': '⚖️',
+                            // Rückwärtskompatibilität
+                            'vorlesung': '⚖️',
                             'offiziell': '📋'
                         };
                         const difficultyEmoji = { 'easy': '🌱', 'medium': '⚡', 'hard': '🔥', 'expert': '💎', 'all': '🌟' };
+                        const levelLabel = ({
+                            'uebung': 'Übung',
+                            'vorlesung-offiziell': 'VL Offiziell',
+                            'gemischt': 'Gemischt',
+                            // Rückwärtskompatibilität
+                            'vorlesung': 'Gemischt',
+                            'offiziell': 'Offiziell'
+                        })[entry.levelName] || entry.levelName;
+                        const difficultyLabel = ({
+                            'easy': 'Einfach',
+                            'medium': 'Mittel',
+                            'hard': 'Schwer',
+                            'expert': 'Experte',
+                            'all': 'Alle'
+                        })[entry.difficulty || 'all'] || (entry.difficulty || 'all');
                         return `
                             <div class="leaderboard-entry">
                                 <span class="entry-rank">${index + 1}.</span>
                                 <span class="entry-name">${entry.name}</span>
                                 <span class="entry-details">
                                     ${levelEmoji[entry.levelName] || '📚'}<br>
-                                    <small>${difficultyEmoji[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.levelName}<br>${entry.percentage}% • Score: ${entry.finalScore}</small>
+                                    <small>${difficultyEmoji[entry.difficulty] || '🌟'} ${difficultyLabel} • ${levelLabel}<br>${entry.percentage}% • Score: ${entry.finalScore}</small>
                                 </span>
                                 <span class="entry-time">${formatTime(entry.time)}</span>
                             </div>
@@ -1030,9 +1106,26 @@
                         const levelEmoji = {
                             'uebung': '📝',
                             'vorlesung-offiziell': '🎓',
-                            'vorlesung': '📡',
+                            'gemischt': '⚖️',
+                            // Rückwärtskompatibilität
+                            'vorlesung': '⚖️',
                             'offiziell': '📋'
                         };
+                        const levelLabel = ({
+                            'uebung': 'Übung',
+                            'vorlesung-offiziell': 'VL Offiziell',
+                            'gemischt': 'Gemischt',
+                            // Rückwärtskompatibilität
+                            'vorlesung': 'Gemischt',
+                            'offiziell': 'Offiziell'
+                        })[entry.levelName] || entry.levelName;
+                        const difficultyLabel = ({
+                            'easy': 'Einfach',
+                            'medium': 'Mittel',
+                            'hard': 'Schwer',
+                            'expert': 'Experte',
+                            'all': 'Alle'
+                        })[entry.difficulty || 'all'] || (entry.difficulty || 'all');
                         const scoreText = `${entry.rawScore || entry.score || 0}/${entry.questionCount || 10}`;
                         return `
                         <div class="leaderboard-entry">
@@ -1040,7 +1133,7 @@
                             <span class="entry-name">${entry.name}</span>
                             <span class="entry-details">
                                 ${levelEmoji[entry.levelName] || '📚'}<br>
-                                <small>${({easy:'🌱',medium:'⚡',hard:'🔥',expert:'💎',all:'🌟'})[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.levelName}<br>${entry.percentage || Math.round(((entry.score || 0) / (entry.questionCount || 1)) * 100)}% • ${entry.xp || 0} XP</small>
+                                <small>${({easy:'🌱',medium:'⚡',hard:'🔥',expert:'💎',all:'🌟'})[entry.difficulty] || '🌟'} ${difficultyLabel} • ${levelLabel}<br>${entry.percentage || Math.round(((entry.score || 0) / (entry.questionCount || 1)) * 100)}% • ${entry.xp || 0} XP</small>
                             </span>
                             <span class="entry-time">${scoreText}</span>
                         </div>
@@ -1755,7 +1848,7 @@
             
             // ===== INITIALIZE UI =====
             // Level selection - Set default to "Gemischt"
-            const defaultLevelCard = document.querySelector('.level-card[data-level="vorlesung"]');
+            const defaultLevelCard = document.querySelector('.level-card[data-level="gemischt"]');
             if (defaultLevelCard) {
                 defaultLevelCard.classList.add('selected');
             }
@@ -1897,6 +1990,10 @@
                     document.getElementById('levelUpOverlay').classList.remove('show');
                     const rays = document.getElementById('levelUpRays');
                     if (rays) rays.remove();
+                    const aureole = document.getElementById('levelUpAureole');
+                    if (aureole) aureole.remove();
+                    const flare = document.getElementById('levelUpLensFlare');
+                    if (flare) flare.remove();
                 });
             }
 

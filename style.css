@@ -830,6 +830,36 @@ body.level-expert {
     z-index: 1; /* below content, above backdrop */
 }
 
+/* Soft rotating aureole behind rays */
+#levelUpAureole {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0; /* behind rays */
+    opacity: 0.18;
+    background: conic-gradient(
+        from 0deg at 50% 50%,
+        rgba(255, 230, 120, 0.0) 0deg,
+        rgba(255, 230, 120, 0.25) 40deg,
+        rgba(255, 255, 200, 0.35) 80deg,
+        rgba(255, 230, 120, 0.25) 120deg,
+        rgba(255, 230, 120, 0.0) 160deg,
+        rgba(255, 230, 120, 0.15) 200deg,
+        rgba(255, 255, 200, 0.3) 240deg,
+        rgba(255, 230, 120, 0.15) 280deg,
+        rgba(255, 230, 120, 0.0) 320deg,
+        rgba(255, 230, 120, 0.0) 360deg
+    );
+    filter: blur(2px) saturate(1.05);
+    mix-blend-mode: screen;
+    animation: aureoleSpin 12s linear infinite;
+}
+
+@keyframes aureoleSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 .holy-ray {
     position: absolute;
     top: 50%;
@@ -855,6 +885,67 @@ body.level-expert {
 @keyframes rayPulse {
     0% { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scaleX(0.95); opacity: calc(var(--alpha, 0.55) * 0.9); }
     100% { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scaleX(1.05); opacity: calc(var(--alpha, 0.55)); }
+}
+
+/* Thinner, brighter core rays with subtle flicker */
+.core-ray {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(var(--rot, 0deg));
+    width: var(--w, 3px);
+    height: var(--h, 140vh);
+    opacity: var(--alpha, 0.9);
+    background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255, 255, 220, 0.85) 40%,
+        rgba(255, 240, 160, 0.95) 50%,
+        rgba(255, 255, 220, 0.85) 60%,
+        rgba(255,255,255,0) 100%
+    );
+    filter: blur(0.6px) saturate(1.15);
+    mix-blend-mode: screen;
+    border-radius: 999px;
+    animation:
+        coreRayPulse var(--pulse, 1.6s) ease-in-out infinite alternate,
+        rayFlicker var(--flicker, 1.8s) steps(1, end) infinite;
+}
+
+@keyframes coreRayPulse {
+    0% { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scaleX(0.9); opacity: calc(var(--alpha, 0.9) * 0.85); }
+    100% { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scaleX(1.05); opacity: var(--alpha, 0.9); }
+}
+
+/* Occasional brightness flicker */
+@keyframes rayFlicker {
+    0%, 14% { filter: brightness(1) blur(0.6px); }
+    15% { filter: brightness(1.6) blur(0.5px); }
+    16%, 29% { filter: brightness(1) blur(0.6px); }
+    30% { filter: brightness(1.9) blur(0.45px); }
+    31%, 59% { filter: brightness(1) blur(0.6px); }
+    60% { filter: brightness(1.5) blur(0.55px); }
+    61%, 100% { filter: brightness(1) blur(0.6px); }
+}
+
+/* Quick lens flare flash */
+.lens-flare {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3; /* above content */
+    background:
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.75), rgba(255,255,255,0.0) 40%),
+        radial-gradient(circle at 20% 40%, rgba(255,240,180,0.35), rgba(255,240,180,0.0) 35%),
+        radial-gradient(circle at 80% 60%, rgba(255,220,120,0.28), rgba(255,220,120,0.0) 35%);
+    mix-blend-mode: screen;
+    animation: lensFlareFlash 0.3s ease-out forwards;
+}
+
+@keyframes lensFlareFlash {
+    0% { opacity: 0; transform: scale(1); }
+    30% { opacity: 1; transform: scale(1.03); }
+    100% { opacity: 0; transform: scale(1.06); }
 }
 
 .level-up-content h2 {
