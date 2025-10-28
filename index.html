@@ -158,7 +158,9 @@
             </div>
 
             <!-- QUESTIONS -->
-            <div id="questionsContainer"></div>
+                <div id="questionsContainer">
+                    <button class="btn btn-abort" id="abortBtn" style="margin-bottom: 20px;">❌ Quiz abbrechen</button>
+                </div>
 
             <!-- RESULT SCREEN -->
             <div id="resultScreen" class="result-container">
@@ -1761,6 +1763,23 @@
             if (quizRestartBtn) {
                 quizRestartBtn.addEventListener('click', restartQuiz);
             }
+
+                const abortBtn = document.getElementById('abortBtn');
+                if (abortBtn) {
+                    abortBtn.addEventListener('click', function() {
+                        if (confirm('Möchtest du wirklich zum Hauptmenü zurückkehren? Der aktuelle Fortschritt geht verloren.')) {
+                            // Timer stoppen falls aktiv
+                            if (timerInterval) {
+                                clearInterval(timerInterval);
+                                timerInterval = null;
+                            }
+                            // Zurück zum Hauptmenü
+                            document.getElementById('questionsContainer').style.display = 'none';
+                            document.getElementById('resultScreen').style.display = 'none';
+                            document.getElementById('startScreen').style.display = 'block';
+                        }
+                    });
+                }
 
             const levelUpContinue = document.getElementById('levelUpContinue');
             if (levelUpContinue) {
