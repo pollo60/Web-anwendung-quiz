@@ -300,15 +300,22 @@ body.level-expert {
         padding: 8px;
     }
     .leaderboard-title {
-        font-size: 0 !important; /* Hide text completely on mobile */
+        font-size: 0 !important; /* Hide text */
         margin: 0 0 4px 0;
-        line-height: 0;
+        height: 18px;
+        overflow: hidden;
+        position: relative;
     }
     .leaderboard-title::before {
         content: '🏆';
         font-size: 16px;
-        display: inline-block;
-        line-height: 1;
+        display: block;
+        line-height: 18px;
+        text-align: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
     }
     .leaderboard-tabs { 
         gap: 4px; 
@@ -323,27 +330,29 @@ body.level-expert {
         margin: 0 2px;
     }
     .leaderboard-content { 
-        max-height: 220px; /* Increased from 180px */
+        max-height: 330px; /* Increased: 220px * 1.5 = 330px */
         overflow: auto; 
-        padding: 4px; /* Simplified, equal padding */
+        padding: 4px 2px; /* Minimal left/right padding for centering */
     }
     .leaderboard-entry {
-        gap: 6px; /* Increased for better spacing */
-        padding: 3px 4px; /* More right padding */
+        gap: 6px;
+        padding: 3px 2px; /* Minimal left padding */
         font-size: 9px;
         flex-wrap: nowrap;
+        justify-content: space-between; /* Distribute evenly */
     }
     .leaderboard-entry .entry-rank { 
         display: none; /* Hide rank on mobile */
     }
     .leaderboard-entry .entry-name { 
         min-width: 45px;
-        max-width: 40%; /* Reduced further for better balance */
+        max-width: 45%; /* More space for name */
         overflow: hidden; 
         text-overflow: ellipsis; 
         white-space: nowrap;
         font-size: 9px;
         flex-shrink: 0;
+        padding-left: 2px; /* Small padding from left border */
     }
     .leaderboard-entry .entry-details { 
         max-width: 16%; 
@@ -360,7 +369,7 @@ body.level-expert {
         font-size: 9px;
         flex-shrink: 0;
         margin-left: auto;
-        padding-right: 0; /* No extra padding */
+        padding-right: 4px; /* Space from right border */
     }
     .delete-entry-btn { 
         transform: scale(0.7); 
