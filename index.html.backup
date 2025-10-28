@@ -1,0 +1,3907 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web-basierte Anwendungssysteme - Quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="level-up-overlay" id="levelUpOverlay">
+        <div class="level-up-content">
+            <h2 id="levelUpMessage"></h2>
+            <p id="levelUpDescription"></p>
+            <button class="btn btn-primary" id="levelUpContinue">Weiter</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="xp-container">
+                <span>XP: <strong id="xpDisplay">0</strong></span>
+            </div>
+            <div class="level-badge" id="levelBadge">Level 1</div>
+            <div id="timerDisplay" class="timer-display" style="display: none;">
+                Zeit: <span id="timer">00:00</span>
+            </div>
+            <h1>📚 Web-basierte Anwendungssysteme</h1>
+            <p>Interaktiver Wissenstest</p>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- START SCREEN -->
+            <div id="startScreen" class="start-screen">
+                <h2>Willkommen zum Quiz!</h2>
+                <p>Wähle deinen Schwierigkeitsgrad und teste dein Wissen!</p>
+
+                <div class="session-leaderboard wooden-board" style="position: relative;">
+                    <h3 class="leaderboard-title">🏆 Bestenliste</h3>
+                    <button id="clearAllLeaderboardBtn" class="clear-all-btn" title="Alle Einträge löschen">×</button>
+                    <div class="leaderboard-tabs">
+                        <button class="tab-btn start-tab-btn active" data-mode="timetrials">⚡ Timetrials</button>
+                        <button class="tab-btn start-tab-btn" data-mode="normal">🎯 Normal</button>
+                    </div>
+                    <div id="startLeaderboardContent" class="leaderboard-content">
+                        <div class="empty-leaderboard">Noch keine Einträge vorhanden.<br>Spiele eine Runde – mit oder ohne Timer.</div>
+                    </div>
+                </div>
+
+                <div class="player-name-wrapper">
+                    <label class="player-name-label" for="playerName">Name (optional)</label>
+                    <input id="playerName" class="name-input" type="text" placeholder="z.B. Luca, Marie">
+                    
+                    <!-- Disclaimer und Speicher-Option (wenn kein Name gespeichert) -->
+                    <div id="nameDisclaimer" style="margin-top: 10px; padding: 10px; background: rgba(52, 152, 219, 0.2); border-radius: 8px; font-size: 11px; color: #fff; text-align: left; display: none;">
+                        <strong>💾 Name speichern?</strong><br>
+                        Du kannst mit oder ohne Namen spielen. Wenn du möchtest, wird dein Name lokal gespeichert (nur in deinem Browser) und beim nächsten Mal automatisch geladen.
+                        <div style="margin-top: 8px; text-align: center;">
+                            <label style="display: inline-flex; align-items: center; cursor: pointer;">
+                                <input type="checkbox" id="saveNameCheckbox" style="margin-right: 5px;">
+                                <span style="font-size: 11px;">Name für nächstes Mal speichern</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Reset Button (nur wenn Name gespeichert) -->
+                    <div id="resetProgressContainer" style="margin-top: 10px; text-align: center; display: none;">
+                        <button id="resetProgressBtn" class="btn btn-secondary" style="font-size: 10px; padding: 8px 16px;">
+                            🔄 Fortschritt zurücksetzen
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modifier-selection" style="margin-bottom: 30px;">
+                    <label style="display: block; margin-bottom: 15px; color: #fff; font-weight: 600; font-size: 1.1em; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Wähle deine Modifikatoren (mehrere möglich):</label>
+                    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <button class="modifier-btn" data-modifier="normal">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🎯</div>
+                            <div style="font-weight: 600;">Normal</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Klassisches Quiz</div>
+                        </button>
+                        <button class="modifier-btn" data-modifier="speedrun">
+                            <div style="font-size: 24px; margin-bottom: 8px;">⚡</div>
+                            <div style="font-weight: 600;">Timer</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Gegen die Zeit</div>
+                        </button>
+                        <button class="modifier-btn" data-modifier="practice">
+                            <div style="font-size: 24px; margin-bottom: 8px;">📚</div>
+                            <div style="font-weight: 600;">Übung</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">falsche Fragen wiederholen</div>
+                        </button>
+                    </div>
+                    <div id="practiceInfo" style="display: none; margin-top: 15px; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px; font-size: 14px; color: #fff;">
+                        Im Übungsmodus kannst du die Fragen wiederholen, die du in den letzten Durchläufen falsch beantwortet hast.
+                    </div>
+                </div>
+
+                <div class="difficulty-selection" style="margin-bottom: 30px;">
+                    <label style="display: block; margin-bottom: 15px; color: #fff; font-weight: 600; font-size: 1.1em; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Wähle den Schwierigkeitsgrad:</label>
+                    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <button class="difficulty-btn selected" data-difficulty="all">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🌟</div>
+                            <div style="font-weight: 600;">Alle Fragen</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Keine Einschränkung</div>
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="easy">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🌱</div>
+                            <div style="font-weight: 600;">Einfach</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Grundlagen</div>
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="medium">
+                            <div style="font-size: 24px; margin-bottom: 8px;">⚡</div>
+                            <div style="font-weight: 600;">Mittel</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Fortgeschritten</div>
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="hard">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🔥</div>
+                            <div style="font-weight: 600;">Schwer</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Komplex</div>
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="expert">
+                            <div style="font-size: 24px; margin-bottom: 8px;">💎</div>
+                            <div style="font-weight: 600;">Experte</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Master-Level</div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="level-selection">
+                    <div class="level-card" data-level="uebung">
+                        <div class="level-icon">📝</div>
+                        <div class="level-name">Fragen zur Übung</div>
+                        <div class="level-description">aus den aufgabenblättern</div>
+                    </div>
+                    <div class="level-card" data-level="vorlesung-offiziell">
+                        <div class="level-icon">🎓</div>
+                        <div class="level-name">VL Offiziell</div>
+                        <div class="level-description">Vom Fragen-Blatt</div>
+                    </div>
+                    <div class="level-card" data-level="vorlesung">
+                        <div class="level-icon">📡</div>
+                        <div class="level-name">Gemischt</div>
+                        <div class="level-description">allgemeine Fragen</div>
+                    </div>
+                    <div class="level-card" data-level="offiziell">
+                        <div class="level-icon">📋</div>
+                        <div class="level-name">Offizielle Fragen</div>
+                        <div class="level-description">Neue offizielle Testfragen</div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" id="startBtn" disabled>Quiz starten</button>
+            </div>
+
+            <!-- QUESTIONS -->
+            <div id="questionsContainer"></div>
+
+            <!-- RESULT SCREEN -->
+            <div id="resultScreen" class="result-container">
+                <div class="score-circle">
+                    <div class="score-text" id="scoreText"></div>
+                </div>
+                <div class="result-message" id="resultMessage"></div>
+                <div class="result-details" id="resultDetails"></div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="statCorrect">0</div>
+                    <div class="stat-label">Richtig</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statWrong">0</div>
+                    <div class="stat-label">Falsch</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statXP">0</div>
+                    <div class="stat-label">XP Gewonnen</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statLevel">1</div>
+                    <div class="stat-label">Level Erreicht</div>
+                </div>
+            </div>
+
+            <!-- Session-Bestenliste auf der Ergebnisseite entfernt laut Anforderung -->
+
+            <div class="share-box">
+                <div style="font-weight:600; margin-bottom:10px;">✨ Mit anderen teilen</div>
+                <a
+                    id="whatsappShareBtn"
+                    class="btn btn-whatsapp"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style="text-decoration:none; display:inline-block; margin-bottom:10px;"
+                >Auf WhatsApp teilen 💬</a>
+                <div class="share-hint" id="shareHint">
+                    Schick einfach die HTML-Datei rum oder lad sie irgendwo hoch und teile den Link 👍
+                </div>
+            </div>                <div class="buttons" style="margin-top:40px;">
+                    <button class="btn btn-primary" id="restartBtn">Nochmal versuchen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funktion zum Mischen eines Arrays
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Funktion zum Generieren einer zufälligen Variante einer Basis-Frage.
+        // Ziel: häufig den Basistyp beibehalten, aber sinnvolle Varianten (insb. matching/sort)
+        // erzeugen und dabei korrekte Antworten konsistent halten.
+        // Hilfsfunktion zum Mischen und Auswählen von n Elementen aus einem Array
+        function getRandomElements(array, n) {
+            const shuffled = [...array].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, n);
+        }
+
+        const vorlesungQuestions = [
+            {
+                type: "multiple",
+                question: "Was ist das Basisprotokoll des WWW?",
+                options: [
+                    "FTP - File Transfer Protocol",
+                    "HTTP - Hypertext Transfer Protocol",
+                    "SMTP - Simple Mail Transfer Protocol",
+                    "TCP - Transmission Control Protocol"
+                ],
+                wrongAnswerPool: "protocols",
+                correct: 1,
+                explanation: "HTTP (Hypertext Transfer Protocol) ist das Basisprotokoll des WWW.",
+                xp: 10
+            },
+            {
+                type: "text",
+                question: "Was ist eine Web-Anwendung? (Geben Sie die Definition ein)",
+                correct: ["web-anwendung", "client-server", "webbrowser", "web-technologien"],
+                explanation: "Eine Web-Anwendung ist eine auf Web-Technologien basierende Client-Server-Anwendung. Bedienung erfolgt über Webbrowser oder dedizierte Clients, mit Webserver, Applikationsserver und Datenbanksystem serverseitig. Die Kommunikation erfolgt über HTTP, typischerweise unter Einsatz von Webframeworks.",
+                xp: 10
+            },
+            {
+                type: "checkbox",
+                question: "Welche Vorteile bietet eine web-basierte Anwendung? (Wählen Sie mindestens 5)",
+                options: [
+                    "Parallele Nutzung",
+                    "Informationsaustausch in Echtzeit",
+                    "Zugriff von überall",
+                    "Nutzung durch Thin-Clients/kleine Geräte",
+                    "Einfacher Datenaustausch über standardisierte Schnittstellen",
+                    "Keine Nutzer-Updates nötig",
+                    "Skalierbarkeit",
+                    "Modularisierung (Microservices/Web Services)"
+                ],
+                correct: [0, 1, 2, 3, 4, 5, 6, 7],
+                explanation: "Web-basierte Anwendungen bieten zahlreiche Vorteile: Parallele Nutzung, Echtzeit-Informationsaustausch, universeller Zugriff, Thin-Client-Nutzung, standardisierte Schnittstellen, automatische Updates, Skalierbarkeit und Modularisierung.",
+                xp: 15
+            },
+            {
+                type: "checkbox",
+                question: "Welche HTTP-Methoden gehören zu Version 1.1?",
+                options: [
+                    "GET",
+                    "HEAD",
+                    "POST",
+                    "PUT",
+                    "DELETE",
+                    "CONNECT",
+                    "OPTIONS",
+                    "TRACE",
+                    "PATCH"
+                ],
+                correct: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                explanation: "HTTP 1.1 umfasst die Methoden: GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE und PATCH.",
+                xp: 15
+            },
+            {
+                type: "multiple",
+                question: "Wozu dient das Keep-Alive Header-Feld in HTTP?",
+                options: [
+                    "Zum dauerhaften Speichern von Cookies",
+                    "Zur Wiederverwendung der TCP-Verbindung für mehrere Anfragen",
+                    "Zum Caching von Webseitendaten",
+                    "Zur Authentifizierung von Benutzern"
+                ],
+                correct: 1,
+                explanation: "Keep-Alive hält die TCP-Verbindung zwischen Client und Server offen, damit mehrere HTTP-Anfragen über dieselbe Verbindung möglich sind. Dies ermöglicht auch Pipelining.",
+                xp: 10
+            },
+            {
+                type: "fillblank",
+                question: "HTTP-Nachrichten bestehen aus: _____ → _____ → Leerzeile → Body",
+                blanks: ["Start-Zeile", "Header-Felder"],
+                explanation: "HTTP-Nachrichten bestehen aus: Start-Zeile (Request-Line oder Status-Line) → Header-Felder → Leerzeile → Body (Nutzdaten).",
+                xp: 10
+            },
+            {
+                type: "multiple",
+                question: "Was ist der Unterschied zwischen HTTP-Anfrage und HTTP-Statusinformation in der Start-Zeile?",
+                options: [
+                    "Request: Method SP Request-URI SP HTTP-Version CRLF; Response: HTTP-Version SP Status-Code SP Reason-Phrase CRLF",
+                    "Kein Unterschied, beide haben das gleiche Format",
+                    "Request verwendet GET, Response verwendet POST",
+                    "Request enthält immer einen Body, Response nie"
+                ],
+                correct: 0,
+                explanation: "Request-Start-Line: Method SP Request-URI SP HTTP-Version CRLF; Response-Start-Line: HTTP-Version SP Status-Code SP Reason-Phrase CRLF",
+                xp: 15
+            },
+            {
+                type: "checkbox",
+                question: "Welche Verbesserungen wurden durch HTTP 1.1 eingeführt?",
+                options: [
+                    "Verbindung wird standardmäßig nicht sofort getrennt",
+                    "Unterstützung für mehrere Anfragen über dieselbe Verbindung",
+                    "Pipelining",
+                    "Effizientere Nutzung der TCP-Verbindung"
+                ],
+                correct: [0, 1, 2, 3],
+                explanation: "HTTP 1.1 brachte folgende Verbesserungen: persistente Verbindungen, Multiplexing von Anfragen, Pipelining und effizientere TCP-Nutzung.",
+                xp: 15
+            },
+            {
+                type: "checkbox",
+                question: "Welche Neuerungen brachte HTTP/2?",
+                options: [
+                    "Nur noch eine TCP-Verbindung nötig",
+                    "Kompression der Header",
+                    "Binäres statt textbasiertes Protokoll",
+                    "Server Push möglich",
+                    "Unterteilung in Streams und Frames"
+                ],
+                wrongAnswerPool: "protocols",
+                additionalWrongAnswers: [
+                    "Ausschließlich verschlüsselte Verbindungen",
+                    "Unterstützung nur für mobile Geräte",
+                    "Automatische Übersetzung von Inhalten",
+                    "Integrierte Firewall-Funktionen",
+                    "Direkte Datenbankanbindung"
+                ],
+                correct: [0, 1, 2, 3, 4],
+                explanation: "HTTP/2 führte ein: Single TCP Connection, Header-Kompression, binäres Protokoll, Server Push und Stream/Frame-Struktur.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist der Unterschied zwischen Internet und World Wide Web (WWW)?",
+                options: [
+                    "Das Internet ist neuer als das WWW",
+                    "WWW und Internet sind dasselbe",
+                    "Internet ist die physikalische Verbindung; WWW ist die Aufteilung in Web-Client und Web-Server",
+                    "Internet ist nur für E-Mails, WWW nur für Webseiten"
+                ],
+                correct: 2,
+                explanation: "Internet ist die Verbindung unzähliger Subnetze (Interconnected Network, physikalische Verbindung). World Wide Web ist die Aufteilung der Kommunikation in Web-Client und Web-Server zur gezielten Adressierung von Dateien.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Wie hieß der Vorläufer des Internet und was waren dessen Ziele?",
+                options: [
+                    "ARPANET; Ziel war ein ausfallsicheres, weltweites Rechnernetz",
+                    "BITNET; Ziel war E-Mail-Kommunikation",
+                    "NSFNET; Ziel war wissenschaftlicher Austausch",
+                    "CSNET; Ziel war Verbindung von Universitäten"
+                ],
+                correct: 0,
+                explanation: "ARPANET war der Vorläufer. Ziele: Ein Netz, in dem weltweit Rechner verbunden sind, das auch funktioniert, wenn Teile ausgefallen sind.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Wie waren die Rechner des ARPANET untergliedert?",
+                options: [
+                    "Nur Server und Clients",
+                    "Hosts (Benutzerrechner), IMPs (Netzrechner), TIPs (Terminal-Zugang)",
+                    "Mainframes und Terminals",
+                    "Workstations und Peripheriegeräte"
+                ],
+                correct: 1,
+                explanation: "Die Rechner waren untergliedert in: Hosts (Benutzerrechner), Interface Message Processor (IMP, Netzrechner zur Nachrichtenzerlegung und Paketvermittlung), Terminal IMP (TIP, spezielle IMPs für direkten Terminalzugang)",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Wozu dienten die Interface Message Processors (IMP)?",
+                options: [
+                    "Zur Benutzerauthentifizierung",
+                    "Zur Nachrichtenzerlegung und Paketvermittlung",
+                    "Zur Datenspeicherung",
+                    "Zur Grafikverarbeitung"
+                ],
+                correct: 1,
+                explanation: "Die Interface Message Processors (IMPs) waren Netzrechner zur Nachrichtenzerlegung und Paketvermittlung.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was versteht man unter Paketvermittlung?",
+                options: [
+                    "Versenden von Bytes durch elektromagnetische Signale",
+                    "Physische Zustellung von Paketen",
+                    "Speicherung von Daten in Paketen",
+                    "Verwaltung von Netzwerkprotokollen"
+                ],
+                correct: 0,
+                explanation: "Unter Paketvermittlung versteht man das Versenden von Bytes durch elektromagnetische Signale.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was war der erste Dienst des Internets?",
+                options: [
+                    "World Wide Web (1989)",
+                    "E-Mail-Protokoll (1972, Ray Tomlinson)",
+                    "FTP (1971)",
+                    "Telnet (1969)"
+                ],
+                correct: 1,
+                explanation: "1972 wurde das E-Mail-Protokoll von Ray Tomlinson für das ARPANET entwickelt - der erste Dienst des Internets.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "checkbox",
+                question: "Welche sind die grundlegenden Protokolle des Internet?",
+                options: [
+                    "TCP",
+                    "IP",
+                    "HTTP",
+                    "FTP"
+                ],
+                correct: [0, 1],
+                explanation: "Die grundlegenden Protokolle des Internet sind TCP und IP.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Wer erfand das WWW?",
+                options: [
+                    "Tim Berners-Lee",
+                    "Vint Cerf",
+                    "Larry Page",
+                    "Bill Gates"
+                ],
+                correct: 0,
+                explanation: "Tim Berners-Lee erfand das World Wide Web (zusammen mit Robert Cailliau).",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "checkbox",
+                question: "Was sind die Basiskonzepte des WWW?",
+                options: [
+                    "Client-Server-Architektur",
+                    "Hypermedia-Inhalte",
+                    "Links auf Objekte im Netz (URIs)",
+                    "Textauszeichnungssprache HTML",
+                    "Übertragungsprotokoll HTTP"
+                ],
+                correct: [0, 1, 2, 3, 4],
+                explanation: "Die Basiskonzepte des WWW sind: Client-Server-Architektur, Hypermedia-Inhalte, Links auf Objekte im Netz (URIs), Textauszeichnungssprache HTML und das Übertragungsprotokoll HTTP.",
+                xp: 10
+            }
+        ];
+
+        const baseQuestions = [
+            // NEUE FRAGEN (nur falls nicht schon enthalten)
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Eine Spring-Boot-Anwendung kann eigenständig und ohne externe Laufzeitabhängigkeiten ausgeführt werden",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "Spring Boot-Anwendungen sind als Fat JARs/Executable JARs lauffähig und benötigen keine externen Laufzeitabhängigkeiten.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist die Funktion der Annotation @Autowired?",
+                options: [
+                    "Sie gibt an, dass eine Methode als Spring Bean registriert werden soll",
+                    "Sie markiert die Main-Methode des Programms",
+                    "Sie erstellt eine neue Bean im Spring Container",
+                    "Sie injiziert eine Bean in eine andere Klasse und stellt diese zur Verfügung"
+                ],
+                correct: 3,
+                explanation: "@Autowired injiziert eine Bean in eine andere Klasse und stellt sie dort zur Verfügung.",
+                xp: 20
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "In welcher Datei werden die Abhängigkeiten bei einem Spring Boot-Projekt verwaltet (Gradle)?",
+                options: [
+                    "pom.xml",
+                    "settings.gradle",
+                    "build.gradle",
+                    "application.properties"
+                ],
+                correct: 2,
+                explanation: "Bei Gradle werden Dependencies in der build.gradle gepflegt. Die pom.xml ist für Maven-Projekte.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Welche Log-Level sind standardmäßig in Spring Boot aktiviert?",
+                options: [
+                    "TRACE, WARN, DEBUG",
+                    "DEBUG, INFO, ERROR",
+                    "ERROR, WARN, INFO",
+                    "ERROR, TRACE, INFO"
+                ],
+                correct: 2,
+                explanation: "Standardmäßig sind ERROR, WARN und INFO in Spring Boot aktiviert. DEBUG und TRACE müssen explizit aktiviert werden.",
+                xp: 10
+            },
+            // NEUE SPRING BOOT & ENTWICKLUNG FRAGEN
+
+            // LEVEL EASY (Einfach)
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was macht die Methode setMessage() in der Klasse MessageService?",
+                options: [
+                    "Sie gibt den Wert der Variablen message zurück",
+                    "Sie initialisiert die Bean message",
+                    "Sie setzt den Wert der Variablen message",
+                    "Sie speichert eine Nachricht in einer Datenbank"
+                ],
+                correct: 2,
+                explanation: "Die Methode setMessage() setzt den Wert der Variablen message in der Klasse MessageService.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Welche Log-Level sind standardmäßig in Spring Boot aktiviert?",
+                options: [
+                    "ERROR, WARN, INFO",
+                    "TRACE, DEBUG, INFO",
+                    "WARN, INFO, DEBUG",
+                    "INFO, DEBUG, TRACE"
+                ],
+                correct: 0,
+                explanation: "Standardmäßig sind ERROR, WARN und INFO in Spring Boot aktiviert. DEBUG und TRACE müssen explizit aktiviert werden.",
+                xp: 10
+            },
+            // LEVEL MEDIUM (Mittel)
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist die Funktion der Annotation @Autowired?",
+                options: [
+                    "Sie definiert eine REST-API",
+                    "Sie injiziert eine Bean in eine andere Klasse und stellt diese zur Verfügung",
+                    "Sie markiert eine Testklasse",
+                    "Sie konfiguriert Logging-Optionen"
+                ],
+                correct: 1,
+                explanation: "@Autowired injiziert eine Bean in eine andere Klasse und stellt sie dort zur Verfügung.",
+                xp: 20
+            },
+            // LEVEL HARD (Schwer)
+            {
+                difficulty: 3,
+                type: "multiple",
+                question: "Die Methode assertThat() wird nicht von JUnit nativ bereitgestellt.",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "assertThat() stammt aus Bibliotheken wie AssertJ oder Hamcrest, nicht aus JUnit selbst.",
+                xp: 30
+            },
+            // LEVEL EXPERT (Experte)
+            {
+                difficulty: 4,
+                type: "multiple",
+                question: "Mit Maven können Abhängigkeiten eines Projekts automatisch aufgelöst werden.",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "Maven löst Abhängigkeiten automatisch über die pom.xml auf und lädt sie aus Repositories herunter.",
+                xp: 40
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Wohin schreibt Spring Boot Logs standardmäßig ohne zusätzliche Konfiguration?",
+                options: [
+                    "In die Konsole (Standard Output)",
+                    "In eine Datei namens 'application.log'",
+                    "In eine Datenbank",
+                    "In das Windows Event Log"
+                ],
+                correct: 0,
+                explanation: "Standardmäßig schreibt Spring Boot alle Logs in die Konsole (Standard Output). Für andere Ziele ist zusätzliche Konfiguration nötig.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "checkbox",
+                question: "Welche Log-Level sind in Spring Boot standardmäßig verfügbar? (Mehrfachauswahl)",
+                options: [
+                    "ERROR",
+                    "WARN",
+                    "INFO",
+                    "DEBUG",
+                    "TRACE"
+                ],
+                correct: [0, 1, 2, 3, 4],
+                explanation: "Spring Boot unterstützt die Standard-Log-Level: ERROR (kritisch), WARN (Warnungen), INFO (Information), DEBUG (Entwicklung) und TRACE (detailliert).",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist das grundlegende Schema für User Stories?",
+                options: [
+                    "Als <Rolle> möchte ich <Ziel>, damit <Nutzen>",
+                    "Wenn <Bedingung> dann <Aktion>",
+                    "Gegeben <Zustand> wenn <Ereignis> dann <Ergebnis>",
+                    "Falls <Problem> soll <Lösung> implementiert werden"
+                ],
+                correct: 0,
+                explanation: "User Stories folgen dem Schema: 'Als <Rolle> möchte ich <Ziel>, damit <Nutzen>'. Dies macht Anforderungen verständlich und nutzerorientiert.",
+                xp: 10
+            },
+
+            // LEVEL MEDIUM (Mittel)
+            {
+                difficulty: 2,
+                type: "matching",
+                question: "Ordne die Logging-Properties ihren Effekten zu:",
+                pairs: [
+                    { left: "logging.file", right: "Definiert eine spezifische Log-Datei" },
+                    { left: "logging.path", right: "Setzt das Verzeichnis für Log-Dateien" },
+                    { left: "logging.level.*", right: "Konfiguriert Log-Level für Packages" },
+                    { left: "logging.pattern.console", right: "Bestimmt das Format der Konsolenausgabe" }
+                ],
+                explanation: "Die verschiedenen Logging-Properties steuern unterschiedliche Aspekte: Dateien, Pfade, Level und Ausgabeformat.",
+                xp: 25
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was bewirkt logging.level.edu.fra.uas=debug in der Konfiguration?",
+                options: [
+                    "Setzt DEBUG-Level für das spezifische Package und Unterpackages",
+                    "Aktiviert Debugging für die gesamte Anwendung",
+                    "Loggt nur Fehler aus dem edu.fra.uas Package",
+                    "Deaktiviert Logging für andere Packages"
+                ],
+                correct: 0,
+                explanation: "Diese Einstellung setzt das Log-Level DEBUG für das Package edu.fra.uas und alle seine Unterpackages. Andere Packages bleiben unberührt.",
+                xp: 20
+            },
+
+            // LEVEL HARD (Schwer)
+            {
+                difficulty: 3,
+                type: "checkbox",
+                question: "Welche Vorteile bietet strukturiertes Logging (SLF4J/Logback) gegenüber System.out.println in Spring Boot? (Mehrfachauswahl)",
+                options: [
+                    "Konfigurierbare Log-Level und Filter",
+                    "Performance durch asynchrones Logging",
+                    "Standardisierte Formatierung",
+                    "Integration mit Spring Boot Actuator",
+                    "Automatische Dateirotation"
+                ],
+                correct: [0, 1, 2, 3, 4],
+                explanation: "Strukturiertes Logging bietet viele Vorteile: konfigurierbare Level, bessere Performance, einheitliche Formate, Monitoring-Integration und Dateiverwaltung.",
+                xp: 30
+            },
+            {
+                difficulty: 3,
+                type: "multiple",
+                question: "Was passiert, wenn @Autowired an einer Feldstelle entfernt wird?",
+                options: [
+                    "Das Feld bleibt null und führt zu NullPointerException bei Verwendung",
+                    "Spring erstellt automatisch eine neue Instanz",
+                    "Die Anwendung startet nicht",
+                    "Es wird eine Warnung ausgegeben"
+                ],
+                correct: 0,
+                explanation: "Ohne @Autowired erfolgt keine Dependency Injection. Das Feld bleibt null, was bei Verwendung zu einer NullPointerException führt.",
+                xp: 30
+            },
+
+            // LEVEL EXPERT (Experte)
+            {
+                difficulty: 4,
+                type: "matching",
+                question: "Ordne die Test-Konzepte ihren Haupteigenschaften zu:",
+                pairs: [
+                    { left: "@SpringBootTest", right: "Lädt den vollständigen Application Context" },
+                    { left: "AssertJ", right: "Bietet fluent assertions und bessere Fehlermeldungen" },
+                    { left: "Slice Tests", right: "Testet nur spezifische Schichten der Anwendung" },
+                    { left: "Unit Tests", right: "Testet isolierte Komponenten ohne Spring Context" }
+                ],
+                explanation: "@SpringBootTest ist für Integrationstests mit vollem Context, AssertJ verbessert die Testlesbarkeit, Slice Tests fokussieren einzelne Schichten, Unit Tests sind am schnellsten.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "multiple",
+                question: "Welche Funktion hat der <parent>-Eintrag in der pom.xml bei Spring Boot?",
+                options: [
+                    "Definiert Versionen, Dependencies und Plugins durch Vererbung",
+                    "Ist nur für Multi-Modul-Projekte erforderlich",
+                    "Dient ausschließlich der Dokumentation",
+                    "Wird nur für Test-Konfigurationen verwendet"
+                ],
+                correct: 0,
+                explanation: "Der <parent>-Eintrag ermöglicht die Vererbung von Versionen, Dependencies und Plugin-Konfigurationen vom Spring Boot Parent POM, was die Projektkonfiguration vereinfacht.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "checkbox",
+                question: "Was sind die Besonderheiten eines CommandLineRunner als @Bean? (Mehrfachauswahl)",
+                options: [
+                    "Wird nach Kontext-Initialisierung ausgeführt",
+                    "Kann mehrfach im Projekt definiert werden",
+                    "Hat Zugriff auf andere Beans",
+                    "Ermöglicht Start-up Logik",
+                    "Unterstützt Ordering mit @Order"
+                ],
+                correct: [0, 1, 2, 3, 4],
+                explanation: "CommandLineRunner als @Bean: läuft nach Kontext-Start, mehrfache Definition möglich, hat Bean-Zugriff, ideal für Start-up Logik, unterstützt Reihenfolge via @Order.",
+                xp: 45
+            },
+
+            // ORIGINAL FRAGEN
+            // LEVEL EASY (Einfach)
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist eine Bean im Spring-Container?",
+                options: [
+                    "Ein Java-Objekt, das von Spring verwaltet wird",
+                    "Eine Datenbankverbindung",
+                    "Ein UI-Element",
+                    "Eine Konfigurationsdatei"
+                ],
+                correct: 0,
+                explanation: "Eine Bean ist ein Java-Objekt, das vom Spring Container verwaltet wird - inklusive Erstellung, Konfiguration und Lebenszyklus-Management.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Welches Log-Level zeigt die wichtigsten Fehler an?",
+                options: [
+                    "DEBUG",
+                    "INFO",
+                    "ERROR",
+                    "TRACE"
+                ],
+                correct: 2,
+                explanation: "ERROR ist das Log-Level für die kritischsten Fehlermeldungen. Es zeigt schwerwiegende Probleme an, die sofortige Aufmerksamkeit erfordern.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist ein Fork in GitHub?",
+                options: [
+                    "Eine Kopie eines Repositories unter deinem eigenen Account",
+                    "Ein Branch in einem Repository",
+                    "Ein Pull Request",
+                    "Ein Commit in der Historie"
+                ],
+                correct: 0,
+                explanation: "Ein Fork ist eine persönliche Kopie eines fremden Repositories unter deinem GitHub-Account. Dies ermöglicht es dir, Änderungen vorzunehmen, ohne das Original zu beeinflussen.",
+                xp: 10
+            },
+
+            // LEVEL MEDIUM (Mittel)
+            {
+                difficulty: 2,
+                type: "matching",
+                question: "Ordne die Log-Level ihrer typischen Verwendung zu:",
+                pairs: [
+                    { left: "ERROR", right: "Kritische Fehler, die sofortige Aktion erfordern" },
+                    { left: "WARN", right: "Potenziell schädliche Situationen" },
+                    { left: "INFO", right: "Wichtige Geschäftsereignisse" },
+                    { left: "DEBUG", right: "Detaillierte Entwicklerinformationen" }
+                ],
+                explanation: "Die Log-Level haben unterschiedliche Prioritäten und Verwendungszwecke: ERROR für kritische Fehler, WARN für Warnungen, INFO für wichtige Events, DEBUG für Entwicklerdetails.",
+                xp: 25
+            },
+            {
+                difficulty: 2,
+                type: "checkbox",
+                question: "Welche Vorteile bietet strukturiertes Logging gegenüber System.out.println? (Mehrfachauswahl)",
+                options: [
+                    "Konfigurierbare Log-Level",
+                    "Bessere Filterbarkeit",
+                    "Mehrere Ausgabekanäle möglich",
+                    "Formatierte Zeitstempel",
+                    "Schnellere Ausführung"
+                ],
+                correct: [0, 1, 2, 3],
+                explanation: "Strukturiertes Logging bietet viele Vorteile: konfigurierbare Level, Filterbarkeit, multiple Ausgabekanäle und automatische Zeitstempel. Die Ausführungsgeschwindigkeit ist nicht primär relevant.",
+                xp: 20
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist die Hauptaufgabe des CommandLineRunner in Spring Boot?",
+                options: [
+                    "Datenbankverbindungen aufbauen",
+                    "Code beim Anwendungsstart ausführen",
+                    "REST-Endpunkte definieren",
+                    "Logging konfigurieren"
+                ],
+                correct: 1,
+                explanation: "CommandLineRunner ist ein Interface, dessen run()-Methode nach der Initialisierung der Spring Boot App ausgeführt wird. Es eignet sich für Initialisierungscode beim Start.",
+                xp: 20
+            },
+
+            // LEVEL HARD (Schwer)
+            {
+                difficulty: 3,
+                type: "multiple",
+                question: "Was bedeutet 'Inversion of Control' im Spring-Kontext?",
+                options: [
+                    "Die Umkehrung der Programmflusssteuerung",
+                    "Das manuelle Erstellen von Objekten",
+                    "Die direkte Objektreferenzierung",
+                    "Die Verwendung von statischen Methoden"
+                ],
+                correct: 0,
+                explanation: "Inversion of Control bedeutet, dass die Kontrolle über Objekterstellung und -verwaltung an den Spring Container übertragen wird, statt sie selbst zu implementieren.",
+                xp: 30
+            },
+            {
+                difficulty: 3,
+                type: "checkbox",
+                question: "Welche Aussagen über Konstruktor-Injektion sind korrekt? (Mehrfachauswahl)",
+                options: [
+                    "Garantiert vollständige Initialisierung",
+                    "Unterstützt Immutability",
+                    "Macht Abhängigkeiten explizit",
+                    "Ist flexibler als Setter-Injektion",
+                    "Erfordert weniger Code als Feld-Injektion"
+                ],
+                correct: [0, 1, 2],
+                explanation: "Konstruktor-Injektion wird bevorzugt, weil sie vollständige Initialisierung garantiert, Immutability ermöglicht und Abhängigkeiten explizit macht. Sie ist nicht flexibler und erfordert mehr Code.",
+                xp: 30
+            },
+            {
+                difficulty: 3,
+                type: "matching",
+                question: "Ordne die Spring-Annotationen ihrer Hauptfunktion zu:",
+                pairs: [
+                    { left: "@SpringBootApplication", right: "Kombiniert mehrere Basis-Annotationen" },
+                    { left: "@Component", right: "Markiert Klasse als Spring-verwaltete Komponente" },
+                    { left: "@Bean", right: "Definiert Methode zur Bean-Erstellung" },
+                    { left: "@Autowired", right: "Injiziert Abhängigkeiten" }
+                ],
+                explanation: "Die Annotationen haben unterschiedliche Zwecke: @SpringBootApplication für App-Konfiguration, @Component für Komponenten-Scanning, @Bean für explizite Bean-Definition, @Autowired für Dependency Injection.",
+                xp: 35
+            },
+
+            // LEVEL EXPERT (Experte)
+            {
+                difficulty: 4,
+                type: "checkbox",
+                question: "Welche Konzepte sind Teil der Spring Boot Auto-Konfiguration? (Mehrfachauswahl)",
+                options: [
+                    "Konvention vor Konfiguration",
+                    "Bedingte Bean-Registrierung",
+                    "Externe Konfigurationsdateien",
+                    "Starter Dependencies",
+                    "Metriken und Health-Checks"
+                ],
+                correct: [0, 1, 2, 3, 4],
+                explanation: "Spring Boot's Auto-Konfiguration basiert auf mehreren Konzepten: Konventionen, bedingter Bean-Registrierung, externer Konfiguration, Starter Dependencies und integrierten Monitoring-Funktionen.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "matching",
+                question: "Ordne die Maven-Konzepte ihrer Bedeutung zu:",
+                pairs: [
+                    { left: "groupId", right: "Organisationsweiter, eindeutiger Identifier" },
+                    { left: "artifactId", right: "Name des Projekts/der Bibliothek" },
+                    { left: "version", right: "Spezifische Release-Kennung" },
+                    { left: "parent", right: "Vererbungshierarchie und gemeinsame Konfiguration" }
+                ],
+                explanation: "Maven POM-Elemente haben spezifische Rollen: groupId für Organisation, artifactId für Projektname, version für Release-Identifikation, parent für Vererbung.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "checkbox",
+                question: "Welche Aspekte unterscheiden Integration-Tests von Unit-Tests in Spring Boot? (Mehrfachauswahl)",
+                options: [
+                    "Vollständiger Spring Kontext wird geladen",
+                    "Testen mehrerer Komponenten zusammen",
+                    "Verwendung von @SpringBootTest",
+                    "Längere Ausführungszeit",
+                    "Externe Ressourcen können eingebunden sein"
+                ],
+                correct: [0, 1, 2, 3, 4],
+                explanation: "Integration-Tests unterscheiden sich durch: Laden des Spring Kontexts, Testing mehrerer Komponenten, @SpringBootTest Annotation, längere Laufzeit und mögliche externe Ressourcen.",
+                xp: 45
+            },
+
+            // ORIGINAL FRAGEN
+            // LEVEL EASY (Einfach)
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist GitHub?",
+                options: [
+                    "Ein Texteditor",
+                    "Eine Codehosting-Plattform für Versionskontrolle",
+                    "Eine Programmiersprache",
+                    "Ein Betriebssystem"
+                ],
+                correct: 1,
+                explanation: "GitHub ist eine Codehosting-Plattform für die Versionskontrolle und Zusammenarbeit in Projekten.",
+                xp: 10
+            },
+
+            // LEVEL MEDIUM (Mittel)
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist eine Bean in Spring?",
+                options: [
+                    "Eine JavaScript-Bibliothek",
+                    "Eine Datenbank-Tabelle",
+                    "Ein verwaltetes Java-Objekt innerhalb des Spring Containers",
+                    "Ein Konfigurationsfile"
+                ],
+                correct: 2,
+                explanation: "Eine Bean ist ein verwaltetes Java-Objekt innerhalb des Spring Containers. Die Bean wird erstellt, überwacht und gelöscht.",
+                xp: 20
+            },
+            {
+                difficulty: 2,
+                type: "matching",
+                question: "Ordne die Spring-Annotationen ihrer Funktion zu:",
+                pairs: [
+                    { left: "@SpringBootApplication", right: "Kennzeichnet die Main-Klasse" },
+                    { left: "@Component", right: "Macht die Klasse zu einer Bean" },
+                    { left: "@Autowired", right: "Injiziert ein Bean-Objekt" },
+                    { left: "@Bean", right: "Definiert eine Bean-Methode" }
+                ],
+                explanation: "@SpringBootApplication markiert die Main-Klasse, @Component macht Klassen zu Beans, @Autowired injiziert Dependencies, @Bean definiert Bean-Methoden.",
+                xp: 25
+            },
+            {
+                difficulty: 2,
+                type: "fillblank",
+                question: "In Spring Boot wird die Konfiguration in der Datei _____ im Ordner _____ gespeichert.",
+                blanks: ["application.properties", "resources"],
+                explanation: "Die Datei application.properties im Ordner resources enthält die Konfiguration für Spring Boot Anwendungen.",
+                xp: 20
+            },
+            {
+                difficulty: 2,
+                type: "sort",
+                question: "Sortiere die Log-Level von niedrigster zu höchster Priorität:",
+                items: ["ERROR", "WARN", "INFO", "DEBUG", "TRACE"],
+                correct: ["TRACE", "DEBUG", "INFO", "WARN", "ERROR"],
+                explanation: "Die Log-Level von niedrigster zu höchster Priorität: TRACE (am detailliertesten) → DEBUG → INFO → WARN → ERROR (kritischste Fehler).",
+                xp: 25
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist Maven?",
+                options: [
+                    "Ein Web-Framework",
+                    "Eine Datenbank",
+                    "Eine Programmiersprache",
+                    "Ein Build-Management-Tool für Java-Projekte"
+                ],
+                correct: 3,
+                explanation: "Maven ist ein Build-Management-Tool, das den Software-Erstellungszyklus verwaltet. Konfiguration erfolgt in pom.xml.",
+                xp: 20
+            },
+            {
+                difficulty: 2,
+                type: "fillblank",
+                question: "Um den Log-Level für ein Package auf DEBUG zu setzen, verwendet man in application.properties: logging.level.<Packagename>=_____",
+                blanks: ["DEBUG"],
+                explanation: "Mit logging.level.<packagename>=DEBUG wird der Log-Level für ein Package auf DEBUG gesetzt.",
+                xp: 20
+            },
+
+            // LEVEL HARD (Schwer)
+            {
+                difficulty: 3,
+                type: "sort",
+                question: "Sortiere die Schichten der 3-Tier-Architektur von oben nach unten:",
+                items: ["Datenhaltungsschicht", "Anwendungslogik-Schicht", "Präsentationsschicht"],
+                correct: ["Präsentationsschicht", "Anwendungslogik-Schicht", "Datenhaltungsschicht"],
+                explanation: "3-Tier-Architektur von oben: Präsentationsschicht (UI) → Anwendungslogik (Business Logic) → Datenhaltung (Datenbank).",
+                xp: 30
+            },
+            {
+                difficulty: 3,
+                type: "matching",
+                question: "Ordne die REST-Prinzipien ihrer Beschreibung zu:",
+                pairs: [
+                    { left: "Stateless", right: "Zustandslosigkeit der Anfragen" },
+                    { left: "Cacheability", right: "Responses können gecacht werden" },
+                    { left: "Uniform Interface", right: "Einheitliche Schnittstelle" },
+                    { left: "HATEOAS", right: "Links zu verwandten Ressourcen" }
+                ],
+                explanation: "REST-Prinzipien: Stateless (zustandslos), Cacheability (cachebar), Uniform Interface (einheitlich), HATEOAS (Hypermedia as Engine of Application State).",
+                xp: 35
+            },
+            {
+                difficulty: 3,
+                type: "checkbox",
+                question: "Welche HTTP-Methoden sind 'safe' (sicher)? (Mehrfachauswahl)",
+                options: [
+                    "POST",
+                    "GET",
+                    "PUT",
+                    "HEAD",
+                    "DELETE"
+                ],
+                correct: [1, 3],
+                explanation: "Safe (sicher) sind nur GET und HEAD - sie ändern keine Daten auf dem Server. POST, PUT und DELETE ändern Daten.",
+                xp: 30
+            },
+            {
+                difficulty: 3,
+                type: "fillblank",
+                question: "Die Annotation _____ kennzeichnet Test-Methoden in JUnit, während _____ die Test-Klasse für Spring Boot markiert.",
+                blanks: ["@Test", "@SpringBootTest"],
+                explanation: "@Test markiert einzelne Test-Methoden, @SpringBootTest kennzeichnet die Test-Klasse für Spring Boot.",
+                xp: 30
+            },
+            {
+                difficulty: 3,
+                type: "multiple",
+                question: "Was passiert, wenn die @Autowired Annotation entfernt wird?",
+                options: [
+                    "Das Programm läuft schneller",
+                    "Die Bean wird nicht injiziert und es gibt eine NullPointerException",
+                    "Die Bean wird automatisch erstellt",
+                    "Das Programm kompiliert nicht"
+                ],
+                correct: 1,
+                explanation: "Ohne @Autowired wird das Bean-Objekt nicht injiziert und bleibt null, was zu einer NullPointerException führt, wenn darauf zugegriffen wird.",
+                xp: 30
+            },
+            {
+                difficulty: 3,
+                type: "multiple",
+                question: "Welche Operationen unterstützt GraphQL?",
+                options: [
+                    "SELECT, INSERT, UPDATE, DELETE",
+                    "GET, POST, PUT, DELETE",
+                    "Query, Mutation, Subscription",
+                    "READ, WRITE, UPDATE"
+                ],
+                correct: 2,
+                explanation: "GraphQL unterstützt: Query (Abfragen), Mutation (Änderungen), Subscription (Echtzeit-Updates).",
+                xp: 30
+            },
+
+            // LEVEL EXPERT (Experte)
+            {
+                difficulty: 4,
+                type: "matching",
+                question: "Ordne die Komponenten des MVC-Patterns ihrer Rolle zu:",
+                pairs: [
+                    { left: "Model", right: "Datenmodell und Geschäftslogik" },
+                    { left: "View", right: "Darstellung der Benutzeroberfläche" },
+                    { left: "Controller", right: "Steuerung und Vermittlung" },
+                    { left: "@RequestMapping", right: "Verknüpfung von URLs mit Methoden" }
+                ],
+                explanation: "MVC: Model (Daten/Logik), View (UI), Controller (Steuerung). @RequestMapping verbindet HTTP-Requests mit Handler-Methoden.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "sort",
+                question: "Sortiere den Maven Build-Zyklus in der richtigen Reihenfolge:",
+                items: ["Installation", "Validierung", "Verifizierung", "Kompilierung", "Testen", "Paketieren"],
+                correct: ["Validierung", "Kompilierung", "Testen", "Paketieren", "Verifizierung", "Installation"],
+                explanation: "Maven Build-Zyklus: Validierung → Kompilierung → Testen → Paketieren → Integrationstests → Verifizierung → Installation → Verteilung.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "fillblank",
+                question: "In der pom.xml wird die Spring Boot Version im _____ -Tag mit dem artifactId _____ definiert.",
+                blanks: ["parent", "spring-boot-starter-parent"],
+                explanation: "Der <parent>-Tag mit artifactId 'spring-boot-starter-parent' bestimmt die Spring Boot Framework-Version.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "checkbox",
+                question: "Welche Eigenschaften hat Spring Boot? (Mehrfachauswahl)",
+                options: [
+                    "Benötigt externe War-Dateien",
+                    "Eingebettete Container (Tomcat, Jetty)",
+                    "Automatische Konfiguration soweit möglich",
+                    "Generierung von Code und Konfiguration",
+                    "Keine externen Laufzeitabhängigkeiten"
+                ],
+                correct: [1, 2, 4],
+                explanation: "Spring Boot: eingebettete Container, automatische Konfiguration, keine externen Laufzeitabhängigkeiten, KEINE War-Dateien nötig, KEINE Code-Generierung.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "multiple",
+                question: "Welches Protokoll nutzt gRPC als Transportprotokoll und zu welcher OSI-Schicht gehört es?",
+                options: [
+                    "WebSocket, Schicht 6",
+                    "TCP, Schicht 4",
+                    "HTTP/2, Schicht 7",
+                    "HTTP/1.1, Schicht 7"
+                ],
+                correct: 2,
+                explanation: "gRPC nutzt HTTP/2 als Transportprotokoll, welches zur OSI-Schicht 7 (Anwendungsschicht) gehört.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "text",
+                question: "Was ist das besondere Feature von gRPC im Vergleich zu REST und GraphQL?",
+                correct: ["bidirektionales streaming", "bidirectional streaming", "streaming"],
+                explanation: "gRPC unterstützt bidirektionales Streaming in verschiedenen Formen: Unary, Server-Streaming, Client-Streaming, Bidirectional-Streaming.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "fillblank",
+                question: "Eine SPA (Single Page Application) lädt Inhalte dynamisch per _____ nach, ohne die Seite neu zu _____.",
+                blanks: ["ajax", "laden"],
+                explanation: "Bei einer SPA läuft die Anwendung auf einer HTML-Seite. Inhalte werden dynamisch per AJAX nachgeladen, ohne Seitenneuladung.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "checkbox",
+                question: "Welche sind serverseitige Technologien? (Mehrfachauswahl)",
+                options: [
+                    "JavaScript (Client)",
+                    "PHP",
+                    "Java Servlets",
+                    "CSS",
+                    "Node.js"
+                ],
+                correct: [1, 2, 4],
+                explanation: "Serverseitige Technologien: PHP, Java Servlets, Node.js, Python (Django), Ruby on Rails. JavaScript und CSS laufen primär clientseitig.",
+                xp: 40
+            },
+            {
+                difficulty: 4,
+                type: "matching",
+                question: "Ordne die URL-Bestandteile dem Beispiel zu: http://fb2.fra-uas.de:8080/ebis/urls.html?prof=lehmann",
+                pairs: [
+                    { left: "Scheme", right: "http://" },
+                    { left: "Hostname", right: "fb2.fra-uas.de" },
+                    { left: "Port", right: ":8080" },
+                    { left: "Query", right: "?prof=lehmann" }
+                ],
+                explanation: "URL-Struktur: Scheme (Protokoll) → Hostname (Domain) → Port → Path (Pfad) → Query (Parameter).",
+                xp: 45
+            },
+            {
+                difficulty: 4,
+                type: "multiple",
+                question: "Wofür steht die Abkürzung PHP (rekursives Akronym)?",
+                options: [
+                    "Personal Home Page",
+                    "Private Hypertext Processor",
+                    "PHP: Hypertext Preprocessor",
+                    "Public HTML Protocol"
+                ],
+                correct: 2,
+                explanation: "PHP steht für 'PHP: Hypertext Preprocessor' - ein rekursives Akronym. PHP ist eine serverseitige Skriptsprache.",
+                xp: 40
+            },
+
+            // Zusätzliche gemischte Fragen
+            {
+                difficulty: 3,
+                type: "multiple",
+                question: "Was ist HATEOAS im Kontext von REST?",
+                options: [
+                    "Ein HTTP-Header",
+                    "Eine Datenbank-Technologie",
+                    "Hypermedia as Engine of Application State - Links in Responses",
+                    "Ein JavaScript Framework"
+                ],
+                correct: 2,
+                explanation: "HATEOAS (Hypermedia as the Engine of Application State): Der Server liefert in Responses Links zu verwandten Ressourcen mit.",
+                xp: 30
+            },
+            {
+                difficulty: 3,
+                type: "fillblank",
+                question: "Um eine Datei für Logging anzugeben, verwendet man logging._____ und für ein Verzeichnis logging._____",
+                blanks: ["file", "path"],
+                explanation: "Mit logging.file gibt man eine Datei an, mit logging.path ein Verzeichnis. Ohne Angabe wird in spring.log geschrieben.",
+                xp: 30
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Wofür steht AJAX?",
+                options: [
+                    "Advanced Java and XML",
+                    "Asynchronous JavaScript and XML",
+                    "Automatic JSON and XML",
+                    "Application JavaScript Architecture XML"
+                ],
+                correct: 1,
+                explanation: "AJAX steht für Asynchronous JavaScript and XML - ermöglicht asynchrone Datenübertragung ohne Seitenneuladung.",
+                xp: 20
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Wer ist für die Standardisierung von HTML zuständig?",
+                options: [
+                    "W3C (World Wide Web Consortium)",
+                    "Microsoft",
+                    "Google",
+                    "ISO"
+                ],
+                correct: 0,
+                explanation: "Das W3C (World Wide Web Consortium) ist für die Standardisierung von HTML zuständig.",
+                xp: 10
+            },
+            {
+                difficulty: 3,
+                type: "multiple",
+                question: "Was ist das Ziel von Responsive Web Design?",
+                options: [
+                    "Automatische Updates",
+                    "Optimale Darstellung auf verschiedenen Bildschirmgrößen",
+                    "Schnellere Serverantworten",
+                    "Bessere Suchmaschinenoptimierung"
+                ],
+                correct: 1,
+                explanation: "Responsive Web Design sorgt für optimale Darstellung und Bedienbarkeit auf verschiedenen Geräten und Bildschirmgrößen.",
+                xp: 30
+            },
+            {
+                difficulty: 2,
+                type: "fillblank",
+                question: "Git wurde 2005 von _____ _____ entwickelt.",
+                blanks: ["Linus", "Torvalds"],
+                explanation: "Git ist ein Open-Source-Versionskontrollsystem, das 2005 von Linus Torvalds entwickelt wurde.",
+                xp: 20
+            },
+            {
+                difficulty: 4,
+                type: "multiple",
+                question: "Welche Java-Bibliothek wird in Spring Boot Tests für aussagekräftige Assertions verwendet?",
+                options: [
+                    "Hamcrest",
+                    "JUnit Basic",
+                    "AssertJ",
+                    "Mockito"
+                ],
+                correct: 2,
+                explanation: "AssertJ wird verwendet. Tests werden mit verketteten Methodenaufrufen lesbarer und Fehlermeldungen sind detaillierter als bei Hamcrest.",
+                xp: 40
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was war der erste Dienst des Internets?",
+                options: [
+                    "World Wide Web",
+                    "E-Mail (1972)",
+                    "FTP",
+                    "Telnet"
+                ],
+                correct: 1,
+                explanation: "1972 wurde das E-Mail-Protokoll von Ray Tomlinson für das ARPANET entwickelt - der erste Dienst des Internets.",
+                xp: 10
+            },
+            {
+                difficulty: 3,
+                type: "checkbox",
+                question: "Welche Basiskonzepte gehören zum WWW? (Mehrfachauswahl)",
+                options: [
+                    "Client-Server Architektur",
+                    "Peer-to-Peer Netzwerk",
+                    "Hypermedia-Inhalte",
+                    "URIs (Links)",
+                    "Blockchain"
+                ],
+                correct: [0, 2, 3],
+                explanation: "WWW-Basiskonzepte: Client-Server Architektur, Hypermedia-Inhalte, URIs, HTML, HTTP. Peer-to-Peer und Blockchain gehören nicht dazu.",
+                xp: 30
+            }
+            ,
+            // ——— NEUE FRAGEN (global hinzufügen, ausser VL offiziell) ———
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist das Ziel von Logging in Spring Boot?",
+                options: [
+                    "Datenbankverwaltung",
+                    "Server-Überwachung",
+                    "Sicherheitsprüfung",
+                    "Fehlerbehebung und Programmverfolgung"
+                ],
+                correct: 3,
+                explanation: "Logging dient in erster Linie dazu, die Ausführung der Anwendung nachzuvollziehen und Fehler schneller zu finden und zu beheben.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Die Mainklasse in einem Spring Boot ist nicht mit der Annotation @SpringBootApplication versehen",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "Typischerweise ist die Main-Klasse mit @SpringBootApplication annotiert, was Auto-Konfiguration, Component-Scan und Konfiguration bündelt.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "In welcher Datei werden die Abhängigkeiten bei einem Spring Boot-Projekt verwaltet (Gradle)?",
+                options: [
+                    "settings.gradle",
+                    "application.properties",
+                    "build.gradle",
+                    "pom.xml"
+                ],
+                correct: 2,
+                explanation: "Bei Gradle werden Dependencies in der build.gradle gepflegt. Die pom.xml ist für Maven-Projekte.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was macht die Annotation @SpringBootApplication?",
+                options: [
+                    "Sie definiert eine REST-API",
+                    "Sie markiert die Main-Klasse einer Anwendung",
+                    "Sie erstellt ein Logging-Template",
+                    "Sie deaktiviert die automatische Konfiguration"
+                ],
+                correct: 1,
+                explanation: "@SpringBootApplication kennzeichnet die Hauptanwendung und kombiniert @Configuration, @EnableAutoConfiguration und @ComponentScan.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Eine Bean wird durch den Spring Container nicht automatisch ausgeführt",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "Falsch. Spring erstellt beim Start automatisch eine Instanz jeder registrierten Bean (@Component, @Service, @Bean, etc.), initialisiert sie, verwaltet ihren Lifecycle und injiziert Abhängigkeiten – die Bean wird also durchaus automatisch 'ausgeführt' (erzeugt und verdrahtet).",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Die Annotation @SpringBootTest wird nicht verwendet, um anzugeben, dass ein JUnit-Test für die gesamte Spring-Anwendung ausgeführt wird",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "@SpringBootTest lädt typischerweise den vollständigen Application Context für Integrationstests – die Aussage ist daher falsch.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "System.out.println() sollte nicht in einer Produktionsumgebung verwendet werden, um Fehlerprotokolle auszugeben",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "In Produktion sollten strukturierte Logs (z.B. SLF4J/Logback) verwendet werden – println ist unstrukturiert und schlecht zu verarbeiten.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Spring Boot basiert vollständig auf dem Spring Framework",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "Spring Boot basiert vollständig auf dem Spring Framework und erweitert es um Auto-Konfiguration und eingebettete Server.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Beans können nur mit der Annotation @Service erstellt werden",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "Beans können mit verschiedenen Annotationen erstellt werden: @Component, @Service, @Repository, @Controller, @Bean, etc.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Welche Maven-Datei enthält die Projektkonfiguration?",
+                options: [
+                    "pom.xml",
+                    "application.properties",
+                    "build.gradle",
+                    "config.yaml"
+                ],
+                correct: 0,
+                explanation: "Die pom.xml (Project Object Model) enthält die gesamte Maven-Projektkonfiguration inkl. Dependencies, Plugins und Build-Einstellungen.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "matching",
+                question: "Ordnen Sie die einzelnen Log-Level den entsprechenden Meldungen zu",
+                pairs: [
+                    { left: "ERROR", right: "Fehler (wie behandelte Ausnahme oder zu analysierende Probleme)" },
+                    { left: "WARN", right: "Situation, die nicht erwartet werden und zu Fehler führen könnte" },
+                    { left: "INFO", right: "Informationen zu auftretenden Ereignissen (z.B. Start/Ende, DB-Verbindung)" },
+                    { left: "DEBUG", right: "Debugging inklusive Informationen zum Programmablauf" },
+                    { left: "TRACE", right: "Ausführlicheres Debugging inklusive detaillierter Informationen zum Ablauf" }
+                ],
+                explanation: "ERROR = kritische Fehler, WARN = potenziell problematische Situationen, INFO = wichtige Ereignisse, DEBUG = Details für Entwickler, TRACE = sehr detaillierte Ablaufverfolgung.",
+                xp: 25
+            }
+            // Hinweis: Die Frage zu "Fork in GitHub" existiert bereits in diesem Level, daher hier nicht erneut hinzugefügt.
+        ];
+
+    const neueVorlesungQuestions = [
+            // NEUE FRAGEN (nur falls nicht schon enthalten)
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Eine Spring-Boot-Anwendung kann eigenständig und ohne externe Laufzeitabhängigkeiten ausgeführt werden",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "Spring Boot-Anwendungen sind als Fat JARs/Executable JARs lauffähig und benötigen keine externen Laufzeitabhängigkeiten.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist die Funktion der Annotation @Autowired?",
+                options: [
+                    "Sie gibt an, dass eine Methode als Spring Bean registriert werden soll",
+                    "Sie markiert die Main-Methode des Programms",
+                    "Sie erstellt eine neue Bean im Spring Container",
+                    "Sie injiziert eine Bean in eine andere Klasse und stellt diese zur Verfügung"
+                ],
+                correct: 3,
+                explanation: "@Autowired injiziert eine Bean in eine andere Klasse und stellt sie dort zur Verfügung.",
+                xp: 20
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "In welcher Datei werden die Abhängigkeiten bei einem Spring Boot-Projekt verwaltet (Gradle)?",
+                options: [
+                    "pom.xml",
+                    "settings.gradle",
+                    "build.gradle",
+                    "application.properties"
+                ],
+                correct: 2,
+                explanation: "Bei Gradle werden Dependencies in der build.gradle gepflegt. Die pom.xml ist für Maven-Projekte.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Welche Log-Level sind standardmäßig in Spring Boot aktiviert?",
+                options: [
+                    "TRACE, WARN, DEBUG",
+                    "DEBUG, INFO, ERROR",
+                    "ERROR, WARN, INFO",
+                    "ERROR, TRACE, INFO"
+                ],
+                correct: 2,
+                explanation: "Standardmäßig sind ERROR, WARN und INFO in Spring Boot aktiviert. DEBUG und TRACE müssen explizit aktiviert werden.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "matching",
+                question: "Ordnen Sie die einzelnen Log-Level den entsprechenden Meldungen zu",
+                pairs: [
+                    { left: "ERROR", right: "Fehler (wie behandelte Ausnahme oder zu analysierende Probleme)" },
+                    { left: "WARN", right: "Situation, die nicht erwartet werden und zu Fehler führen könnte" },
+                    { left: "INFO", right: "Informationen zu auftretenden Ereignissen (z.B. Start/Ende, DB-Verbindung)" },
+                    { left: "DEBUG", right: "Debugging inklusive Informationen zum Programmablauf" },
+                    { left: "TRACE", right: "Ausführlicheres Debugging inklusive detaillierter Informationen zum Ablauf" }
+                ],
+                explanation: "ERROR = kritische Fehler, WARN = potenziell problematische Situationen, INFO = wichtige Ereignisse, DEBUG = Details für Entwickler, TRACE = sehr detaillierte Ablaufverfolgung.",
+                xp: 25
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Der Eintrag in der pom.xml-Datei <groupId>edu.fra.uas</groupId> nennt man auch …",
+                options: [
+                    "Gruppenkennung (package)",
+                    "Annotation",
+                    "Keines der oben genannten",
+                    "Projektversion"
+                ],
+                correct: 0,
+                explanation: "Die groupId ist die Gruppenkennung (package), die organisationsweite, eindeutige Identifikation für Maven-Projekte.",
+                xp: 15
+            },
+            // Ergänzung: Nur falls nicht schon enthalten
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was macht die Methode setMessage() in der Klasse MessageService?",
+                options: [
+                    "Sie gibt den Wert der Variablen message zurück",
+                    "Sie initialisiert die Bean message",
+                    "Sie setzt den Wert der Variablen message",
+                    "Sie speichert eine Nachricht in einer Datenbank"
+                ],
+                correct: 2,
+                explanation: "Die Methode setMessage() setzt den Wert der Variablen message in der Klasse MessageService.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Welche Log-Level sind standardmäßig in Spring Boot aktiviert?",
+                options: [
+                    "ERROR, WARN, INFO",
+                    "TRACE, DEBUG, INFO",
+                    "WARN, INFO, DEBUG",
+                    "INFO, DEBUG, TRACE"
+                ],
+                correct: 0,
+                explanation: "Standardmäßig sind ERROR, WARN und INFO in Spring Boot aktiviert. DEBUG und TRACE müssen explizit aktiviert werden.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist die Funktion der Annotation @Autowired?",
+                options: [
+                    "Sie definiert eine REST-API",
+                    "Sie injiziert eine Bean in eine andere Klasse und stellt diese zur Verfügung",
+                    "Sie markiert eine Testklasse",
+                    "Sie konfiguriert Logging-Optionen"
+                ],
+                correct: 1,
+                explanation: "@Autowired injiziert eine Bean in eine andere Klasse und stellt sie dort zur Verfügung.",
+                xp: 20
+            },
+            {
+                difficulty: 3,
+                type: "multiple",
+                question: "Die Methode assertThat() wird nicht von JUnit nativ bereitgestellt.",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "assertThat() stammt aus Bibliotheken wie AssertJ oder Hamcrest, nicht aus JUnit selbst.",
+                xp: 30
+            },
+            {
+                difficulty: 4,
+                type: "multiple",
+                question: "Mit Maven können Abhängigkeiten eines Projekts automatisch aufgelöst werden.",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "Maven löst Abhängigkeiten automatisch über die pom.xml auf und lädt sie aus Repositories herunter.",
+                xp: 40
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was sind die Hauptverbesserungen von HTTP/2 gegenüber HTTP/1.1?",
+                options: [
+                    "Nur HTTPS-Unterstützung",
+                    "Multiplexing, Header-Kompression, Server Push und binäres Protokoll",
+                    "Bessere Sicherheit durch Verschlüsselung",
+                    "Kleinere Dateigrößen durch automatische Kompression"
+                ],
+                correct: 1,
+                explanation: "HTTP/2 brachte wichtige Verbesserungen: Multiplexing (mehrere Anfragen parallel), Header-Kompression (HPACK), Server Push (proaktives Senden) und binäres statt textbasiertes Protokoll.",
+                xp: 20
+            },
+            {
+                difficulty: 3,
+                type: "sort",
+                question: "Sortiere die HTTP-Versionen nach ihrer Veröffentlichungsreihenfolge:",
+                items: ["HTTP/3", "HTTP/1.0", "HTTP/2", "HTTP/1.1"],
+                correct: ["HTTP/1.0", "HTTP/1.1", "HTTP/2", "HTTP/3"],
+                explanation: "HTTP-Versionen chronologisch: HTTP/1.0 (1996) → HTTP/1.1 (1997, Keep-Alive) → HTTP/2 (2015, Multiplexing) → HTTP/3 (2022, QUIC/UDP).",
+                xp: 30
+            },
+            {
+                difficulty: 2,
+                type: "checkbox",
+                question: "Welche HTTP-Methoden sind 'safe' (sicher) und ändern keine Serverdaten? (Mehrfachauswahl)",
+                options: [
+                    "GET",
+                    "POST", 
+                    "HEAD",
+                    "PUT",
+                    "OPTIONS"
+                ],
+                correct: [0, 2, 4],
+                explanation: "Safe HTTP-Methoden ändern keine Serverdaten: GET (Daten abrufen), HEAD (nur Header abrufen), OPTIONS (verfügbare Methoden abfragen). POST und PUT ändern Daten.",
+                xp: 25
+            }
+            ,
+            // ——— NEUE FRAGEN (global hinzufügen, ausser VL offiziell) ———
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist das Ziel von Logging in Spring Boot?",
+                options: [
+                    "Datenbankverwaltung",
+                    "Server-Überwachung",
+                    "Sicherheitsprüfung",
+                    "Fehlerbehebung und Programmverfolgung"
+                ],
+                correct: 3,
+                explanation: "Logging dient in erster Linie dazu, die Ausführung der Anwendung nachzuvollziehen und Fehler schneller zu finden und zu beheben.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Die Mainklasse in einem Spring Boot ist nicht mit der Annotation @SpringBootApplication versehen",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "Typischerweise ist die Main-Klasse mit @SpringBootApplication annotiert, was Auto-Konfiguration, Component-Scan und Konfiguration bündelt.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "In welcher Datei werden die Abhängigkeiten bei einem Spring Boot-Projekt verwaltet (Gradle)?",
+                options: [
+                    "settings.gradle",
+                    "application.properties",
+                    "build.gradle",
+                    "pom.xml"
+                ],
+                correct: 2,
+                explanation: "Bei Gradle werden Dependencies in der build.gradle gepflegt. Die pom.xml ist für Maven-Projekte.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was macht die Annotation @SpringBootApplication?",
+                options: [
+                    "Sie definiert eine REST-API",
+                    "Sie markiert die Main-Klasse einer Anwendung",
+                    "Sie erstellt ein Logging-Template",
+                    "Sie deaktiviert die automatische Konfiguration"
+                ],
+                correct: 1,
+                explanation: "@SpringBootApplication kennzeichnet die Hauptanwendung und kombiniert @Configuration, @EnableAutoConfiguration und @ComponentScan.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Eine Bean wird durch den Spring Container nicht automatisch ausgeführt",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "Falsch. Spring erstellt beim Start automatisch eine Instanz jeder registrierten Bean (@Component, @Service, @Bean, etc.), initialisiert sie, verwaltet ihren Lifecycle und injiziert Abhängigkeiten – die Bean wird also durchaus automatisch 'ausgeführt' (erzeugt und verdrahtet).",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Die Annotation @SpringBootTest wird nicht verwendet, um anzugeben, dass ein JUnit-Test für die gesamte Spring-Anwendung ausgeführt wird",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "@SpringBootTest wird genau dafür verwendet: um einen vollständigen Spring-Context für Integrationstests zu laden.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "System.out.println ist nicht zum produktiven Logging in Spring Boot geeignet",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "System.out.println ist für produktive Anwendungen ungeeignet. Stattdessen sollte ein Logger (z.B. SLF4J) verwendet werden.",
+                xp: 10
+            },
+            // NEUE FRAGEN (nur falls nicht schon enthalten)
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Eine Spring-Boot-Anwendung kann eigenständig und ohne externe Laufzeitabhängigkeiten ausgeführt werden",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "Spring Boot-Anwendungen sind als Fat JARs/Executable JARs lauffähig und benötigen keine externen Laufzeitabhängigkeiten.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist die Funktion der Annotation @Autowired?",
+                options: [
+                    "Sie gibt an, dass eine Methode als Spring Bean registriert werden soll",
+                    "Sie markiert die Main-Methode des Programms",
+                    "Sie erstellt eine neue Bean im Spring Container",
+                    "Sie injiziert eine Bean in eine andere Klasse und stellt diese zur Verfügung"
+                ],
+                correct: 3,
+                explanation: "@Autowired injiziert eine Bean in eine andere Klasse und stellt sie dort zur Verfügung.",
+                xp: 20
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "In welcher Datei werden die Abhängigkeiten bei einem Spring Boot-Projekt verwaltet (Gradle)?",
+                options: [
+                    "pom.xml",
+                    "settings.gradle",
+                    "build.gradle",
+                    "application.properties"
+                ],
+                correct: 2,
+                explanation: "Bei Gradle werden Dependencies in der build.gradle gepflegt. Die pom.xml ist für Maven-Projekte.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Welche Log-Level sind standardmäßig in Spring Boot aktiviert?",
+                options: [
+                    "TRACE, WARN, DEBUG",
+                    "DEBUG, INFO, ERROR",
+                    "ERROR, WARN, INFO",
+                    "ERROR, TRACE, INFO"
+                ],
+                correct: 2,
+                explanation: "Standardmäßig sind ERROR, WARN und INFO in Spring Boot aktiviert. DEBUG und TRACE müssen explizit aktiviert werden.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "matching",
+                question: "Ordnen Sie die einzelnen Log-Level den entsprechenden Meldungen zu",
+                pairs: [
+                    { left: "ERROR", right: "Fehler (wie behandelte Ausnahme oder zu analysierende Probleme)" },
+                    { left: "WARN", right: "Situation, die nicht erwartet werden und zu Fehler führen könnte" },
+                    { left: "INFO", right: "Informationen zu auftretenden Ereignissen (z.B. Start/Ende, DB-Verbindung)" },
+                    { left: "DEBUG", right: "Debugging inklusive Informationen zum Programmablauf" },
+                    { left: "TRACE", right: "Ausführlicheres Debugging inklusive detaillierter Informationen zum Ablauf" }
+                ],
+                explanation: "ERROR = kritische Fehler, WARN = potenziell problematische Situationen, INFO = wichtige Ereignisse, DEBUG = Details für Entwickler, TRACE = sehr detaillierte Ablaufverfolgung.",
+                xp: 25
+            },
+            // Ergänzung: Nur falls nicht schon enthalten
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was macht die Methode setMessage() in der Klasse MessageService?",
+                options: [
+                    "Sie gibt den Wert der Variablen message zurück",
+                    "Sie initialisiert die Bean message",
+                    "Sie setzt den Wert der Variablen message",
+                    "Sie speichert eine Nachricht in einer Datenbank"
+                ],
+                correct: 2,
+                explanation: "Die Methode setMessage() setzt den Wert der Variablen message in der Klasse MessageService.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist die Funktion der Annotation @Autowired?",
+                options: [
+                    "Sie definiert eine REST-API",
+                    "Sie injiziert eine Bean in eine andere Klasse und stellt diese zur Verfügung",
+                    "Sie markiert eine Testklasse",
+                    "Sie konfiguriert Logging-Optionen"
+                ],
+                correct: 1,
+                explanation: "@Autowired injiziert eine Bean in eine andere Klasse und stellt sie dort zur Verfügung.",
+                xp: 20
+            },
+            {
+                difficulty: 3,
+                type: "multiple",
+                question: "Die Methode assertThat() wird nicht von JUnit nativ bereitgestellt.",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "assertThat() stammt aus Bibliotheken wie AssertJ oder Hamcrest, nicht aus JUnit selbst.",
+                xp: 30
+            },
+            {
+                difficulty: 4,
+                type: "multiple",
+                question: "Mit Maven können Abhängigkeiten eines Projekts automatisch aufgelöst werden.",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "Maven löst Abhängigkeiten automatisch über die pom.xml auf und lädt sie aus Repositories herunter.",
+                xp: 40
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was sind die Hauptverbesserungen von HTTP/2 gegenüber HTTP/1.1?",
+                options: [
+                    "Nur HTTPS-Unterstützung",
+                    "Multiplexing, Header-Kompression, Server Push und binäres Protokoll",
+                    "Bessere Sicherheit durch Verschlüsselung",
+                    "Kleinere Dateigrößen durch automatische Kompression"
+                ],
+                correct: 1,
+                explanation: "HTTP/2 brachte wichtige Verbesserungen: Multiplexing (mehrere Anfragen parallel), Header-Kompression (HPACK), Server Push (proaktives Senden) und binäres statt textbasiertes Protokoll.",
+                xp: 20
+            },
+            {
+                difficulty: 3,
+                type: "sort",
+                question: "Sortiere die HTTP-Versionen nach ihrer Veröffentlichungsreihenfolge:",
+                items: ["HTTP/3", "HTTP/1.0", "HTTP/2", "HTTP/1.1"],
+                correct: ["HTTP/1.0", "HTTP/1.1", "HTTP/2", "HTTP/3"],
+                explanation: "HTTP-Versionen chronologisch: HTTP/1.0 (1996) → HTTP/1.1 (1997, Keep-Alive) → HTTP/2 (2015, Multiplexing) → HTTP/3 (2022, QUIC/UDP).",
+                xp: 30
+            },
+            {
+                difficulty: 2,
+                type: "checkbox",
+                question: "Welche HTTP-Methoden sind 'safe' (sicher) und ändern keine Serverdaten? (Mehrfachauswahl)",
+                options: [
+                    "GET",
+                    "POST", 
+                    "HEAD",
+                    "PUT",
+                    "OPTIONS"
+                ],
+                correct: [0, 2, 4],
+                explanation: "Safe HTTP-Methoden ändern keine Serverdaten: GET (Daten abrufen), HEAD (nur Header abrufen), OPTIONS (verfügbare Methoden abfragen). POST und PUT ändern Daten.",
+                xp: 25
+            }
+            ,
+            // ——— NEUE FRAGEN (global hinzufügen, ausser VL offiziell) ———
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist das Ziel von Logging in Spring Boot?",
+                options: [
+                    "Datenbankverwaltung",
+                    "Server-Überwachung",
+                    "Sicherheitsprüfung",
+                    "Fehlerbehebung und Programmverfolgung"
+                ],
+                correct: 3,
+                explanation: "Logging dient in erster Linie dazu, die Ausführung der Anwendung nachzuvollziehen und Fehler schneller zu finden und zu beheben.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Die Mainklasse in einem Spring Boot ist nicht mit der Annotation @SpringBootApplication versehen",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "Typischerweise ist die Main-Klasse mit @SpringBootApplication annotiert, was Auto-Konfiguration, Component-Scan und Konfiguration bündelt.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "In welcher Datei werden die Abhängigkeiten bei einem Spring Boot-Projekt verwaltet (Gradle)?",
+                options: [
+                    "settings.gradle",
+                    "application.properties",
+                    "build.gradle",
+                    "pom.xml"
+                ],
+                correct: 2,
+                explanation: "Bei Gradle werden Dependencies in der build.gradle gepflegt. Die pom.xml ist für Maven-Projekte.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was macht die Annotation @SpringBootApplication?",
+                options: [
+                    "Sie definiert eine REST-API",
+                    "Sie markiert die Main-Klasse einer Anwendung",
+                    "Sie erstellt ein Logging-Template",
+                    "Sie deaktiviert die automatische Konfiguration"
+                ],
+                correct: 1,
+                explanation: "@SpringBootApplication kennzeichnet die Hauptanwendung und kombiniert @Configuration, @EnableAutoConfiguration und @ComponentScan.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Eine Bean wird durch den Spring Container nicht automatisch ausgeführt",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "Falsch. Spring erstellt beim Start automatisch eine Instanz jeder registrierten Bean (@Component, @Service, @Bean, etc.), initialisiert sie, verwaltet ihren Lifecycle und injiziert Abhängigkeiten – die Bean wird also durchaus automatisch 'ausgeführt' (erzeugt und verdrahtet).",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Die Annotation @SpringBootTest wird nicht verwendet, um anzugeben, dass ein JUnit-Test für die gesamte Spring-Anwendung ausgeführt wird",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "@SpringBootTest lädt typischerweise den vollständigen Application Context für Integrationstests – die Aussage ist daher falsch.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "System.out.println() sollte nicht in einer Produktionsumgebung verwendet werden, um Fehlerprotokolle auszugeben",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "In Produktion sollten strukturierte Logs (z.B. SLF4J/Logback) verwendet werden – println ist unstrukturiert und schlecht zu verarbeiten.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist ein Fork in GitHub?",
+                options: [
+                    "Eine neue Version eines Repositories",
+                    "Eine Kopie eines Repositories in einem anderen Konto",
+                    "Eine Zusammenführung von zwei Repositories",
+                    "Ein Backup eines Repositories"
+                ],
+                correct: 1,
+                explanation: "Ein Fork ist eine Kopie eines Repositories in einem anderen Konto. So können Änderungen unabhängig vom Original vorgenommen werden.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Spring Boot basiert vollständig auf dem Spring Framework",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "Spring Boot basiert vollständig auf dem Spring Framework und erweitert es um Auto-Konfiguration und eingebettete Server.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Beans können nur mit der Annotation @Service erstellt werden",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "Beans können mit verschiedenen Annotationen erstellt werden: @Component, @Service, @Repository, @Controller, @Bean, etc.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Welche Maven-Datei enthält die Projektkonfiguration?",
+                options: [
+                    "pom.xml",
+                    "application.properties",
+                    "build.gradle",
+                    "config.yaml"
+                ],
+                correct: 0,
+                explanation: "Die pom.xml (Project Object Model) enthält die gesamte Maven-Projektkonfiguration inkl. Dependencies, Plugins und Build-Einstellungen.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "matching",
+                question: "Ordnen Sie die einzelnen Log-Level den entsprechenden Meldungen zu",
+                pairs: [
+                    { left: "ERROR", right: "Fehler (wie behandelte Ausnahme oder zu analysierende Probleme)" },
+                    { left: "WARN", right: "Situation, die nicht erwartet werden und zu Fehler führen könnte" },
+                    { left: "INFO", right: "Informationen zu auftretenden Ereignissen (z.B. Start/Ende, DB-Verbindung)" },
+                    { left: "DEBUG", right: "Debugging inklusive Informationen zum Programmablauf" },
+                    { left: "TRACE", right: "Ausführlicheres Debugging inklusive detaillierter Informationen zum Ablauf" }
+                ],
+                explanation: "ERROR = kritische Fehler, WARN = potenziell problematische Situationen, INFO = wichtige Ereignisse, DEBUG = Details für Entwickler, TRACE = sehr detaillierte Ablaufverfolgung.",
+                xp: 25
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Der Eintrag in der pom.xml-Datei <groupId>edu.fra.uas</groupId> nennt man auch …",
+                options: [
+                    "Gruppenkennung (package)",
+                    "Annotation",
+                    "Keines der oben genannten",
+                    "Projektversion"
+                ],
+                correct: 0,
+                explanation: "Die groupId ist die Gruppenkennung (package), die organisationsweite, eindeutige Identifikation für Maven-Projekte.",
+                xp: 15
+            }
+        ];
+
+        const ofizielleQuestions = [
+            // NEUE FRAGEN (nur falls nicht schon enthalten)
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Eine Spring-Boot-Anwendung kann eigenständig und ohne externe Laufzeitabhängigkeiten ausgeführt werden",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "Spring Boot-Anwendungen sind als Fat JARs/Executable JARs lauffähig und benötigen keine externen Laufzeitabhängigkeiten.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist die Funktion der Annotation @Autowired?",
+                options: [
+                    "Sie gibt an, dass eine Methode als Spring Bean registriert werden soll",
+                    "Sie markiert die Main-Methode des Programms",
+                    "Sie erstellt eine neue Bean im Spring Container",
+                    "Sie injiziert eine Bean in eine andere Klasse und stellt diese zur Verfügung"
+                ],
+                correct: 3,
+                explanation: "@Autowired injiziert eine Bean in eine andere Klasse und stellt sie dort zur Verfügung.",
+                xp: 20
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "In welcher Datei werden die Abhängigkeiten bei einem Spring Boot-Projekt verwaltet (Gradle)?",
+                options: [
+                    "pom.xml",
+                    "settings.gradle",
+                    "build.gradle",
+                    "application.properties"
+                ],
+                correct: 2,
+                explanation: "Bei Gradle werden Dependencies in der build.gradle gepflegt. Die pom.xml ist für Maven-Projekte.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Welche Log-Level sind standardmäßig in Spring Boot aktiviert?",
+                options: [
+                    "TRACE, WARN, DEBUG",
+                    "DEBUG, INFO, ERROR",
+                    "ERROR, WARN, INFO",
+                    "ERROR, TRACE, INFO"
+                ],
+                correct: 2,
+                explanation: "Standardmäßig sind ERROR, WARN und INFO in Spring Boot aktiviert. DEBUG und TRACE müssen explizit aktiviert werden.",
+                xp: 10
+            },
+            // Ergänzung: Nur falls nicht schon enthalten
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was macht die Methode setMessage() in der Klasse MessageService?",
+                options: [
+                    "Sie gibt den Wert der Variablen message zurück",
+                    "Sie initialisiert die Bean message",
+                    "Sie setzt den Wert der Variablen message",
+                    "Sie speichert eine Nachricht in einer Datenbank"
+                ],
+                correct: 2,
+                explanation: "Die Methode setMessage() setzt den Wert der Variablen message in der Klasse MessageService.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Welche Log-Level sind standardmäßig in Spring Boot aktiviert?",
+                options: [
+                    "ERROR, WARN, INFO",
+                    "TRACE, DEBUG, INFO",
+                    "WARN, INFO, DEBUG",
+                    "INFO, DEBUG, TRACE"
+                ],
+                correct: 0,
+                explanation: "Standardmäßig sind ERROR, WARN und INFO in Spring Boot aktiviert. DEBUG und TRACE müssen explizit aktiviert werden.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Was ist die Funktion der Annotation @Autowired?",
+                options: [
+                    "Sie definiert eine REST-API",
+                    "Sie injiziert eine Bean in eine andere Klasse und stellt diese zur Verfügung",
+                    "Sie markiert eine Testklasse",
+                    "Sie konfiguriert Logging-Optionen"
+                ],
+                correct: 1,
+                explanation: "@Autowired injiziert eine Bean in eine andere Klasse und stellt sie dort zur Verfügung.",
+                xp: 20
+            },
+            {
+                difficulty: 3,
+                type: "multiple",
+                question: "Die Methode assertThat() wird nicht von JUnit nativ bereitgestellt.",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "assertThat() stammt aus Bibliotheken wie AssertJ oder Hamcrest, nicht aus JUnit selbst.",
+                xp: 30
+            },
+            {
+                difficulty: 4,
+                type: "multiple",
+                question: "Mit Maven können Abhängigkeiten eines Projekts automatisch aufgelöst werden.",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "Maven löst Abhängigkeiten automatisch über die pom.xml auf und lädt sie aus Repositories herunter.",
+                xp: 40
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist eine Bean in Spring Boot?",
+                options: [
+                    "Eine Java-Datei",
+                    "Ein verwaltetes Java-Objekt im Spring Container",
+                    "Eine Logging-Konfiguration",
+                    "Eine Datenbankverbindung"
+                ],
+                correct: 1,
+                explanation: "Eine Bean ist ein verwaltetes Java-Objekt im Spring Container, das von Spring verwaltet wird - inklusive Erstellung, Konfiguration und Lebenszyklus-Management.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist ein Fork in GitHub?",
+                options: [
+                    "Eine Kopie eines Repositories in einem anderen Konto",
+                    "Eine Zusammenführung von zwei Repositories",
+                    "Eine neue Version eines Repositories",
+                    "Ein Backup eines Repositories"
+                ],
+                correct: 0,
+                explanation: "Ein Fork ist eine Kopie eines Repositories in einem anderen Konto. Dies ermöglicht es, Änderungen vorzunehmen, ohne das Original zu beeinflussen.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Die Methode init() ist ohne die Annotation @Bean immer noch automatisch ausführbar.",
+                options: [
+                    "Wahr",
+                    "Falsch"
+                ],
+                correct: 1,
+                explanation: "Ohne @Bean wird init() nicht automatisch als Bean registriert und auch nicht ausgeführt.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Spring Boot kann mit eingebetteten Servern wie Tomcat oder Jetty arbeiten.",
+                options: [
+                    "Wahr",
+                    "Falsch"
+                ],
+                correct: 0,
+                explanation: "Spring Boot kommt mit eingebetteten Servern wie Tomcat, Jetty oder Undertow und erfordert keine externe Server-Installation.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist GitHub?",
+                options: [
+                    "Eine Codehosting-Plattform für Versionskontrolle und Zusammenarbeit",
+                    "Ein Cloud-Speicher-Dienst",
+                    "Ein Framework für Webentwicklung",
+                    "Ein Web-Browser"
+                ],
+                correct: 0,
+                explanation: "GitHub ist eine Codehosting-Plattform für Versionskontrolle und Zusammenarbeit in Projekten, basierend auf Git.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Die Annotation @Test markiert eine Methode als zu testender Code.",
+                options: [
+                    "Wahr",
+                    "Falsch"
+                ],
+                correct: 0,
+                explanation: "@Test markiert eine Methode als Test-Methode, die vom Testing-Framework ausgeführt wird, nicht als zu testenden Code.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Der Eintrag in der pom.xml-Datei <groupId>edu.fra.uas</groupId> nennt man auch …",
+                options: [
+                    "Keines der oben genannten",
+                    "Annotation",
+                    "Projektversion",
+                    "Gruppenkennung (package)"
+                ],
+                correct: 3,
+                explanation: "Die groupId ist die Gruppenkennung (package), die organisationsweite, eindeutige Identifikation für Maven-Projekte.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Welche Annotation wird verwendet, um eine Klasse als Bean verfügbar zu machen?",
+                options: [
+                    "@Override",
+                    "@Service",
+                    "@Component",
+                    "@Autowired"
+                ],
+                correct: 2,
+                explanation: "@Component markiert eine Klasse als Spring-Bean. @Service und andere sind spezialisierte Varianten von @Component.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Logging in Spring Boot kann ausschließlich in die Konsole ausgegeben werden.",
+                options: [
+                    "Wahr",
+                    "Falsch"
+                ],
+                correct: 1,
+                explanation: "Spring Boot kann auch in Dateien, externe Logging-Systeme, Datenbanken und viele andere Ziele loggen, nicht nur in die Konsole.",
+                xp: 15
+            }
+            ,
+            // ——— NEUE FRAGEN (global hinzufügen, ausser VL offiziell) ———
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was ist das Ziel von Logging in Spring Boot?",
+                options: [
+                    "Datenbankverwaltung",
+                    "Server-Überwachung",
+                    "Sicherheitsprüfung",
+                    "Fehlerbehebung und Programmverfolgung"
+                ],
+                correct: 3,
+                explanation: "Logging dient in erster Linie dazu, die Ausführung der Anwendung nachzuvollziehen und Fehler schneller zu finden und zu beheben.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Die Mainklasse in einem Spring Boot ist nicht mit der Annotation @SpringBootApplication versehen",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "Typischerweise ist die Main-Klasse mit @SpringBootApplication annotiert, was Auto-Konfiguration, Component-Scan und Konfiguration bündelt.",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "In welcher Datei werden die Abhängigkeiten bei einem Spring Boot-Projekt verwaltet (Gradle)?",
+                options: [
+                    "settings.gradle",
+                    "application.properties",
+                    "build.gradle",
+                    "pom.xml"
+                ],
+                correct: 2,
+                explanation: "Bei Gradle werden Dependencies in der build.gradle gepflegt. Die pom.xml ist für Maven-Projekte.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Was macht die Annotation @SpringBootApplication?",
+                options: [
+                    "Sie definiert eine REST-API",
+                    "Sie markiert die Main-Klasse einer Anwendung",
+                    "Sie erstellt ein Logging-Template",
+                    "Sie deaktiviert die automatische Konfiguration"
+                ],
+                correct: 1,
+                explanation: "@SpringBootApplication kennzeichnet die Hauptanwendung und kombiniert @Configuration, @EnableAutoConfiguration und @ComponentScan.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Eine Bean wird durch den Spring Container nicht automatisch ausgeführt",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "Falsch. Spring erstellt beim Start automatisch eine Instanz jeder registrierten Bean (@Component, @Service, @Bean, etc.), initialisiert sie, verwaltet ihren Lifecycle und injiziert Abhängigkeiten – die Bean wird also durchaus automatisch 'ausgeführt' (erzeugt und verdrahtet).",
+                xp: 10
+            },
+            {
+                difficulty: 2,
+                type: "multiple",
+                question: "Die Annotation @SpringBootTest wird nicht verwendet, um anzugeben, dass ein JUnit-Test für die gesamte Spring-Anwendung ausgeführt wird",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "@SpringBootTest lädt typischerweise den vollständigen Application Context für Integrationstests – die Aussage ist daher falsch.",
+                xp: 15
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "System.out.println() sollte nicht in einer Produktionsumgebung verwendet werden, um Fehlerprotokolle auszugeben",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "In Produktion sollten strukturierte Logs (z.B. SLF4J/Logback) verwendet werden – println ist unstrukturiert und schlecht zu verarbeiten.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Spring Boot basiert vollständig auf dem Spring Framework",
+                options: ["Wahr", "Falsch"],
+                correct: 0,
+                explanation: "Spring Boot basiert vollständig auf dem Spring Framework und erweitert es um Auto-Konfiguration und eingebettete Server.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Beans können nur mit der Annotation @Service erstellt werden",
+                options: ["Wahr", "Falsch"],
+                correct: 1,
+                explanation: "Beans können mit verschiedenen Annotationen erstellt werden: @Component, @Service, @Repository, @Controller, @Bean, etc.",
+                xp: 10
+            },
+            {
+                difficulty: 1,
+                type: "multiple",
+                question: "Welche Maven-Datei enthält die Projektkonfiguration?",
+                options: [
+                    "pom.xml",
+                    "application.properties",
+                    "build.gradle",
+                    "config.yaml"
+                ],
+                correct: 0,
+                explanation: "Die pom.xml (Project Object Model) enthält die gesamte Maven-Projektkonfiguration inkl. Dependencies, Plugins und Build-Einstellungen.",
+                xp: 10
+            }
+            // Hinweis: Die Fork-Frage existiert in diesem Level bereits, daher hier nicht erneut hinzugefügt.
+        ];
+
+        // ===== OPTIMIERTES TAG-BASIERTES FRAGEN-SYSTEM =====
+        // Dedupliziert alle Fragen automatisch und weist ihnen Tags basierend auf ihrem Vorkommen zu
+        const questionDatabase = (() => {
+            const db = new Map(); // key: question text, value: {question object + tags array}
+            
+            // Helper: Fügt Frage zur DB hinzu und merkt sich in welchen Arrays sie vorkommt
+            function addQuestions(questions, tag) {
+                questions.forEach(q => {
+                    const key = q.question;
+                    if (!db.has(key)) {
+                        db.set(key, { ...q, tags: [] });
+                    }
+                    const entry = db.get(key);
+                    if (!entry.tags.includes(tag)) {
+                        entry.tags.push(tag);
+                    }
+                });
+            }
+            
+            // Füge alle Fragen mit ihren entsprechenden Tags hinzu
+            addQuestions(baseQuestions, 'uebung');
+            addQuestions(neueVorlesungQuestions, 'neue-vorlesung');
+            addQuestions(vorlesungQuestions, 'vl-offiziell');
+            addQuestions(ofizielleQuestions, 'offiziell');
+            
+            return Array.from(db.values());
+        })();
+
+        // Hilfsfunktion: Filtert Fragen basierend auf Level-Tags
+        function getQuestionsByLevel(levelKey) {
+            const tagMapping = {
+                'uebung': ['uebung'],
+                'vorlesung-offiziell': ['vl-offiziell'],
+                'vorlesung': ['uebung', 'neue-vorlesung', 'vl-offiziell', 'offiziell'], // alle außer nichts
+                'offiziell': ['offiziell']
+            };
+            
+            const requiredTags = tagMapping[levelKey] || [];
+            return questionDatabase.filter(q => 
+                requiredTags.some(tag => q.tags.includes(tag))
+            );
+        }
+
+        // RÜCKWÄRTSKOMPATIBILITÄT: Alte Arrays bleiben bestehen für andere Funktionen
+        // (können später entfernt werden wenn alle Referenzen ersetzt sind)
+
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = [];
+        let selectedLevel = null;
+        let selectedDifficulty = 'all';
+        let activeModifiers = ['normal'];
+        let filteredQuestions = [];
+        let xp = 0;
+        let level = 1;
+        let correctAnswers = 0;
+        let wrongAnswers = 0;
+        let playerName = "";
+        let speedrunTimer = 0;
+        let speedrunInterval = null;
+        let sessionLeaderboard = {
+            uebung: [],
+            'vorlesung-offiziell': [],
+            vorlesung: [],
+            offiziell: []
+        };
+        let questionPool = {
+            uebung: [],
+            'vorlesung-offiziell': [],
+            vorlesung: [],
+            offiziell: []
+        };
+        let usedQuestions = new Set();
+        let wrongAnsweredQuestions = [];
+        let lastFiveRuns = [];
+        let startTime = 0;
+        let currentTime = 0;
+        let timerInterval = null;
+
+        // Level calculations
+        function getXPForLevel(lvl) {
+            return lvl * 100;
+        }
+
+        function checkLevelUp() {
+            const requiredXP = getXPForLevel(level);
+            if (xp >= requiredXP) {
+                level++;
+                showLevelUp();
+                updateLevelBadge();
+            }
+        }
+
+        function showLevelUp() {
+            const overlay = document.getElementById('levelUpOverlay');
+            const message = document.getElementById('levelUpMessage');
+            const description = document.getElementById('levelUpDescription');
+
+            message.textContent = `🎉 Level ${level} erreicht!`;
+            description.textContent = `Du hast ${getXPForLevel(level)} XP erreicht!`;
+
+            overlay.classList.add('show');
+            createConfetti();
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = ['#667eea', '#764ba2', '#48bb78', '#f56565', '#ffd700'][Math.floor(Math.random() * 5)];
+                    document.body.appendChild(confetti);
+
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        function updateXPDisplay() {
+            document.getElementById('xpDisplay').textContent = xp;
+            saveProgressToLocalStorage(); // Speichere Fortschritt automatisch
+        }
+
+        function updateLevelBadge() {
+            const badge = document.getElementById('levelBadge');
+            const icons = ['🌱', '⚡', '🔥', '💎', '👑'];
+            const icon = icons[Math.min(level - 1, icons.length - 1)];
+            badge.textContent = `${icon} Level ${level}`;
+            saveProgressToLocalStorage(); // Speichere Fortschritt automatisch
+        }
+
+        function updateBodyClass() {
+            document.body.className = '';
+            if (selectedLevel === 'easy') document.body.classList.add('level-easy');
+            else if (selectedLevel === 'medium') document.body.classList.add('level-medium');
+            else if (selectedLevel === 'hard') document.body.classList.add('level-hard');
+            else if (selectedLevel === 'expert') document.body.classList.add('level-expert');
+        }
+
+        function formatTime(ms) {
+            const seconds = Math.floor(ms / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        function updateTimer() {
+            if (!activeModifiers.includes('speedrun')) return;
+            currentTime = Date.now();
+            const elapsed = currentTime - startTime;
+            document.getElementById('timer').textContent = formatTime(elapsed);
+        }
+
+        function initializeQuestionPool() {
+            // OPTIMIERT: Nutze deduplizierte questionDatabase
+            // questionPool wird nicht mehr benötigt, aber für Kompatibilität behalten
+            questionPool = {
+                uebung: getQuestionsByLevel('uebung'),
+                'vorlesung-offiziell': getQuestionsByLevel('vorlesung-offiziell'),
+                vorlesung: getQuestionsByLevel('vorlesung'),
+                offiziell: getQuestionsByLevel('offiziell')
+            };
+        }
+
+        function selectQuestionsFromPool(level, difficulty, count = 10) {
+            // OPTIMIERT: Nutze deduplizierte questionDatabase statt multiple Arrays
+            let sourceQuestions = getQuestionsByLevel(level);
+            
+            // Filtere nach Schwierigkeit wenn nicht "all"
+            if (difficulty !== 'all') {
+                const difficultyMap = { easy: 1, medium: 2, hard: 3, expert: 4 };
+                const targetDifficulty = difficultyMap[difficulty];
+                sourceQuestions = sourceQuestions.filter(q => q.difficulty === targetDifficulty);
+            }
+            
+            // Wenn Übungsmodus aktiv ist, filtere nach falsch beantworteten Fragen
+            if (activeModifiers.includes('practice')) {
+                const combined = lastFiveRuns.flat();
+                const uniqueMap = new Map();
+                combined.forEach(q => {
+                    const key = q && q.question ? q.question : JSON.stringify(q);
+                    if (!uniqueMap.has(key)) uniqueMap.set(key, q);
+                });
+                const recentWrongQuestions = Array.from(uniqueMap.values());
+                
+                // Filtere sourceQuestions nach denen, die in recentWrongQuestions sind
+                sourceQuestions = sourceQuestions.filter(sq =>
+                    recentWrongQuestions.some(rwq => rwq.question === sq.question)
+                );
+            }
+            
+            return shuffleArray(sourceQuestions).slice(0, Math.min(count, sourceQuestions.length));
+        }
+
+        function updateLeaderboard(level, score, time = null) {
+            const percentage = Math.round((score / filteredQuestions.length) * 100);
+            
+            // Jede Runde mit aktivem Timer wird als Timetrial gewertet
+            const isTimetrial = activeModifiers.includes('speedrun') && !!time;
+            
+            const entry = isTimetrial
+                ? (() => {
+                    const difficultyMultiplier = getDifficultyMultiplier(selectedDifficulty);
+                    const timeBonus = calculateTimeBonus(time, filteredQuestions.length);
+                    const finalScore = calculateWeightedScore(percentage, difficultyMultiplier, timeBonus, filteredQuestions.length);
+                    return {
+                        name: playerName,
+                        rawScore: score,
+                        percentage: percentage,
+                        difficulty: selectedDifficulty, // auch 'all' wird gespeichert
+                        finalScore: finalScore,
+                        time: time,
+                        xp: xp,
+                        level: selectedLevel,
+                        timestamp: Date.now(),
+                        questionCount: filteredQuestions.length
+                    };
+                })()
+                : {
+                    name: playerName,
+                    score: score,
+                    percentage: percentage,
+                    difficulty: selectedDifficulty, // für Anzeige auch im Normal-Modus
+                    xp: xp,
+                    level: selectedLevel,
+                    timestamp: Date.now(),
+                    questionCount: filteredQuestions.length
+                };
+
+            sessionLeaderboard[level].push(entry);
+            
+            // Sortierung: Timetrials nach finalScore, sonst nach (score|rawScore)
+            sessionLeaderboard[level].sort((a, b) => {
+                if (a.finalScore != null && b.finalScore != null) {
+                    return b.finalScore - a.finalScore;
+                }
+                const aBase = (a.score != null ? a.score : (a.rawScore != null ? a.rawScore : 0));
+                const bBase = (b.score != null ? b.score : (b.rawScore != null ? b.rawScore : 0));
+                return bBase - aBase;
+            });
+
+            // Nur die Top 20 behalten (für beide Modi)
+            sessionLeaderboard[level] = sessionLeaderboard[level].slice(0, 20);
+            
+            // Speichere Bestenliste im LocalStorage
+            saveLeaderboardToLocalStorage();
+        }
+
+        function getDifficultyMultiplier(difficulty) {
+            const multipliers = {
+                'easy': 1.0,
+                'medium': 1.5,
+                'hard': 2.0,
+                'expert': 2.5
+            };
+            return multipliers[difficulty] || 1.0;
+        }
+
+        function calculateTimeBonus(timeMs, questionCount) {
+            if (!timeMs) return 0;
+            
+            // Erwartete Zeit pro Frage (in Sekunden): 45s für einfach bis 90s für expert
+            const expectedTimePerQuestion = {
+                'easy': 45,
+                'medium': 60,
+                'hard': 75,
+                'expert': 90
+            };
+            
+            const expectedTime = (expectedTimePerQuestion[selectedDifficulty] || 60) * questionCount;
+            const actualTimeSeconds = timeMs / 1000;
+            
+            // Zeit-Bonus: Je schneller, desto mehr Bonus (max 50% Bonus)
+            const timeFactor = Math.max(0, (expectedTime - actualTimeSeconds) / expectedTime);
+            return Math.min(0.5, timeFactor); // Max 50% Zeitbonus
+        }
+
+        function calculateWeightedScore(percentage, difficultyMultiplier, timeBonus, questionCount) {
+            // Basis-Score aus Prozent und Schwierigkeit
+            const baseScore = percentage * difficultyMultiplier;
+
+            // Zeit-Bonus: Je schneller, desto mehr Bonus
+            const timeFactor = (1 + timeBonus);
+
+            // Fragen-Faktor: längere Sets sollen deutlich höher bewertet werden als sehr kurze
+            // Referenz: 15 Fragen = 1.0; exponentiell gewichtet, damit 3 Fragen stark benachteiligt werden
+            const baseline = 15;
+            const qc = Math.max(1, questionCount || baseline);
+            const ratio = qc / baseline;
+            const questionFactorRaw = Math.pow(ratio, 1.15); // starke Gewichtung
+            const questionFactor = Math.min(2.5, Math.max(0.4, questionFactorRaw)); // begrenzen
+
+            let finalScore = baseScore * timeFactor * questionFactor;
+            
+            // NEU: Bei perfektem Score (100%) zusätzlichen Zeit-Bonus als Tiebreaker
+            // Dieser Bonus macht den Unterschied zwischen schnellen und langsamen perfekten Runs
+            if (percentage >= 100) {
+                // Speed-Bonus: Je schneller, desto höher
+                // timeBonus ist bereits 0.0 bis 0.5 (50%)
+                // Bei perfektem Score: zusätzlich bis zu +50 Punkte für sehr schnelle Zeiten
+                const speedBonus = timeBonus * 100; // 0 bis 50 Punkte
+                finalScore += speedBonus;
+            }
+            
+            return Math.round(finalScore * 10) / 10; // Eine Dezimalstelle
+        }
+
+        // Leaderboard LocalStorage functions
+        function saveLeaderboardToLocalStorage() {
+            try {
+                localStorage.setItem('quizLeaderboard', JSON.stringify(sessionLeaderboard));
+            } catch (e) {
+                console.warn('Konnte Bestenliste nicht speichern:', e);
+            }
+        }
+
+        function loadLeaderboardFromLocalStorage() {
+            try {
+                const stored = localStorage.getItem('quizLeaderboard');
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    // Merge mit der aktuellen Session-Bestenliste
+                    Object.keys(parsed).forEach(level => {
+                        if (parsed[level] && Array.isArray(parsed[level])) {
+                            sessionLeaderboard[level] = [...(sessionLeaderboard[level] || []), ...parsed[level]];
+                            // Sortieren und auf Top 10 begrenzen (Timetrials nach finalScore, sonst score/rawScore)
+                            sessionLeaderboard[level].sort((a, b) => {
+                                if (a.finalScore != null && b.finalScore != null) {
+                                    return b.finalScore - a.finalScore;
+                                }
+                                const aBase = (a.score != null ? a.score : (a.rawScore != null ? a.rawScore : 0));
+                                const bBase = (b.score != null ? b.score : (b.rawScore != null ? b.rawScore : 0));
+                                return bBase - aBase;
+                            });
+                            sessionLeaderboard[level] = sessionLeaderboard[level].slice(0, 10);
+                        }
+                    });
+                }
+            } catch (e) {
+                console.warn('Konnte Bestenliste nicht laden:', e);
+            }
+        }
+
+        // Name-related functions
+        function savePlayerName(name) {
+            try {
+                if (name && name.trim()) {
+                    localStorage.setItem('quizPlayerName', name.trim());
+                }
+            } catch (e) {
+                console.warn('Konnte Namen nicht speichern:', e);
+            }
+        }
+
+        function loadPlayerName() {
+            try {
+                const savedName = localStorage.getItem('quizPlayerName');
+                return savedName || '';
+            } catch (e) {
+                console.warn('Konnte Namen nicht laden:', e);
+                return '';
+            }
+        }
+
+        function clearPlayerName() {
+            try {
+                localStorage.removeItem('quizPlayerName');
+            } catch (e) {
+                console.warn('Konnte Namen nicht löschen:', e);
+            }
+        }
+
+        // Session-Name (nur für aktuelle Sitzung; unabhängig von "Name speichern")
+        function saveSessionName(name) {
+            try {
+                if (typeof sessionStorage !== 'undefined') {
+                    sessionStorage.setItem('quizSessionName', (name || '').trim());
+                }
+            } catch (e) {
+                // nicht kritisch
+            }
+        }
+
+        function loadSessionName() {
+            try {
+                if (typeof sessionStorage !== 'undefined') {
+                    return sessionStorage.getItem('quizSessionName') || '';
+                }
+            } catch (e) {
+                // nicht kritisch
+            }
+            return '';
+        }
+
+        function clearSessionName() {
+            try {
+                if (typeof sessionStorage !== 'undefined') {
+                    sessionStorage.removeItem('quizSessionName');
+                }
+            } catch (e) {
+                // nicht kritisch
+            }
+        }
+
+        // Level und XP Speicher-Funktionen (pro Name)
+        function getNameKey(name) {
+            return (name && name.trim()) ? name.trim() : '__anonymous__';
+        }
+
+        function saveProgressMap(map) {
+            localStorage.setItem('quizProgressByName', JSON.stringify(map));
+        }
+
+        function loadProgressMap() {
+            try {
+                const raw = localStorage.getItem('quizProgressByName');
+                return raw ? JSON.parse(raw) : {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveProgressToLocalStorage() {
+            try {
+                const map = loadProgressMap();
+                const key = getNameKey(playerName);
+                map[key] = { xp: xp, level: level, timestamp: Date.now() };
+                saveProgressMap(map);
+                // Backwards-Compat: für alte Version ggf. generischen Fortschritt aktualisieren, wenn anonym
+                if (key === '__anonymous__') {
+                    localStorage.setItem('quizProgress', JSON.stringify(map[key]));
+                }
+            } catch (e) {
+                console.warn('Konnte Fortschritt nicht speichern:', e);
+            }
+        }
+
+        function loadProgressForName(name) {
+            try {
+                const key = getNameKey(name);
+                const map = loadProgressMap();
+                let progress = map[key];
+                // Fallback: migriere alten generischen Fortschritt, falls vorhanden und kein Eintrag existiert
+                if (!progress) {
+                    const legacy = localStorage.getItem('quizProgress');
+                    if (legacy) {
+                        const legacyProgress = JSON.parse(legacy);
+                        if (legacyProgress && legacyProgress.xp !== undefined && legacyProgress.level !== undefined) {
+                            progress = legacyProgress;
+                            map[key] = legacyProgress;
+                            saveProgressMap(map);
+                        }
+                    }
+                }
+                if (progress && progress.xp !== undefined && progress.level !== undefined) {
+                    xp = progress.xp;
+                    level = progress.level;
+                    updateXPDisplay();
+                    updateLevelBadge();
+                    return true;
+                }
+            } catch (e) {
+                console.warn('Konnte Fortschritt nicht laden:', e);
+            }
+            return false;
+        }
+
+        function clearProgressForName(name) {
+            try {
+                const key = getNameKey(name);
+                const map = loadProgressMap();
+                if (map[key]) {
+                    delete map[key];
+                    saveProgressMap(map);
+                }
+                if (key === '__anonymous__') {
+                    localStorage.removeItem('quizProgress');
+                }
+            } catch (e) {
+                console.warn('Konnte Fortschritt nicht löschen:', e);
+            }
+        }
+
+        function displayLeaderboard() {
+            const leaderboardContent = document.getElementById('leaderboardContent');
+            if (!leaderboardContent) return;
+            
+            const currentLevel = selectedLevel || Object.keys(sessionLeaderboard).find(k => sessionLeaderboard[k] && sessionLeaderboard[k].length > 0) || 'uebung';
+            const entries = sessionLeaderboard[currentLevel] || [];
+            
+            // Prüfe welcher Tab aktiv ist
+            const activeTab = document.querySelector('.tab-btn.active');
+            const currentMode = activeTab ? activeTab.dataset.mode : 'timetrials';
+
+            let filteredEntries;
+            if (currentMode === 'timetrials') {
+                // Nur Timetrials anzeigen
+                filteredEntries = entries.filter(entry => entry.time != null && entry.finalScore != null);
+            } else {
+                // Normal-Modus: Alle Einträge ohne Timetrials
+                filteredEntries = entries.filter(entry => !entry.finalScore || entry.time == null);
+            }
+
+            if (filteredEntries.length === 0) {
+                const message = currentMode === 'timetrials' 
+                    ? 'Noch keine Timetrials-Einträge' 
+                    : 'Noch keine Normal-Einträge';
+                leaderboardContent.innerHTML = `<div class="leaderboard-entry" style="justify-content: center; color: #718096;">${message}</div>`;
+                return;
+            }
+
+            if (currentMode === 'timetrials') {
+                // Timetrials-Anzeige mit Score
+                leaderboardContent.innerHTML = filteredEntries
+                    .sort((a, b) => b.finalScore - a.finalScore)
+                    .slice(0, 15)
+                    .map((entry, index) => {
+                        const difficultyEmoji = {
+                            'easy': '🌱',
+                            'medium': '⚡',
+                            'hard': '🔥',
+                            'expert': '💎',
+                            'all': '🌟'
+                        };
+                        
+                        return `
+                            <div class="leaderboard-entry" data-entry-id="${entry.timestamp}">
+                                <span class="entry-rank">${index + 1}.</span>
+                                <span class="entry-name">${entry.name}</span>
+                                <span class="entry-details">
+                                    ${difficultyEmoji[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.level || 'N/A'}<br>
+                                    <small>${entry.percentage}% • Score: ${entry.finalScore}</small>
+                                </span>
+                                <span class="entry-time">${formatTime(entry.time)}</span>
+                                <button class="delete-entry-btn" data-entry-id="${entry.timestamp}" title="Eintrag löschen">×</button>
+                            </div>
+                        `;
+                    }).join('');
+            } else {
+                // Normal-Modus-Anzeige
+                leaderboardContent.innerHTML = filteredEntries
+                    .sort((a, b) => (b.rawScore || b.score || 0) - (a.rawScore || a.score || 0))
+                    .slice(0, 15)
+                    .map((entry, index) => {
+                        const difficultyEmoji = {
+                            'easy': '🌱',
+                            'medium': '⚡',
+                            'hard': '🔥',
+                            'expert': '💎',
+                            'all': '🌟'
+                        };
+                        return `
+                            <div class="leaderboard-entry" data-entry-id="${entry.timestamp}">
+                                <span class="entry-rank">${index + 1}.</span>
+                                <span class="entry-name">${entry.name}</span>
+                                <span class="entry-details">
+                                    ${difficultyEmoji[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.level || 'N/A'}<br>
+                                    <small>${entry.percentage || Math.round(((entry.score || 0) / (entry.questionCount || 1)) * 100)}% • ${entry.xp || 0} XP</small>
+                                </span>
+                                <button class="delete-entry-btn" data-entry-id="${entry.timestamp}" title="Eintrag löschen">×</button>
+                            </div>
+                        `;
+                    }).join('');
+            }
+                
+            // Füge Event-Listener für Lösch-Buttons hinzu
+            document.querySelectorAll('.delete-entry-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const entryId = parseInt(this.dataset.entryId);
+                    deleteLeaderboardEntry(currentLevel, entryId);
+                });
+            });
+        }
+
+        function deleteLeaderboardEntry(level, entryId) {
+            if (confirm('Diesen Leaderboard-Eintrag wirklich löschen?')) {
+                sessionLeaderboard[level] = sessionLeaderboard[level].filter(entry => entry.timestamp !== entryId);
+                saveLeaderboardToLocalStorage();
+                displayLeaderboard();
+                displayStartLeaderboard(); // Aktualisiere auch Start-Anzeige
+            }
+        }
+
+        function displayStartLeaderboard() {
+            const startLeaderboardContent = document.getElementById('startLeaderboardContent');
+            if (!startLeaderboardContent) return;
+
+            // aktiven Modus von Start-Tabs bestimmen
+            const activeStartTab = document.querySelector('.start-tab-btn.active');
+            const mode = activeStartTab ? activeStartTab.dataset.mode : 'timetrials';
+
+            // Sammle alle Einträge aus allen Leveln
+            let allEntries = [];
+            Object.keys(sessionLeaderboard).forEach(level => {
+                sessionLeaderboard[level].forEach(entry => {
+                    allEntries.push({ ...entry, levelName: level });
+                });
+            });
+
+            // Filter nach Modus
+            if (mode === 'timetrials') {
+                allEntries = allEntries.filter(e => e.time != null && e.finalScore != null);
+            } else {
+                allEntries = allEntries.filter(e => !e.finalScore || e.time == null);
+            }
+
+            if (allEntries.length === 0) {
+                const msg = mode === 'timetrials'
+                    ? 'Noch keine Timetrials vorhanden.<br>Spiele mit Timer + Schwierigkeit!'
+                    : 'Noch keine Normal-Einträge vorhanden.<br>Spiele ohne Timer.';
+                startLeaderboardContent.innerHTML = `<div class="empty-leaderboard">${msg}</div>`;
+                return;
+            }
+
+            if (mode === 'timetrials') {
+                // Top 5 Timetrials über alle Level
+                startLeaderboardContent.innerHTML = allEntries
+                    .sort((a, b) => b.finalScore - a.finalScore)
+                    .slice(0, 5)
+                    .map((entry, index) => {
+                        const difficultyEmoji = { 'easy': '🌱', 'medium': '⚡', 'hard': '🔥', 'expert': '💎', 'all': '🌟' };
+                        return `
+                            <div class="leaderboard-entry">
+                                <span class="entry-rank">${index + 1}.</span>
+                                <span class="entry-name">${entry.name}</span>
+                                <span class="entry-details">
+                                    ${difficultyEmoji[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.levelName}<br>
+                                    <small>${entry.percentage}% • Score: ${entry.finalScore}</small>
+                                </span>
+                                <span class="entry-time">${formatTime(entry.time)}</span>
+                            </div>
+                        `;
+                    }).join('');
+            } else {
+                // Top 5 Normal über alle Level
+                startLeaderboardContent.innerHTML = allEntries
+                    .sort((a, b) => (b.rawScore || b.score || 0) - (a.rawScore || a.score || 0))
+                    .slice(0, 5)
+                    .map((entry, index) => `
+                        <div class="leaderboard-entry">
+                            <span class="entry-rank">${index + 1}.</span>
+                            <span class="entry-name">${entry.name}</span>
+                            <span class="entry-details">
+                                ${({easy:'🌱',medium:'⚡',hard:'🔥',expert:'💎',all:'🌟'})[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.levelName}<br>
+                                <small>${entry.percentage || Math.round(((entry.score || 0) / (entry.questionCount || 1)) * 100)}% • ${entry.xp || 0} XP</small>
+                            </span>
+                        </div>
+                    `).join('');
+            }
+        }
+
+        function startQuiz() {
+            // Validiere Auswahl
+            if (!selectedLevel) {
+                alert('Bitte wähle ein Level aus!');
+                return;
+            }
+
+            // Name übernehmen (fallback: "Spieler/in")
+            const nameInput = document.getElementById('playerName');
+            playerName = (nameInput.value || "Spieler/in").trim();
+            saveSessionName(playerName); // für aktuelle Sitzung merken
+            
+            // Speichere Namen wenn Checkbox aktiv ist
+            const saveNameCheckbox = document.getElementById('saveNameCheckbox');
+            if (saveNameCheckbox && saveNameCheckbox.checked && nameInput.value && nameInput.value.trim()) {
+                savePlayerName(nameInput.value.trim());
+                updateNameUIState();
+            }
+
+            initializeQuestionPool();
+
+            // Hole Fragen basierend auf Level, Schwierigkeitsgrad und Modifiern
+            filteredQuestions = selectQuestionsFromPool(selectedLevel, selectedDifficulty, 15);
+            
+            // Prüfe ob Fragen verfügbar sind
+            if (filteredQuestions.length === 0) {
+                if (activeModifiers.includes('practice')) {
+                    alert('Keine falsch beantworteten Fragen für diese Kombination verfügbar. Versuche andere Einstellungen.');
+                } else {
+                    alert('Keine Fragen für diese Kombination verfügbar. Versuche andere Einstellungen.');
+                }
+                return;
+            }
+
+            // Timer starten wenn Speedrun-Modifier aktiv
+            if (activeModifiers.includes('speedrun')) {
+                startTime = Date.now();
+                document.getElementById('timerDisplay').style.display = 'block';
+                timerInterval = setInterval(updateTimer, 1000);
+            }
+
+            document.getElementById('startScreen').style.display = 'none';
+            updateBodyClass();
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const container = document.getElementById('questionsContainer');
+            const question = filteredQuestions[currentQuestion];
+
+            let optionsHTML = '';
+            const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+            if (question.type === 'multiple') {
+                // Erstelle Array mit Optionen und ihren ursprünglichen Indizes
+                const optionsWithIndex = question.options.map((option, index) => ({
+                    text: option,
+                    originalIndex: index
+                }));
+                
+                // Mische die Optionen zufällig
+                const shuffledOptions = shuffleArray([...optionsWithIndex]);
+                
+                // Finde den neuen Index der korrekten Antwort
+                const newCorrectIndex = shuffledOptions.findIndex(opt => opt.originalIndex === question.correct);
+                
+                // Speichere die neue korrekte Antwort für später
+                question._shuffledCorrect = newCorrectIndex;
+                
+                optionsHTML = shuffledOptions.map((option, index) => `
+                    <div class="option" data-index="${index}" data-letter="${letters[index]}">
+                        <span>${option.text}</span>
+                    </div>
+                `).join('');
+
+            } else if (question.type === 'checkbox') {
+                optionsHTML = question.options.map((option, index) => `
+                    <div class="option">
+                        <input type="checkbox" id="option${index}">
+                        <label for="option${index}" style="cursor: pointer; flex: 1;">${option}</label>
+                    </div>
+                `).join('');
+
+            } else if (question.type === 'text') {
+                optionsHTML = `<input type="text" class="text-input" id="textAnswer" placeholder="Deine Antwort eingeben...">`;
+
+            } else if (question.type === 'fillblank') {
+                let questionText = question.question;
+                (question.blanks || []).forEach((_, i) => {
+                    questionText = questionText.replace('_____', `<input type="text" class="blank-input" id="blank${i}" placeholder="...">`);
+                });
+                optionsHTML = `<div style="font-size: 18px; line-height: 2;">${questionText}</div>`;
+
+            } else if (question.type === 'sort') {
+                // Sort: zeige nur die sortierbaren Items (keine Matching-Spalten hier)
+                const itemsToShow = shuffleArray([...question.items || []]);
+                optionsHTML = `<div class="sortable-container" id="sortableContainer">
+                    ${itemsToShow.map((item) => `
+                        <div class="sortable-item" draggable="true" data-item="${item}">
+                            <span class="drag-handle">☰</span>
+                            <span>${item}</span>
+                        </div>
+                    `).join('')}
+                </div>`;
+
+            } else if (question.type === 'matching') {
+                // Matching: benutze question.left / question.right wenn vorhanden, sonst paare aufteilen
+                const leftItems = question.left || (question.pairs || []).map(p => p.left);
+                const rightItems = question.right || (question.pairs || []).map(p => p.right);
+
+                optionsHTML = `
+                    <div class="matching-container">
+                        <div class="matching-column" id="leftColumn">
+                            ${leftItems.map((item) => `
+                                <div class="matching-item" data-value="${item}" data-side="left">
+                                    ${item}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="matching-column" id="rightColumn">
+                            ${rightItems.map((item) => `
+                                <div class="matching-item" data-value="${item}" data-side="right">
+                                    ${item}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div id="matchingPairs" style="margin-top: 20px; display: none;"></div>
+                `;
+            }
+
+            const difficultyDots = Array(4).fill(0).map((_, i) =>
+                `<div class="difficulty-dot ${i < (question.difficulty || 1) ? 'active' : ''}"></div>`
+            ).join('');
+
+            container.innerHTML = `
+                <div class="question-container active">
+                    <div class="question-header">
+                        <span class="question-number">Frage ${currentQuestion + 1}/${filteredQuestions.length}</span>
+                        <div class="difficulty-indicator">${difficultyDots}</div>
+                    </div>
+                    <div class="question-text">${(question.question || 'Bitte ordne die Elemente zu.')}</div>
+                    <div class="options" id="optionsContainer">
+                        ${optionsHTML}
+                    </div>
+                    <div class="feedback" id="feedback"></div>
+                    <div class="buttons">
+                        ${currentQuestion > 0 ? '<button class="btn btn-secondary" id="prevBtn">← Zurück</button>' : ''}
+                        <button class="btn btn-primary" id="checkBtn">Prüfen</button>
+                    </div>
+                </div>
+            `;
+
+            updateProgress();
+            attachEventListeners();
+        }
+
+        function showWarning(msg) {
+            const feedback = document.getElementById('feedback');
+            feedback.className = 'feedback warning show';
+            feedback.innerHTML = `<strong>⚠ Hinweis:</strong> ${msg}`;
+        }
+
+        function attachEventListeners() {
+            if (!filteredQuestions || currentQuestion >= filteredQuestions.length) {
+                console.error('Keine Fragen verfügbar oder ungültiger Index');
+                return;
+            }
+            
+            const question = filteredQuestions[currentQuestion];
+
+            if (question.type === 'multiple') {
+                document.querySelectorAll('.option').forEach(option => {
+                    option.addEventListener('click', function() {
+                        selectOption(parseInt(this.dataset.index));
+                    });
+                });
+            }
+
+            if (question.type === 'sort') {
+                const container = document.getElementById('sortableContainer');
+                const items = container.querySelectorAll('.sortable-item');
+
+                items.forEach(item => {
+                    item.addEventListener('dragstart', handleDragStart);
+                    item.addEventListener('dragover', handleDragOver);
+                    item.addEventListener('drop', handleDrop);
+                    item.addEventListener('dragend', handleDragEnd);
+                });
+            }
+
+            if (question.type === 'matching') {
+                let selectedLeft = null;
+                let selectedRight = null;
+                const pairs = [];
+
+                document.querySelectorAll('.matching-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        if (this.dataset.side === 'left') {
+                            document.querySelectorAll('[data-side="left"]').forEach(i => i.classList.remove('selected'));
+                            this.classList.add('selected');
+                            selectedLeft = this.dataset.value;
+                        } else {
+                            document.querySelectorAll('[data-side="right"]').forEach(i => i.classList.remove('selected'));
+                            this.classList.add('selected');
+                            selectedRight = this.dataset.value;
+                        }
+
+                        if (selectedLeft && selectedRight) {
+                            pairs.push({ left: selectedLeft, right: selectedRight });
+                            document.querySelectorAll('.matching-item.selected').forEach(i => {
+                                i.style.opacity = '0.3';
+                                i.style.pointerEvents = 'none';
+                            });
+                            selectedLeft = null;
+                            selectedRight = null;
+                        }
+
+                        // Store pairs for checking
+                        window.matchingPairs = pairs;
+                    });
+                });
+            }
+
+            const checkAnswerBtn = document.getElementById('checkBtn');
+            if (checkAnswerBtn) {
+                checkAnswerBtn.addEventListener('click', checkAnswer);
+            }
+
+            const prevBtn = document.getElementById('prevBtn');
+            if (prevBtn) {
+                prevBtn.addEventListener('click', previousQuestion);
+            }
+        }
+
+        let draggedItem = null;
+
+        function handleDragStart(e) {
+            draggedItem = this;
+            this.classList.add('dragging');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            if (this !== draggedItem) {
+                const container = document.getElementById('sortableContainer');
+                const items = Array.from(container.children);
+                const draggedIndex = items.indexOf(draggedItem);
+                const targetIndex = items.indexOf(this);
+
+                if (draggedIndex < targetIndex) {
+                    this.parentNode.insertBefore(draggedItem, this.nextSibling);
+                } else {
+                    this.parentNode.insertBefore(draggedItem, this);
+                }
+            }
+        }
+
+        function handleDragEnd() {
+            this.classList.remove('dragging');
+        }
+
+        function selectOption(index) {
+            const question = filteredQuestions[currentQuestion];
+            if (question.type !== 'multiple') return;
+
+            const options = document.querySelectorAll('.option');
+            options.forEach((opt, i) => {
+                opt.classList.remove('selected');
+                if (i === index) {
+                    opt.classList.add('selected');
+                }
+            });
+        }
+
+        function checkAnswer() {
+            const question = filteredQuestions[currentQuestion];
+            const feedback = document.getElementById('feedback');
+            let isCorrect = false;
+
+            if (question.type === 'multiple') {
+                const selected = document.querySelector('.option.selected');
+                if (!selected) {
+                    showWarning('Bitte wähle eine Antwort aus!');
+                    return;
+                }
+
+                const selectedIndex = parseInt(selected.dataset.index);
+                // Verwende den gemischten korrekten Index wenn verfügbar, sonst den ursprünglichen
+                const correctIndex = question._shuffledCorrect !== undefined ? question._shuffledCorrect : question.correct;
+                isCorrect = selectedIndex === correctIndex;
+
+                const options = document.querySelectorAll('.option');
+                options.forEach((opt, i) => {
+                    if (i === correctIndex) {
+                        opt.classList.add('correct');
+                    } else if (i === selectedIndex && !isCorrect) {
+                        opt.classList.add('wrong');
+                    }
+                    opt.style.pointerEvents = 'none';
+                });
+
+            } else if (question.type === 'checkbox') {
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                const selected = [];
+                checkboxes.forEach((cb, i) => {
+                    if (cb.checked) selected.push(i);
+                });
+
+                if (selected.length === 0) {
+                    showWarning('Bitte wähle mindestens eine Antwort aus!');
+                    return;
+                }
+
+                isCorrect = selected.length === question.correct.length &&
+                           selected.every(i => question.correct.includes(i));
+
+                const options = document.querySelectorAll('.option');
+                options.forEach((opt, i) => {
+                    const isCorrectAnswer = question.correct.includes(i);
+                    const isSelected = selected.includes(i);
+
+                    if (isCorrectAnswer) {
+                        opt.classList.add('correct');
+                    } else if (isSelected) {
+                        opt.classList.add('wrong');
+                    }
+                });
+
+                checkboxes.forEach(cb => cb.disabled = true);
+
+            } else if (question.type === 'text') {
+                const answer = document.getElementById('textAnswer').value.trim().toLowerCase();
+                if (!answer) {
+                    showWarning('Bitte gib eine Antwort ein!');
+                    return;
+                }
+
+                isCorrect = question.correct.some(correct =>
+                    answer.includes(correct.toLowerCase())
+                );
+
+                const textInput = document.getElementById('textAnswer');
+                textInput.style.borderColor = isCorrect ? '#48bb78' : '#f56565';
+                textInput.disabled = true;
+            } else if (question.type === 'fillblank') {
+                const blanks = question.blanks;
+                const answers = blanks.map((_, i) => {
+                    const input = document.getElementById(`blank${i}`);
+                    return input ? input.value.trim() : '';
+                });
+
+                if (answers.some(a => !a)) {
+                    showWarning('Bitte fülle alle Lücken aus!');
+                    return;
+                }
+
+                isCorrect = answers.every((answer, i) =>
+                    answer.toLowerCase() === blanks[i].toLowerCase()
+                );
+
+                answers.forEach((_, i) => {
+                    const input = document.getElementById(`blank${i}`);
+                    if (input) {
+                        const right = input.value.trim().toLowerCase() === blanks[i].toLowerCase();
+                        input.style.borderColor = right ? '#48bb78' : '#f56565';
+                        input.disabled = true;
+                    }
+                });
+            } else if (question.type === 'sort') {
+                const container = document.getElementById('sortableContainer');
+                const items = Array.from(container.children);
+                const userOrder = items.map(item => item.dataset.item);
+
+                isCorrect = JSON.stringify(userOrder) === JSON.stringify(question.correct);
+
+                items.forEach((item, i) => {
+                    item.draggable = false;
+                    if (item.dataset.item === question.correct[i]) {
+                        item.classList.add('correct');
+                    } else {
+                        item.classList.add('wrong');
+                    }
+                });
+            } else if (question.type === 'matching') {
+                const userPairs = window.matchingPairs || [];
+
+                if (userPairs.length !== question.pairs.length) {
+                    showWarning('Bitte ordne alle Paare zu!');
+                    return;
+                }
+
+                isCorrect = userPairs.every(userPair =>
+                    question.pairs.some(correctPair =>
+                        correctPair.left === userPair.left && correctPair.right === userPair.right
+                    )
+                );
+
+                document.querySelectorAll('.matching-item').forEach(item => {
+                    item.style.pointerEvents = 'none';
+                });
+            }
+
+            if (isCorrect) {
+                score++;
+                correctAnswers++;
+                let gainedXP = question.xp;
+                // Bonus XP im Speedrun-Modus
+                if (activeModifiers.includes('speedrun')) {
+                    gainedXP = Math.floor(gainedXP * 1.5); // 50% mehr XP im Speedrun
+                }
+                xp += gainedXP;
+                updateXPDisplay();
+                checkLevelUp();
+                feedback.className = 'feedback correct show';
+                feedback.innerHTML = `<strong>✓ Richtig!</strong> <span class="xp-gain">+${gainedXP} XP</span><br>${question.explanation}`;
+            } else {
+                wrongAnswers++;
+                let xpPenalty = 0;
+                // XP-Bestrafung bei mittlerem und höherem Schwierigkeitsgrad
+                if (question.difficulty >= 2 || activeModifiers.includes('speedrun')) {
+                    xpPenalty = Math.floor(question.xp * (activeModifiers.includes('speedrun') ? 0.75 : 0.5));
+                    xp = Math.max(0, xp - xpPenalty);
+                    updateXPDisplay();
+                }
+
+                // Speichere falsch beantwortete Frage
+                if (!activeModifiers.includes('practice')) {
+                    wrongAnsweredQuestions.push({
+                        question: question,
+                        timestamp: Date.now()
+                    });
+                    // Behalte nur die letzten 50 falsch beantworteten Fragen
+                    if (wrongAnsweredQuestions.length > 50) {
+                        wrongAnsweredQuestions.shift();
+                    }
+                }
+
+                feedback.className = 'feedback wrong show';
+                feedback.innerHTML = `<strong>✗ Leider falsch.</strong>${xpPenalty > 0 ? ` <span class="xp-gain" style="background: #f56565">-${xpPenalty} XP</span>` : ''}<br>${question.explanation}`;
+            }
+
+            userAnswers[currentQuestion] = isCorrect;
+
+            const nextBtn = document.getElementById('checkBtn');
+            if (nextBtn) {
+                nextBtn.textContent = currentQuestion === filteredQuestions.length - 1 ? 'Ergebnis anzeigen' : 'Weiter →';
+                nextBtn.disabled = false; // Button wieder aktivieren
+                const newNextBtn = nextBtn.cloneNode(true);
+                nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
+                newNextBtn.addEventListener('click', nextQuestion);
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+
+            if (currentQuestion >= filteredQuestions.length) {
+                showResults();
+            } else {
+                renderQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+            }
+        }
+
+        function showResults() {
+            const percentage = Math.round((score / filteredQuestions.length) * 100);
+            const resultScreen = document.getElementById('resultScreen');
+            const questionsContainer = document.getElementById('questionsContainer');
+
+            if (activeModifiers.includes('speedrun')) {
+                clearInterval(timerInterval);
+                currentTime = Date.now();
+            }
+
+            questionsContainer.style.display = 'none';
+            resultScreen.classList.add('show');
+
+            document.getElementById('scoreText').textContent = percentage + '%';
+
+            let message = '';
+            if (percentage >= 90) {
+                message = '🎉 Hervorragend!';
+            } else if (percentage >= 75) {
+                message = '👍 Sehr gut!';
+            } else if (percentage >= 60) {
+                message = '✓ Gut gemacht!';
+            } else if (percentage >= 50) {
+                message = '📚 Weiter üben!';
+            } else {
+                message = '💪 Nicht aufgeben!';
+            }
+
+            // Name dynamisch einbauen
+            document.getElementById('resultMessage').textContent = playerName + ': ' + message;
+            
+            let detailsText = `Du hast ${score} von ${filteredQuestions.length} Fragen richtig beantwortet.`;
+            const leaderboardLevel = selectedLevel || 'uebung';
+            
+            // Leaderboard-Update für alle Modi
+            if (activeModifiers.includes('speedrun')) {
+                const elapsedTime = currentTime - startTime;
+                detailsText += `\nBenötigte Zeit: ${formatTime(elapsedTime)}`;
+                updateLeaderboard(leaderboardLevel, score, elapsedTime);
+                
+                // Zeige Score nur bei qualifizierten Timetrials
+                const hasOnlyTimerModifier = activeModifiers.length === 1 && activeModifiers.includes('speedrun');
+                const hasDifficultySet = selectedDifficulty !== 'all';
+                
+                if (hasOnlyTimerModifier && hasDifficultySet) {
+                    const difficultyMultiplier = getDifficultyMultiplier(selectedDifficulty);
+                    const timeBonus = calculateTimeBonus(elapsedTime, filteredQuestions.length);
+                    const finalScore = calculateWeightedScore(percentage, difficultyMultiplier, timeBonus, filteredQuestions.length);
+                    detailsText += `\n⚡ Timetrial-Score: ${finalScore} (${selectedDifficulty.toUpperCase()})`;
+                }
+            } else {
+                // Normal-Modus ohne Timer
+                updateLeaderboard(leaderboardLevel, score, null);
+            }
+            document.getElementById('resultDetails').textContent = detailsText;
+
+            document.getElementById('statCorrect').textContent = correctAnswers;
+            document.getElementById('statWrong').textContent = wrongAnswers;
+            document.getElementById('statXP').textContent = xp;
+            document.getElementById('statLevel').textContent = level;
+
+            // Speichere falsch beantwortete Fragen dieses Durchlaufs in lastFiveRuns (für Übungsmodus)
+            try {
+                const currentRunWrong = filteredQuestions
+                    .map((q, i) => ({ q: q, idx: i }))
+                    .filter(item => userAnswers[item.idx] === false)
+                    .map(item => JSON.parse(JSON.stringify(item.q))); // deep clone
+
+                lastFiveRuns.push(currentRunWrong);
+                if (lastFiveRuns.length > 5) lastFiveRuns.shift();
+            } catch (e) {
+                // Falls etwas schiefgeht, nicht blockieren (robuster gegen undefiniertheiten)
+                console.warn('Konnte lastFiveRuns nicht aktualisieren:', e);
+            }
+
+            // updateLeaderboard() was already called with level/time above; avoid empty call
+            displayLeaderboard();
+            displayStartLeaderboard(); // Aktualisiere auch Start-Anzeige
+
+            // WhatsApp Share Link erzeugen (Text dynamisch)
+            const shareText = encodeURIComponent(
+                `${playerName} hat gerade ${percentage}% im Quiz "Web-basierte Anwendungssysteme" erreicht.\n` +
+                `Level ${level}, ${xp} XP.\n` +
+                `Willst du es auch spielen? Frag mich nach der HTML-Datei oder nimm den Link 👇`
+            );
+
+            const waUrl = `https://wa.me/?text=${shareText}`;
+
+            const waBtn = document.getElementById('whatsappShareBtn');
+            waBtn.setAttribute('href', waUrl);
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            userAnswers = [];
+            correctAnswers = 0;
+            wrongAnswers = 0;
+            // XP und Level NICHT zurücksetzen - bleiben bestehen!
+            // xp = 0; // ENTFERNT
+            // level = 1; // ENTFERNT
+            selectedLevel = null;
+            selectedDifficulty = 'all';
+            activeModifiers = ['normal'];
+            // Name in dieser Sitzung beibehalten
+            
+            // Reset Timer
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            document.getElementById('timerDisplay').style.display = 'none';
+
+            document.getElementById('resultScreen').classList.remove('show');
+            document.getElementById('questionsContainer').style.display = 'block';
+            document.getElementById('startScreen').style.display = 'block';
+            document.body.className = '';
+
+            updateXPDisplay();
+            updateLevelBadge();
+
+            // Reset Level Auswahl
+            document.querySelectorAll('.level-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Reset Modifier Auswahl
+            document.querySelectorAll('.modifier-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector('.modifier-btn[data-modifier="normal"]').classList.add('active');
+
+            // Reset Difficulty Auswahl
+            document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            document.querySelector('.difficulty-btn[data-difficulty="all"]').classList.add('selected');
+
+            document.getElementById('startBtn').disabled = true;
+            
+            // Reset Question Pool und Timer
+            usedQuestions.clear();
+            document.getElementById('timer').textContent = '00:00';
+            
+            // Name im Feld belassen (Session-Komfort)
+            const sessionName = loadSessionName();
+            if (sessionName) {
+                document.getElementById('playerName').value = sessionName;
+            }
+            
+            // Validate start conditions
+            validateStartConditions();
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / filteredQuestions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Globale Hilfsfunktionen (müssen außerhalb DOMContentLoaded liegen, da sie auch von globalen Funktionen aufgerufen werden)
+        function updateNameUIState() {
+            const savedName = loadPlayerName();
+            const hasStoredName = !!savedName;
+            
+            const nameDisclaimer = document.getElementById('nameDisclaimer');
+            const resetProgressContainer = document.getElementById('resetProgressContainer');
+            const saveNameCheckbox = document.getElementById('saveNameCheckbox');
+            
+            if (hasStoredName) {
+                // Zeige Reset-Button, verstecke Disclaimer
+                if (nameDisclaimer) nameDisclaimer.style.display = 'none';
+                if (resetProgressContainer) resetProgressContainer.style.display = 'block';
+                if (saveNameCheckbox) saveNameCheckbox.checked = true;
+            } else {
+                // Zeige Disclaimer, verstecke Reset-Button
+                if (nameDisclaimer) nameDisclaimer.style.display = 'block';
+                if (resetProgressContainer) resetProgressContainer.style.display = 'none';
+                if (saveNameCheckbox) saveNameCheckbox && (saveNameCheckbox.checked = false);
+            }
+        }
+
+        function validateStartConditions() {
+            const nameInput = document.getElementById('playerName');
+            const startBtn = document.getElementById('startBtn');
+            if (!nameInput || !startBtn) return;
+            const nameOk = !!nameInput.value.trim();
+            const levelOk = !!selectedLevel;
+
+            // Start ist erlaubt, sobald ein Level ausgewählt wurde (Name optional)
+            startBtn.disabled = !levelOk;
+
+            // Visuelles Feedback: Grün wenn Name gesetzt, sonst neutral
+            if (nameOk) {
+                nameInput.style.borderColor = 'rgba(46, 204, 113, 0.5)';
+            } else {
+                nameInput.style.borderColor = '';
+            }
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Level selection
+            document.querySelectorAll('.level-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    document.querySelectorAll('.level-card').forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedLevel = this.dataset.level;
+                    validateStartConditions();
+                });
+            });
+
+            // Modifier selection (multiple selection possible)
+            document.querySelectorAll('.modifier-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const modifier = this.dataset.modifier;
+                    
+                    if (modifier === 'normal') {
+                        // Normal ersetzt alle anderen Modifier
+                        activeModifiers = ['normal'];
+                        document.querySelectorAll('.modifier-btn').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                    } else {
+                        // Entferne Normal wenn anderer Modifier gewählt wird
+                        const normalIndex = activeModifiers.indexOf('normal');
+                        if (normalIndex > -1) {
+                            activeModifiers.splice(normalIndex, 1);
+                            document.querySelector('.modifier-btn[data-modifier="normal"]').classList.remove('active');
+                        }
+                        
+                        // Toggle des gewählten Modifiers
+                        const index = activeModifiers.indexOf(modifier);
+                        if (index > -1) {
+                            activeModifiers.splice(index, 1);
+                            this.classList.remove('active');
+                        } else {
+                            activeModifiers.push(modifier);
+                            this.classList.add('active');
+                        }
+                        
+                        // Falls keine Modifier aktiv, setze Normal
+                        if (activeModifiers.length === 0) {
+                            activeModifiers = ['normal'];
+                            document.querySelector('.modifier-btn[data-modifier="normal"]').classList.add('active');
+                        }
+                    }
+                    
+                    // show/hide practice info
+                    const practiceInfo = document.getElementById('practiceInfo');
+                    if (practiceInfo) practiceInfo.style.display = activeModifiers.includes('practice') ? 'block' : 'none';
+                    
+                    validateStartConditions();
+                });
+            });
+
+            // Difficulty selection
+            document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedDifficulty = this.dataset.difficulty;
+                    validateStartConditions();
+                });
+            });
+
+            // Name input validation
+            document.getElementById('playerName').addEventListener('input', function() {
+                validateStartConditions();
+                updateNameUIState();
+            });
+
+            // Checkbox für Namen speichern
+            const saveNameCheckbox = document.getElementById('saveNameCheckbox');
+            if (saveNameCheckbox) {
+                saveNameCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        const nameInput = document.getElementById('playerName');
+                        if (nameInput.value.trim()) {
+                            savePlayerName(nameInput.value.trim());
+                            updateNameUIState();
+                        }
+                    } else {
+                        clearPlayerName();
+                        updateNameUIState();
+                    }
+                });
+            }
+
+            // Leaderboard Tab-Wechsel (Ergebnisseite)
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    displayLeaderboard();
+                });
+            });
+
+            // Start-Leaderboard Tab-Wechsel (Hauptmenü)
+            document.querySelectorAll('.start-tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.start-tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    displayStartLeaderboard();
+                });
+            });
+
+            // (removed duplicate mode selection handler)
+
+            const quizStartBtn = document.getElementById('startBtn');
+            if (quizStartBtn) {
+                quizStartBtn.addEventListener('click', startQuiz);
+            }
+
+            const quizRestartBtn = document.getElementById('restartBtn');
+            if (quizRestartBtn) {
+                quizRestartBtn.addEventListener('click', restartQuiz);
+            }
+
+            const levelUpContinue = document.getElementById('levelUpContinue');
+            if (levelUpContinue) {
+                levelUpContinue.addEventListener('click', function() {
+                    document.getElementById('levelUpOverlay').classList.remove('show');
+                });
+            }
+
+            // Reset Progress Button
+            const resetProgressBtn = document.getElementById('resetProgressBtn');
+            if (resetProgressBtn) {
+                resetProgressBtn.addEventListener('click', function() {
+                    if (confirm('Möchtest du wirklich deinen gesamten Fortschritt (Level & XP) und ggf. gespeicherten Namen zurücksetzen?')) {
+                        xp = 0;
+                        level = 1;
+                        updateXPDisplay();
+                        updateLevelBadge();
+                        // Fortschritt nur für den aktuellen Namen löschen
+                        clearProgressForName(playerName);
+                        // Name & UI zurücksetzen
+                        clearPlayerName();
+                        clearSessionName();
+                        const nameInput = document.getElementById('playerName');
+                        if (nameInput) nameInput.value = '';
+                        updateNameUIState();
+                        alert('Fortschritt wurde zurückgesetzt!');
+                    }
+                });
+            }
+
+            // Clear-All-Button für Start-Leaderboard
+            const clearAllBtn = document.getElementById('clearAllLeaderboardBtn');
+            if (clearAllBtn) {
+                clearAllBtn.addEventListener('click', function() {
+                    if (confirm('Komplette Bestenliste wirklich löschen?')) {
+                        Object.keys(sessionLeaderboard).forEach(level => sessionLeaderboard[level] = []);
+                        saveLeaderboardToLocalStorage();
+                        displayStartLeaderboard();
+                        // Falls Ergebnis-Leaderboard sichtbar wäre
+                        if (document.getElementById('leaderboardContent')) {
+                            displayLeaderboard();
+                        }
+                    }
+                });
+            }
+
+            // Leaderboard wird automatisch bei Änderungen aktualisiert
+
+            updateProgress();
+            updateXPDisplay();
+            updateLevelBadge();
+            
+            // Lade gespeicherte Bestenliste
+            loadLeaderboardFromLocalStorage();
+            
+            // Verwende spezielle Anzeige für Start-Leaderboard
+            displayStartLeaderboard();
+
+            // Lade Namen: zuerst aus der Sitzung, sonst aus dauerhaftem Speicher
+            const sessionName = loadSessionName();
+            const savedName = loadPlayerName();
+            const initialName = sessionName || savedName;
+            if (initialName) {
+                document.getElementById('playerName').value = initialName;
+                playerName = initialName;
+                // Lade Fortschritt für diesen Namen
+                if (!loadProgressForName(playerName)) {
+                    xp = 0; level = 1; updateXPDisplay(); updateLevelBadge();
+                }
+                validateStartConditions();
+            } else {
+                // Kein Name: lade anonymen Fortschritt
+                if (!loadProgressForName('')) {
+                    xp = 0; level = 1; updateXPDisplay(); updateLevelBadge();
+                }
+            }
+
+            // Session-Name live mitführen, ohne Pflicht zum Speichern
+            const nameInputEl = document.getElementById('playerName');
+            if (nameInputEl) {
+                nameInputEl.addEventListener('input', function() {
+                    playerName = this.value.trim();
+                    saveSessionName(playerName);
+                    // Lade (oder initialisiere) Fortschritt des eingegebenen Namens
+                    if (!loadProgressForName(playerName)) {
+                        xp = 0; level = 1; updateXPDisplay(); updateLevelBadge();
+                    }
+                    validateStartConditions();
+                });
+            }
+            
+            // Aktualisiere Namen-UI (Disclaimer/Reset-Button)
+            updateNameUIState();
+            
+            // Setze Standard-Modifier aktiv
+            document.querySelector('.modifier-btn[data-modifier="normal"]').classList.add('active');
+        });
+    </script>
+</body>
+</html>
