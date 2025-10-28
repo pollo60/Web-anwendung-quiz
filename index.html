@@ -1712,6 +1712,9 @@
                 defaultLevelCard.classList.add('selected');
             }
             
+            // Validate start conditions to enable the button
+            validateStartConditions();
+            
             document.querySelectorAll('.level-card').forEach(card => {
                 card.addEventListener('click', function() {
                     document.querySelectorAll('.level-card').forEach(c => c.classList.remove('selected'));
