@@ -236,6 +236,125 @@ body.level-expert {
     animation: progressStripes 0.5s linear infinite;
 }
 
+/* ========================
+   Mobile adjustments
+   ======================== */
+@media (max-width: 600px) {
+    /* Container and general spacing */
+    .container {
+        border-radius: 0;
+        margin: 0;
+        padding: 10px;
+    }
+
+    .header {
+        padding: 14px 12px 16px 12px;
+        min-height: 88px; /* space for top badges */
+    }
+    .header h1 {
+        font-size: 0; /* hide text */
+        margin: 6px 0 0 0;
+    }
+    .header h1::before {
+        content: '📚';
+        font-size: 18px;
+        line-height: 1;
+        display: inline-block;
+        filter: drop-shadow(1px 1px 0 #000);
+    }
+    .header p { display: none; }
+
+    .xp-container {
+        top: 8px;
+        left: 8px;
+        padding: 6px 8px;
+        font-size: 7px;
+    }
+    .level-badge-wrap {
+        top: 8px;
+        right: 8px;
+        gap: 4px;
+    }
+    .level-badge {
+        padding: 6px 8px;
+        font-size: 7px;
+    }
+    .title-plaque {
+        padding: 4px 8px;
+        font-size: 8px;
+    }
+
+    /* Leaderboard compact */
+    .wooden-board {
+        padding: 10px;
+    }
+    .leaderboard-title {
+        font-size: 12px;
+        margin: 0 0 6px 0;
+    }
+    .leaderboard-tabs { gap: 6px; }
+    .leaderboard-tabs .tab-btn,
+    .tab-btn.start-tab-btn {
+        font-size: 11px;
+        padding: 6px 8px;
+        border-radius: 6px;
+    }
+    .leaderboard-content { max-height: 240px; overflow: auto; }
+    .leaderboard-entry {
+        gap: 6px;
+        padding: 6px 4px;
+        font-size: 11px;
+    }
+    .leaderboard-entry .entry-name { max-width: 36%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .leaderboard-entry .entry-details { max-width: 44%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .leaderboard-entry .entry-time { font-size: 11px; }
+    .delete-entry-btn { transform: scale(0.9); }
+
+    /* Name input placeholder sizing; content updated via JS */
+    .name-input::placeholder { font-size: 12px; }
+    .name-input { font-size: 12px; padding: 10px 12px; }
+
+    /* Level grid fixes */
+    .level-selection {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin: 16px 0;
+    }
+    .level-card {
+        padding: 10px;
+        margin: 6px;
+    }
+    .level-card .level-icon { font-size: 18px; }
+    .level-card .level-name { font-size: 12px; }
+    .level-card .level-description { display: none; }
+    .level-card:last-child { grid-column: auto; }
+
+    /* Question header tightening */
+    .question-header { padding-bottom: 10px; margin-bottom: 12px; }
+    .question-number { font-size: 12px; padding: 6px 10px; }
+
+    /* Compact question text */
+    .question-text { font-size: 14px; }
+
+    /* Buttons stack vertically where used as a group */
+    .buttons { flex-direction: column; }
+
+    /* Matching layout stack */
+    .matching-container { grid-template-columns: 1fr; }
+
+    /* Mode button compact */
+    .mode-btn { min-width: 120px; padding: 12px; }
+
+    /* Modifier and Difficulty buttons compact */
+    .modifier-btn, .difficulty-btn { min-width: 120px; padding: 12px; }
+
+    /* Shrink section labels (override inline sizes) */
+    .modifier-selection > label, .difficulty-selection > label { font-size: 0.95em !important; }
+
+    /* Content padding */
+    .content { padding: 15px; }
+}
+
 .progress-bar::before {
     content: '';
     position: absolute;
@@ -1346,64 +1465,4 @@ body.level-expert {
     font-size: 0.9em;
 }
 
-@media (max-width: 600px) {
-    .container {
-        border-radius: 0;
-        margin: 0;
-        padding: 10px;
-    }
-
-    .header h1 {
-        font-size: 16px;
-        padding: 0 20px;
-    }
-
-    .question-text {
-        font-size: 14px;
-    }
-
-    .buttons {
-        flex-direction: column;
-    }
-
-    .matching-container {
-        grid-template-columns: 1fr;
-    }
-
-    .level-selection {
-        grid-template-columns: 1fr;
-        margin: 15px 0;
-    }
-
-    .mode-btn {
-        min-width: 120px;
-        padding: 12px;
-    }
-
-    .level-card {
-        margin: 8px 4px;
-        padding: 12px;
-        min-width: auto;
-    }
-
-    .level-name {
-        font-size: 10px;
-    }
-
-    .level-description {
-        font-size: 8px;
-    }
-
-    .level-icon {
-        font-size: 24px;
-        margin-bottom: 8px;
-    }
-
-    body {
-        padding: 10px;
-    }
-
-    .content {
-        padding: 15px;
-    }
-}
+/* Removed duplicate/conflicting mobile block; consolidated above */

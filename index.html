@@ -404,6 +404,17 @@
             saveProgressToLocalStorage(); // Speichere Fortschritt automatisch
         }
 
+        // Mobile: adjust name placeholder text
+        function adjustNamePlaceholder() {
+            const input = document.getElementById('playerName');
+            if (!input) return;
+            if (window.innerWidth <= 600) {
+                input.placeholder = 'z.B. Luca, ...';
+            } else {
+                input.placeholder = 'z.B. Luca, Marie';
+            }
+        }
+
         function updateLevelBadge() {
             const badge = document.getElementById('levelBadge');
             badge.textContent = `Level ${level}`;
@@ -1654,6 +1665,9 @@
 
         // Initialize on load
         document.addEventListener('DOMContentLoaded', async function() {
+            // Adjust mobile placeholder
+            adjustNamePlaceholder();
+            window.addEventListener('resize', adjustNamePlaceholder);
             // ===== LOAD QUESTIONS FIRST =====
             console.log('🔄 Loading questions from questions.json...');
             const loadingSuccess = await initializeQuestionDatabase();
