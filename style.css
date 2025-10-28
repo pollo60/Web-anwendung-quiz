@@ -872,67 +872,23 @@ body.level-expert {
     width: var(--w, 10px);
     height: var(--h, 140vh);
     opacity: var(--alpha, 0.55);
-    background: linear-gradient(
-        180deg,
-        rgba(255,255,255,0) 0%,
-        rgba(255, 243, 160, 0.35) 30%,
-        rgba(255, 230, 120, 0.65) 50%,
-        rgba(255, 243, 160, 0.35) 70%,
-        rgba(255,255,255,0) 100%
-    );
-    filter: blur(2px) saturate(1.05);
-    mix-blend-mode: screen;
-    border-radius: 999px;
-    animation: rayPulse var(--pulse, 2.8s) ease-in-out infinite alternate;
+        background: linear-gradient(180deg,
+            transparent 0%,
+            rgba(255, 243, 160, 0.4) 40%,
+            rgba(255, 230, 120, 0.7) 50%,
+            rgba(255, 243, 160, 0.4) 60%,
+            transparent 100%);
+        filter: blur(2px);
+        mix-blend-mode: screen;
+        border-radius: 999px;
+        animation: simpleRayPulse 2.5s ease-in-out infinite alternate;
 }
 
-@keyframes rayPulse {
-    0% { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scaleX(0.95); opacity: calc(var(--alpha, 0.55) * 0.9); }
-    100% { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scaleX(1.05); opacity: calc(var(--alpha, 0.55)); }
-}
+    @keyframes simpleRayPulse {
+        0% { opacity: 0.4; }
+        100% { opacity: 0.7; }
+    }
 
-/* Thinner, brighter core rays with subtle flicker */
-.core-ray {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(var(--rot, 0deg));
-    width: var(--w, 3px);
-    height: var(--h, 140vh);
-    opacity: var(--alpha, 0.9);
-    background: linear-gradient(
-        180deg,
-        rgba(255,255,255,0) 0%,
-        rgba(255, 255, 220, 0.85) 40%,
-        rgba(255, 240, 160, 0.95) 50%,
-        rgba(255, 255, 220, 0.85) 60%,
-        rgba(255,255,255,0) 100%
-    );
-    filter: blur(0.6px) saturate(1.15);
-    mix-blend-mode: screen;
-    border-radius: 999px;
-    animation:
-        coreRayPulse var(--pulse, 1.6s) ease-in-out infinite alternate,
-        rayFlicker var(--flicker, 1.8s) steps(1, end) infinite;
-}
-
-@keyframes coreRayPulse {
-    0% { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scaleX(0.9); opacity: calc(var(--alpha, 0.9) * 0.85); }
-    100% { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scaleX(1.05); opacity: var(--alpha, 0.9); }
-}
-
-/* Occasional brightness flicker */
-@keyframes rayFlicker {
-    0%, 14% { filter: brightness(1) blur(0.6px); }
-    15% { filter: brightness(1.6) blur(0.5px); }
-    16%, 29% { filter: brightness(1) blur(0.6px); }
-    30% { filter: brightness(1.9) blur(0.45px); }
-    31%, 59% { filter: brightness(1) blur(0.6px); }
-    60% { filter: brightness(1.5) blur(0.55px); }
-    61%, 100% { filter: brightness(1) blur(0.6px); }
-}
-
-/* Quick lens flare flash */
 .lens-flare {
     position: absolute;
     inset: 0;
@@ -963,15 +919,9 @@ body.level-expert {
     transform: translate(-50%, -50%);
     pointer-events: none;
     z-index: 100; /* Very high to be visible */
-    background: radial-gradient(circle at 50% 50%,
-        rgba(255, 250, 200, 1) 0%,
-        rgba(255, 230, 140, 1) 30%,
-        rgba(255, 210, 80, 0.8) 60%,
-        rgba(255, 200, 50, 0.0) 100%);
-    box-shadow:
-        0 0 8px rgba(255, 220, 120, 1),
-        0 0 16px rgba(255, 240, 160, 0.8),
-        0 0 32px rgba(255, 255, 200, 0.5);
+    /* OPTIMIERT: Einfacher Gradient und weniger Box-Shadows für Performance */
+    background: radial-gradient(circle, #ffd700 0%, #ffed4e 50%, transparent 100%);
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.9), 0 0 24px rgba(255, 237, 78, 0.6);
     animation: burstMove var(--t, 700ms) ease-out forwards;
     opacity: 0;
 }
