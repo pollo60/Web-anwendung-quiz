@@ -297,7 +297,10 @@ body.level-expert {
 
     /* Leaderboard compact - MOBILE ONLY */
     .wooden-board {
-        padding: 8px;
+        padding: 12px 8px; /* Increased vertical padding: 8px * 1.5 = 12px */
+    }
+    .session-leaderboard {
+        padding: 30px 8px; /* Increased from default 20px to 30px (1.5x) */
     }
     .leaderboard-title {
         font-size: 0 !important; /* Hide text */
@@ -332,27 +335,29 @@ body.level-expert {
     .leaderboard-content { 
         max-height: 330px; /* Increased: 220px * 1.5 = 330px */
         overflow: auto; 
-        padding: 4px 2px; /* Minimal left/right padding for centering */
+        padding: 4px 1px; /* Minimal horizontal padding: 1px left/right */
     }
     .leaderboard-entry {
-        gap: 6px;
-        padding: 3px 2px; /* Minimal left padding */
+        gap: 4px; /* Reduced gap for tighter spacing */
+        padding: 3px 1px; /* Minimal padding: 1px left/right */
         font-size: 9px;
         flex-wrap: nowrap;
         justify-content: space-between; /* Distribute evenly */
+        text-align: center; /* Center text */
     }
     .leaderboard-entry .entry-rank { 
         display: none; /* Hide rank on mobile */
     }
     .leaderboard-entry .entry-name { 
-        min-width: 45px;
-        max-width: 45%; /* More space for name */
+        min-width: 50px;
+        max-width: 50%; /* More space for name */
         overflow: hidden; 
         text-overflow: ellipsis; 
         white-space: nowrap;
         font-size: 9px;
         flex-shrink: 0;
-        padding-left: 2px; /* Small padding from left border */
+        padding-left: 0; /* No extra padding */
+        text-align: left; /* Names align left */
     }
     .leaderboard-entry .entry-details { 
         max-width: 16%; 
@@ -361,6 +366,7 @@ body.level-expert {
         white-space: nowrap;
         font-size: 14px; /* Emoji size */
         flex-shrink: 0;
+        text-align: center;
     }
     .leaderboard-entry .entry-details small {
         display: none; /* Hide details on mobile */
@@ -369,7 +375,8 @@ body.level-expert {
         font-size: 9px;
         flex-shrink: 0;
         margin-left: auto;
-        padding-right: 4px; /* Space from right border */
+        padding-right: 2px; /* Minimal space from right border */
+        text-align: right;
     }
     .delete-entry-btn { 
         transform: scale(0.7); 
