@@ -808,9 +808,9 @@ body.level-expert {
     z-index: 2; /* above rays */
     border: 3px solid rgba(212, 175, 55, 0.85);
     box-shadow:
-        0 8px 30px rgba(212, 175, 55, 0.35),
-        inset 0 1px 0 rgba(255, 255, 255, 0.6),
-        inset 0 -2px 6px rgba(160, 120, 20, 0.35);
+        0 6px 22px rgba(212, 175, 55, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.45),
+        inset 0 -2px 4px rgba(160, 120, 20, 0.25);
 }
 
 /* Holy glow behind the level up dialog */
@@ -825,13 +825,13 @@ body.level-expert {
     pointer-events: none;
     background: radial-gradient(
         circle,
-        rgba(255, 235, 59, 0.25) 0%,
-        rgba(255, 215, 0, 0.16) 35%,
-        rgba(255, 200, 0, 0.06) 60%,
+        rgba(255, 235, 59, 0.14) 0%,
+        rgba(255, 215, 0, 0.08) 35%,
+        rgba(255, 200, 0, 0.03) 60%,
         transparent 75%
     );
-    filter: blur(4px);
-    animation: glowPulse 2.4s ease-in-out infinite;
+    filter: blur(3px);
+    animation: glowPulse 3.0s ease-in-out infinite;
 }
 
 /* Shimmer sweep over the plaque */
@@ -876,16 +876,16 @@ body.level-expert {
     width: var(--w, 10px);
     height: var(--h, 140vh);
     opacity: var(--alpha, 0.55);
-        background: linear-gradient(180deg,
-            transparent 0%,
-            rgba(255, 243, 160, 0.4) 40%,
-            rgba(255, 230, 120, 0.7) 50%,
-            rgba(255, 243, 160, 0.4) 60%,
-            transparent 100%);
-        filter: blur(2px);
-        mix-blend-mode: screen;
-        border-radius: 999px;
-        animation: simpleRayPulse 2.5s ease-in-out infinite alternate;
+    background: linear-gradient(180deg,
+        transparent 0%,
+        rgba(255, 243, 160, 0.4) 40%,
+        rgba(255, 230, 120, 0.7) 50%,
+        rgba(255, 243, 160, 0.4) 60%,
+        transparent 100%);
+    filter: blur(2px);
+    mix-blend-mode: screen;
+    border-radius: 999px;
+    animation: simpleRayPulse 2.5s ease-in-out infinite alternate;
 }
 
     @keyframes simpleRayPulse {
@@ -927,6 +927,7 @@ body.level-expert {
     background: radial-gradient(circle, #ffd700 0%, #ffed4e 50%, transparent 100%);
     box-shadow: 0 0 12px rgba(255, 215, 0, 0.9), 0 0 24px rgba(255, 237, 78, 0.6);
     animation: burstMove var(--t, 700ms) ease-out forwards;
+    will-change: transform, opacity;
     opacity: 0;
 }
 
