@@ -295,12 +295,12 @@ body.level-expert {
         font-size: 8px;
     }
 
-    /* Leaderboard compact */
+    /* Leaderboard compact - MOBILE ONLY */
     .wooden-board {
         padding: 8px;
     }
     .leaderboard-title {
-        font-size: 0; /* Hide text completely */
+        font-size: 0 !important; /* Hide text completely on mobile */
         margin: 0 0 4px 0;
         line-height: 0;
     }
@@ -325,11 +325,11 @@ body.level-expert {
     .leaderboard-content { 
         max-height: 220px; /* Increased from 180px */
         overflow: auto; 
-        padding: 4px 6px 4px 4px; /* Left: 4px, Right: 6px for balance */
+        padding: 4px; /* Simplified, equal padding */
     }
     .leaderboard-entry {
-        gap: 5px; /* Increased from 4px */
-        padding: 3px 2px; /* Balanced padding */
+        gap: 6px; /* Increased for better spacing */
+        padding: 3px 4px; /* More right padding */
         font-size: 9px;
         flex-wrap: nowrap;
     }
@@ -338,7 +338,7 @@ body.level-expert {
     }
     .leaderboard-entry .entry-name { 
         min-width: 45px;
-        max-width: 42%; /* Reduced from 45% */
+        max-width: 40%; /* Reduced further for better balance */
         overflow: hidden; 
         text-overflow: ellipsis; 
         white-space: nowrap;
@@ -360,7 +360,7 @@ body.level-expert {
         font-size: 9px;
         flex-shrink: 0;
         margin-left: auto;
-        padding-right: 2px; /* Reduced from 4px */
+        padding-right: 0; /* No extra padding */
     }
     .delete-entry-btn { 
         transform: scale(0.7); 
