@@ -1163,9 +1163,12 @@
             renderQuestion();
         }
 
+        let questionPhase = 'answering'; // 'answering' | 'review'
+
         function renderQuestion() {
             const container = document.getElementById('questionsContainer');
             const question = filteredQuestions[currentQuestion];
+            const checkBtn = document.getElementById('checkBtn');
 
             let optionsHTML = '';
             const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
@@ -1278,6 +1281,7 @@
                 </div>
             `;
 
+            questionPhase = 'answering';
             updateProgress();
             attachEventListeners();
         }
@@ -1300,8 +1304,10 @@
                 document.querySelectorAll('.option').forEach(option => {
                     option.addEventListener('click', function() {
                         selectOption(parseInt(this.dataset.index));
+                        if (checkBtn) checkBtn.disabled = false;
                     });
                 });
+                if (checkBtn) checkBtn.disabled = true;
             }
 
             if (question.type === 'sort') {
@@ -1349,9 +1355,19 @@
                 });
             }
 
+            if (question.type === 'checkbox') {
+                const cbs = document.querySelectorAll('input[type="checkbox"][data-original-index]');
+                const updateBtn = () => {
+                    const anyChecked = Array.from(cbs).some(cb => cb.checked);
+                    if (checkBtn) checkBtn.disabled = !anyChecked;
+                };
+                cbs.forEach(cb => cb.addEventListener('change', updateBtn));
+                updateBtn();
+            }
+
             const checkAnswerBtn = document.getElementById('checkBtn');
             if (checkAnswerBtn) {
-                checkAnswerBtn.addEventListener('click', checkAnswer);
+                checkAnswerBtn.addEventListener('click', onCheckButtonClick);
             }
 
             const prevBtn = document.getElementById('prevBtn');
@@ -1419,16 +1435,31 @@
             });
         }
 
+        function onCheckButtonClick() {
+            const btn = document.getElementById('checkBtn');
+            if (!btn) return;
+            if (questionPhase === 'answering') {
+                const evaluated = checkAnswer();
+                if (evaluated) {
+                    questionPhase = 'review';
+                    btn.textContent = currentQuestion === filteredQuestions.length - 1 ? 'Ergebnis anzeigen' : 'Weiter →';
+                }
+            } else {
+                nextQuestion();
+            }
+        }
+
         function checkAnswer() {
             const question = filteredQuestions[currentQuestion];
             const feedback = document.getElementById('feedback');
             let isCorrect = false;
+            let evaluated = false;
 
             if (question.type === 'multiple') {
                 const selected = document.querySelector('.option.selected');
                 if (!selected) {
                     showWarning('Bitte wähle eine Antwort aus!');
-                    return;
+                    return false;
                 }
 
                 const selectedIndex = parseInt(selected.dataset.index);
@@ -1474,7 +1505,7 @@
 
                 if (selected.length === 0) {
                     showWarning('Bitte wähle mindestens eine Antwort aus!');
-                    return;
+                    return false;
                 }
 
                 // Normalisiere korrekte Antworten zu Integer-Array
@@ -1540,7 +1571,7 @@
                 const answer = document.getElementById('textAnswer').value.trim().toLowerCase();
                 if (!answer) {
                     showWarning('Bitte gib eine Antwort ein!');
-                    return;
+                    return false;
                 }
 
                 isCorrect = question.correct.some(correct =>
@@ -1559,7 +1590,7 @@
 
                 if (answers.some(a => !a)) {
                     showWarning('Bitte fülle alle Lücken aus!');
-                    return;
+                    return false;
                 }
 
                 isCorrect = answers.every((answer, i) =>
@@ -1594,7 +1625,7 @@
 
                 if (userPairs.length !== question.pairs.length) {
                     showWarning('Bitte ordne alle Paare zu!');
-                    return;
+                    return false;
                 }
 
                 isCorrect = userPairs.every(userPair =>
@@ -1607,6 +1638,8 @@
                     item.style.pointerEvents = 'none';
                 });
             }
+
+            evaluated = true;
 
             if (isCorrect) {
                 score++;
@@ -1651,12 +1684,10 @@
 
             const nextBtn = document.getElementById('checkBtn');
             if (nextBtn) {
-                nextBtn.textContent = currentQuestion === filteredQuestions.length - 1 ? 'Ergebnis anzeigen' : 'Weiter →';
-                nextBtn.disabled = false; // Button wieder aktivieren
-                const newNextBtn = nextBtn.cloneNode(true);
-                nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
-                newNextBtn.addEventListener('click', nextQuestion);
+                nextBtn.disabled = false;
             }
+
+            return evaluated;
         }
 
         function nextQuestion() {
