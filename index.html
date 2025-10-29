@@ -1425,12 +1425,24 @@
                 const checkboxes = document.querySelectorAll('input[type="checkbox"]');
                 const selected = [];
                 
+                // Debug: Zeige was wir finden
+                console.log('🔍 Checkbox Debug - Found checkboxes:', checkboxes.length);
+                
                 // Sammle ausgewählte Original-Indizes
-                checkboxes.forEach((cb) => {
+                checkboxes.forEach((cb, domIndex) => {
+                    console.log(`  Checkbox ${domIndex}:`, {
+                        checked: cb.checked,
+                        hasDataAttr: cb.hasAttribute('data-original-index'),
+                        dataValue: cb.dataset.originalIndex,
+                        parsedValue: parseInt(cb.dataset.originalIndex, 10)
+                    });
+                    
                     if (cb.checked) {
                         const originalIndex = parseInt(cb.dataset.originalIndex, 10);
                         if (!isNaN(originalIndex)) {
                             selected.push(originalIndex);
+                        } else {
+                            console.warn(`⚠️ Checkbox ${domIndex} is checked but has no valid data-original-index!`);
                         }
                     }
                 });
