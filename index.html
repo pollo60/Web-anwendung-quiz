@@ -375,6 +375,89 @@
                 description.textContent = `Du hast ${getXPForLevel(level - 1)} XP erreicht!`;
 
                 overlay.classList.add('show');
+                
+                // ============================================
+                // HOLY MAGIC EFFECTS
+                // ============================================
+                
+                // 1. Divine Rays (Rotating holy light beams)
+                const raysContainer = document.createElement('div');
+                raysContainer.className = 'divine-rays';
+                raysContainer.id = 'divineRays';
+                const numRays = 12;
+                for (let i = 0; i < numRays; i++) {
+                    const ray = document.createElement('div');
+                    ray.className = 'divine-ray';
+                    ray.style.setProperty('--angle', `${(360 / numRays) * i}deg`);
+                    ray.style.setProperty('--delay', `${i * 0.1}s`);
+                    raysContainer.appendChild(ray);
+                }
+                overlay.appendChild(raysContainer);
+                
+                // 2. Sacred Runes Circle
+                const runeCircle = document.createElement('div');
+                runeCircle.className = 'rune-circle';
+                runeCircle.id = 'runeCircle';
+                const runeSymbols = ['✦', '✧', '✵', '✶', '✷', '✸', '✹', '✺', '✻', '✼', '✽', '✾'];
+                const numRunes = 12;
+                for (let i = 0; i < numRunes; i++) {
+                    const rune = document.createElement('div');
+                    rune.className = 'rune-symbol';
+                    rune.textContent = runeSymbols[i % runeSymbols.length];
+                    const angle = (360 / numRunes) * i;
+                    const radius = 280;
+                    const x = Math.cos(angle * Math.PI / 180) * radius;
+                    const y = Math.sin(angle * Math.PI / 180) * radius;
+                    rune.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+                    rune.style.setProperty('--delay', `${i * 0.15}s`);
+                    runeCircle.appendChild(rune);
+                }
+                overlay.appendChild(runeCircle);
+                
+                // 3. Holy Orbs (Floating light spheres)
+                const numOrbs = 20;
+                for (let i = 0; i < numOrbs; i++) {
+                    const orb = document.createElement('div');
+                    orb.className = 'holy-orb';
+                    const size = 10 + Math.random() * 30;
+                    orb.style.setProperty('--size', `${size}px`);
+                    orb.style.setProperty('--x', `${(Math.random() - 0.5) * 600}px`);
+                    orb.style.setProperty('--y', `${(Math.random() - 0.5) * 400}px`);
+                    orb.style.setProperty('--duration', `${3 + Math.random() * 3}s`);
+                    orb.style.setProperty('--delay', `${Math.random() * 2}s`);
+                    const randomX = Math.random() * window.innerWidth;
+                    const randomY = Math.random() * window.innerHeight;
+                    orb.style.left = `${randomX}px`;
+                    orb.style.top = `${randomY}px`;
+                    overlay.appendChild(orb);
+                    setTimeout(() => orb.remove(), 8000);
+                }
+                
+                // 4. Glow Rings (Expanding energy circles)
+                const numRings = 4;
+                for (let i = 0; i < numRings; i++) {
+                    const ring = document.createElement('div');
+                    ring.className = 'glow-ring';
+                    ring.style.setProperty('--size', `${300 + i * 50}px`);
+                    ring.style.setProperty('--duration', `${2 + i * 0.3}s`);
+                    ring.style.setProperty('--delay', `${i * 0.2}s`);
+                    overlay.appendChild(ring);
+                    setTimeout(() => ring.remove(), 4000);
+                }
+                
+                // 5. Divine Particles (Rising sparkles)
+                const numParticles = 80;
+                for (let i = 0; i < numParticles; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'divine-particle';
+                    particle.style.left = `${Math.random() * window.innerWidth}px`;
+                    particle.style.top = `${window.innerHeight - 50}px`;
+                    particle.style.setProperty('--distance', `${-600 - Math.random() * 400}px`);
+                    particle.style.setProperty('--duration', `${2 + Math.random() * 2}s`);
+                    particle.style.setProperty('--delay', `${Math.random() * 1.5}s`);
+                    document.body.appendChild(particle);
+                    setTimeout(() => particle.remove(), 5000);
+                }
             }
         }
 
@@ -1903,13 +1986,23 @@
             const levelUpContinue = document.getElementById('levelUpContinue');
             if (levelUpContinue) {
                 levelUpContinue.addEventListener('click', function() {
-                    document.getElementById('levelUpOverlay').classList.remove('show');
-                    const rays = document.getElementById('levelUpRays');
+                    const overlay = document.getElementById('levelUpOverlay');
+                    overlay.classList.remove('show');
+                    
+                    // Entferne alle heiligen Magie-Effekte
+                    const rays = document.getElementById('divineRays');
                     if (rays) rays.remove();
-                    const aureole = document.getElementById('levelUpAureole');
-                    if (aureole) aureole.remove();
-                    const flare = document.getElementById('levelUpLensFlare');
-                    if (flare) flare.remove();
+                    const runes = document.getElementById('runeCircle');
+                    if (runes) runes.remove();
+                    
+                    // Entferne alle Orbs
+                    document.querySelectorAll('.holy-orb').forEach(orb => orb.remove());
+                    
+                    // Entferne alle Ringe
+                    document.querySelectorAll('.glow-ring').forEach(ring => ring.remove());
+                    
+                    // Entferne alle Partikel
+                    document.querySelectorAll('.divine-particle').forEach(particle => particle.remove());
                 });
             }
 
