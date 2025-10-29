@@ -362,7 +362,7 @@
         }
 
         function showLevelUp() {
-            // Nur Effekt zeigen, wenn NICHT im Speedrun/Timetrial-Modus
+            // Nur Overlay zeigen, wenn NICHT im Speedrun/Timetrial-Modus
             const isSpeedrun = activeModifiers.includes('speedrun');
             
             if (!isSpeedrun) {
@@ -374,146 +374,7 @@
                 // Show XP needed for CURRENT level (not next)
                 description.textContent = `Du hast ${getXPForLevel(level - 1)} XP erreicht!`;
 
-                // Prepare rays container
-                injectHolyRays();
                 overlay.classList.add('show');
-                // Quick lens flare flash
-                triggerLensFlare();
-                // Instant burst explosion
-                triggerLevelBurst();
-            }
-            
-            // Effekt immer zeigen (auch bei Speedrun)
-            createConfetti();
-        }
-
-        function injectHolyRays() {
-            const overlay = document.getElementById('levelUpOverlay');
-            if (!overlay) return;
-            // Cleanup if exists
-            const existingAureole = document.getElementById('levelUpAureole');
-            if (existingAureole) existingAureole.remove();
-            const existing = document.getElementById('levelUpRays');
-            if (existing) existing.remove();
-            const existingFlare = document.getElementById('levelUpLensFlare');
-            if (existingFlare) existingFlare.remove();
-            
-            const rays = document.createElement('div');
-            rays.id = 'levelUpRays';
-            // Insert behind content
-            overlay.insertAdjacentElement('afterbegin', rays);
-
-                // OPTIMIERT: Weniger Rays für bessere Performance (6 statt 16)
-                for (let i = 0; i < 6; i++) {
-                    const ray = document.createElement('div');
-                    ray.className = 'holy-ray';
-                    const width = 8 + Math.random() * 12; // 8-20px
-                    const alpha = 0.4 + Math.random() * 0.3; // 0.4-0.7
-                    const rot = (-20 + Math.random() * 40).toFixed(2) + 'deg';
-                    ray.style.setProperty('--w', width + 'px');
-                    ray.style.setProperty('--alpha', alpha.toFixed(2));
-                    ray.style.setProperty('--rot', rot);
-                    const offset = (Math.random() * 80 - 40); // -40px to +40px
-                    ray.style.marginLeft = offset + 'px';
-                    rays.appendChild(ray);
-                }
-        }
-
-        function triggerLevelBurst() {
-            const overlay = document.getElementById('levelUpOverlay');
-            if (!overlay) return;
-            const burstId = 'levelUpBurst';
-            const existing = document.getElementById(burstId);
-            if (existing) existing.remove();
-            const container = document.createElement('div');
-            container.id = burstId;
-            container.style.position = 'absolute';
-            container.style.inset = '0';
-            container.style.pointerEvents = 'none';
-            container.style.zIndex = '10'; // Above everything else
-            overlay.appendChild(container);
-
-                // OPTIMIERT: Weniger Partikel für flüssige Animation (20 statt 50-69)
-                const count = 20;
-                const maxR = Math.min(window.innerWidth, window.innerHeight) * 0.3;
-            for (let i = 0; i < count; i++) {
-                const dot = document.createElement('div');
-                dot.className = 'burst-dot';
-                const angle = Math.random() * Math.PI * 2;
-                const dist = (maxR * 0.35) + Math.random() * (maxR * 0.65);
-                const dx = Math.cos(angle) * dist;
-                const dy = Math.sin(angle) * dist;
-                    const size = (8 + Math.random() * 8).toFixed(0) + 'px'; // 8-16px größer und sichtbarer
-                    const time = (400 + Math.random() * 200).toFixed(0) + 'ms'; // schneller: 400-600ms
-                dot.style.setProperty('--dx', dx + 'px');
-                dot.style.setProperty('--dy', dy + 'px');
-                dot.style.setProperty('--s', size);
-                dot.style.setProperty('--t', time);
-                container.appendChild(dot);
-            }
-
-                // Cleanup nach Animation
-                setTimeout(() => container.remove(), 800);
-        }
-
-        function triggerLensFlare() {
-            const overlay = document.getElementById('levelUpOverlay');
-            if (!overlay) return;
-            const flare = document.createElement('div');
-            flare.className = 'lens-flare';
-            flare.id = 'levelUpLensFlare';
-            overlay.appendChild(flare);
-            const remove = () => flare.remove();
-            flare.addEventListener('animationend', remove, { once: true });
-            // Fallback removal in case animation event is missed
-            setTimeout(() => {
-                if (document.body.contains(flare)) remove();
-            }, 400);
-        }
-
-        function createConfetti() {
-            // Heilig-Magie-Effekt mit gold-gelben Lichtpartikeln
-                // OPTIMIERT: Weniger Partikel für flüssigere Animation (30 statt 90)
-                const count = 30;
-            for (let i = 0; i < count; i++) {
-                setTimeout(() => {
-                    const particle = document.createElement('div');
-                    particle.className = 'magic-particle';
-                    particle.style.left = Math.random() * 100 + '%';
-                    particle.style.animationDelay = (Math.random() * 0.5).toFixed(2) + 's';
-
-                    // Zufällige Größe und Transparenz
-                    const size = (8 + Math.random() * 12).toFixed(0);
-                    particle.style.width = size + 'px';
-                    particle.style.height = size + 'px';
-                    particle.style.setProperty('--alpha', (0.65 + Math.random() * 0.35).toFixed(2));
-
-                    // Variierende Animationsdauern & Skalen
-                    particle.style.setProperty('--rise', (3 + Math.random() * 2).toFixed(2) + 's');
-                    particle.style.setProperty('--pulse', (1.2 + Math.random() * 0.8).toFixed(2) + 's');
-                    particle.style.setProperty('--scaleStart', (0.5 + Math.random() * 0.3).toFixed(2));
-                    particle.style.setProperty('--scaleMid', (1.0 + Math.random() * 0.35).toFixed(2));
-                    particle.style.setProperty('--scaleEnd', (0.4 + Math.random() * 0.3).toFixed(2));
-
-                    document.body.appendChild(particle);
-                    setTimeout(() => particle.remove(), 4500);
-                    }, i * 30); // langsamere Spawn-Rate
-            }
-        }
-
-        function updateXPDisplay() {
-            document.getElementById('xpDisplay').textContent = xp;
-            saveProgressToLocalStorage(); // Speichere Fortschritt automatisch
-        }
-
-        // Mobile: adjust name placeholder text
-        function adjustNamePlaceholder() {
-            const input = document.getElementById('playerName');
-            if (!input) return;
-            if (window.innerWidth <= 600) {
-                input.placeholder = 'z.B. Luca, ...';
-            } else {
-                input.placeholder = 'z.B. Luca, Marie';
             }
         }
 
@@ -1224,9 +1085,10 @@
                 `).join('');
 
             } else if (question.type === 'checkbox') {
+                // Checkboxen: speichere original-index für robuste Validierung
                 optionsHTML = question.options.map((option, index) => `
-                    <div class="option">
-                        <input type="checkbox" id="option${index}">
+                    <div class="option" data-original-index="${index}">
+                        <input type="checkbox" id="option${index}" data-original-index="${index}">
                         <label for="option${index}" style="cursor: pointer; flex: 1;">${option}</label>
                     </div>
                 `).join('');
@@ -1479,8 +1341,15 @@
             } else if (question.type === 'checkbox') {
                 const checkboxes = document.querySelectorAll('input[type="checkbox"]');
                 const selected = [];
-                checkboxes.forEach((cb, i) => {
-                    if (cb.checked) selected.push(i);
+                
+                // Sammle ausgewählte Original-Indizes
+                checkboxes.forEach((cb) => {
+                    if (cb.checked) {
+                        const originalIndex = parseInt(cb.dataset.originalIndex, 10);
+                        if (!isNaN(originalIndex)) {
+                            selected.push(originalIndex);
+                        }
+                    }
                 });
 
                 if (selected.length === 0) {
@@ -1488,26 +1357,55 @@
                     return;
                 }
 
-                // Normalisiere korrekte Antworten: unterstützt Zahlen, Strings und Sonderfälle ('all', '*')
+                // Normalisiere korrekte Antworten zu Integer-Array
                 const optionCount = (question.options || []).length;
                 let correctIndices = [];
+                
                 if (Array.isArray(question.correct)) {
+                    // Array von Indizes (können Zahlen oder Strings sein)
                     correctIndices = question.correct
-                        .map(v => (typeof v === 'string' ? parseInt(v, 10) : v))
+                        .map(v => {
+                            const num = typeof v === 'string' ? parseInt(v, 10) : v;
+                            return num;
+                        })
                         .filter(v => Number.isInteger(v) && v >= 0 && v < optionCount);
                 } else if (question.correct === 'all' || question.correct === '*') {
+                    // Alle Optionen sind korrekt
                     correctIndices = Array.from({ length: optionCount }, (_, i) => i);
+                } else if (typeof question.correct === 'number') {
+                    // Einzelner Index (sollte nicht bei checkbox vorkommen, aber sicher ist sicher)
+                    if (question.correct >= 0 && question.correct < optionCount) {
+                        correctIndices = [question.correct];
+                    }
+                } else if (typeof question.correct === 'string') {
+                    // String-Index konvertieren
+                    const num = parseInt(question.correct, 10);
+                    if (!isNaN(num) && num >= 0 && num < optionCount) {
+                        correctIndices = [num];
+                    }
                 }
+
+                // Debug-Log für Entwicklung (kann später entfernt werden)
+                console.log('Checkbox Debug:', {
+                    question: question.question,
+                    selected: selected.sort((a,b) => a-b),
+                    correct: correctIndices.sort((a,b) => a-b),
+                    questionCorrectRaw: question.correct
+                });
 
                 const selectedSet = new Set(selected);
                 const correctSet = new Set(correctIndices);
-                // Set-Gleichheit: exakt die richtigen Antworten, keine extra/fehlenden
-                isCorrect = selectedSet.size === correctSet.size && [...selectedSet].every(i => correctSet.has(i));
+                
+                // Set-Gleichheit: exakt die richtigen Antworten
+                isCorrect = selectedSet.size === correctSet.size && 
+                           [...selectedSet].every(i => correctSet.has(i));
 
-                const options = document.querySelectorAll('.option');
-                options.forEach((opt, i) => {
-                    const isCorrectAnswer = correctSet.has(i);
-                    const isSelected = selectedSet.has(i);
+                // Visuelles Feedback
+                const optionDivs = document.querySelectorAll('.option[data-original-index]');
+                optionDivs.forEach((opt) => {
+                    const originalIndex = parseInt(opt.dataset.originalIndex, 10);
+                    const isCorrectAnswer = correctSet.has(originalIndex);
+                    const isSelected = selectedSet.has(originalIndex);
 
                     if (isCorrectAnswer) {
                         opt.classList.add('correct');
