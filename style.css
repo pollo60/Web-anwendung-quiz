@@ -675,6 +675,59 @@ body.level-expert {
     }
 }
 
+/* ========================
+   Button Styles (Outside Media Query - for Desktop)
+   ======================== */
+
+.modifier-btn, .difficulty-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: 3px solid #fff;
+    border-radius: 8px;
+    padding: 16px;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    min-width: 140px;
+}
+
+.modifier-btn:hover, .difficulty-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+}
+
+.modifier-btn.selected, 
+.modifier-btn.active,
+.difficulty-btn.selected {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    border-color: #ffd700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+}
+
+.level-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: 3px solid #fff;
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    position: relative;
+}
+
+.level-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+}
+
+.level-card.selected {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    border-color: #ffd700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+}
+
 .progress-bar::before {
     content: '';
     position: absolute;
