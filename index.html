@@ -22,7 +22,7 @@
             </div>
             <div class="level-badge-wrap">
                 <div class="level-badge" id="levelBadge">Level 1</div>
-                <div class="title-plaque" id="titlePlaque">Bauer</div>
+                <div class="title-plaque" id="titlePlaque">Bauernkind</div>
             </div>
             <div id="timerDisplay" class="timer-display" style="display: none;">
                 Zeit: <span id="timer">00:00</span>
@@ -76,7 +76,7 @@
                 <div class="modifier-selection" style="margin-bottom: 30px;">
                     <label style="display: block; margin-bottom: 15px; color: #fff; font-weight: 600; font-size: 1.1em; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Wähle deine Modifikatoren (mehrere möglich):</label>
                     <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                        <button class="modifier-btn" data-modifier="normal">
+                        <button class="modifier-btn active" data-modifier="normal">
                             <div style="font-size: 24px; margin-bottom: 8px;">🎯</div>
                             <div style="font-weight: 600;">Normal</div>
                             <div style="font-size: 0.8em; opacity: 0.8;">Klassisches Quiz</div>
@@ -133,7 +133,7 @@
                 <label style="display: block; margin-bottom: 15px; margin-top: 20px; color: #fff; font-weight: 600; font-size: 1.1em; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); text-align: center;">Wähle dein Level:</label>
                 
                 <div class="level-selection">
-                    <div class="level-card" data-level="gemischt">
+                    <div class="level-card selected" data-level="gemischt">
                         <div class="level-icon">⚖️</div>
                         <div class="level-name">Gemischt</div>
                         <div class="level-description">Alle Fragen</div>
@@ -155,7 +155,7 @@
                     </div>
                 </div>
 
-                <button class="btn btn-primary" id="startBtn" disabled>Quiz starten</button>
+                <button class="btn btn-primary" id="startBtn">Quiz starten</button>
             </div>
 
             <!-- QUESTIONS -->
@@ -1759,24 +1759,20 @@
             // Adjust mobile placeholder
             adjustNamePlaceholder();
             window.addEventListener('resize', adjustNamePlaceholder);
-            // ===== LOAD QUESTIONS FIRST =====
-            console.log('🔄 Loading questions from questions.json...');
-            const loadingSuccess = await initializeQuestionDatabase();
-            if (!loadingSuccess) {
-                console.error('Failed to initialize question database');
-                return;
-            }
-            console.log('✅ Question database initialized successfully');
             
-            // ===== INITIALIZE UI =====
+            // ===== INITIALIZE UI FIRST (before loading questions) =====
+            // So buttons are immediately clickable
+            
+            // Set default selections in HTML already, but ensure classes are set
+            selectedLevel = 'gemischt';
+            selectedDifficulty = 'all';
+            activeModifiers = ['normal'];
+            
             // Level selection - Set default to "Gemischt"
             const defaultLevelCard = document.querySelector('.level-card[data-level="gemischt"]');
             if (defaultLevelCard) {
                 defaultLevelCard.classList.add('selected');
             }
-            
-            // Validate start conditions to enable the button
-            validateStartConditions();
             
             document.querySelectorAll('.level-card').forEach(card => {
                 card.addEventListener('click', function() {
@@ -1877,8 +1873,6 @@
                 });
             });
 
-            // (removed duplicate mode selection handler)
-
             const quizStartBtn = document.getElementById('startBtn');
             if (quizStartBtn) {
                 quizStartBtn.addEventListener('click', startQuiz);
@@ -1889,22 +1883,22 @@
                 quizRestartBtn.addEventListener('click', restartQuiz);
             }
 
-                const abortBtn = document.getElementById('abortBtn');
-                if (abortBtn) {
-                    abortBtn.addEventListener('click', function() {
-                        if (confirm('Möchtest du wirklich zum Hauptmenü zurückkehren? Der aktuelle Fortschritt geht verloren.')) {
-                            // Timer stoppen falls aktiv
-                            if (timerInterval) {
-                                clearInterval(timerInterval);
-                                timerInterval = null;
-                            }
-                            // Zurück zum Hauptmenü
-                            document.getElementById('questionsContainer').style.display = 'none';
-                            document.getElementById('resultScreen').style.display = 'none';
-                            document.getElementById('startScreen').style.display = 'block';
+            const abortBtn = document.getElementById('abortBtn');
+            if (abortBtn) {
+                abortBtn.addEventListener('click', function() {
+                    if (confirm('Möchtest du wirklich zum Hauptmenü zurückkehren? Der aktuelle Fortschritt geht verloren.')) {
+                        // Timer stoppen falls aktiv
+                        if (timerInterval) {
+                            clearInterval(timerInterval);
+                            timerInterval = null;
                         }
-                    });
-                }
+                        // Zurück zum Hauptmenü
+                        document.getElementById('questionsContainer').style.display = 'none';
+                        document.getElementById('resultScreen').style.display = 'none';
+                        document.getElementById('startScreen').style.display = 'block';
+                    }
+                });
+            }
 
             const levelUpContinue = document.getElementById('levelUpContinue');
             if (levelUpContinue) {
@@ -1957,8 +1951,6 @@
                 });
             }
 
-            // Leaderboard wird automatisch bei Änderungen aktualisiert
-
             updateProgress();
             updateXPDisplay();
             updateLevelBadge();
@@ -1980,7 +1972,6 @@
                 if (!loadProgressForName(playerName)) {
                     xp = 0; level = 1; updateXPDisplay(); updateLevelBadge();
                 }
-                validateStartConditions();
             } else {
                 // Kein Name: lade anonymen Fortschritt
                 if (!loadProgressForName('')) {
@@ -2005,8 +1996,18 @@
             // Aktualisiere Namen-UI (Disclaimer/Reset-Button)
             updateNameUIState();
             
-            // Setze Standard-Modifier aktiv
-            document.querySelector('.modifier-btn[data-modifier="normal"]').classList.add('active');
+            // ===== NOW LOAD QUESTIONS (in background) =====
+            console.log('🔄 Loading questions from questions.json...');
+            const loadingSuccess = await initializeQuestionDatabase();
+            if (!loadingSuccess) {
+                console.error('Failed to initialize question database');
+                alert('Fehler beim Laden der Fragen. Bitte Seite neu laden.');
+                return;
+            }
+            console.log('✅ Question database initialized successfully');
+            
+            // Validate start conditions to enable the button (if needed)
+            validateStartConditions();
         });
     </script>
 </body>
