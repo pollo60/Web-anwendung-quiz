@@ -623,48 +623,6 @@ body.level-expert {
     .modifier-selection, .difficulty-selection {
         margin-bottom: 14px !important;
     }
-    
-    /* Modifier and Difficulty buttons compact */
-    .modifier-btn, .difficulty-btn { min-width: 120px; padding: 12px; }
-    
-    /* Mobile shimmer effect for selected buttons */
-    .modifier-btn.selected,
-    .modifier-btn.active,
-    .difficulty-btn.selected,
-    .level-card.selected {
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .modifier-btn.selected::after,
-    .modifier-btn.active::after,
-    .difficulty-btn.selected::after,
-    .level-card.selected::after {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: linear-gradient(
-            45deg,
-            transparent 30%,
-            rgba(255, 255, 255, 0.3) 50%,
-            transparent 70%
-        );
-        animation: shimmerEffect 2s infinite;
-        pointer-events: none;
-        z-index: 1; /* keep shimmer below content */
-    }
-    
-    @keyframes shimmerEffect {
-        0% {
-            transform: translateX(-100%) translateY(-100%) rotate(45deg);
-        }
-        100% {
-            transform: translateX(100%) translateY(100%) rotate(45deg);
-        }
-    }
 
     /* Shrink section labels (override inline sizes) */
     .modifier-selection > label, .difficulty-selection > label { 
@@ -675,8 +633,9 @@ body.level-expert {
     }
 }
 
+
 /* ========================
-   Button Styles (Outside Media Query - for Desktop)
+   Modifier and Difficulty Button Styles
    ======================== */
 
 .modifier-btn, .difficulty-btn {
@@ -689,28 +648,33 @@ body.level-expert {
     transition: all 0.3s ease;
     text-align: center;
     position: relative;
-    overflow: hidden;
-    min-width: 140px;
+    overflow: visible;
 }
 
 .modifier-btn:hover, .difficulty-btn:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
 }
 
-.modifier-btn.selected, 
-.modifier-btn.active,
-.difficulty-btn.selected {
+.modifier-btn.active, .difficulty-btn.selected {
     background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
     border-color: #ffd700;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    animation: glowing 2s ease-in-out infinite;
+}
+
+/* Level Cards */
+.level-selection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
 }
 
 .level-card {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border: 3px solid #fff;
     border-radius: 12px;
-    padding: 20px;
+    padding: 24px;
     cursor: pointer;
     transition: all 0.3s ease;
     text-align: center;
@@ -725,7 +689,23 @@ body.level-expert {
 .level-card.selected {
     background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
     border-color: #ffd700;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    animation: glowing 2s ease-in-out infinite;
+}
+
+.level-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+.level-name {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.level-description {
+    font-size: 10px;
+    opacity: 0.9;
 }
 
 .progress-bar::before {
