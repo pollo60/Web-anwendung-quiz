@@ -1092,11 +1092,30 @@
             }
         }
 
-        function startQuiz() {
+        async function startQuiz() {
             // Validiere Auswahl
             if (!selectedLevel) {
                 alert('Bitte wähle ein Level aus!');
                 return;
+            }
+
+            // Sicherstellen, dass Fragen geladen sind, bevor wir starten
+            const startBtn = document.getElementById('startBtn');
+            const dbReady = (typeof questionDatabase !== 'undefined' && Array.isArray(questionDatabase) && questionDatabase.length > 0) || (typeof questionsLoaded !== 'undefined' && questionsLoaded === true);
+            if (!dbReady) {
+                if (startBtn) {
+                    startBtn.disabled = true;
+                    startBtn.textContent = 'Lade Fragen...';
+                }
+                try { await initializeQuestionDatabase(); } catch(_) {}
+                if (!(Array.isArray(questionDatabase) && questionDatabase.length > 0)) {
+                    alert('Fragen werden noch geladen. Bitte kurz warten und erneut versuchen.');
+                    return;
+                }
+                if (startBtn) {
+                    startBtn.disabled = false;
+                    startBtn.textContent = 'Quiz starten';
+                }
             }
 
             // Name übernehmen (fallback: "Spieler/in")
@@ -1120,10 +1139,16 @@
             if (filteredQuestions.length === 0) {
                 if (activeModifiers.includes('practice')) {
                     alert('Keine falsch beantworteten Fragen für diese Kombination verfügbar. Versuche andere Einstellungen.');
+                    return;
                 } else {
-                    alert('Keine Fragen für diese Kombination verfügbar. Versuche andere Einstellungen.');
+                    // kleiner Retry, falls Filter während Laden leer war
+                    await new Promise(r => setTimeout(r, 150));
+                    filteredQuestions = selectQuestionsFromPool(selectedLevel, selectedDifficulty, 15);
+                    if (filteredQuestions.length === 0) {
+                        alert('Keine Fragen für diese Kombination verfügbar. Versuche andere Einstellungen.');
+                        return;
+                    }
                 }
-                return;
             }
 
             // Timer starten wenn Speedrun-Modifier aktiv
@@ -1850,6 +1875,16 @@
             if (!nameInput || !startBtn) return;
             const nameOk = !!nameInput.value.trim();
             const levelOk = !!selectedLevel;
+            const dbReady = (typeof questionDatabase !== 'undefined' && Array.isArray(questionDatabase) && questionDatabase.length > 0) || (typeof questionsLoaded !== 'undefined' && questionsLoaded === true);
+
+            // Wenn Fragen noch laden, Button deaktivieren und Label anpassen
+            if (!dbReady) {
+                startBtn.disabled = true;
+                startBtn.textContent = 'Lade Fragen...';
+                return;
+            } else {
+                startBtn.textContent = 'Quiz starten';
+            }
 
             // Start ist erlaubt, sobald ein Level ausgewählt wurde (Name optional)
             startBtn.disabled = !levelOk;
