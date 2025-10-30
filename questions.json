@@ -2572,9 +2572,7 @@
     "explanation": "HTML5 vereinfachte die Doctype-Deklaration drastisch auf <!DOCTYPE html> - keine DTD-Referenzierung mehr nötig wie in HTML4.",
     "xp": 10,
     "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
+      "woche3"
     ]
   },
   {
@@ -2591,9 +2589,7 @@
     "explanation": "HTML5 führte das native <video>-Element ein, das Videos ohne Plugins einbetten kann. Früher war <object> für Plugins wie Flash nötig.",
     "xp": 10,
     "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
+      "woche3"
     ]
   },
   {
@@ -2610,9 +2606,7 @@
     "explanation": "SVG (Scalable Vector Graphics) ist der HTML5-Standard für Vektorgrafiken im Browser - ohne Plugins. Flash, Silverlight und ActiveX sind veraltete Plugin-Technologien.",
     "xp": 15,
     "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
+      "woche3"
     ]
   },
   {
@@ -2629,9 +2623,7 @@
     "explanation": "HTML5 vereinfachte die Charset-Deklaration auf <meta charset=\"UTF-8\">. Die lange http-equiv-Variante ist HTML4-Syntax.",
     "xp": 10,
     "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
+      "woche3"
     ]
   },
   {
@@ -2648,9 +2640,7 @@
     "explanation": "Das W3C (World Wide Web Consortium) ist die Organisation, die HTML standardisiert. IETF kümmert sich um Internet-Protokolle, ISO um allgemeine Standards, ECMA um JavaScript.",
     "xp": 10,
     "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
+      "woche3"
     ]
   },
   {
@@ -2667,9 +2657,7 @@
     "explanation": "Die Verarbeitungsschicht (auch Anwendungslogik-Schicht) ist für die Geschäftslogik zuständig. Präsentation zeigt die UI, Datenhaltung speichert Daten.",
     "xp": 15,
     "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
+      "woche3"
     ]
   },
   {
@@ -2693,9 +2681,7 @@
     "explanation": "HTML5 führte viele neue Features ein: <video> und <audio> für Medien, <canvas> für Grafiken, WebSockets-API für bidirektionale Kommunikation und Web Storage für clientseitige Datenspeicherung. <frameset> und <center> sind deprecated/obsolet.",
     "xp": 20,
     "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
+      "woche3"
     ]
   },
   {
@@ -2717,9 +2703,7 @@
     "explanation": "Ein minimales HTML5-Dokument benötigt: <!DOCTYPE html>, <meta charset=\"UTF-8\"> und <title>. Die HTML4-Doctype-Deklaration und die alte charset-Syntax sind veraltet.",
     "xp": 15,
     "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
+      "woche3"
     ]
   },
   {
@@ -2739,9 +2723,7 @@
     "explanation": "HTML4 hatte keine nativen Audio/Video-Elemente (benötigte Plugins wie Flash), Vektorgrafiken erforderten Plugins, die Doctype-Deklaration war lang und DTD-basiert. WebSockets kamen erst mit HTML5.",
     "xp": 20,
     "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
+      "woche3"
     ]
   },
   {
@@ -2756,9 +2738,7 @@
     "explanation": "Richtig. HTML5 führte native <audio> und <video> Elemente ein, die Medien ohne Plugins abspielen können - ein Hauptunterschied zu HTML4.",
     "xp": 10,
     "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
+      "woche3"
     ]
   },
   {
@@ -2773,9 +2753,7 @@
     "explanation": "Falsch. HTML5 vereinfachte die Doctype-Deklaration auf <!DOCTYPE html> - keine DTD-Referenz mehr nötig wie in HTML4.",
     "xp": 10,
     "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
+      "woche3"
     ]
   },
   {
@@ -2790,9 +2768,7 @@
     "explanation": "Richtig. Das <canvas>-Element ermöglicht dynamische Grafiken und Animationen per JavaScript - direkt im Browser ohne Plugins.",
     "xp": 10,
     "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
+      "woche3"
     ]
   },
   {
@@ -2816,9 +2792,7 @@
     "explanation": "Die 3-Tier-Architektur teilt Webanwendungen in drei Schichten: Präsentation (UI/Darstellung), Verarbeitung (Business Logic), Datenhaltung (Datenbank/Persistenz).",
     "xp": 20,
     "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
+      "woche3"
     ]
   },
   {
@@ -2842,9 +2816,7 @@
     "explanation": "Typische Komponenten-Zuordnung: Browser zeigt die Präsentation, Anwendungsserver führt Geschäftslogik aus, Datenbankserver speichert Daten.",
     "xp": 20,
     "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
+      "woche3"
     ]
   },
   {
@@ -2868,9 +2840,7 @@
     "explanation": "Typischer Request-Flow: 1) Browser sendet Request, 2) Web-Server empfängt, 3) Anwendungsserver verarbeitet Business Logic, 4) Datenbank liefert Daten, 5) Response zurück an Browser.",
     "xp": 25,
     "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
+      "woche3"
     ]
   },
   {
@@ -2885,9 +2855,7 @@
     "explanation": "Ein minimales HTML5-Dokument beginnt mit <!DOCTYPE html>, enthält <meta charset=\"UTF-8\"> im Head für die Zeichenkodierung und einen <title> für den Seitentitel.",
     "xp": 20,
     "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
+      "woche3"
     ]
   },
   {
@@ -2902,9 +2870,7 @@
     "explanation": "Die 3-Tier-Architektur besteht aus drei Schichten: Präsentationsschicht (UI), Verarbeitungsschicht (Business Logic) und Datenhaltungsschicht (Persistenz).",
     "xp": 15,
     "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
+      "woche3"
     ]
   },
   {
@@ -2921,9 +2887,7 @@
     "explanation": "WebSockets ermöglichen echte bidirektionale Echtzeit-Kommunikation über eine persistente Verbindung. Long Polling, Meta-Refresh und iFrames sind Workarounds aus der Pre-HTML5-Ära.",
     "xp": 20,
     "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
+      "woche3"
     ]
   },
   {
@@ -2940,9 +2904,7 @@
     "explanation": "Web Storage (localStorage/sessionStorage) ermöglicht clientseitige Key-Value-Speicherung mit mehr Kapazität als Cookies und ohne diese bei jedem Request mitzusenden.",
     "xp": 20,
     "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
+      "woche3"
     ]
   }
 ]
