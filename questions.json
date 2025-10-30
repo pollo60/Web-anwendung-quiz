@@ -2507,5 +2507,442 @@
       "neue-vorlesung",
       "woche3"
     ]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Verbesserungen wurden durch HTTP 1.1 eingeführt? (Mehrfachauswahl)",
+    "options": [
+      "Wiederverwendung der Verbindung (Keep-Alive)",
+      "Mehrere Anfragen über die gleiche Verbindung",
+      "Pipelining - mehrere Anfragen hintereinander",
+      "Header-Kompression",
+      "Binäres Protokoll"
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "explanation": "HTTP 1.1 führte wichtige Verbesserungen ein: Connection Keep-Alive ermöglicht die Wiederverwendung von TCP-Verbindungen, mehrere Anfragen können über dieselbe Verbindung gesendet werden und Pipelining erlaubt das Senden mehrerer Anfragen hintereinander ohne auf die Antworten zu warten. Header-Kompression und binäres Protokoll kamen erst mit HTTP/2.",
+    "xp": 20,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Neuerungen bringt HTTP/2 mit sich? (Mehrfachauswahl)",
+    "options": [
+      "Zusammenfassung mehrerer Requests und Priorisierung",
+      "Multiplexing über eine TCP-Verbindung",
+      "Header-Kompression (HPACK)",
+      "Server Push",
+      "Binäres statt textbasiertes Protokoll"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "explanation": "HTTP/2 revolutionierte die Web-Kommunikation: Zusammenfassung und Priorisierung mehrerer Requests, Multiplexing (parallele Streams über eine Verbindung), Header-Kompression mit HPACK, Server Push (proaktives Senden von Ressourcen) und ein effizienteres binäres Protokoll statt textbasiert.",
+    "xp": 25,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welcher Doctype ist in HTML5 korrekt?",
+    "options": [
+      "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\">",
+      "<!DOCTYPE html>",
+      "<!DOCTYPE XHTML 1.0 Strict>",
+      "<?doctype html?>"
+    ],
+    "correct": 1,
+    "explanation": "HTML5 vereinfachte die Doctype-Deklaration drastisch auf <!DOCTYPE html> - keine DTD-Referenzierung mehr nötig wie in HTML4.",
+    "xp": 10,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welches Element bettet Videos standardkonform in HTML5 ein?",
+    "options": [
+      "<media>",
+      "<object>",
+      "<video>",
+      "<movie>"
+    ],
+    "correct": 2,
+    "explanation": "HTML5 führte das native <video>-Element ein, das Videos ohne Plugins einbetten kann. Früher war <object> für Plugins wie Flash nötig.",
+    "xp": 10,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welches Verfahren ermöglicht plugin-freie Vektorgrafik im Browser (HTML5-Kontext)?",
+    "options": [
+      "Flash",
+      "Silverlight",
+      "SVG",
+      "ActiveX"
+    ],
+    "correct": 2,
+    "explanation": "SVG (Scalable Vector Graphics) ist der HTML5-Standard für Vektorgrafiken im Browser - ohne Plugins. Flash, Silverlight und ActiveX sind veraltete Plugin-Technologien.",
+    "xp": 15,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Angabe setzt die Zeichenkodierung im HTML5-Head minimal korrekt?",
+    "options": [
+      "<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\">",
+      "<meta charset=\"UTF-8\">",
+      "<charset=UTF-8>",
+      "<meta encoding=\"UTF-8\">"
+    ],
+    "correct": 1,
+    "explanation": "HTML5 vereinfachte die Charset-Deklaration auf <meta charset=\"UTF-8\">. Die lange http-equiv-Variante ist HTML4-Syntax.",
+    "xp": 10,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Laut den Folien: Wer standardisiert HTML?",
+    "options": [
+      "ISO",
+      "IETF",
+      "W3C",
+      "ECMA"
+    ],
+    "correct": 2,
+    "explanation": "Das W3C (World Wide Web Consortium) ist die Organisation, die HTML standardisiert. IETF kümmert sich um Internet-Protokolle, ISO um allgemeine Standards, ECMA um JavaScript.",
+    "xp": 10,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Schicht ist in der 3-Tier-Architektur für die Geschäftslogik zuständig?",
+    "options": [
+      "Präsentation",
+      "Verarbeitung",
+      "Datenhaltung",
+      "Netzwerk"
+    ],
+    "correct": 1,
+    "explanation": "Die Verarbeitungsschicht (auch Anwendungslogik-Schicht) ist für die Geschäftslogik zuständig. Präsentation zeigt die UI, Datenhaltung speichert Daten.",
+    "xp": 15,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche der folgenden Neuerungen sind Teil von HTML5 (im Vergleich zu HTML4)? (Mehrfachauswahl)",
+    "options": [
+      "<video>",
+      "<canvas>",
+      "WebSockets (JavaScript-API)",
+      "Web Storage (z.B. localStorage)",
+      "<frameset>",
+      "<center>"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "explanation": "HTML5 führte viele neue Features ein: <video> und <audio> für Medien, <canvas> für Grafiken, WebSockets-API für bidirektionale Kommunikation und Web Storage für clientseitige Datenspeicherung. <frameset> und <center> sind deprecated/obsolet.",
+    "xp": 20,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "checkbox",
+    "question": "Welche Zeilen gehören zum minimalen HTML5-Grundgerüst? (Mehrfachauswahl)",
+    "options": [
+      "<!DOCTYPE html>",
+      "<meta charset=\"UTF-8\">",
+      "<title>...</title>",
+      "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\">",
+      "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "explanation": "Ein minimales HTML5-Dokument benötigt: <!DOCTYPE html>, <meta charset=\"UTF-8\"> und <title>. Die HTML4-Doctype-Deklaration und die alte charset-Syntax sind veraltet.",
+    "xp": 15,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Wählen Sie alle Aussagen, die HTML4 korrekt beschreiben. (Mehrfachauswahl)",
+    "options": [
+      "Native Audio/Video-Elemente sind enthalten",
+      "Vektorgrafik ist nur über Plugins üblich",
+      "Eine ausführliche DTD-basierte Doctype-Deklaration wird verwendet",
+      "Es existiert eine JavaScript-API für WebSockets"
+    ],
+    "correct": [
+      1,
+      2
+    ],
+    "explanation": "HTML4 hatte keine nativen Audio/Video-Elemente (benötigte Plugins wie Flash), Vektorgrafiken erforderten Plugins, die Doctype-Deklaration war lang und DTD-basiert. WebSockets kamen erst mit HTML5.",
+    "xp": 20,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "HTML5 integriert <audio> und <video> als Standard-Elemente.",
+    "options": [
+      "Richtig",
+      "Falsch"
+    ],
+    "correct": 0,
+    "explanation": "Richtig. HTML5 führte native <audio> und <video> Elemente ein, die Medien ohne Plugins abspielen können - ein Hauptunterschied zu HTML4.",
+    "xp": 10,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "In HTML5 muss der Doctype eine konkrete DTD referenzieren.",
+    "options": [
+      "Richtig",
+      "Falsch"
+    ],
+    "correct": 1,
+    "explanation": "Falsch. HTML5 vereinfachte die Doctype-Deklaration auf <!DOCTYPE html> - keine DTD-Referenz mehr nötig wie in HTML4.",
+    "xp": 10,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "HTML5 ermöglicht Zeichnungen über <canvas> ohne zusätzliche Plugins.",
+    "options": [
+      "Richtig",
+      "Falsch"
+    ],
+    "correct": 0,
+    "explanation": "Richtig. Das <canvas>-Element ermöglicht dynamische Grafiken und Animationen per JavaScript - direkt im Browser ohne Plugins.",
+    "xp": 10,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordnen Sie Schicht ↔ Aufgabe in der 3-Tier-Architektur zu:",
+    "pairs": [
+      {
+        "left": "Präsentation",
+        "right": "Darstellung/Interaktion im Client bzw. serverseitige Präsentation"
+      },
+      {
+        "left": "Verarbeitung",
+        "right": "Geschäftslogik/Anwendungslogik"
+      },
+      {
+        "left": "Datenhaltung",
+        "right": "Persistenz/Datenbankzugriff"
+      }
+    ],
+    "explanation": "Die 3-Tier-Architektur teilt Webanwendungen in drei Schichten: Präsentation (UI/Darstellung), Verarbeitung (Business Logic), Datenhaltung (Datenbank/Persistenz).",
+    "xp": 20,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordnen Sie Komponente ↔ Schicht in der 3-Tier-Architektur zu:",
+    "pairs": [
+      {
+        "left": "Browser / HTML-Seite",
+        "right": "Präsentationsschicht"
+      },
+      {
+        "left": "Anwendungsserver",
+        "right": "Verarbeitungsschicht"
+      },
+      {
+        "left": "Datenbankserver",
+        "right": "Datenhaltungsschicht"
+      }
+    ],
+    "explanation": "Typische Komponenten-Zuordnung: Browser zeigt die Präsentation, Anwendungsserver führt Geschäftslogik aus, Datenbankserver speichert Daten.",
+    "xp": 20,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "sort",
+    "question": "Bringen Sie den typischen Ablauf einer Web-Anfrage in die richtige Reihenfolge:",
+    "items": [
+      "Antwort wird über Web-Server an den Browser zurückgegeben",
+      "Anwendungsserver führt Geschäftslogik aus",
+      "Datenbankserver liefert Daten",
+      "Browser stellt Anfrage",
+      "Web-Server/Präsentationsschicht nimmt Request an und leitet weiter"
+    ],
+    "correct": [
+      "Browser stellt Anfrage",
+      "Web-Server/Präsentationsschicht nimmt Request an und leitet weiter",
+      "Anwendungsserver führt Geschäftslogik aus",
+      "Datenbankserver liefert Daten",
+      "Antwort wird über Web-Server an den Browser zurückgegeben"
+    ],
+    "explanation": "Typischer Request-Flow: 1) Browser sendet Request, 2) Web-Server empfängt, 3) Anwendungsserver verarbeitet Business Logic, 4) Datenbank liefert Daten, 5) Response zurück an Browser.",
+    "xp": 25,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "fillblank",
+    "question": "Ergänzen Sie das HTML5-Grundgerüst: _____ <html> <head> _____ <title>_____ </title> </head> <body> ... </body> </html>",
+    "blanks": [
+      "<!DOCTYPE html>",
+      "<meta charset=\"UTF-8\">",
+      "Seitentitel"
+    ],
+    "explanation": "Ein minimales HTML5-Dokument beginnt mit <!DOCTYPE html>, enthält <meta charset=\"UTF-8\"> im Head für die Zeichenkodierung und einen <title> für den Seitentitel.",
+    "xp": 20,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "fillblank",
+    "question": "Benennen Sie die drei Schichten der 3-Tier-Architektur (in beliebiger Reihenfolge): _____, _____, _____",
+    "blanks": [
+      "Präsentation",
+      "Verarbeitung",
+      "Datenhaltung"
+    ],
+    "explanation": "Die 3-Tier-Architektur besteht aus drei Schichten: Präsentationsschicht (UI), Verarbeitungsschicht (Business Logic) und Datenhaltungsschicht (Persistenz).",
+    "xp": 15,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Sie sollen bidirektionale Echtzeit-Kommunikation zwischen Browser und Server bereitstellen (z.B. Live-Chat). Welche Technologie aus dem HTML5-Umfeld ist passend?",
+    "options": [
+      "Long Polling",
+      "WebSockets (JS-API)",
+      "Meta-Refresh",
+      "iFrame-Streaming"
+    ],
+    "correct": 1,
+    "explanation": "WebSockets ermöglichen echte bidirektionale Echtzeit-Kommunikation über eine persistente Verbindung. Long Polling, Meta-Refresh und iFrames sind Workarounds aus der Pre-HTML5-Ära.",
+    "xp": 20,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Eine Anwendung soll kleine, persistente Key/Value-Daten im Client speichern – ohne Cookies. Welche HTML5-Funktion ist dafür gedacht?",
+    "options": [
+      "HTTP-Cache",
+      "Web Storage",
+      "DNS-Cache",
+      "MIME-Sniffing"
+    ],
+    "correct": 1,
+    "explanation": "Web Storage (localStorage/sessionStorage) ermöglicht clientseitige Key-Value-Speicherung mit mehr Kapazität als Cookies und ohne diese bei jedem Request mitzusenden.",
+    "xp": 20,
+    "tags": [
+      "woche3",
+      "vl-offiziell",
+      "gemischt"
+    ]
   }
 ]
