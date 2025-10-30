@@ -404,11 +404,31 @@
 
         function getTitleForLevel(level) {
             const titles = [
-                'Bauernkind', 'Dorfbewohner', 'Handwerker', 'Händler', 'Stadtbewohner',
-                'Bürgermeister', 'Gelehrter', 'Akademiker', 'Professor', 'Weise/r',
-                'Meister', 'Großmeister', 'Legende', 'Champion', 'Unsterblich/e'
+                'Bauernkind',      // Level 1-9
+                'Dorfbewohner',    // Level 10-19
+                'Händler',         // Level 20-29
+                'Stadtbewohner',   // Level 30-39
+                'Lehrling',        // Level 40-49
+                'Gelehrter',       // Level 50-59
+                'Professor',       // Level 60-69
+                'Adel',            // Level 70-79
+                'Weise',           // Level 80-89
+                'Magier',          // Level 90-99
+                'Schwertmagier',   // Level 100-109
+                'Paladin',         // Level 110-119
+                'Legende',         // Level 120-129
+                'Champion',        // Level 130-139
+                'Hochadel',        // Level 140-149
+                'Erzmagus',        // Level 150-159
+                'Weltenadel',      // Level 160-169
+                'Aethertyrann',    // Level 170-179
+                'Götterschlächter', // Level 180-189
+                'Todesgottheit'    // Level 190+
             ];
-            return titles[Math.min(level - 1, titles.length - 1)] || 'Legendär';
+            
+            // Berechne Titel-Index: Bei Level 10, 20, 30 etc. neuer Titel
+            const titleIndex = Math.floor(level / 10);
+            return titles[Math.min(titleIndex, titles.length - 1)] || 'Todesgottheit';
         }
 
         function updateXPDisplay() {
