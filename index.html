@@ -53,7 +53,6 @@
                     <label class="player-name-label" for="playerName">Name (optional)</label>
                     <input id="playerName" class="name-input" type="text" placeholder="z.B. Luca, Marie">
                     
-                    <!-- Disclaimer und Speicher-Option (wenn kein Name gespeichert) -->
                     <div id="nameDisclaimer" style="margin-top: 10px; padding: 10px; background: rgba(52, 152, 219, 0.2); border-radius: 8px; font-size: 11px; color: #fff; text-align: left; display: none;">
                         <strong>💾 Name speichern?</strong><br>
                         Dein Name wird lokal im Browser gespeichert und beim nächsten Besuch automatisch geladen.
@@ -65,7 +64,6 @@
                         </div>
                     </div>
                     
-                    <!-- Reset Button (nur wenn Name gespeichert) -->
                     <div id="resetProgressContainer" style="margin-top: 10px; text-align: center; display: none;">
                         <button id="resetProgressBtn" class="btn btn-secondary" style="font-size: 10px; padding: 8px 16px;">
                             🔄 Fortschritt zurücksetzen
@@ -155,7 +153,7 @@
                     </div>
                 </div>
 
-                <button class="btn btn-primary" id="startBtn">Quiz starten</button>
+                <button class="btn btn-primary" id="startBtn" disabled>Lade Fragen...</button>
             </div>
 
             <!-- QUESTIONS -->
@@ -169,1096 +167,327 @@
                 <div class="result-message" id="resultMessage"></div>
                 <div class="result-details" id="resultDetails"></div>
 
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value" id="statCorrect">0</div>
-                    <div class="stat-label">Richtig</div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="statCorrect">0</div>
+                        <div class="stat-label">Richtig</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statWrong">0</div>
+                        <div class="stat-label">Falsch</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statXP">0</div>
+                        <div class="stat-label">XP Gewonnen</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statLevel">1</div>
+                        <div class="stat-label">Level Erreicht</div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="statWrong">0</div>
-                    <div class="stat-label">Falsch</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="statXP">0</div>
-                    <div class="stat-label">XP Gewonnen</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="statLevel">1</div>
-                    <div class="stat-label">Level Erreicht</div>
-                </div>
-            </div>
 
-            <!-- Session-Bestenliste auf der Ergebnisseite entfernt laut Anforderung -->
+                <div class="share-box">
+                    <div style="font-weight:600; margin-bottom:10px;">✨ Mit anderen teilen</div>
+                    <a id="whatsappShareBtn" class="btn btn-whatsapp" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:inline-block; margin-bottom:10px;">
+                        📱 Per WhatsApp teilen
+                    </a>
+                </div>
 
-            <div class="share-box">
-                <div style="font-weight:600; margin-bottom:10px;">✨ Mit anderen teilen</div>
-                <a
-                    id="whatsappShareBtn"
-                    class="btn btn-whatsapp"
-                    href="#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style="text-decoration:none; display:inline-block; margin-bottom:10px;"
-                >Auf WhatsApp teilen 💬</a>
-                <div class="share-hint" id="shareHint">
-                    Schick einfach die HTML-Datei rum oder lad sie irgendwo hoch und teile den Link 👍
+                <div class="session-leaderboard wooden-board" style="margin-top: 30px;">
+                    <h3 class="leaderboard-title">🏆 Session-Bestenliste</h3>
+                    <div class="leaderboard-tabs">
+                        <button class="tab-btn active" data-mode="timetrials">⚡ Timetrials</button>
+                        <button class="tab-btn" data-mode="normal">🎯 Normal</button>
+                    </div>
+                    <div id="leaderboardContent" class="leaderboard-content">
+                        <div class="empty-leaderboard">Noch keine Einträge in dieser Session.</div>
+                    </div>
                 </div>
-            </div>                <div class="buttons" style="margin-top:40px;">
-                    <button class="btn btn-primary" id="restartBtn">Nochmal versuchen</button>
-                </div>
+
+                <button class="btn btn-primary" id="restartBtn">Neues Quiz starten</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Funktion zum Mischen eines Arrays
+        'use strict';
+
+        // ============================================================================
+        // GLOBAL STATE - Single source of truth
+        // ============================================================================
+        const STATE = {
+            // Data
+            questionDatabase: [],
+            questionsLoaded: false,
+            wrongAnsweredQuestions: [],
+            
+            // Quiz configuration
+            selectedLevel: 'gemischt',
+            selectedDifficulty: 'all',
+            activeModifiers: ['normal'],
+            
+            // Quiz runtime
+            currentQuestions: [],
+            currentQuestionIndex: 0,
+            userAnswers: [],
+            score: 0,
+            correctCount: 0,
+            wrongCount: 0,
+            questionAnswered: false,
+            
+            // Player
+            playerName: '',
+            xp: 0,
+            level: 1,
+            
+            // Timer
+            timerInterval: null,
+            startTime: 0,
+            currentTime: 0,
+            
+            // Leaderboard
+            leaderboard: {
+                uebung: [],
+                'vorlesung-offiziell': [],
+                gemischt: [],
+                offiziell: []
+            }
+        };
+
+        // ============================================================================
+        // UTILITY FUNCTIONS
+        // ============================================================================
+        
         function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
+                [arr[i], arr[j]] = [arr[j], arr[i]];
             }
-            return array;
-        }
-
-        // Funktion zum Generieren einer zufälligen Variante einer Basis-Frage.
-        // Ziel: häufig den Basistyp beibehalten, aber sinnvolle Varianten (insb. matching/sort)
-        // erzeugen und dabei korrekte Antworten konsistent halten.
-        // Hilfsfunktion zum Mischen und Auswählen von n Elementen aus einem Array
-        function getRandomElements(array, n) {
-            const shuffled = [...array].sort(() => 0.5 - Math.random());
-            return shuffled.slice(0, n);
-        }
-
-
-        // ============================================================================
-        // QUESTIONS NOW LOADED FROM EXTERNAL JSON FILE
-        // Moved ~2100 lines of questions to questions.json for better maintainability
-        // All 99 unique questions with tags in one file
-        // ============================================================================
-        
-        // Questions will be loaded asynchronously from questions.json
-        let allQuestionsData = [];
-        let questionsLoaded = false;
-        
-        // Legacy arrays - will be populated after loading JSON
-        let vorlesungQuestions = [];
-        let baseQuestions = [];
-        let neueVorlesungQuestions = [];
-        let ofizielleQuestions = [];
-        
-        // Function to load questions from JSON file
-        async function loadQuestions() {
-            try {
-                const response = await fetch('questions.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                allQuestionsData = await response.json();
-                questionsLoaded = true;
-                
-                // Populate legacy arrays for backward compatibility
-                baseQuestions = allQuestionsData.filter(q => q.tags.includes('uebung'));
-                neueVorlesungQuestions = allQuestionsData.filter(q => q.tags.includes('neue-vorlesung'));
-                vorlesungQuestions = allQuestionsData.filter(q => q.tags.includes('vl-offiziell'));
-                ofizielleQuestions = allQuestionsData.filter(q => q.tags.includes('offiziell'));
-                
-                console.log(`✅ Loaded ${allQuestionsData.length} questions from questions.json`);
-                console.log(`  - baseQuestions (uebung): ${baseQuestions.length}`);
-                console.log(`  - neueVorlesungQuestions: ${neueVorlesungQuestions.length}`);
-                console.log(`  - vorlesungQuestions: ${vorlesungQuestions.length}`);
-                console.log(`  - ofizielleQuestions: ${ofizielleQuestions.length}`);
-                
-                return true;
-            } catch (error) {
-                console.error('❌ Error loading questions:', error);
-                alert('Fehler beim Laden der Fragen. Bitte Seite neu laden.');
-                return false;
-            }
-        }
-
-        // ===== OPTIMIERTES TAG-BASIERTES FRAGEN-SYSTEM =====
-        // Dedupliziert alle Fragen automatisch und weist ihnen Tags basierend auf ihrem Vorkommen zu
-        const questionDatabase = (() => {
-            // Questions will be loaded from JSON
-            // For now, return empty array - will be populated by loadQuestions()
-            return [];
-        })();
-        
-        // Override questionDatabase after questions are loaded
-        async function initializeQuestionDatabase() {
-            await loadQuestions();
-            questionDatabase.length = 0;
-            questionDatabase.push(...allQuestionsData);
-            return questionDatabase;
-        }
-
-
-        // Hilfsfunktion: Filtert Fragen basierend auf Level-Tags
-        function getQuestionsByLevel(levelKey) {
-            const tagMapping = {
-                'uebung': ['uebung'],
-                'vorlesung-offiziell': ['vl-offiziell'],
-                // "Gemischt" fasst alle Fragen zusammen
-                'gemischt': ['uebung', 'neue-vorlesung', 'vl-offiziell', 'offiziell'],
-                // Rückwärtskompatibilität: alte Schlüsselbezeichnung weiterhin unterstützen
-                'vorlesung': ['uebung', 'neue-vorlesung', 'vl-offiziell', 'offiziell'],
-                'offiziell': ['offiziell']
-            };
-            
-            const requiredTags = tagMapping[levelKey] || [];
-            return questionDatabase.filter(q => 
-                requiredTags.some(tag => q.tags.includes(tag))
-            );
-        }
-
-        // RÜCKWÄRTSKOMPATIBILITÄT: Alte Arrays bleiben bestehen für andere Funktionen
-        // (können später entfernt werden wenn alle Referenzen ersetzt sind)
-
-    let currentQuestion = 0;
-        let score = 0;
-        let userAnswers = [];
-    let selectedLevel = 'gemischt'; // Default: "Gemischt"
-        let selectedDifficulty = 'all';
-        let activeModifiers = ['normal'];
-        let filteredQuestions = [];
-        let xp = 0;
-        let level = 1;
-        let correctAnswers = 0;
-        let wrongAnswers = 0;
-        let playerName = "";
-        let speedrunTimer = 0;
-        let speedrunInterval = null;
-        let sessionLeaderboard = {
-            uebung: [],
-            'vorlesung-offiziell': [],
-            gemischt: [],
-            offiziell: []
-        };
-        let questionPool = {
-            uebung: [],
-            'vorlesung-offiziell': [],
-            gemischt: [],
-            offiziell: []
-        };
-        let usedQuestions = new Set();
-        let wrongAnsweredQuestions = [];
-        let lastFiveRuns = [];
-        let startTime = 0;
-        let currentTime = 0;
-        let timerInterval = null;
-
-        // Level calculations
-        function getXPForLevel(lvl) {
-            return lvl * 100;
-        }
-
-        function checkLevelUp() {
-            const requiredXP = getXPForLevel(level);
-            if (xp >= requiredXP) {
-                level++;
-                showLevelUp();
-                updateLevelBadge();
-            }
-        }
-
-        function showLevelUp() {
-            // Nur Overlay zeigen, wenn NICHT im Speedrun/Timetrial-Modus
-            const isSpeedrun = activeModifiers.includes('speedrun');
-            
-            if (!isSpeedrun) {
-                const overlay = document.getElementById('levelUpOverlay');
-                const message = document.getElementById('levelUpMessage');
-                const description = document.getElementById('levelUpDescription');
-
-                message.textContent = `🎉 Level ${level} erreicht!`;
-                // Show XP needed for CURRENT level (not next)
-                description.textContent = `Du hast ${getXPForLevel(level - 1)} XP erreicht!`;
-
-                overlay.classList.add('show');
-                
-                // ============================================
-                // HOLY MAGIC EFFECTS
-                // ============================================
-                
-                // 1. Divine Rays (Rotating holy light beams)
-                const raysContainer = document.createElement('div');
-                raysContainer.className = 'divine-rays';
-                raysContainer.id = 'divineRays';
-                const numRays = 12;
-                for (let i = 0; i < numRays; i++) {
-                    const ray = document.createElement('div');
-                    ray.className = 'divine-ray';
-                    ray.style.setProperty('--angle', `${(360 / numRays) * i}deg`);
-                    ray.style.setProperty('--delay', `${i * 0.1}s`);
-                    raysContainer.appendChild(ray);
-                }
-                overlay.appendChild(raysContainer);
-                
-                // 2. Sacred Runes Circle
-                const runeCircle = document.createElement('div');
-                runeCircle.className = 'rune-circle';
-                runeCircle.id = 'runeCircle';
-                const runeSymbols = ['✦', '✧', '✵', '✶', '✷', '✸', '✹', '✺', '✻', '✼', '✽', '✾'];
-                const numRunes = 12;
-                for (let i = 0; i < numRunes; i++) {
-                    const rune = document.createElement('div');
-                    rune.className = 'rune-symbol';
-                    rune.textContent = runeSymbols[i % runeSymbols.length];
-                    const angle = (360 / numRunes) * i;
-                    const radius = 280;
-                    const x = Math.cos(angle * Math.PI / 180) * radius;
-                    const y = Math.sin(angle * Math.PI / 180) * radius;
-                    rune.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
-                    rune.style.setProperty('--delay', `${i * 0.15}s`);
-                    runeCircle.appendChild(rune);
-                }
-                overlay.appendChild(runeCircle);
-                
-                // 3. Holy Orbs (Floating light spheres)
-                const numOrbs = 20;
-                for (let i = 0; i < numOrbs; i++) {
-                    const orb = document.createElement('div');
-                    orb.className = 'holy-orb';
-                    const size = 10 + Math.random() * 30;
-                    orb.style.setProperty('--size', `${size}px`);
-                    orb.style.setProperty('--x', `${(Math.random() - 0.5) * 600}px`);
-                    orb.style.setProperty('--y', `${(Math.random() - 0.5) * 400}px`);
-                    orb.style.setProperty('--duration', `${3 + Math.random() * 3}s`);
-                    orb.style.setProperty('--delay', `${Math.random() * 2}s`);
-                    const randomX = Math.random() * window.innerWidth;
-                    const randomY = Math.random() * window.innerHeight;
-                    orb.style.left = `${randomX}px`;
-                    orb.style.top = `${randomY}px`;
-                    overlay.appendChild(orb);
-                    setTimeout(() => orb.remove(), 8000);
-                }
-                
-                // 4. Glow Rings (Expanding energy circles)
-                const numRings = 4;
-                for (let i = 0; i < numRings; i++) {
-                    const ring = document.createElement('div');
-                    ring.className = 'glow-ring';
-                    ring.style.setProperty('--size', `${300 + i * 50}px`);
-                    ring.style.setProperty('--duration', `${2 + i * 0.3}s`);
-                    ring.style.setProperty('--delay', `${i * 0.2}s`);
-                    overlay.appendChild(ring);
-                    setTimeout(() => ring.remove(), 4000);
-                }
-                
-                // 5. Divine Particles (Rising sparkles)
-                const numParticles = 80;
-                for (let i = 0; i < numParticles; i++) {
-                    const particle = document.createElement('div');
-                    particle.className = 'divine-particle';
-                    particle.style.left = `${Math.random() * window.innerWidth}px`;
-                    particle.style.top = `${window.innerHeight - 50}px`;
-                    particle.style.setProperty('--distance', `${-600 - Math.random() * 400}px`);
-                    particle.style.setProperty('--duration', `${2 + Math.random() * 2}s`);
-                    particle.style.setProperty('--delay', `${Math.random() * 1.5}s`);
-                    document.body.appendChild(particle);
-                    setTimeout(() => particle.remove(), 5000);
-                }
-            }
-        }
-
-        function updateLevelBadge() {
-            const badge = document.getElementById('levelBadge');
-            badge.textContent = `Level ${level}`;
-            updateTitlePlaque();
-            saveProgressToLocalStorage(); // Speichere Fortschritt automatisch
-        }
-
-        function getTitleForLevel(lvl) {
-            if (lvl >= 100) return 'Todesgottheit';
-            if (lvl >= 90) return 'Götterschlächter';
-            if (lvl >= 80) return 'Aethertyrann';
-            if (lvl >= 70) return 'Weltenadel';
-            if (lvl >= 60) return 'Hochadel';
-            if (lvl >= 50) return 'Erzmagier';
-            if (lvl >= 40) return 'Paladin';
-            if (lvl >= 30) return 'Schwertmagier';
-            if (lvl >= 20) return 'Magier';
-            if (lvl >= 10) return 'Lehrling';
-            return 'Bauernkind';
-        }
-
-        function updateTitlePlaque() {
-            const plaque = document.getElementById('titlePlaque');
-            const title = getTitleForLevel(level);
-            plaque.textContent = title;
-        }
-
-        function updateBodyClass() {
-            document.body.className = '';
-            if (selectedLevel === 'easy') document.body.classList.add('level-easy');
-            else if (selectedLevel === 'medium') document.body.classList.add('level-medium');
-            else if (selectedLevel === 'hard') document.body.classList.add('level-hard');
-            else if (selectedLevel === 'expert') document.body.classList.add('level-expert');
+            return arr;
         }
 
         function formatTime(ms) {
             const seconds = Math.floor(ms / 1000);
             const minutes = Math.floor(seconds / 60);
             const remainingSeconds = seconds % 60;
-            return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+            return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
         }
 
-        function updateTimer() {
-            if (!activeModifiers.includes('speedrun')) return;
-            currentTime = Date.now();
-            const elapsed = currentTime - startTime;
-            document.getElementById('timer').textContent = formatTime(elapsed);
-        }
-
-        function initializeQuestionPool() {
-            // OPTIMIERT: Nutze deduplizierte questionDatabase
-            // questionPool wird nicht mehr benötigt, aber für Kompatibilität behalten
-            questionPool = {
-                uebung: getQuestionsByLevel('uebung'),
-                'vorlesung-offiziell': getQuestionsByLevel('vorlesung-offiziell'),
-                gemischt: getQuestionsByLevel('gemischt'),
-                offiziell: getQuestionsByLevel('offiziell')
-            };
-        }
-
-        function selectQuestionsFromPool(level, difficulty, count = 10) {
-            // OPTIMIERT: Nutze deduplizierte questionDatabase statt multiple Arrays
-            let sourceQuestions = getQuestionsByLevel(level);
-            
-            // Filtere nach Schwierigkeit wenn nicht "all"
-            if (difficulty !== 'all') {
-                const difficultyMap = { easy: 1, medium: 2, hard: 3, expert: 4 };
-                const targetDifficulty = difficultyMap[difficulty];
-                sourceQuestions = sourceQuestions.filter(q => q.difficulty === targetDifficulty);
-            }
-            
-            // Wenn Woche-Filter aktiv sind, filtere nach entsprechenden Tags
-            const weekFilters = activeModifiers.filter(m => m.startsWith('woche'));
-            if (weekFilters.length > 0) {
-                sourceQuestions = sourceQuestions.filter(q => {
-                    // Frage muss mindestens einen der Wochen-Tags haben
-                    return weekFilters.some(week => q.tags && q.tags.includes(week));
-                });
-            }
-            
-            // Wenn Übungsmodus aktiv ist, filtere nach falsch beantworteten Fragen
-            if (activeModifiers.includes('practice')) {
-                const combined = lastFiveRuns.flat();
-                const uniqueMap = new Map();
-                combined.forEach(q => {
-                    const key = q && q.question ? q.question : JSON.stringify(q);
-                    if (!uniqueMap.has(key)) uniqueMap.set(key, q);
-                });
-                const recentWrongQuestions = Array.from(uniqueMap.values());
-                
-                // Filtere sourceQuestions nach denen, die in recentWrongQuestions sind
-                sourceQuestions = sourceQuestions.filter(sq =>
-                    recentWrongQuestions.some(rwq => rwq.question === sq.question)
-                );
-            }
-            
-            return shuffleArray(sourceQuestions).slice(0, Math.min(count, sourceQuestions.length));
-        }
-
-        function updateLeaderboard(level, score, time = null) {
-            const percentage = Math.round((score / filteredQuestions.length) * 100);
-            
-            // Jede Runde mit aktivem Timer wird als Timetrial gewertet
-            const isTimetrial = activeModifiers.includes('speedrun') && !!time;
-            
-            const entry = isTimetrial
-                ? (() => {
-                    const difficultyMultiplier = getDifficultyMultiplier(selectedDifficulty);
-                    const timeBonus = calculateTimeBonus(time, filteredQuestions.length);
-                    const finalScore = calculateWeightedScore(percentage, difficultyMultiplier, timeBonus, filteredQuestions.length);
-                    return {
-                        name: playerName,
-                        rawScore: score,
-                        percentage: percentage,
-                        difficulty: selectedDifficulty, // auch 'all' wird gespeichert
-                        finalScore: finalScore,
-                        time: time,
-                        xp: xp,
-                        level: selectedLevel,
-                        timestamp: Date.now(),
-                        questionCount: filteredQuestions.length
-                    };
-                })()
-                : {
-                    name: playerName,
-                    score: score,
-                    percentage: percentage,
-                    difficulty: selectedDifficulty, // für Anzeige auch im Normal-Modus
-                    xp: xp,
-                    level: selectedLevel,
-                    timestamp: Date.now(),
-                    questionCount: filteredQuestions.length
-                };
-
-            sessionLeaderboard[level].push(entry);
-            
-            // Sortierung: Timetrials nach finalScore, sonst nach (score|rawScore)
-            sessionLeaderboard[level].sort((a, b) => {
-                if (a.finalScore != null && b.finalScore != null) {
-                    return b.finalScore - a.finalScore;
-                }
-                const aBase = (a.score != null ? a.score : (a.rawScore != null ? a.rawScore : 0));
-                const bBase = (b.score != null ? b.score : (b.rawScore != null ? b.rawScore : 0));
-                return bBase - aBase;
-            });
-
-            // Nur die Top 20 behalten (für beide Modi)
-            sessionLeaderboard[level] = sessionLeaderboard[level].slice(0, 20);
-            
-            // Speichere Bestenliste im LocalStorage
-            saveLeaderboardToLocalStorage();
-        }
-
-        function getDifficultyMultiplier(difficulty) {
-            const multipliers = {
-                'easy': 1.0,
-                'medium': 1.5,
-                'hard': 2.0,
-                'expert': 2.5
-            };
-            return multipliers[difficulty] || 1.0;
-        }
-
-        function calculateTimeBonus(timeMs, questionCount) {
-            if (!timeMs) return 0;
-            
-            // Erwartete Zeit pro Frage (in Sekunden): 45s für einfach bis 90s für expert
-            const expectedTimePerQuestion = {
-                'easy': 45,
-                'medium': 60,
-                'hard': 75,
-                'expert': 90
-            };
-            
-            const expectedTime = (expectedTimePerQuestion[selectedDifficulty] || 60) * questionCount;
-            const actualTimeSeconds = timeMs / 1000;
-            
-            // Zeit-Bonus: Je schneller, desto mehr Bonus (max 50% Bonus)
-            const timeFactor = Math.max(0, (expectedTime - actualTimeSeconds) / expectedTime);
-            return Math.min(0.5, timeFactor); // Max 50% Zeitbonus
-        }
-
-        function calculateWeightedScore(percentage, difficultyMultiplier, timeBonus, questionCount) {
-            // Basis-Score aus Prozent und Schwierigkeit
-            const baseScore = percentage * difficultyMultiplier;
-
-            // Zeit-Bonus: Je schneller, desto mehr Bonus
-            const timeFactor = (1 + timeBonus);
-
-            // Fragen-Faktor: längere Sets sollen deutlich höher bewertet werden als sehr kurze
-            // Referenz: 15 Fragen = 1.0; exponentiell gewichtet, damit 3 Fragen stark benachteiligt werden
-            const baseline = 15;
-            const qc = Math.max(1, questionCount || baseline);
-            const ratio = qc / baseline;
-            const questionFactorRaw = Math.pow(ratio, 1.15); // starke Gewichtung
-            const questionFactor = Math.min(2.5, Math.max(0.4, questionFactorRaw)); // begrenzen
-
-            let finalScore = baseScore * timeFactor * questionFactor;
-            
-            // NEU: Bei perfektem Score (100%) zusätzlichen Zeit-Bonus als Tiebreaker
-            // Dieser Bonus macht den Unterschied zwischen schnellen und langsamen perfekten Runs
-            if (percentage >= 100) {
-                // Speed-Bonus: Je schneller, desto höher
-                // timeBonus ist bereits 0.0 bis 0.5 (50%)
-                // Bei perfektem Score: zusätzlich bis zu +50 Punkte für sehr schnelle Zeiten
-                const speedBonus = timeBonus * 100; // 0 bis 50 Punkte
-                finalScore += speedBonus;
-            }
-            
-            return Math.round(finalScore * 10) / 10; // Eine Dezimalstelle
-        }
-
-        // Leaderboard LocalStorage functions
-        function saveLeaderboardToLocalStorage() {
+        // ============================================================================
+        // LOCAL STORAGE
+        // ============================================================================
+        
+        function saveToLocalStorage(key, value) {
             try {
-                localStorage.setItem('quizLeaderboard', JSON.stringify(sessionLeaderboard));
+                localStorage.setItem(key, JSON.stringify(value));
             } catch (e) {
-                console.warn('Konnte Bestenliste nicht speichern:', e);
+                console.warn('LocalStorage save failed:', e);
             }
         }
 
-        function loadLeaderboardFromLocalStorage() {
+        function loadFromLocalStorage(key, defaultValue = null) {
             try {
-                const stored = localStorage.getItem('quizLeaderboard');
-                if (stored) {
-                    const parsed = JSON.parse(stored);
-                    // Migration: altes Level "vorlesung" zu neuem "gemischt" migrieren
-                    if (parsed && parsed.vorlesung && Array.isArray(parsed.vorlesung)) {
-                        const migrated = parsed.vorlesung.map(e => ({ ...e, level: 'gemischt' }));
-                        parsed.gemischt = [ ...(parsed.gemischt || []), ...migrated ];
-                        delete parsed.vorlesung;
-                        try { localStorage.setItem('quizLeaderboard', JSON.stringify(parsed)); } catch(_) {}
-                    }
-                    // Merge mit der aktuellen Session-Bestenliste
-                    Object.keys(parsed).forEach(level => {
-                        if (parsed[level] && Array.isArray(parsed[level])) {
-                            sessionLeaderboard[level] = [...(sessionLeaderboard[level] || []), ...parsed[level]];
-                            // Sortieren und auf Top 10 begrenzen (Timetrials nach finalScore, sonst score/rawScore)
-                            sessionLeaderboard[level].sort((a, b) => {
-                                if (a.finalScore != null && b.finalScore != null) {
-                                    return b.finalScore - a.finalScore;
-                                }
-                                const aBase = (a.score != null ? a.score : (a.rawScore != null ? a.rawScore : 0));
-                                const bBase = (b.score != null ? b.score : (b.rawScore != null ? b.rawScore : 0));
-                                return bBase - aBase;
-                            });
-                            sessionLeaderboard[level] = sessionLeaderboard[level].slice(0, 10);
-                        }
-                    });
-                }
+                const item = localStorage.getItem(key);
+                return item ? JSON.parse(item) : defaultValue;
             } catch (e) {
-                console.warn('Konnte Bestenliste nicht laden:', e);
+                console.warn('LocalStorage load failed:', e);
+                return defaultValue;
             }
         }
 
-        // Name-related functions
         function savePlayerName(name) {
-            try {
-                if (name && name.trim()) {
-                    localStorage.setItem('quizPlayerName', name.trim());
-                }
-            } catch (e) {
-                console.warn('Konnte Namen nicht speichern:', e);
-            }
+            saveToLocalStorage('playerName', name);
         }
 
         function loadPlayerName() {
-            try {
-                const savedName = localStorage.getItem('quizPlayerName');
-                return savedName || '';
-            } catch (e) {
-                console.warn('Konnte Namen nicht laden:', e);
-                return '';
-            }
+            return loadFromLocalStorage('playerName', '');
         }
 
-        function clearPlayerName() {
-            try {
-                localStorage.removeItem('quizPlayerName');
-            } catch (e) {
-                console.warn('Konnte Namen nicht löschen:', e);
-            }
+        function saveProgress() {
+            const key = `progress_${STATE.playerName || 'anonymous'}`;
+            saveToLocalStorage(key, { xp: STATE.xp, level: STATE.level });
         }
 
-        // Session-Name (nur für aktuelle Sitzung; unabhängig von "Name speichern")
-        function saveSessionName(name) {
-            try {
-                if (typeof sessionStorage !== 'undefined') {
-                    sessionStorage.setItem('quizSessionName', (name || '').trim());
-                }
-            } catch (e) {
-                // nicht kritisch
-            }
+        function loadProgress() {
+            const key = `progress_${STATE.playerName || 'anonymous'}`;
+            const progress = loadFromLocalStorage(key, { xp: 0, level: 1 });
+            STATE.xp = progress.xp;
+            STATE.level = progress.level;
         }
 
-        function loadSessionName() {
-            try {
-                if (typeof sessionStorage !== 'undefined') {
-                    return sessionStorage.getItem('quizSessionName') || '';
-                }
-            } catch (e) {
-                // nicht kritisch
-            }
-            return '';
+        function saveLeaderboard() {
+            saveToLocalStorage('leaderboard', STATE.leaderboard);
         }
 
-        function clearSessionName() {
-            try {
-                if (typeof sessionStorage !== 'undefined') {
-                    sessionStorage.removeItem('quizSessionName');
-                }
-            } catch (e) {
-                // nicht kritisch
-            }
-        }
-
-        // Level und XP Speicher-Funktionen (pro Name)
-        function getNameKey(name) {
-            return (name && name.trim()) ? name.trim() : '__anonymous__';
-        }
-
-        function saveProgressMap(map) {
-            localStorage.setItem('quizProgressByName', JSON.stringify(map));
-        }
-
-        function loadProgressMap() {
-            try {
-                const raw = localStorage.getItem('quizProgressByName');
-                return raw ? JSON.parse(raw) : {};
-            } catch (e) {
-                return {};
-            }
-        }
-
-        function saveProgressToLocalStorage() {
-            try {
-                const map = loadProgressMap();
-                const key = getNameKey(playerName);
-                map[key] = { xp: xp, level: level, timestamp: Date.now() };
-                saveProgressMap(map);
-                // Backwards-Compat: für alte Version ggf. generischen Fortschritt aktualisieren, wenn anonym
-                if (key === '__anonymous__') {
-                    localStorage.setItem('quizProgress', JSON.stringify(map[key]));
-                }
-            } catch (e) {
-                console.warn('Konnte Fortschritt nicht speichern:', e);
-            }
-        }
-
-        function loadProgressForName(name) {
-            try {
-                const key = getNameKey(name);
-                const map = loadProgressMap();
-                let progress = map[key];
-                // Fallback: migriere alten generischen Fortschritt, falls vorhanden und kein Eintrag existiert
-                if (!progress) {
-                    const legacy = localStorage.getItem('quizProgress');
-                    if (legacy) {
-                        const legacyProgress = JSON.parse(legacy);
-                        if (legacyProgress && legacyProgress.xp !== undefined && legacyProgress.level !== undefined) {
-                            progress = legacyProgress;
-                            map[key] = legacyProgress;
-                            saveProgressMap(map);
-                        }
-                    }
-                }
-                if (progress && progress.xp !== undefined && progress.level !== undefined) {
-                    xp = progress.xp;
-                    level = progress.level;
-                    updateXPDisplay();
-                    updateLevelBadge();
-                    return true;
-                }
-            } catch (e) {
-                console.warn('Konnte Fortschritt nicht laden:', e);
-            }
-            return false;
-        }
-
-        function clearProgressForName(name) {
-            try {
-                const key = getNameKey(name);
-                const map = loadProgressMap();
-                if (map[key]) {
-                    delete map[key];
-                    saveProgressMap(map);
-                }
-                if (key === '__anonymous__') {
-                    localStorage.removeItem('quizProgress');
-                }
-            } catch (e) {
-                console.warn('Konnte Fortschritt nicht löschen:', e);
-            }
-        }
-
-        function displayLeaderboard() {
-            const leaderboardContent = document.getElementById('leaderboardContent');
-            if (!leaderboardContent) return;
-            
-            const currentLevel = selectedLevel || Object.keys(sessionLeaderboard).find(k => sessionLeaderboard[k] && sessionLeaderboard[k].length > 0) || 'uebung';
-            const entries = sessionLeaderboard[currentLevel] || [];
-            
-            // Prüfe welcher Tab aktiv ist
-            const activeTab = document.querySelector('.tab-btn.active');
-            const currentMode = activeTab ? activeTab.dataset.mode : 'timetrials';
-
-            let filteredEntries;
-            if (currentMode === 'timetrials') {
-                // Nur Timetrials anzeigen
-                filteredEntries = entries.filter(entry => entry.time != null && entry.finalScore != null);
-            } else {
-                // Normal-Modus: Alle Einträge ohne Timetrials
-                filteredEntries = entries.filter(entry => !entry.finalScore || entry.time == null);
-            }
-
-            if (filteredEntries.length === 0) {
-                const message = currentMode === 'timetrials' 
-                    ? 'Noch keine Timetrials-Einträge' 
-                    : 'Noch keine Normal-Einträge';
-                leaderboardContent.innerHTML = `<div class="leaderboard-entry" style="justify-content: center; color: #718096;">${message}</div>`;
-                return;
-            }
-
-            if (currentMode === 'timetrials') {
-                // Timetrials-Anzeige mit Score
-                leaderboardContent.innerHTML = filteredEntries
-                    .sort((a, b) => b.finalScore - a.finalScore)
-                    .slice(0, 15)
-                    .map((entry, index) => {
-                        const levelEmoji = {
-                            'uebung': '📝',
-                            'vorlesung-offiziell': '🎓',
-                            'gemischt': '⚖️',
-                            // Rückwärtskompatibilität
-                            'vorlesung': '⚖️',
-                            'offiziell': '📋'
-                        };
-                        const difficultyEmoji = {
-                            'easy': '🌱',
-                            'medium': '⚡',
-                            'hard': '🔥',
-                            'expert': '💎',
-                            'all': '🌟'
-                        };
-                        
-                        return `
-                            <div class="leaderboard-entry" data-entry-id="${entry.timestamp}">
-                                <span class="entry-rank">${index + 1}.</span>
-                                <span class="entry-name">${entry.name}</span>
-                                <span class="entry-details">
-                                    ${levelEmoji[entry.level] || '📚'}<br>
-                                    <small>${difficultyEmoji[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.level || 'N/A'}<br>${entry.percentage}% • Score: ${entry.finalScore}</small>
-                                </span>
-                                <span class="entry-time">${formatTime(entry.time)}</span>
-                                <button class="delete-entry-btn" data-entry-id="${entry.timestamp}" title="Eintrag löschen">×</button>
-                            </div>
-                        `;
-                    }).join('');
-            } else {
-                // Normal-Modus-Anzeige
-                leaderboardContent.innerHTML = filteredEntries
-                    .sort((a, b) => (b.rawScore || b.score || 0) - (a.rawScore || a.score || 0))
-                    .slice(0, 15)
-                    .map((entry, index) => {
-                        const levelEmoji = {
-                            'uebung': '📝',
-                            'vorlesung-offiziell': '🎓',
-                            'gemischt': '⚖️',
-                            // Rückwärtskompatibilität
-                            'vorlesung': '⚖️',
-                            'offiziell': '📋'
-                        };
-                        const difficultyEmoji = {
-                            'easy': '🌱',
-                            'medium': '⚡',
-                            'hard': '🔥',
-                            'expert': '💎',
-                            'all': '🌟'
-                        };
-                        const scoreText = `${entry.rawScore || entry.score || 0}/${entry.questionCount || 10}`;
-                        return `
-                            <div class="leaderboard-entry" data-entry-id="${entry.timestamp}">
-                                <span class="entry-rank">${index + 1}.</span>
-                                <span class="entry-name">${entry.name}</span>
-                                <span class="entry-details">
-                                    ${levelEmoji[entry.level] || '📚'}<br>
-                                    <small>${difficultyEmoji[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.level || 'N/A'}<br>${entry.percentage || Math.round(((entry.score || 0) / (entry.questionCount || 1)) * 100)}% • ${entry.xp || 0} XP</small>
-                                </span>
-                                <span class="entry-time">${scoreText}</span>
-                                <button class="delete-entry-btn" data-entry-id="${entry.timestamp}" title="Eintrag löschen">×</button>
-                            </div>
-                        `;
-                    }).join('');
-            }
-                
-            // Füge Event-Listener für Lösch-Buttons hinzu
-            document.querySelectorAll('.delete-entry-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const entryId = parseInt(this.dataset.entryId);
-                    deleteLeaderboardEntry(currentLevel, entryId);
-                });
+        function loadLeaderboard() {
+            STATE.leaderboard = loadFromLocalStorage('leaderboard', {
+                uebung: [],
+                'vorlesung-offiziell': [],
+                gemischt: [],
+                offiziell: []
             });
         }
 
-        function deleteLeaderboardEntry(level, entryId) {
-            if (confirm('Diesen Leaderboard-Eintrag wirklich löschen?')) {
-                sessionLeaderboard[level] = sessionLeaderboard[level].filter(entry => entry.timestamp !== entryId);
-                saveLeaderboardToLocalStorage();
-                displayLeaderboard();
-                displayStartLeaderboard(); // Aktualisiere auch Start-Anzeige
+        // ============================================================================
+        // QUESTION LOADING
+        // ============================================================================
+        
+        async function loadQuestions() {
+            try {
+                const response = await fetch('questions.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                STATE.questionDatabase = await response.json();
+                STATE.questionsLoaded = true;
+                console.log(`✅ Loaded ${STATE.questionDatabase.length} questions`);
+                return true;
+            } catch (error) {
+                console.error('❌ Failed to load questions:', error);
+                alert('Fehler beim Laden der Fragen. Bitte Seite neu laden.');
+                return false;
             }
         }
 
-        function displayStartLeaderboard() {
-            const startLeaderboardContent = document.getElementById('startLeaderboardContent');
-            if (!startLeaderboardContent) return;
+        function getQuestionsByLevel(levelKey) {
+            const tagMapping = {
+                'uebung': ['uebung'],
+                'vorlesung-offiziell': ['vl-offiziell'],
+                'gemischt': ['uebung', 'neue-vorlesung', 'vl-offiziell', 'offiziell'],
+                'offiziell': ['offiziell']
+            };
+            
+            const tags = tagMapping[levelKey] || [];
+            return STATE.questionDatabase.filter(q => 
+                tags.some(tag => q.tags && q.tags.includes(tag))
+            );
+        }
 
-            // aktiven Modus von Start-Tabs bestimmen
-            const activeStartTab = document.querySelector('.start-tab-btn.active');
-            const mode = activeStartTab ? activeStartTab.dataset.mode : 'timetrials';
-
-            // Sammle alle Einträge aus allen Leveln
-            let allEntries = [];
-            Object.keys(sessionLeaderboard).forEach(level => {
-                sessionLeaderboard[level].forEach(entry => {
-                    allEntries.push({ ...entry, levelName: level });
-                });
-            });
-
-            // Filter nach Modus
-            if (mode === 'timetrials') {
-                allEntries = allEntries.filter(e => e.time != null && e.finalScore != null);
-            } else {
-                allEntries = allEntries.filter(e => !e.finalScore || e.time == null);
+        function selectQuestions(level, difficulty, modifiers, count = 15) {
+            let questions = getQuestionsByLevel(level);
+            
+            // Filter by difficulty
+            if (difficulty !== 'all') {
+                const diffMap = { easy: 1, medium: 2, hard: 3, expert: 4 };
+                const targetDiff = diffMap[difficulty];
+                questions = questions.filter(q => q.difficulty === targetDiff);
             }
-
-            if (allEntries.length === 0) {
-                const msg = mode === 'timetrials'
-                    ? 'Noch keine Timetrials vorhanden.<br>Spiele mit Timer!'
-                    : 'Noch keine Normal-Einträge vorhanden.<br>Spiele ohne Timer.';
-                startLeaderboardContent.innerHTML = `<div class="empty-leaderboard">${msg}</div>`;
-                return;
+            
+            // Filter by week tags
+            const weekFilters = modifiers.filter(m => m.startsWith('woche'));
+            if (weekFilters.length > 0) {
+                questions = questions.filter(q => 
+                    weekFilters.some(week => q.tags && q.tags.includes(week))
+                );
             }
+            
+            // Practice mode: only wrong answers
+            if (modifiers.includes('practice')) {
+                const wrongQuestions = STATE.wrongAnsweredQuestions.map(w => w.question);
+                questions = questions.filter(q =>
+                    wrongQuestions.some(wq => wq.question === q.question)
+                );
+            }
+            
+            // Shuffle and take count
+            return shuffleArray(questions).slice(0, Math.min(count, questions.length));
+        }
 
-            if (mode === 'timetrials') {
-                // Top 5 Timetrials über alle Level
-                startLeaderboardContent.innerHTML = allEntries
-                    .sort((a, b) => b.finalScore - a.finalScore)
-                    .slice(0, 5)
-                    .map((entry, index) => {
-                        const levelEmoji = {
-                            'uebung': '📝',
-                            'vorlesung-offiziell': '🎓',
-                            'gemischt': '⚖️',
-                            // Rückwärtskompatibilität
-                            'vorlesung': '⚖️',
-                            'offiziell': '📋'
-                        };
-                        const difficultyEmoji = { 'easy': '🌱', 'medium': '⚡', 'hard': '🔥', 'expert': '💎', 'all': '🌟' };
-                        const levelLabel = ({
-                            'uebung': 'Übung',
-                            'vorlesung-offiziell': 'VL Offiziell',
-                            'gemischt': 'Gemischt',
-                            // Rückwärtskompatibilität
-                            'vorlesung': 'Gemischt',
-                            'offiziell': 'Offiziell'
-                        })[entry.levelName] || entry.levelName;
-                        const difficultyLabel = ({
-                            'easy': 'Einfach',
-                            'medium': 'Mittel',
-                            'hard': 'Schwer',
-                            'expert': 'Experte',
-                            'all': 'Alle'
-                        })[entry.difficulty || 'all'] || (entry.difficulty || 'all');
-                        return `
-                            <div class="leaderboard-entry">
-                                <span class="entry-rank">${index + 1}.</span>
-                                <span class="entry-name">${entry.name}</span>
-                                <span class="entry-details">
-                                    ${levelEmoji[entry.levelName] || '📚'}<br>
-                                    <small>${difficultyEmoji[entry.difficulty] || '🌟'} ${difficultyLabel} • ${levelLabel}<br>${entry.percentage}% • Score: ${entry.finalScore}</small>
-                                </span>
-                                <span class="entry-time">${formatTime(entry.time)}</span>
-                            </div>
-                        `;
-                    }).join('');
-            } else {
-                // Top 5 Normal über alle Level
-                startLeaderboardContent.innerHTML = allEntries
-                    .sort((a, b) => (b.rawScore || b.score || 0) - (a.rawScore || a.score || 0))
-                    .slice(0, 5)
-                    .map((entry, index) => {
-                        const levelEmoji = {
-                            'uebung': '📝',
-                            'vorlesung-offiziell': '🎓',
-                            'gemischt': '⚖️',
-                            // Rückwärtskompatibilität
-                            'vorlesung': '⚖️',
-                            'offiziell': '📋'
-                        };
-                        const levelLabel = ({
-                            'uebung': 'Übung',
-                            'vorlesung-offiziell': 'VL Offiziell',
-                            'gemischt': 'Gemischt',
-                            // Rückwärtskompatibilität
-                            'vorlesung': 'Gemischt',
-                            'offiziell': 'Offiziell'
-                        })[entry.levelName] || entry.levelName;
-                        const difficultyLabel = ({
-                            'easy': 'Einfach',
-                            'medium': 'Mittel',
-                            'hard': 'Schwer',
-                            'expert': 'Experte',
-                            'all': 'Alle'
-                        })[entry.difficulty || 'all'] || (entry.difficulty || 'all');
-                        const scoreText = `${entry.rawScore || entry.score || 0}/${entry.questionCount || 10}`;
-                        return `
-                        <div class="leaderboard-entry">
-                            <span class="entry-rank">${index + 1}.</span>
-                            <span class="entry-name">${entry.name}</span>
-                            <span class="entry-details">
-                                ${levelEmoji[entry.levelName] || '📚'}<br>
-                                <small>${({easy:'🌱',medium:'⚡',hard:'🔥',expert:'💎',all:'🌟'})[entry.difficulty] || '🌟'} ${difficultyLabel} • ${levelLabel}<br>${entry.percentage || Math.round(((entry.score || 0) / (entry.questionCount || 1)) * 100)}% • ${entry.xp || 0} XP</small>
-                            </span>
-                            <span class="entry-time">${scoreText}</span>
-                        </div>
-                    `}).join('');
+        // ============================================================================
+        // XP & LEVEL SYSTEM
+        // ============================================================================
+        
+        function getXPForLevel(level) {
+            return 50 + (level - 1) * 30;
+        }
+
+        function getTitleForLevel(level) {
+            const titles = [
+                'Bauernkind', 'Dorfbewohner', 'Handwerker', 'Händler', 'Stadtbewohner',
+                'Bürgermeister', 'Gelehrter', 'Akademiker', 'Professor', 'Weise/r',
+                'Meister', 'Großmeister', 'Legende', 'Champion', 'Unsterblich/e'
+            ];
+            return titles[Math.min(level - 1, titles.length - 1)] || 'Legendär';
+        }
+
+        function updateXPDisplay() {
+            document.getElementById('xpDisplay').textContent = STATE.xp;
+            document.getElementById('levelBadge').textContent = `Level ${STATE.level}`;
+            document.getElementById('titlePlaque').textContent = getTitleForLevel(STATE.level);
+            saveProgress();
+        }
+
+        function checkLevelUp() {
+            const requiredXP = getXPForLevel(STATE.level);
+            if (STATE.xp >= requiredXP) {
+                STATE.level++;
+                STATE.xp -= requiredXP;
+                showLevelUp();
+                updateXPDisplay();
             }
         }
 
-        async function startQuiz() {
-            // Validiere Auswahl
-            if (!selectedLevel) {
-                alert('Bitte wähle ein Level aus!');
-                return;
-            }
-
-            // Sicherstellen, dass Fragen geladen sind, bevor wir starten
-            const startBtn = document.getElementById('startBtn');
-            const dbReady = (typeof questionDatabase !== 'undefined' && Array.isArray(questionDatabase) && questionDatabase.length > 0) || (typeof questionsLoaded !== 'undefined' && questionsLoaded === true);
-            if (!dbReady) {
-                if (startBtn) {
-                    startBtn.disabled = true;
-                    startBtn.textContent = 'Lade Fragen...';
-                }
-                try { await initializeQuestionDatabase(); } catch(_) {}
-                if (!(Array.isArray(questionDatabase) && questionDatabase.length > 0)) {
-                    alert('Fragen werden noch geladen. Bitte kurz warten und erneut versuchen.');
-                    return;
-                }
-                if (startBtn) {
-                    startBtn.disabled = false;
-                    startBtn.textContent = 'Quiz starten';
-                }
-            }
-
-            // Name übernehmen (fallback: "Spieler/in")
-            const nameInput = document.getElementById('playerName');
-            playerName = (nameInput.value || "Spieler/in").trim();
-            saveSessionName(playerName); // für aktuelle Sitzung merken
+        function showLevelUp() {
+            const overlay = document.getElementById('levelUpOverlay');
+            const message = document.getElementById('levelUpMessage');
+            const description = document.getElementById('levelUpDescription');
             
-            // Speichere Namen wenn Checkbox aktiv ist
-            const saveNameCheckbox = document.getElementById('saveNameCheckbox');
-            if (saveNameCheckbox && saveNameCheckbox.checked && nameInput.value && nameInput.value.trim()) {
-                savePlayerName(nameInput.value.trim());
-                updateNameUIState();
-            }
-
-            initializeQuestionPool();
-
-            // Hole Fragen basierend auf Level, Schwierigkeitsgrad und Modifiern
-            filteredQuestions = selectQuestionsFromPool(selectedLevel, selectedDifficulty, 15);
+            message.textContent = `Level ${STATE.level} erreicht! 🎉`;
+            description.textContent = `Du bist jetzt ${getTitleForLevel(STATE.level)}!`;
             
-            // Prüfe ob Fragen verfügbar sind
-            if (filteredQuestions.length === 0) {
-                if (activeModifiers.includes('practice')) {
-                    alert('Keine falsch beantworteten Fragen für diese Kombination verfügbar. Versuche andere Einstellungen.');
-                    return;
-                } else {
-                    // kleiner Retry, falls Filter während Laden leer war
-                    await new Promise(r => setTimeout(r, 150));
-                    filteredQuestions = selectQuestionsFromPool(selectedLevel, selectedDifficulty, 15);
-                    if (filteredQuestions.length === 0) {
-                        alert('Keine Fragen für diese Kombination verfügbar. Versuche andere Einstellungen.');
-                        return;
+            overlay.classList.add('show');
+        }
+
+        // ============================================================================
+        // UI UPDATES
+        // ============================================================================
+        
+        function updateProgress() {
+            const percentage = STATE.currentQuestions.length > 0
+                ? ((STATE.currentQuestionIndex + 1) / STATE.currentQuestions.length) * 100
+                : 0;
+            document.getElementById('progressBar').style.width = `${percentage}%`;
+        }
+
+        function showScreen(screenId) {
+            ['startScreen', 'questionsContainer', 'resultScreen'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (id === screenId) {
+                        el.style.display = 'block';
+                        if (id === 'resultScreen') el.classList.add('show');
+                    } else {
+                        el.style.display = 'none';
+                        if (id === 'resultScreen') el.classList.remove('show');
                     }
                 }
-            }
-
-            // Timer starten wenn Speedrun-Modifier aktiv
-            if (activeModifiers.includes('speedrun')) {
-                startTime = Date.now();
-                document.getElementById('timerDisplay').style.display = 'block';
-                timerInterval = setInterval(updateTimer, 1000);
-            }
-
-            document.getElementById('startScreen').style.display = 'none';
-            updateBodyClass();
-            renderQuestion();
+            });
+            
+            // Update body class for background
+            document.body.className = screenId === 'questionsContainer' ? 'in-quiz' : '';
         }
 
-        let questionPhase = 'answering'; // 'answering' | 'review'
-
+        // ============================================================================
+        // QUESTION RENDERING
+        // ============================================================================
+        
         function renderQuestion() {
             const container = document.getElementById('questionsContainer');
-            const question = filteredQuestions[currentQuestion];
-            const checkBtn = document.getElementById('checkBtn');
-
-            let optionsHTML = '';
-            const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
-
-            if (question.type === 'multiple') {
-                // Erstelle Array mit Optionen und ihren ursprünglichen Indizes
-                const optionsWithIndex = question.options.map((option, index) => ({
-                    text: option,
-                    originalIndex: index
-                }));
-                
-                // Mische die Optionen zufällig
-                const shuffledOptions = shuffleArray([...optionsWithIndex]);
-                
-                // Finde den neuen Index der korrekten Antwort
-                const newCorrectIndex = shuffledOptions.findIndex(opt => opt.originalIndex === question.correct);
-                
-                // Speichere die neue korrekte Antwort für später
-                question._shuffledCorrect = newCorrectIndex;
-                
-                optionsHTML = shuffledOptions.map((option, index) => `
-                    <div class="option" data-index="${index}" data-letter="${letters[index]}">
-                        <span>${option.text}</span>
-                    </div>
-                `).join('');
-
-            } else if (question.type === 'checkbox') {
-                // Checkboxen: speichere original-index für robuste Validierung
-                optionsHTML = question.options.map((option, index) => `
-                    <div class="option" data-original-index="${index}">
-                        <input type="checkbox" id="option${index}" data-original-index="${index}">
-                        <label for="option${index}" style="cursor: pointer; flex: 1;">${option}</label>
-                    </div>
-                `).join('');
-
-            } else if (question.type === 'text') {
-                optionsHTML = `<input type="text" class="text-input" id="textAnswer" placeholder="Deine Antwort eingeben...">`;
-
-            } else if (question.type === 'fillblank') {
-                let questionText = question.question;
-                (question.blanks || []).forEach((_, i) => {
-                    questionText = questionText.replace('_____', `<input type="text" class="blank-input" id="blank${i}" placeholder="...">`);
-                });
-                optionsHTML = `<div style="font-size: 18px; line-height: 2;">${questionText}</div>`;
-
-            } else if (question.type === 'sort') {
-                // Sort: zeige nur die sortierbaren Items (keine Matching-Spalten hier)
-                const itemsToShow = shuffleArray([...question.items || []]);
-                optionsHTML = `<div class="sortable-container" id="sortableContainer">
-                    ${itemsToShow.map((item) => `
-                        <div class="sortable-item" draggable="true" data-item="${item}">
-                            <span class="drag-handle">☰</span>
-                            <span>${item}</span>
-                        </div>
-                    `).join('')}
-                </div>`;
-
-            } else if (question.type === 'matching') {
-                // Matching: benutze question.left / question.right wenn vorhanden, sonst paare aufteilen
-                const leftItems = question.left || (question.pairs || []).map(p => p.left);
-                const rightItems = question.right || (question.pairs || []).map(p => p.right);
-
-                // Shuffle both columns for randomization
-                const shuffledLeftItems = shuffleArray([...leftItems]);
-                const shuffledRightItems = shuffleArray([...rightItems]);
-
-                optionsHTML = `
-                    <div class="matching-container">
-                        <div class="matching-column" id="leftColumn">
-                            ${shuffledLeftItems.map((item) => `
-                                <div class="matching-item" data-value="${item}" data-side="left">
-                                    ${item}
-                                </div>
-                            `).join('')}
-                        </div>
-                        <div class="matching-column" id="rightColumn">
-                            ${shuffledRightItems.map((item) => `
-                                <div class="matching-item" data-value="${item}" data-side="right">
-                                    ${item}
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                    <div id="matchingPairs" style="margin-top: 20px; display: none;"></div>
-                `;
+            const question = STATE.currentQuestions[STATE.currentQuestionIndex];
+            
+            if (!question) {
+                console.error('No question to render');
+                return;
             }
 
-            const difficultyDots = Array(4).fill(0).map((_, i) =>
-                `<div class="difficulty-dot ${i < (question.difficulty || 1) ? 'active' : ''}"></div>`
-            ).join('');
+            STATE.questionAnswered = false;
+            
+            let optionsHTML = renderQuestionOptions(question);
+            
+            const difficultyDots = Array(4).fill(0)
+                .map((_, i) => `<div class="difficulty-dot ${i < (question.difficulty || 1) ? 'active' : ''}"></div>`)
+                .join('');
 
             container.innerHTML = `
                 <div class="question-container active">
@@ -1266,352 +495,350 @@
                         <button class="btn btn-abort" id="abortBtn">Quiz abbrechen</button>
                     </div>
                     <div class="question-header">
-                        <span class="question-number">Frage ${currentQuestion + 1}/${filteredQuestions.length}</span>
+                        <span class="question-number">Frage ${STATE.currentQuestionIndex + 1}/${STATE.currentQuestions.length}</span>
                         <div class="difficulty-indicator">${difficultyDots}</div>
                     </div>
-                    <div class="question-text">${(question.question || 'Bitte ordne die Elemente zu.')}</div>
+                    <div class="question-text">${question.question || 'Frage'}</div>
                     <div class="options" id="optionsContainer">
                         ${optionsHTML}
                     </div>
                     <div class="feedback" id="feedback"></div>
                     <div class="buttons">
-                        ${currentQuestion > 0 ? '<button class="btn btn-secondary" id="prevBtn">← Zurück</button>' : ''}
-                        <button class="btn btn-primary" id="checkBtn">Prüfen</button>
+                        ${STATE.currentQuestionIndex > 0 ? '<button class="btn btn-secondary" id="prevBtn">← Zurück</button>' : ''}
+                        <button class="btn btn-primary" id="checkBtn" disabled>Prüfen</button>
                     </div>
                 </div>
             `;
 
-            questionPhase = 'answering';
             updateProgress();
-            attachEventListeners();
+            attachQuestionListeners(question);
         }
 
-        function showWarning(msg) {
-            const feedback = document.getElementById('feedback');
-            feedback.className = 'feedback warning show';
-            feedback.innerHTML = `<strong>⚠ Hinweis:</strong> ${msg}`;
-        }
-
-        function attachEventListeners() {
-            if (!filteredQuestions || currentQuestion >= filteredQuestions.length) {
-                console.error('Keine Fragen verfügbar oder ungültiger Index');
-                return;
+        function renderQuestionOptions(question) {
+            const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+            
+            if (question.type === 'multiple') {
+                const shuffled = question.options.map((opt, idx) => ({ text: opt, originalIdx: idx }));
+                shuffleArray(shuffled);
+                question._shuffledOptions = shuffled;
+                
+                return shuffled.map((opt, idx) => `
+                    <div class="option" data-index="${idx}">
+                        <span>${opt.text}</span>
+                    </div>
+                `).join('');
+                
+            } else if (question.type === 'checkbox') {
+                return question.options.map((opt, idx) => `
+                    <div class="option" data-index="${idx}">
+                        <input type="checkbox" id="opt${idx}" data-index="${idx}">
+                        <label for="opt${idx}" style="cursor:pointer; flex:1;">${opt}</label>
+                    </div>
+                `).join('');
+                
+            } else if (question.type === 'text') {
+                return `<input type="text" class="text-input" id="textAnswer" placeholder="Deine Antwort...">`;
+                
+            } else if (question.type === 'fillblank') {
+                let text = question.question;
+                (question.blanks || []).forEach((_, i) => {
+                    text = text.replace('_____', `<input type="text" class="blank-input" id="blank${i}" placeholder="...">`);
+                });
+                return `<div style="font-size:18px; line-height:2;">${text}</div>`;
+                
+            } else if (question.type === 'sort') {
+                const items = shuffleArray([...(question.items || [])]);
+                return `
+                    <div class="sortable-container" id="sortableContainer">
+                        ${items.map(item => `
+                            <div class="sortable-item" draggable="true" data-item="${item}">
+                                <span class="drag-handle">☰</span>
+                                <span>${item}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
+            } else if (question.type === 'matching') {
+                const left = question.left || (question.pairs || []).map(p => p.left);
+                const right = question.right || (question.pairs || []).map(p => p.right);
+                const shuffledLeft = shuffleArray([...left]);
+                const shuffledRight = shuffleArray([...right]);
+                
+                return `
+                    <div class="matching-container">
+                        <div class="matching-column" id="leftColumn">
+                            ${shuffledLeft.map(item => `
+                                <div class="matching-item" data-value="${item}" data-side="left">${item}</div>
+                            `).join('')}
+                        </div>
+                        <div class="matching-column" id="rightColumn">
+                            ${shuffledRight.map(item => `
+                                <div class="matching-item" data-value="${item}" data-side="right">${item}</div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div id="matchingPairs" style="margin-top:20px; display:none;"></div>
+                `;
             }
             
-            const question = filteredQuestions[currentQuestion];
+            return '<p>Unbekannter Fragetyp</p>';
+        }
 
+        // ============================================================================
+        // EVENT LISTENERS FOR QUESTIONS
+        // ============================================================================
+        
+        function attachQuestionListeners(question) {
+            const checkBtn = document.getElementById('checkBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const abortBtn = document.getElementById('abortBtn');
+            
             if (question.type === 'multiple') {
-                document.querySelectorAll('.option').forEach(option => {
-                    option.addEventListener('click', function() {
-                        selectOption(parseInt(this.dataset.index));
+                document.querySelectorAll('.option').forEach(opt => {
+                    opt.addEventListener('click', function() {
+                        if (STATE.questionAnswered) return;
+                        document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+                        this.classList.add('selected');
                         if (checkBtn) checkBtn.disabled = false;
                     });
                 });
-                if (checkBtn) checkBtn.disabled = true;
-            }
-
-            if (question.type === 'sort') {
-                const container = document.getElementById('sortableContainer');
-                const items = container.querySelectorAll('.sortable-item');
-
-                items.forEach(item => {
-                    item.addEventListener('dragstart', handleDragStart);
-                    item.addEventListener('dragover', handleDragOver);
-                    item.addEventListener('drop', handleDrop);
-                    item.addEventListener('dragend', handleDragEnd);
-                });
-            }
-
-            if (question.type === 'matching') {
-                let selectedLeft = null;
-                let selectedRight = null;
-                const pairs = [];
-
-                document.querySelectorAll('.matching-item').forEach(item => {
-                    item.addEventListener('click', function() {
-                        if (this.dataset.side === 'left') {
-                            document.querySelectorAll('[data-side="left"]').forEach(i => i.classList.remove('selected'));
-                            this.classList.add('selected');
-                            selectedLeft = this.dataset.value;
-                        } else {
-                            document.querySelectorAll('[data-side="right"]').forEach(i => i.classList.remove('selected'));
-                            this.classList.add('selected');
-                            selectedRight = this.dataset.value;
-                        }
-
-                        if (selectedLeft && selectedRight) {
-                            pairs.push({ left: selectedLeft, right: selectedRight });
-                            document.querySelectorAll('.matching-item.selected').forEach(i => {
-                                i.style.opacity = '0.3';
-                                i.style.pointerEvents = 'none';
-                            });
-                            selectedLeft = null;
-                            selectedRight = null;
-                        }
-
-                        // Store pairs for checking
-                        window.matchingPairs = pairs;
-                    });
-                });
-            }
-
-            if (question.type === 'checkbox') {
-                const cbs = document.querySelectorAll('input[type="checkbox"][data-original-index]');
+                
+            } else if (question.type === 'checkbox') {
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
                 const updateBtn = () => {
-                    const anyChecked = Array.from(cbs).some(cb => cb.checked);
-                    if (checkBtn) checkBtn.disabled = !anyChecked;
+                    const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+                    if (checkBtn) checkBtn.disabled = !anyChecked || STATE.questionAnswered;
                 };
-                cbs.forEach(cb => cb.addEventListener('change', updateBtn));
-                updateBtn();
+                checkboxes.forEach(cb => cb.addEventListener('change', updateBtn));
+                
+            } else if (question.type === 'text') {
+                const input = document.getElementById('textAnswer');
+                if (input) {
+                    input.addEventListener('input', () => {
+                        if (checkBtn) checkBtn.disabled = !input.value.trim() || STATE.questionAnswered;
+                    });
+                }
+                
+            } else if (question.type === 'fillblank') {
+                const blanks = (question.blanks || []).map((_, i) => document.getElementById(`blank${i}`));
+                const updateBtn = () => {
+                    const allFilled = blanks.every(b => b && b.value.trim());
+                    if (checkBtn) checkBtn.disabled = !allFilled || STATE.questionAnswered;
+                };
+                blanks.forEach(b => b && b.addEventListener('input', updateBtn));
+                
+            } else if (question.type === 'sort') {
+                attachSortListeners();
+                if (checkBtn) checkBtn.disabled = false;
+                
+            } else if (question.type === 'matching') {
+                attachMatchingListeners(question);
             }
-
-            const checkAnswerBtn = document.getElementById('checkBtn');
-            if (checkAnswerBtn) {
-                checkAnswerBtn.addEventListener('click', onCheckButtonClick);
+            
+            if (checkBtn) {
+                checkBtn.addEventListener('click', () => {
+                    if (!STATE.questionAnswered) {
+                        checkAnswer();
+                    } else {
+                        nextQuestion();
+                    }
+                });
             }
-
-            const prevBtn = document.getElementById('prevBtn');
+            
             if (prevBtn) {
                 prevBtn.addEventListener('click', previousQuestion);
             }
-
-            const abortBtn = document.getElementById('abortBtn');
+            
             if (abortBtn) {
-                abortBtn.addEventListener('click', function() {
-                    if (confirm('Möchtest du wirklich zum Hauptmenü zurückkehren? Der aktuelle Fortschritt geht verloren.')) {
-                        if (timerInterval) {
-                            clearInterval(timerInterval);
-                            timerInterval = null;
-                        }
-                        document.getElementById('questionsContainer').style.display = 'none';
-                        document.getElementById('resultScreen').style.display = 'none';
-                        document.getElementById('startScreen').style.display = 'block';
+                abortBtn.addEventListener('click', () => {
+                    if (confirm('Quiz abbrechen und zum Hauptmenü?')) {
+                        stopTimer();
+                        showScreen('startScreen');
                     }
                 });
             }
         }
 
-        let draggedItem = null;
-
-        function handleDragStart(e) {
-            draggedItem = this;
-            this.classList.add('dragging');
-        }
-
-        function handleDragOver(e) {
-            e.preventDefault();
-        }
-
-        function handleDrop(e) {
-            e.preventDefault();
-            if (this !== draggedItem) {
-                const container = document.getElementById('sortableContainer');
-                const items = Array.from(container.children);
-                const draggedIndex = items.indexOf(draggedItem);
-                const targetIndex = items.indexOf(this);
-
-                if (draggedIndex < targetIndex) {
-                    this.parentNode.insertBefore(draggedItem, this.nextSibling);
-                } else {
-                    this.parentNode.insertBefore(draggedItem, this);
-                }
-            }
-        }
-
-        function handleDragEnd() {
-            this.classList.remove('dragging');
-        }
-
-        function selectOption(index) {
-            const question = filteredQuestions[currentQuestion];
-            if (question.type !== 'multiple') return;
-
-            const options = document.querySelectorAll('.option');
-            options.forEach((opt, i) => {
-                opt.classList.remove('selected');
-                if (i === index) {
-                    opt.classList.add('selected');
-                }
+        function attachSortListeners() {
+            const items = document.querySelectorAll('.sortable-item');
+            let draggedItem = null;
+            
+            items.forEach(item => {
+                item.addEventListener('dragstart', function() {
+                    draggedItem = this;
+                    this.classList.add('dragging');
+                });
+                
+                item.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                });
+                
+                item.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    if (this !== draggedItem && draggedItem) {
+                        const container = document.getElementById('sortableContainer');
+                        const items = Array.from(container.children);
+                        const draggedIdx = items.indexOf(draggedItem);
+                        const targetIdx = items.indexOf(this);
+                        
+                        if (draggedIdx < targetIdx) {
+                            this.parentNode.insertBefore(draggedItem, this.nextSibling);
+                        } else {
+                            this.parentNode.insertBefore(draggedItem, this);
+                        }
+                    }
+                });
+                
+                item.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                });
             });
         }
 
-        function onCheckButtonClick() {
-            const btn = document.getElementById('checkBtn');
-            if (!btn) return;
-            if (questionPhase === 'answering') {
-                const evaluated = checkAnswer();
-                if (evaluated) {
-                    questionPhase = 'review';
-                    btn.textContent = currentQuestion === filteredQuestions.length - 1 ? 'Ergebnis anzeigen' : 'Weiter →';
-                }
-            } else {
-                nextQuestion();
-            }
+        function attachMatchingListeners(question) {
+            let selectedLeft = null;
+            let selectedRight = null;
+            const pairs = [];
+            
+            document.querySelectorAll('.matching-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    if (STATE.questionAnswered) return;
+                    
+                    if (this.dataset.side === 'left') {
+                        document.querySelectorAll('[data-side="left"]').forEach(i => i.classList.remove('selected'));
+                        this.classList.add('selected');
+                        selectedLeft = this.dataset.value;
+                    } else {
+                        document.querySelectorAll('[data-side="right"]').forEach(i => i.classList.remove('selected'));
+                        this.classList.add('selected');
+                        selectedRight = this.dataset.value;
+                    }
+                    
+                    if (selectedLeft && selectedRight) {
+                        pairs.push({ left: selectedLeft, right: selectedRight });
+                        document.querySelectorAll('.matching-item.selected').forEach(i => {
+                            i.style.opacity = '0.3';
+                            i.style.pointerEvents = 'none';
+                        });
+                        selectedLeft = null;
+                        selectedRight = null;
+                        
+                        question._userPairs = pairs;
+                        
+                        const checkBtn = document.getElementById('checkBtn');
+                        if (checkBtn && pairs.length === (question.pairs || []).length) {
+                            checkBtn.disabled = false;
+                        }
+                    }
+                });
+            });
         }
 
+        // ============================================================================
+        // ANSWER CHECKING
+        // ============================================================================
+        
         function checkAnswer() {
-            const question = filteredQuestions[currentQuestion];
+            const question = STATE.currentQuestions[STATE.currentQuestionIndex];
             const feedback = document.getElementById('feedback');
             let isCorrect = false;
-            let evaluated = false;
-
+            
             if (question.type === 'multiple') {
                 const selected = document.querySelector('.option.selected');
                 if (!selected) {
-                    showWarning('Bitte wähle eine Antwort aus!');
-                    return false;
+                    showWarning('Bitte wähle eine Antwort!');
+                    return;
                 }
-
-                const selectedIndex = parseInt(selected.dataset.index);
-                // Verwende den gemischten korrekten Index wenn verfügbar, sonst den ursprünglichen
-                const correctIndex = question._shuffledCorrect !== undefined ? question._shuffledCorrect : question.correct;
-                isCorrect = selectedIndex === correctIndex;
-
-                const options = document.querySelectorAll('.option');
-                options.forEach((opt, i) => {
-                    if (i === correctIndex) {
+                
+                const selectedIdx = parseInt(selected.dataset.index);
+                const correctOriginalIdx = question.correct;
+                const correctShuffledIdx = question._shuffledOptions.findIndex(opt => opt.originalIdx === correctOriginalIdx);
+                isCorrect = selectedIdx === correctShuffledIdx;
+                
+                document.querySelectorAll('.option').forEach((opt, idx) => {
+                    if (idx === correctShuffledIdx) {
                         opt.classList.add('correct');
-                    } else if (i === selectedIndex && !isCorrect) {
+                    } else if (idx === selectedIdx && !isCorrect) {
                         opt.classList.add('wrong');
                     }
                     opt.style.pointerEvents = 'none';
                 });
-
+                
             } else if (question.type === 'checkbox') {
                 const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-                const selected = [];
+                const selected = Array.from(checkboxes)
+                    .map((cb, idx) => cb.checked ? idx : -1)
+                    .filter(idx => idx >= 0);
                 
-                // Debug: Zeige was wir finden
-                console.log('🔍 Checkbox Debug - Found checkboxes:', checkboxes.length);
-                
-                // Sammle ausgewählte Original-Indizes
-                checkboxes.forEach((cb, domIndex) => {
-                    console.log(`  Checkbox ${domIndex}:`, {
-                        checked: cb.checked,
-                        hasDataAttr: cb.hasAttribute('data-original-index'),
-                        dataValue: cb.dataset.originalIndex,
-                        parsedValue: parseInt(cb.dataset.originalIndex, 10)
-                    });
-                    
-                    if (cb.checked) {
-                        const originalIndex = parseInt(cb.dataset.originalIndex, 10);
-                        if (!isNaN(originalIndex)) {
-                            selected.push(originalIndex);
-                        } else {
-                            console.warn(`⚠️ Checkbox ${domIndex} is checked but has no valid data-original-index!`);
-                        }
-                    }
-                });
-
                 if (selected.length === 0) {
-                    showWarning('Bitte wähle mindestens eine Antwort aus!');
-                    return false;
+                    showWarning('Wähle mindestens eine Antwort!');
+                    return;
                 }
-
-                // Normalisiere korrekte Antworten zu Integer-Array
-                const optionCount = (question.options || []).length;
-                let correctIndices = [];
                 
-                if (Array.isArray(question.correct)) {
-                    // Array von Indizes (können Zahlen oder Strings sein)
-                    correctIndices = question.correct
-                        .map(v => {
-                            const num = typeof v === 'string' ? parseInt(v, 10) : v;
-                            return num;
-                        })
-                        .filter(v => Number.isInteger(v) && v >= 0 && v < optionCount);
-                } else if (question.correct === 'all' || question.correct === '*') {
-                    // Alle Optionen sind korrekt
-                    correctIndices = Array.from({ length: optionCount }, (_, i) => i);
-                } else if (typeof question.correct === 'number') {
-                    // Einzelner Index (sollte nicht bei checkbox vorkommen, aber sicher ist sicher)
-                    if (question.correct >= 0 && question.correct < optionCount) {
-                        correctIndices = [question.correct];
-                    }
-                } else if (typeof question.correct === 'string') {
-                    // String-Index konvertieren
-                    const num = parseInt(question.correct, 10);
-                    if (!isNaN(num) && num >= 0 && num < optionCount) {
-                        correctIndices = [num];
-                    }
-                }
-
-                // Debug-Log für Entwicklung (kann später entfernt werden)
-                console.log('Checkbox Debug:', {
-                    question: question.question,
-                    selected: selected.sort((a,b) => a-b),
-                    correct: correctIndices.sort((a,b) => a-b),
-                    questionCorrectRaw: question.correct
-                });
-
+                const correct = Array.isArray(question.correct) 
+                    ? question.correct 
+                    : [question.correct];
+                
                 const selectedSet = new Set(selected);
-                const correctSet = new Set(correctIndices);
-                
-                // Set-Gleichheit: exakt die richtigen Antworten
+                const correctSet = new Set(correct);
                 isCorrect = selectedSet.size === correctSet.size && 
                            [...selectedSet].every(i => correctSet.has(i));
-
-                // Visuelles Feedback
-                const optionDivs = document.querySelectorAll('.option[data-original-index]');
-                optionDivs.forEach((opt) => {
-                    const originalIndex = parseInt(opt.dataset.originalIndex, 10);
-                    const isCorrectAnswer = correctSet.has(originalIndex);
-                    const isSelected = selectedSet.has(originalIndex);
-
-                    if (isCorrectAnswer) {
+                
+                document.querySelectorAll('.option').forEach((opt, idx) => {
+                    if (correctSet.has(idx)) {
                         opt.classList.add('correct');
-                    } else if (isSelected) {
+                    } else if (selectedSet.has(idx)) {
                         opt.classList.add('wrong');
                     }
                 });
-
+                
                 checkboxes.forEach(cb => cb.disabled = true);
-
+                
             } else if (question.type === 'text') {
                 const answer = document.getElementById('textAnswer').value.trim().toLowerCase();
                 if (!answer) {
                     showWarning('Bitte gib eine Antwort ein!');
-                    return false;
+                    return;
                 }
-
-                isCorrect = question.correct.some(correct =>
-                    answer.includes(correct.toLowerCase())
-                );
-
-                const textInput = document.getElementById('textAnswer');
-                textInput.style.borderColor = isCorrect ? '#48bb78' : '#f56565';
-                textInput.disabled = true;
+                
+                const correctAnswers = Array.isArray(question.correct) ? question.correct : [question.correct];
+                isCorrect = correctAnswers.some(c => answer.includes(c.toLowerCase()));
+                
+                const input = document.getElementById('textAnswer');
+                input.style.borderColor = isCorrect ? '#48bb78' : '#f56565';
+                input.disabled = true;
+                
             } else if (question.type === 'fillblank') {
-                const blanks = question.blanks;
+                const blanks = question.blanks || [];
                 const answers = blanks.map((_, i) => {
                     const input = document.getElementById(`blank${i}`);
                     return input ? input.value.trim() : '';
                 });
-
+                
                 if (answers.some(a => !a)) {
-                    showWarning('Bitte fülle alle Lücken aus!');
-                    return false;
+                    showWarning('Fülle alle Lücken aus!');
+                    return;
                 }
-
-                isCorrect = answers.every((answer, i) =>
-                    answer.toLowerCase() === blanks[i].toLowerCase()
-                );
-
+                
+                isCorrect = answers.every((ans, i) => ans.toLowerCase() === blanks[i].toLowerCase());
+                
                 answers.forEach((_, i) => {
                     const input = document.getElementById(`blank${i}`);
                     if (input) {
-                        const right = input.value.trim().toLowerCase() === blanks[i].toLowerCase();
-                        input.style.borderColor = right ? '#48bb78' : '#f56565';
+                        const correct = input.value.trim().toLowerCase() === blanks[i].toLowerCase();
+                        input.style.borderColor = correct ? '#48bb78' : '#f56565';
                         input.disabled = true;
                     }
                 });
+                
             } else if (question.type === 'sort') {
                 const container = document.getElementById('sortableContainer');
                 const items = Array.from(container.children);
                 const userOrder = items.map(item => item.dataset.item);
-
+                
                 isCorrect = JSON.stringify(userOrder) === JSON.stringify(question.correct);
-
+                
                 items.forEach((item, i) => {
                     item.draggable = false;
                     if (item.dataset.item === question.correct[i]) {
@@ -1620,80 +847,89 @@
                         item.classList.add('wrong');
                     }
                 });
+                
             } else if (question.type === 'matching') {
-                const userPairs = window.matchingPairs || [];
-
-                if (userPairs.length !== question.pairs.length) {
-                    showWarning('Bitte ordne alle Paare zu!');
-                    return false;
+                const userPairs = question._userPairs || [];
+                
+                if (userPairs.length !== (question.pairs || []).length) {
+                    showWarning('Ordne alle Paare zu!');
+                    return;
                 }
-
-                isCorrect = userPairs.every(userPair =>
-                    question.pairs.some(correctPair =>
-                        correctPair.left === userPair.left && correctPair.right === userPair.right
-                    )
+                
+                isCorrect = userPairs.every(up =>
+                    question.pairs.some(cp => cp.left === up.left && cp.right === up.right)
                 );
-
+                
                 document.querySelectorAll('.matching-item').forEach(item => {
                     item.style.pointerEvents = 'none';
                 });
             }
-
-            evaluated = true;
-
+            
+            // Update stats
+            STATE.questionAnswered = true;
+            STATE.userAnswers[STATE.currentQuestionIndex] = isCorrect;
+            
             if (isCorrect) {
-                score++;
-                correctAnswers++;
-                let gainedXP = question.xp;
-                // Bonus XP im Speedrun-Modus
-                if (activeModifiers.includes('speedrun')) {
-                    gainedXP = Math.floor(gainedXP * 1.5); // 50% mehr XP im Speedrun
+                STATE.score++;
+                STATE.correctCount++;
+                let xpGain = question.xp || 10;
+                if (STATE.activeModifiers.includes('speedrun')) {
+                    xpGain = Math.floor(xpGain * 1.5);
                 }
-                xp += gainedXP;
+                STATE.xp += xpGain;
                 updateXPDisplay();
                 checkLevelUp();
+                
                 feedback.className = 'feedback correct show';
-                feedback.innerHTML = `<strong>✓ Richtig!</strong> <span class="xp-gain">+${gainedXP} XP</span><br>${question.explanation}`;
+                feedback.innerHTML = `<strong>✓ Richtig!</strong> <span class="xp-gain">+${xpGain} XP</span><br>${question.explanation || ''}`;
             } else {
-                wrongAnswers++;
-                let xpPenalty = 0;
-                // XP-Bestrafung bei mittlerem und höherem Schwierigkeitsgrad
-                if (question.difficulty >= 2 || activeModifiers.includes('speedrun')) {
-                    xpPenalty = Math.floor(question.xp * (activeModifiers.includes('speedrun') ? 0.75 : 0.5));
-                    xp = Math.max(0, xp - xpPenalty);
-                    updateXPDisplay();
-                }
-
-                // Speichere falsch beantwortete Frage
-                if (!activeModifiers.includes('practice')) {
-                    wrongAnsweredQuestions.push({
+                STATE.wrongCount++;
+                
+                if (!STATE.activeModifiers.includes('practice')) {
+                    STATE.wrongAnsweredQuestions.push({
                         question: question,
                         timestamp: Date.now()
                     });
-                    // Behalte nur die letzten 50 falsch beantworteten Fragen
-                    if (wrongAnsweredQuestions.length > 50) {
-                        wrongAnsweredQuestions.shift();
+                    if (STATE.wrongAnsweredQuestions.length > 50) {
+                        STATE.wrongAnsweredQuestions.shift();
                     }
                 }
-
+                
+                let xpLoss = 0;
+                if (question.difficulty >= 2 || STATE.activeModifiers.includes('speedrun')) {
+                    xpLoss = Math.floor((question.xp || 10) * 0.5);
+                    STATE.xp = Math.max(0, STATE.xp - xpLoss);
+                    updateXPDisplay();
+                }
+                
                 feedback.className = 'feedback wrong show';
-                feedback.innerHTML = `<strong>✗ Leider falsch.</strong>${xpPenalty > 0 ? ` <span class="xp-gain" style="background: #f56565">-${xpPenalty} XP</span>` : ''}<br>${question.explanation}`;
+                feedback.innerHTML = `<strong>✗ Leider falsch.</strong>${xpLoss > 0 ? ` <span class="xp-gain" style="background:#f56565">-${xpLoss} XP</span>` : ''}<br>${question.explanation || ''}`;
             }
-
-            userAnswers[currentQuestion] = isCorrect;
-
-            const nextBtn = document.getElementById('checkBtn');
-            if (nextBtn) {
-                nextBtn.disabled = false;
+            
+            // Update button
+            const checkBtn = document.getElementById('checkBtn');
+            if (checkBtn) {
+                checkBtn.disabled = false;
+                checkBtn.textContent = STATE.currentQuestionIndex === STATE.currentQuestions.length - 1 
+                    ? 'Ergebnis anzeigen' 
+                    : 'Weiter →';
             }
-
-            return evaluated;
         }
 
-        function nextQuestion() {
-            currentQuestion++;
+        function showWarning(msg) {
+            const feedback = document.getElementById('feedback');
+            feedback.className = 'feedback warning show';
+            feedback.innerHTML = `<strong>⚠ Hinweis:</strong> ${msg}`;
+        }
 
-            if (currentQuestion >= filteredQuestions.length) {
+        // ============================================================================
+        // NAVIGATION
+        // ============================================================================
+        
+        function nextQuestion() {
+            STATE.currentQuestionIndex++;
+            
+            if (STATE.currentQuestionIndex >= STATE.currentQuestions.length) {
                 showResults();
             } else {
                 renderQuestion();
@@ -1701,344 +937,383 @@
         }
 
         function previousQuestion() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
+            if (STATE.currentQuestionIndex > 0) {
+                STATE.currentQuestionIndex--;
                 renderQuestion();
             }
         }
 
+        // ============================================================================
+        // TIMER
+        // ============================================================================
+        
+        function startTimer() {
+            STATE.startTime = Date.now();
+            STATE.timerInterval = setInterval(() => {
+                const elapsed = Date.now() - STATE.startTime;
+                document.getElementById('timer').textContent = formatTime(elapsed);
+            }, 100);
+            document.getElementById('timerDisplay').style.display = 'block';
+        }
+
+        function stopTimer() {
+            if (STATE.timerInterval) {
+                clearInterval(STATE.timerInterval);
+                STATE.timerInterval = null;
+            }
+            STATE.currentTime = Date.now();
+        }
+
+        // ============================================================================
+        // RESULTS
+        // ============================================================================
+        
         function showResults() {
-            const percentage = Math.round((score / filteredQuestions.length) * 100);
-            const resultScreen = document.getElementById('resultScreen');
-            const questionsContainer = document.getElementById('questionsContainer');
-
-            if (activeModifiers.includes('speedrun')) {
-                clearInterval(timerInterval);
-                currentTime = Date.now();
-            }
-
-            questionsContainer.style.display = 'none';
-            resultScreen.classList.add('show');
-
-            document.getElementById('scoreText').textContent = percentage + '%';
-
-            let message = '';
-            if (percentage >= 90) {
-                message = '🎉 Hervorragend!';
-            } else if (percentage >= 75) {
-                message = '👍 Sehr gut!';
-            } else if (percentage >= 60) {
-                message = '✓ Gut gemacht!';
-            } else if (percentage >= 50) {
-                message = '📚 Weiter üben!';
-            } else {
-                message = '💪 Nicht aufgeben!';
-            }
-
-            // Name dynamisch einbauen
-            document.getElementById('resultMessage').textContent = playerName + ': ' + message;
+            stopTimer();
             
-            let detailsText = `Du hast ${score} von ${filteredQuestions.length} Fragen richtig beantwortet.`;
-            const leaderboardLevel = selectedLevel || 'uebung';
+            const percentage = Math.round((STATE.score / STATE.currentQuestions.length) * 100);
             
-            // Leaderboard-Update für alle Modi
-            if (activeModifiers.includes('speedrun')) {
-                const elapsedTime = currentTime - startTime;
-                detailsText += `\nBenötigte Zeit: ${formatTime(elapsedTime)}`;
-                updateLeaderboard(leaderboardLevel, score, elapsedTime);
-                
-                // Zeige Score nur bei qualifizierten Timetrials
-                const hasOnlyTimerModifier = activeModifiers.length === 1 && activeModifiers.includes('speedrun');
-                const hasDifficultySet = selectedDifficulty !== 'all';
-                
-                if (hasOnlyTimerModifier && hasDifficultySet) {
-                    const difficultyMultiplier = getDifficultyMultiplier(selectedDifficulty);
-                    const timeBonus = calculateTimeBonus(elapsedTime, filteredQuestions.length);
-                    const finalScore = calculateWeightedScore(percentage, difficultyMultiplier, timeBonus, filteredQuestions.length);
-                    detailsText += `\n⚡ Timetrial-Score: ${finalScore} (${selectedDifficulty.toUpperCase()})`;
-                }
-            } else {
-                // Normal-Modus ohne Timer
-                updateLeaderboard(leaderboardLevel, score, null);
-            }
-            document.getElementById('resultDetails').textContent = detailsText;
-
-            document.getElementById('statCorrect').textContent = correctAnswers;
-            document.getElementById('statWrong').textContent = wrongAnswers;
-            document.getElementById('statXP').textContent = xp;
-            document.getElementById('statLevel').textContent = level;
-
-            // Speichere falsch beantwortete Fragen dieses Durchlaufs in lastFiveRuns (für Übungsmodus)
-            try {
-                const currentRunWrong = filteredQuestions
-                    .map((q, i) => ({ q: q, idx: i }))
-                    .filter(item => userAnswers[item.idx] === false)
-                    .map(item => JSON.parse(JSON.stringify(item.q))); // deep clone
-
-                lastFiveRuns.push(currentRunWrong);
-                if (lastFiveRuns.length > 5) lastFiveRuns.shift();
-            } catch (e) {
-                // Falls etwas schiefgeht, nicht blockieren (robuster gegen undefiniertheiten)
-                console.warn('Konnte lastFiveRuns nicht aktualisieren:', e);
-            }
-
-            // updateLeaderboard() was already called with level/time above; avoid empty call
+            document.getElementById('scoreText').textContent = `${percentage}%`;
+            document.getElementById('resultMessage').textContent = `${STATE.playerName || 'Spieler/in'}: ${getResultMessage(percentage)}`;
+            document.getElementById('resultDetails').textContent = `Du hast ${STATE.score} von ${STATE.currentQuestions.length} Fragen richtig beantwortet.`;
+            
+            document.getElementById('statCorrect').textContent = STATE.correctCount;
+            document.getElementById('statWrong').textContent = STATE.wrongCount;
+            document.getElementById('statXP').textContent = STATE.xp;
+            document.getElementById('statLevel').textContent = STATE.level;
+            
+            // Update leaderboard
+            updateLeaderboard();
+            
+            // WhatsApp share
+            const shareText = `Ich habe ${percentage}% im Web-Quiz erreicht! 🎉 ${STATE.score}/${STATE.currentQuestions.length} Fragen richtig.`;
+            document.getElementById('whatsappShareBtn').href = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+            
+            showScreen('resultScreen');
             displayLeaderboard();
-            displayStartLeaderboard(); // Aktualisiere auch Start-Anzeige
+        }
 
-            // WhatsApp Share Link erzeugen (Text dynamisch)
-            const shareText = encodeURIComponent(
-                `${playerName} hat gerade ${percentage}% im Quiz "Web-basierte Anwendungssysteme" erreicht.\n` +
-                `Level ${level}, ${xp} XP.\n` +
-                `Willst du es auch spielen? Frag mich nach der HTML-Datei oder nimm den Link 👇`
+        function getResultMessage(percentage) {
+            if (percentage >= 90) return '🎉 Hervorragend!';
+            if (percentage >= 75) return '👍 Sehr gut!';
+            if (percentage >= 60) return '✓ Gut gemacht!';
+            if (percentage >= 50) return '📚 Weiter üben!';
+            return '💪 Nicht aufgeben!';
+        }
+
+        function updateLeaderboard() {
+            const level = STATE.selectedLevel;
+            const isSpeedrun = STATE.activeModifiers.includes('speedrun');
+            const time = isSpeedrun ? (STATE.currentTime - STATE.startTime) : null;
+            
+            const entry = {
+                name: STATE.playerName || 'Spieler/in',
+                score: STATE.score,
+                percentage: Math.round((STATE.score / STATE.currentQuestions.length) * 100),
+                difficulty: STATE.selectedDifficulty,
+                xp: STATE.xp,
+                level: STATE.level,
+                questionCount: STATE.currentQuestions.length,
+                timestamp: Date.now()
+            };
+            
+            if (isSpeedrun && time) {
+                entry.time = time;
+            }
+            
+            STATE.leaderboard[level].push(entry);
+            STATE.leaderboard[level].sort((a, b) => {
+                if (a.time != null && b.time != null) {
+                    return a.time - b.time;
+                }
+                return b.score - a.score;
+            });
+            STATE.leaderboard[level] = STATE.leaderboard[level].slice(0, 20);
+            
+            saveLeaderboard();
+        }
+
+        function displayLeaderboard() {
+            const mode = document.querySelector('.tab-btn.active')?.dataset.mode || 'normal';
+            const content = document.getElementById('leaderboardContent');
+            
+            if (!content) return;
+            
+            const allEntries = Object.values(STATE.leaderboard).flat();
+            const filtered = mode === 'timetrials' 
+                ? allEntries.filter(e => e.time != null)
+                : allEntries.filter(e => e.time == null);
+            
+            filtered.sort((a, b) => {
+                if (a.time != null && b.time != null) return a.time - b.time;
+                return b.score - a.score;
+            });
+            
+            if (filtered.length === 0) {
+                content.innerHTML = '<div class="empty-leaderboard">Noch keine Einträge vorhanden.</div>';
+                return;
+            }
+            
+            content.innerHTML = filtered.slice(0, 10).map((e, i) => `
+                <div class="leaderboard-entry">
+                    <span class="entry-rank">${i + 1}.</span>
+                    <span class="entry-name">${e.name}</span>
+                    <span class="entry-details">
+                        ${e.time ? formatTime(e.time) : `${e.score}/${e.questionCount}`}
+                        <br><small>${e.percentage}% • ${e.xp} XP</small>
+                    </span>
+                </div>
+            `).join('');
+        }
+
+        function displayStartLeaderboard() {
+            const mode = document.querySelector('.start-tab-btn.active')?.dataset.mode || 'normal';
+            const content = document.getElementById('startLeaderboardContent');
+            
+            if (!content) return;
+            
+            const allEntries = Object.values(STATE.leaderboard).flat();
+            const filtered = mode === 'timetrials' 
+                ? allEntries.filter(e => e.time != null)
+                : allEntries.filter(e => e.time == null);
+            
+            filtered.sort((a, b) => {
+                if (a.time != null && b.time != null) return a.time - b.time;
+                return b.score - a.score;
+            });
+            
+            if (filtered.length === 0) {
+                content.innerHTML = '<div class="empty-leaderboard">Noch keine Einträge vorhanden.<br>Spiele eine Runde – mit oder ohne Timer.</div>';
+                return;
+            }
+            
+            content.innerHTML = filtered.slice(0, 10).map((e, i) => `
+                <div class="leaderboard-entry">
+                    <span class="entry-rank">${i + 1}.</span>
+                    <span class="entry-name">${e.name}</span>
+                    <span class="entry-details">
+                        ${e.time ? formatTime(e.time) : `${e.score}/${e.questionCount}`}
+                        <br><small>${e.percentage}% • ${e.xp} XP</small>
+                    </span>
+                </div>
+            `).join('');
+        }
+
+        // ============================================================================
+        // QUIZ START
+        // ============================================================================
+        
+        async function startQuiz() {
+            if (!STATE.questionsLoaded) {
+                alert('Fragen werden noch geladen. Bitte warte einen Moment.');
+                return;
+            }
+            
+            // Get player name
+            const nameInput = document.getElementById('playerName');
+            STATE.playerName = (nameInput?.value || 'Spieler/in').trim();
+            
+            // Save name if checkbox is checked
+            const saveCheckbox = document.getElementById('saveNameCheckbox');
+            if (saveCheckbox?.checked && STATE.playerName) {
+                savePlayerName(STATE.playerName);
+            }
+            
+            // Select questions
+            STATE.currentQuestions = selectQuestions(
+                STATE.selectedLevel,
+                STATE.selectedDifficulty,
+                STATE.activeModifiers,
+                15
             );
-
-            const waUrl = `https://wa.me/?text=${shareText}`;
-
-            const waBtn = document.getElementById('whatsappShareBtn');
-            waBtn.setAttribute('href', waUrl);
+            
+            if (STATE.currentQuestions.length === 0) {
+                alert('Keine Fragen für diese Auswahl verfügbar. Versuche andere Einstellungen.');
+                return;
+            }
+            
+            // Reset quiz state
+            STATE.currentQuestionIndex = 0;
+            STATE.userAnswers = [];
+            STATE.score = 0;
+            STATE.correctCount = 0;
+            STATE.wrongCount = 0;
+            
+            // Start timer if speedrun
+            if (STATE.activeModifiers.includes('speedrun')) {
+                startTimer();
+            }
+            
+            // Show quiz
+            showScreen('questionsContainer');
+            renderQuestion();
         }
 
         function restartQuiz() {
-            currentQuestion = 0;
-            score = 0;
-            userAnswers = [];
-            correctAnswers = 0;
-            wrongAnswers = 0;
-            // XP und Level NICHT zurücksetzen - bleiben bestehen!
-            // xp = 0; // ENTFERNT
-            // level = 1; // ENTFERNT
-            selectedLevel = null;
-            selectedDifficulty = 'all';
-            activeModifiers = ['normal'];
-            // Name in dieser Sitzung beibehalten
-            
-            // Reset Timer
-            if (timerInterval) {
-                clearInterval(timerInterval);
-            }
-            document.getElementById('timerDisplay').style.display = 'none';
-
-            document.getElementById('resultScreen').classList.remove('show');
-            document.getElementById('questionsContainer').style.display = 'block';
-            document.getElementById('startScreen').style.display = 'block';
-            document.body.className = '';
-
-            updateXPDisplay();
-            updateLevelBadge();
-
-            // Reset Level Auswahl
-            document.querySelectorAll('.level-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-
-            // Reset Modifier Auswahl
-            document.querySelectorAll('.modifier-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector('.modifier-btn[data-modifier="normal"]').classList.add('active');
-
-            // Reset Difficulty Auswahl
-            document.querySelectorAll('.difficulty-btn').forEach(btn => {
-                btn.classList.remove('selected');
-            });
-            document.querySelector('.difficulty-btn[data-difficulty="all"]').classList.add('selected');
-
-            document.getElementById('startBtn').disabled = true;
-            
-            // Reset Question Pool und Timer
-            usedQuestions.clear();
-            document.getElementById('timer').textContent = '00:00';
-            
-            // Name im Feld belassen (Session-Komfort)
-            const sessionName = loadSessionName();
-            if (sessionName) {
-                document.getElementById('playerName').value = sessionName;
-            }
-            
-            // Validate start conditions
-            validateStartConditions();
+            showScreen('startScreen');
+            displayStartLeaderboard();
         }
 
-        function updateProgress() {
-            const progress = ((currentQuestion + 1) / filteredQuestions.length) * 100;
-            document.getElementById('progressBar').style.width = progress + '%';
-        }
-
-        // Globale Hilfsfunktionen (müssen außerhalb DOMContentLoaded liegen, da sie auch von globalen Funktionen aufgerufen werden)
-        // Stellt sicher, dass das Placeholder-Label für das Namensfeld auf Mobile/Desktop passend ist
-        function adjustNamePlaceholder() {
-            try {
-                const input = document.getElementById('playerName');
-                if (!input) return;
-                const isMobile = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
-                const desktopText = 'z.B. Luca, Marie';
-                const mobileText = 'Name (optional)';
-                input.placeholder = isMobile ? mobileText : desktopText;
-            } catch (_) {
-                // Fallback: ignoriere Fehler still
-            }
-        }
-        function updateNameUIState() {
-            const savedName = loadPlayerName();
-            const hasStoredName = !!savedName;
+        // ============================================================================
+        // INITIALIZATION
+        // ============================================================================
+        
+        async function init() {
+            console.log('🚀 Initializing quiz app...');
             
-            const nameDisclaimer = document.getElementById('nameDisclaimer');
-            const resetProgressContainer = document.getElementById('resetProgressContainer');
-            const saveNameCheckbox = document.getElementById('saveNameCheckbox');
-            
-            if (hasStoredName) {
-                // Zeige Reset-Button, verstecke Disclaimer
-                if (nameDisclaimer) nameDisclaimer.style.display = 'none';
-                if (resetProgressContainer) resetProgressContainer.style.display = 'block';
-                if (saveNameCheckbox) saveNameCheckbox.checked = true;
-            } else {
-                // Zeige Disclaimer, verstecke Reset-Button
-                if (nameDisclaimer) nameDisclaimer.style.display = 'block';
-                if (resetProgressContainer) resetProgressContainer.style.display = 'none';
-                if (saveNameCheckbox) saveNameCheckbox && (saveNameCheckbox.checked = false);
-            }
-        }
-
-        function validateStartConditions() {
-            const nameInput = document.getElementById('playerName');
-            const startBtn = document.getElementById('startBtn');
-            if (!nameInput || !startBtn) return;
-            const nameOk = !!nameInput.value.trim();
-            const levelOk = !!selectedLevel;
-            const dbReady = (typeof questionDatabase !== 'undefined' && Array.isArray(questionDatabase) && questionDatabase.length > 0) || (typeof questionsLoaded !== 'undefined' && questionsLoaded === true);
-
-            // Wenn Fragen noch laden, Button deaktivieren und Label anpassen
-            if (!dbReady) {
-                startBtn.disabled = true;
-                startBtn.textContent = 'Lade Fragen...';
-                return;
-            } else {
-                startBtn.textContent = 'Quiz starten';
-            }
-
-            // Start ist erlaubt, sobald ein Level ausgewählt wurde (Name optional)
-            startBtn.disabled = !levelOk;
-
-            // Visuelles Feedback: Grün wenn Name gesetzt, sonst neutral
-            if (nameOk) {
-                nameInput.style.borderColor = 'rgba(46, 204, 113, 0.5)';
-            } else {
-                nameInput.style.borderColor = '';
-            }
-        }
-
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', async function() {
             // Adjust mobile placeholder
             adjustNamePlaceholder();
             window.addEventListener('resize', adjustNamePlaceholder);
             
-            // ===== INITIALIZE UI FIRST (before loading questions) =====
-            // So buttons are immediately clickable
+            // Load saved data
+            loadLeaderboard();
+            const savedName = loadPlayerName();
+            if (savedName) {
+                const nameInput = document.getElementById('playerName');
+                if (nameInput) nameInput.value = savedName;
+                STATE.playerName = savedName;
+            }
+            loadProgress();
+            updateXPDisplay();
+            displayStartLeaderboard();
             
-            // Set default selections in HTML already, but ensure classes are set
-            selectedLevel = 'gemischt';
-            selectedDifficulty = 'all';
-            activeModifiers = ['normal'];
+            // Setup event listeners
+            setupStartScreenListeners();
+            setupLevelUpListener();
+            setupResultListeners();
             
-            // Level selection - Set default to "Gemischt"
-            const defaultLevelCard = document.querySelector('.level-card[data-level="gemischt"]');
-            if (defaultLevelCard) {
-                defaultLevelCard.classList.add('selected');
+            // Load questions
+            const startBtn = document.getElementById('startBtn');
+            const success = await loadQuestions();
+            
+            if (success && startBtn) {
+                startBtn.disabled = false;
+                startBtn.textContent = 'Quiz starten';
+            } else if (startBtn) {
+                startBtn.textContent = 'Fehler beim Laden';
             }
             
+            console.log('✅ Initialization complete');
+        }
+
+        function setupStartScreenListeners() {
+            // Level cards
             document.querySelectorAll('.level-card').forEach(card => {
                 card.addEventListener('click', function() {
                     document.querySelectorAll('.level-card').forEach(c => c.classList.remove('selected'));
                     this.classList.add('selected');
-                    selectedLevel = this.dataset.level;
-                    validateStartConditions();
+                    STATE.selectedLevel = this.dataset.level;
                 });
             });
-
-            // Modifier selection (multiple selection possible)
+            
+            // Modifiers
             document.querySelectorAll('.modifier-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    const modifier = this.dataset.modifier;
+                    const mod = this.dataset.modifier;
                     
-                    if (modifier === 'normal') {
-                        // Normal ersetzt alle anderen Modifier
-                        activeModifiers = ['normal'];
+                    if (mod === 'normal') {
+                        STATE.activeModifiers = ['normal'];
                         document.querySelectorAll('.modifier-btn').forEach(b => b.classList.remove('active'));
                         this.classList.add('active');
                     } else {
-                        // Entferne Normal wenn anderer Modifier gewählt wird
-                        const normalIndex = activeModifiers.indexOf('normal');
-                        if (normalIndex > -1) {
-                            activeModifiers.splice(normalIndex, 1);
-                            document.querySelector('.modifier-btn[data-modifier="normal"]').classList.remove('active');
+                        const normalIdx = STATE.activeModifiers.indexOf('normal');
+                        if (normalIdx > -1) {
+                            STATE.activeModifiers.splice(normalIdx, 1);
+                            document.querySelector('.modifier-btn[data-modifier="normal"]')?.classList.remove('active');
                         }
                         
-                        // Toggle des gewählten Modifiers
-                        const index = activeModifiers.indexOf(modifier);
-                        if (index > -1) {
-                            activeModifiers.splice(index, 1);
+                        const idx = STATE.activeModifiers.indexOf(mod);
+                        if (idx > -1) {
+                            STATE.activeModifiers.splice(idx, 1);
                             this.classList.remove('active');
                         } else {
-                            activeModifiers.push(modifier);
+                            STATE.activeModifiers.push(mod);
                             this.classList.add('active');
                         }
                         
-                        // Falls keine Modifier aktiv, setze Normal
-                        if (activeModifiers.length === 0) {
-                            activeModifiers = ['normal'];
-                            document.querySelector('.modifier-btn[data-modifier="normal"]').classList.add('active');
+                        if (STATE.activeModifiers.length === 0) {
+                            STATE.activeModifiers = ['normal'];
+                            document.querySelector('.modifier-btn[data-modifier="normal"]')?.classList.add('active');
                         }
                     }
-                    
-                    validateStartConditions();
                 });
             });
-
-            // Difficulty selection
+            
+            // Difficulty
             document.querySelectorAll('.difficulty-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('selected'));
                     this.classList.add('selected');
-                    selectedDifficulty = this.dataset.difficulty;
-                    validateStartConditions();
+                    STATE.selectedDifficulty = this.dataset.difficulty;
                 });
             });
-
-            // Name input validation
-            document.getElementById('playerName').addEventListener('input', function() {
-                validateStartConditions();
-                updateNameUIState();
-            });
-
-            // Checkbox für Namen speichern
-            const saveNameCheckbox = document.getElementById('saveNameCheckbox');
-            if (saveNameCheckbox) {
-                saveNameCheckbox.addEventListener('change', function() {
-                    if (this.checked) {
-                        const nameInput = document.getElementById('playerName');
-                        if (nameInput.value.trim()) {
-                            savePlayerName(nameInput.value.trim());
-                            updateNameUIState();
-                        }
+            
+            // Start button
+            const startBtn = document.getElementById('startBtn');
+            if (startBtn) {
+                startBtn.addEventListener('click', startQuiz);
+            }
+            
+            // Name input
+            const nameInput = document.getElementById('playerName');
+            if (nameInput) {
+                nameInput.addEventListener('input', function() {
+                    STATE.playerName = this.value.trim();
+                    updateNameUI();
+                });
+            }
+            
+            // Save name checkbox
+            const saveCheckbox = document.getElementById('saveNameCheckbox');
+            if (saveCheckbox) {
+                saveCheckbox.addEventListener('change', function() {
+                    if (this.checked && STATE.playerName) {
+                        savePlayerName(STATE.playerName);
                     } else {
-                        clearPlayerName();
-                        updateNameUIState();
+                        localStorage.removeItem('playerName');
+                    }
+                    updateNameUI();
+                });
+            }
+            
+            // Reset progress
+            const resetBtn = document.getElementById('resetProgressBtn');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', function() {
+                    if (confirm('Fortschritt zurücksetzen?')) {
+                        STATE.xp = 0;
+                        STATE.level = 1;
+                        updateXPDisplay();
+                        localStorage.removeItem(`progress_${STATE.playerName || 'anonymous'}`);
+                        localStorage.removeItem('playerName');
+                        const nameInput = document.getElementById('playerName');
+                        if (nameInput) nameInput.value = '';
+                        STATE.playerName = '';
+                        updateNameUI();
+                        alert('Fortschritt zurückgesetzt!');
                     }
                 });
             }
-
-            // Leaderboard Tab-Wechsel (Ergebnisseite)
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    displayLeaderboard();
+            
+            // Clear leaderboard
+            const clearBtn = document.getElementById('clearAllLeaderboardBtn');
+            if (clearBtn) {
+                clearBtn.addEventListener('click', function() {
+                    if (confirm('Bestenliste löschen?')) {
+                        STATE.leaderboard = {
+                            uebung: [],
+                            'vorlesung-offiziell': [],
+                            gemischt: [],
+                            offiziell: []
+                        };
+                        saveLeaderboard();
+                        displayStartLeaderboard();
+                        displayLeaderboard();
+                    }
                 });
-            });
-
-            // Start-Leaderboard Tab-Wechsel (Hauptmenü)
+            }
+            
+            // Leaderboard tabs (start screen)
             document.querySelectorAll('.start-tab-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.start-tab-btn').forEach(b => b.classList.remove('active'));
@@ -2046,153 +1321,59 @@
                     displayStartLeaderboard();
                 });
             });
+        }
 
-            const quizStartBtn = document.getElementById('startBtn');
-            if (quizStartBtn) {
-                quizStartBtn.addEventListener('click', startQuiz);
-            }
-
-            const quizRestartBtn = document.getElementById('restartBtn');
-            if (quizRestartBtn) {
-                quizRestartBtn.addEventListener('click', restartQuiz);
-            }
-
-            const abortBtn = document.getElementById('abortBtn');
-            if (abortBtn) {
-                abortBtn.addEventListener('click', function() {
-                    if (confirm('Möchtest du wirklich zum Hauptmenü zurückkehren? Der aktuelle Fortschritt geht verloren.')) {
-                        // Timer stoppen falls aktiv
-                        if (timerInterval) {
-                            clearInterval(timerInterval);
-                            timerInterval = null;
-                        }
-                        // Zurück zum Hauptmenü
-                        document.getElementById('questionsContainer').style.display = 'none';
-                        document.getElementById('resultScreen').style.display = 'none';
-                        document.getElementById('startScreen').style.display = 'block';
-                    }
-                });
-            }
-
-            const levelUpContinue = document.getElementById('levelUpContinue');
-            if (levelUpContinue) {
-                levelUpContinue.addEventListener('click', function() {
+        function setupLevelUpListener() {
+            const continueBtn = document.getElementById('levelUpContinue');
+            if (continueBtn) {
+                continueBtn.addEventListener('click', function() {
                     const overlay = document.getElementById('levelUpOverlay');
                     overlay.classList.remove('show');
-                    
-                    // Entferne alle heiligen Magie-Effekte
-                    const rays = document.getElementById('divineRays');
-                    if (rays) rays.remove();
-                    const runes = document.getElementById('runeCircle');
-                    if (runes) runes.remove();
-                    
-                    // Entferne alle Orbs
-                    document.querySelectorAll('.holy-orb').forEach(orb => orb.remove());
-                    
-                    // Entferne alle Ringe
-                    document.querySelectorAll('.glow-ring').forEach(ring => ring.remove());
-                    
-                    // Entferne alle Partikel
-                    document.querySelectorAll('.divine-particle').forEach(particle => particle.remove());
                 });
             }
+        }
 
-            // Reset Progress Button
-            const resetProgressBtn = document.getElementById('resetProgressBtn');
-            if (resetProgressBtn) {
-                resetProgressBtn.addEventListener('click', function() {
-                    if (confirm('Möchtest du wirklich deinen gesamten Fortschritt (Level & XP) und ggf. gespeicherten Namen zurücksetzen?')) {
-                        xp = 0;
-                        level = 1;
-                        updateXPDisplay();
-                        updateLevelBadge();
-                        // Fortschritt nur für den aktuellen Namen löschen
-                        clearProgressForName(playerName);
-                        // Name & UI zurücksetzen
-                        clearPlayerName();
-                        clearSessionName();
-                        const nameInput = document.getElementById('playerName');
-                        if (nameInput) nameInput.value = '';
-                        updateNameUIState();
-                        alert('Fortschritt wurde zurückgesetzt!');
-                    }
-                });
+        function setupResultListeners() {
+            const restartBtn = document.getElementById('restartBtn');
+            if (restartBtn) {
+                restartBtn.addEventListener('click', restartQuiz);
             }
-
-            // Clear-All-Button für Start-Leaderboard
-            const clearAllBtn = document.getElementById('clearAllLeaderboardBtn');
-            if (clearAllBtn) {
-                clearAllBtn.addEventListener('click', function() {
-                    if (confirm('Komplette Bestenliste wirklich löschen?')) {
-                        Object.keys(sessionLeaderboard).forEach(level => sessionLeaderboard[level] = []);
-                        saveLeaderboardToLocalStorage();
-                        displayStartLeaderboard();
-                        // Falls Ergebnis-Leaderboard sichtbar wäre
-                        if (document.getElementById('leaderboardContent')) {
-                            displayLeaderboard();
-                        }
-                    }
-                });
-            }
-
-            updateProgress();
-            updateXPDisplay();
-            updateLevelBadge();
             
-            // Lade gespeicherte Bestenliste
-            loadLeaderboardFromLocalStorage();
-            
-            // Verwende spezielle Anzeige für Start-Leaderboard
-            displayStartLeaderboard();
+            // Result leaderboard tabs
+            document.querySelectorAll('#resultScreen .tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('#resultScreen .tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    displayLeaderboard();
+                });
+            });
+        }
 
-            // Lade Namen: zuerst aus der Sitzung, sonst aus dauerhaftem Speicher
-            const sessionName = loadSessionName();
+        function updateNameUI() {
+            const disclaimer = document.getElementById('nameDisclaimer');
+            const resetContainer = document.getElementById('resetProgressContainer');
             const savedName = loadPlayerName();
-            const initialName = sessionName || savedName;
-            if (initialName) {
-                document.getElementById('playerName').value = initialName;
-                playerName = initialName;
-                // Lade Fortschritt für diesen Namen
-                if (!loadProgressForName(playerName)) {
-                    xp = 0; level = 1; updateXPDisplay(); updateLevelBadge();
-                }
+            
+            if (savedName) {
+                if (disclaimer) disclaimer.style.display = 'none';
+                if (resetContainer) resetContainer.style.display = 'block';
             } else {
-                // Kein Name: lade anonymen Fortschritt
-                if (!loadProgressForName('')) {
-                    xp = 0; level = 1; updateXPDisplay(); updateLevelBadge();
-                }
+                if (disclaimer) disclaimer.style.display = STATE.playerName ? 'block' : 'none';
+                if (resetContainer) resetContainer.style.display = 'none';
             }
+        }
 
-            // Session-Name live mitführen, ohne Pflicht zum Speichern
-            const nameInputEl = document.getElementById('playerName');
-            if (nameInputEl) {
-                nameInputEl.addEventListener('input', function() {
-                    playerName = this.value.trim();
-                    saveSessionName(playerName);
-                    // Lade (oder initialisiere) Fortschritt des eingegebenen Namens
-                    if (!loadProgressForName(playerName)) {
-                        xp = 0; level = 1; updateXPDisplay(); updateLevelBadge();
-                    }
-                    validateStartConditions();
-                });
+        function adjustNamePlaceholder() {
+            const nameInput = document.getElementById('playerName');
+            if (nameInput && window.innerWidth < 600) {
+                nameInput.placeholder = 'z.B. Luca';
+            } else if (nameInput) {
+                nameInput.placeholder = 'z.B. Luca, Marie';
             }
-            
-            // Aktualisiere Namen-UI (Disclaimer/Reset-Button)
-            updateNameUIState();
-            
-            // ===== NOW LOAD QUESTIONS (in background) =====
-            console.log('🔄 Loading questions from questions.json...');
-            const loadingSuccess = await initializeQuestionDatabase();
-            if (!loadingSuccess) {
-                console.error('Failed to initialize question database');
-                alert('Fehler beim Laden der Fragen. Bitte Seite neu laden.');
-                return;
-            }
-            console.log('✅ Question database initialized successfully');
-            
-            // Validate start conditions to enable the button (if needed)
-            validateStartConditions();
-        });
+        }
+
+        // Start the app
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>

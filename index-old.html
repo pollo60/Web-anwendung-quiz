@@ -1,0 +1,2198 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web-basierte Anwendungssysteme - Quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="level-up-overlay" id="levelUpOverlay">
+        <div class="level-up-content">
+            <h2 id="levelUpMessage"></h2>
+            <p id="levelUpDescription"></p>
+            <button class="btn btn-primary" id="levelUpContinue">Weiter</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="xp-container">
+                <span>XP: <strong id="xpDisplay">0</strong></span>
+            </div>
+            <div class="level-badge-wrap">
+                <div class="level-badge" id="levelBadge">Level 1</div>
+                <div class="title-plaque" id="titlePlaque">Bauernkind</div>
+            </div>
+            <div id="timerDisplay" class="timer-display" style="display: none;">
+                Zeit: <span id="timer">00:00</span>
+            </div>
+            <h1>📚 Web-basierte Anwendungssysteme</h1>
+            <p>Interaktiver Wissenstest</p>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- START SCREEN -->
+            <div id="startScreen" class="start-screen">
+                <div class="session-leaderboard wooden-board" style="position: relative;">
+                    <h3 class="leaderboard-title">🏆 Bestenliste</h3>
+                    <button id="clearAllLeaderboardBtn" class="clear-all-btn" title="Alle Einträge löschen">×</button>
+                    <div class="leaderboard-tabs">
+                        <button class="tab-btn start-tab-btn active" data-mode="timetrials">⚡ Timetrials</button>
+                        <button class="tab-btn start-tab-btn" data-mode="normal">🎯 Normal</button>
+                    </div>
+                    <div id="startLeaderboardContent" class="leaderboard-content">
+                        <div class="empty-leaderboard">Noch keine Einträge vorhanden.<br>Spiele eine Runde – mit oder ohne Timer.</div>
+                    </div>
+                </div>
+
+                <div class="player-name-wrapper">
+                    <label class="player-name-label" for="playerName">Name (optional)</label>
+                    <input id="playerName" class="name-input" type="text" placeholder="z.B. Luca, Marie">
+                    
+                    <!-- Disclaimer und Speicher-Option (wenn kein Name gespeichert) -->
+                    <div id="nameDisclaimer" style="margin-top: 10px; padding: 10px; background: rgba(52, 152, 219, 0.2); border-radius: 8px; font-size: 11px; color: #fff; text-align: left; display: none;">
+                        <strong>💾 Name speichern?</strong><br>
+                        Dein Name wird lokal im Browser gespeichert und beim nächsten Besuch automatisch geladen.
+                        <div style="margin-top: 8px; text-align: center;">
+                            <label style="display: inline-flex; align-items: center; cursor: pointer;">
+                                <input type="checkbox" id="saveNameCheckbox" style="margin-right: 5px;">
+                                <span style="font-size: 11px;">Name für nächstes Mal speichern</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Reset Button (nur wenn Name gespeichert) -->
+                    <div id="resetProgressContainer" style="margin-top: 10px; text-align: center; display: none;">
+                        <button id="resetProgressBtn" class="btn btn-secondary" style="font-size: 10px; padding: 8px 16px;">
+                            🔄 Fortschritt zurücksetzen
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modifier-selection" style="margin-bottom: 30px;">
+                    <label style="display: block; margin-bottom: 15px; color: #fff; font-weight: 600; font-size: 1.1em; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Wähle deine Modifikatoren (mehrere möglich):</label>
+                    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <button class="modifier-btn active" data-modifier="normal">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🎯</div>
+                            <div style="font-weight: 600;">Normal</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Klassisches Quiz</div>
+                        </button>
+                        <button class="modifier-btn" data-modifier="speedrun">
+                            <div style="font-size: 24px; margin-bottom: 8px;">⚡</div>
+                            <div style="font-weight: 600;">Timer</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Gegen die Zeit</div>
+                        </button>
+                        <button class="modifier-btn" data-modifier="practice">
+                            <div style="font-size: 24px; margin-bottom: 8px;">📚</div>
+                            <div style="font-weight: 600;">Übung</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">falsche Fragen wiederholen</div>
+                        </button>
+                        <button class="modifier-btn" data-modifier="woche3">
+                            <div style="font-size: 24px; margin-bottom: 8px;">📅</div>
+                            <div style="font-weight: 600;">Nur 3. Woche</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">2. Übungsblatt</div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="difficulty-selection" style="margin-bottom: 30px;">
+                    <label style="display: block; margin-bottom: 15px; color: #fff; font-weight: 600; font-size: 1.1em; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Wähle den Schwierigkeitsgrad:</label>
+                    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <button class="difficulty-btn selected" data-difficulty="all">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🌟</div>
+                            <div style="font-weight: 600;">Alle Fragen</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Keine Einschränkung</div>
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="easy">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🌱</div>
+                            <div style="font-weight: 600;">Einfach</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Grundlagen</div>
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="medium">
+                            <div style="font-size: 24px; margin-bottom: 8px;">⚡</div>
+                            <div style="font-weight: 600;">Mittel</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Fortgeschritten</div>
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="hard">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🔥</div>
+                            <div style="font-weight: 600;">Schwer</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Komplex</div>
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="expert">
+                            <div style="font-size: 24px; margin-bottom: 8px;">💎</div>
+                            <div style="font-weight: 600;">Experte</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Master-Level</div>
+                        </button>
+                    </div>
+                </div>
+
+                <label style="display: block; margin-bottom: 15px; margin-top: 20px; color: #fff; font-weight: 600; font-size: 1.1em; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); text-align: center;">Wähle dein Level:</label>
+                
+                <div class="level-selection">
+                    <div class="level-card selected" data-level="gemischt">
+                        <div class="level-icon">⚖️</div>
+                        <div class="level-name">Gemischt</div>
+                        <div class="level-description">Alle Fragen</div>
+                    </div>
+                    <div class="level-card" data-level="uebung">
+                        <div class="level-icon">📝</div>
+                        <div class="level-name">Fragen zur Übung</div>
+                        <div class="level-description">aus den aufgabenblättern</div>
+                    </div>
+                    <div class="level-card" data-level="vorlesung-offiziell">
+                        <div class="level-icon">🎓</div>
+                        <div class="level-name">VL Offiziell</div>
+                        <div class="level-description">Vom Fragen-Blatt</div>
+                    </div>
+                    <div class="level-card" data-level="offiziell">
+                        <div class="level-icon">📋</div>
+                        <div class="level-name">Offizielle Fragen</div>
+                        <div class="level-description">Neue offizielle Testfragen</div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" id="startBtn">Quiz starten</button>
+            </div>
+
+            <!-- QUESTIONS -->
+            <div id="questionsContainer"></div>
+
+            <!-- RESULT SCREEN -->
+            <div id="resultScreen" class="result-container">
+                <div class="score-circle">
+                    <div class="score-text" id="scoreText"></div>
+                </div>
+                <div class="result-message" id="resultMessage"></div>
+                <div class="result-details" id="resultDetails"></div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="statCorrect">0</div>
+                    <div class="stat-label">Richtig</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statWrong">0</div>
+                    <div class="stat-label">Falsch</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statXP">0</div>
+                    <div class="stat-label">XP Gewonnen</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statLevel">1</div>
+                    <div class="stat-label">Level Erreicht</div>
+                </div>
+            </div>
+
+            <!-- Session-Bestenliste auf der Ergebnisseite entfernt laut Anforderung -->
+
+            <div class="share-box">
+                <div style="font-weight:600; margin-bottom:10px;">✨ Mit anderen teilen</div>
+                <a
+                    id="whatsappShareBtn"
+                    class="btn btn-whatsapp"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style="text-decoration:none; display:inline-block; margin-bottom:10px;"
+                >Auf WhatsApp teilen 💬</a>
+                <div class="share-hint" id="shareHint">
+                    Schick einfach die HTML-Datei rum oder lad sie irgendwo hoch und teile den Link 👍
+                </div>
+            </div>                <div class="buttons" style="margin-top:40px;">
+                    <button class="btn btn-primary" id="restartBtn">Nochmal versuchen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funktion zum Mischen eines Arrays
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Funktion zum Generieren einer zufälligen Variante einer Basis-Frage.
+        // Ziel: häufig den Basistyp beibehalten, aber sinnvolle Varianten (insb. matching/sort)
+        // erzeugen und dabei korrekte Antworten konsistent halten.
+        // Hilfsfunktion zum Mischen und Auswählen von n Elementen aus einem Array
+        function getRandomElements(array, n) {
+            const shuffled = [...array].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, n);
+        }
+
+
+        // ============================================================================
+        // QUESTIONS NOW LOADED FROM EXTERNAL JSON FILE
+        // Moved ~2100 lines of questions to questions.json for better maintainability
+        // All 99 unique questions with tags in one file
+        // ============================================================================
+        
+        // Questions will be loaded asynchronously from questions.json
+        let allQuestionsData = [];
+        let questionsLoaded = false;
+        
+        // Legacy arrays - will be populated after loading JSON
+        let vorlesungQuestions = [];
+        let baseQuestions = [];
+        let neueVorlesungQuestions = [];
+        let ofizielleQuestions = [];
+        
+        // Function to load questions from JSON file
+        async function loadQuestions() {
+            try {
+                const response = await fetch('questions.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                allQuestionsData = await response.json();
+                questionsLoaded = true;
+                
+                // Populate legacy arrays for backward compatibility
+                baseQuestions = allQuestionsData.filter(q => q.tags.includes('uebung'));
+                neueVorlesungQuestions = allQuestionsData.filter(q => q.tags.includes('neue-vorlesung'));
+                vorlesungQuestions = allQuestionsData.filter(q => q.tags.includes('vl-offiziell'));
+                ofizielleQuestions = allQuestionsData.filter(q => q.tags.includes('offiziell'));
+                
+                console.log(`✅ Loaded ${allQuestionsData.length} questions from questions.json`);
+                console.log(`  - baseQuestions (uebung): ${baseQuestions.length}`);
+                console.log(`  - neueVorlesungQuestions: ${neueVorlesungQuestions.length}`);
+                console.log(`  - vorlesungQuestions: ${vorlesungQuestions.length}`);
+                console.log(`  - ofizielleQuestions: ${ofizielleQuestions.length}`);
+                
+                return true;
+            } catch (error) {
+                console.error('❌ Error loading questions:', error);
+                alert('Fehler beim Laden der Fragen. Bitte Seite neu laden.');
+                return false;
+            }
+        }
+
+        // ===== OPTIMIERTES TAG-BASIERTES FRAGEN-SYSTEM =====
+        // Dedupliziert alle Fragen automatisch und weist ihnen Tags basierend auf ihrem Vorkommen zu
+        const questionDatabase = (() => {
+            // Questions will be loaded from JSON
+            // For now, return empty array - will be populated by loadQuestions()
+            return [];
+        })();
+        
+        // Override questionDatabase after questions are loaded
+        async function initializeQuestionDatabase() {
+            await loadQuestions();
+            questionDatabase.length = 0;
+            questionDatabase.push(...allQuestionsData);
+            return questionDatabase;
+        }
+
+
+        // Hilfsfunktion: Filtert Fragen basierend auf Level-Tags
+        function getQuestionsByLevel(levelKey) {
+            const tagMapping = {
+                'uebung': ['uebung'],
+                'vorlesung-offiziell': ['vl-offiziell'],
+                // "Gemischt" fasst alle Fragen zusammen
+                'gemischt': ['uebung', 'neue-vorlesung', 'vl-offiziell', 'offiziell'],
+                // Rückwärtskompatibilität: alte Schlüsselbezeichnung weiterhin unterstützen
+                'vorlesung': ['uebung', 'neue-vorlesung', 'vl-offiziell', 'offiziell'],
+                'offiziell': ['offiziell']
+            };
+            
+            const requiredTags = tagMapping[levelKey] || [];
+            return questionDatabase.filter(q => 
+                requiredTags.some(tag => q.tags.includes(tag))
+            );
+        }
+
+        // RÜCKWÄRTSKOMPATIBILITÄT: Alte Arrays bleiben bestehen für andere Funktionen
+        // (können später entfernt werden wenn alle Referenzen ersetzt sind)
+
+    let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = [];
+    let selectedLevel = 'gemischt'; // Default: "Gemischt"
+        let selectedDifficulty = 'all';
+        let activeModifiers = ['normal'];
+        let filteredQuestions = [];
+        let xp = 0;
+        let level = 1;
+        let correctAnswers = 0;
+        let wrongAnswers = 0;
+        let playerName = "";
+        let speedrunTimer = 0;
+        let speedrunInterval = null;
+        let sessionLeaderboard = {
+            uebung: [],
+            'vorlesung-offiziell': [],
+            gemischt: [],
+            offiziell: []
+        };
+        let questionPool = {
+            uebung: [],
+            'vorlesung-offiziell': [],
+            gemischt: [],
+            offiziell: []
+        };
+        let usedQuestions = new Set();
+        let wrongAnsweredQuestions = [];
+        let lastFiveRuns = [];
+        let startTime = 0;
+        let currentTime = 0;
+        let timerInterval = null;
+
+        // Level calculations
+        function getXPForLevel(lvl) {
+            return lvl * 100;
+        }
+
+        function checkLevelUp() {
+            const requiredXP = getXPForLevel(level);
+            if (xp >= requiredXP) {
+                level++;
+                showLevelUp();
+                updateLevelBadge();
+            }
+        }
+
+        function showLevelUp() {
+            // Nur Overlay zeigen, wenn NICHT im Speedrun/Timetrial-Modus
+            const isSpeedrun = activeModifiers.includes('speedrun');
+            
+            if (!isSpeedrun) {
+                const overlay = document.getElementById('levelUpOverlay');
+                const message = document.getElementById('levelUpMessage');
+                const description = document.getElementById('levelUpDescription');
+
+                message.textContent = `🎉 Level ${level} erreicht!`;
+                // Show XP needed for CURRENT level (not next)
+                description.textContent = `Du hast ${getXPForLevel(level - 1)} XP erreicht!`;
+
+                overlay.classList.add('show');
+                
+                // ============================================
+                // HOLY MAGIC EFFECTS
+                // ============================================
+                
+                // 1. Divine Rays (Rotating holy light beams)
+                const raysContainer = document.createElement('div');
+                raysContainer.className = 'divine-rays';
+                raysContainer.id = 'divineRays';
+                const numRays = 12;
+                for (let i = 0; i < numRays; i++) {
+                    const ray = document.createElement('div');
+                    ray.className = 'divine-ray';
+                    ray.style.setProperty('--angle', `${(360 / numRays) * i}deg`);
+                    ray.style.setProperty('--delay', `${i * 0.1}s`);
+                    raysContainer.appendChild(ray);
+                }
+                overlay.appendChild(raysContainer);
+                
+                // 2. Sacred Runes Circle
+                const runeCircle = document.createElement('div');
+                runeCircle.className = 'rune-circle';
+                runeCircle.id = 'runeCircle';
+                const runeSymbols = ['✦', '✧', '✵', '✶', '✷', '✸', '✹', '✺', '✻', '✼', '✽', '✾'];
+                const numRunes = 12;
+                for (let i = 0; i < numRunes; i++) {
+                    const rune = document.createElement('div');
+                    rune.className = 'rune-symbol';
+                    rune.textContent = runeSymbols[i % runeSymbols.length];
+                    const angle = (360 / numRunes) * i;
+                    const radius = 280;
+                    const x = Math.cos(angle * Math.PI / 180) * radius;
+                    const y = Math.sin(angle * Math.PI / 180) * radius;
+                    rune.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+                    rune.style.setProperty('--delay', `${i * 0.15}s`);
+                    runeCircle.appendChild(rune);
+                }
+                overlay.appendChild(runeCircle);
+                
+                // 3. Holy Orbs (Floating light spheres)
+                const numOrbs = 20;
+                for (let i = 0; i < numOrbs; i++) {
+                    const orb = document.createElement('div');
+                    orb.className = 'holy-orb';
+                    const size = 10 + Math.random() * 30;
+                    orb.style.setProperty('--size', `${size}px`);
+                    orb.style.setProperty('--x', `${(Math.random() - 0.5) * 600}px`);
+                    orb.style.setProperty('--y', `${(Math.random() - 0.5) * 400}px`);
+                    orb.style.setProperty('--duration', `${3 + Math.random() * 3}s`);
+                    orb.style.setProperty('--delay', `${Math.random() * 2}s`);
+                    const randomX = Math.random() * window.innerWidth;
+                    const randomY = Math.random() * window.innerHeight;
+                    orb.style.left = `${randomX}px`;
+                    orb.style.top = `${randomY}px`;
+                    overlay.appendChild(orb);
+                    setTimeout(() => orb.remove(), 8000);
+                }
+                
+                // 4. Glow Rings (Expanding energy circles)
+                const numRings = 4;
+                for (let i = 0; i < numRings; i++) {
+                    const ring = document.createElement('div');
+                    ring.className = 'glow-ring';
+                    ring.style.setProperty('--size', `${300 + i * 50}px`);
+                    ring.style.setProperty('--duration', `${2 + i * 0.3}s`);
+                    ring.style.setProperty('--delay', `${i * 0.2}s`);
+                    overlay.appendChild(ring);
+                    setTimeout(() => ring.remove(), 4000);
+                }
+                
+                // 5. Divine Particles (Rising sparkles)
+                const numParticles = 80;
+                for (let i = 0; i < numParticles; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'divine-particle';
+                    particle.style.left = `${Math.random() * window.innerWidth}px`;
+                    particle.style.top = `${window.innerHeight - 50}px`;
+                    particle.style.setProperty('--distance', `${-600 - Math.random() * 400}px`);
+                    particle.style.setProperty('--duration', `${2 + Math.random() * 2}s`);
+                    particle.style.setProperty('--delay', `${Math.random() * 1.5}s`);
+                    document.body.appendChild(particle);
+                    setTimeout(() => particle.remove(), 5000);
+                }
+            }
+        }
+
+        function updateLevelBadge() {
+            const badge = document.getElementById('levelBadge');
+            badge.textContent = `Level ${level}`;
+            updateTitlePlaque();
+            saveProgressToLocalStorage(); // Speichere Fortschritt automatisch
+        }
+
+        function getTitleForLevel(lvl) {
+            if (lvl >= 100) return 'Todesgottheit';
+            if (lvl >= 90) return 'Götterschlächter';
+            if (lvl >= 80) return 'Aethertyrann';
+            if (lvl >= 70) return 'Weltenadel';
+            if (lvl >= 60) return 'Hochadel';
+            if (lvl >= 50) return 'Erzmagier';
+            if (lvl >= 40) return 'Paladin';
+            if (lvl >= 30) return 'Schwertmagier';
+            if (lvl >= 20) return 'Magier';
+            if (lvl >= 10) return 'Lehrling';
+            return 'Bauernkind';
+        }
+
+        function updateTitlePlaque() {
+            const plaque = document.getElementById('titlePlaque');
+            const title = getTitleForLevel(level);
+            plaque.textContent = title;
+        }
+
+        function updateBodyClass() {
+            document.body.className = '';
+            if (selectedLevel === 'easy') document.body.classList.add('level-easy');
+            else if (selectedLevel === 'medium') document.body.classList.add('level-medium');
+            else if (selectedLevel === 'hard') document.body.classList.add('level-hard');
+            else if (selectedLevel === 'expert') document.body.classList.add('level-expert');
+        }
+
+        function formatTime(ms) {
+            const seconds = Math.floor(ms / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        function updateTimer() {
+            if (!activeModifiers.includes('speedrun')) return;
+            currentTime = Date.now();
+            const elapsed = currentTime - startTime;
+            document.getElementById('timer').textContent = formatTime(elapsed);
+        }
+
+        function initializeQuestionPool() {
+            // OPTIMIERT: Nutze deduplizierte questionDatabase
+            // questionPool wird nicht mehr benötigt, aber für Kompatibilität behalten
+            questionPool = {
+                uebung: getQuestionsByLevel('uebung'),
+                'vorlesung-offiziell': getQuestionsByLevel('vorlesung-offiziell'),
+                gemischt: getQuestionsByLevel('gemischt'),
+                offiziell: getQuestionsByLevel('offiziell')
+            };
+        }
+
+        function selectQuestionsFromPool(level, difficulty, count = 10) {
+            // OPTIMIERT: Nutze deduplizierte questionDatabase statt multiple Arrays
+            let sourceQuestions = getQuestionsByLevel(level);
+            
+            // Filtere nach Schwierigkeit wenn nicht "all"
+            if (difficulty !== 'all') {
+                const difficultyMap = { easy: 1, medium: 2, hard: 3, expert: 4 };
+                const targetDifficulty = difficultyMap[difficulty];
+                sourceQuestions = sourceQuestions.filter(q => q.difficulty === targetDifficulty);
+            }
+            
+            // Wenn Woche-Filter aktiv sind, filtere nach entsprechenden Tags
+            const weekFilters = activeModifiers.filter(m => m.startsWith('woche'));
+            if (weekFilters.length > 0) {
+                sourceQuestions = sourceQuestions.filter(q => {
+                    // Frage muss mindestens einen der Wochen-Tags haben
+                    return weekFilters.some(week => q.tags && q.tags.includes(week));
+                });
+            }
+            
+            // Wenn Übungsmodus aktiv ist, filtere nach falsch beantworteten Fragen
+            if (activeModifiers.includes('practice')) {
+                const combined = lastFiveRuns.flat();
+                const uniqueMap = new Map();
+                combined.forEach(q => {
+                    const key = q && q.question ? q.question : JSON.stringify(q);
+                    if (!uniqueMap.has(key)) uniqueMap.set(key, q);
+                });
+                const recentWrongQuestions = Array.from(uniqueMap.values());
+                
+                // Filtere sourceQuestions nach denen, die in recentWrongQuestions sind
+                sourceQuestions = sourceQuestions.filter(sq =>
+                    recentWrongQuestions.some(rwq => rwq.question === sq.question)
+                );
+            }
+            
+            return shuffleArray(sourceQuestions).slice(0, Math.min(count, sourceQuestions.length));
+        }
+
+        function updateLeaderboard(level, score, time = null) {
+            const percentage = Math.round((score / filteredQuestions.length) * 100);
+            
+            // Jede Runde mit aktivem Timer wird als Timetrial gewertet
+            const isTimetrial = activeModifiers.includes('speedrun') && !!time;
+            
+            const entry = isTimetrial
+                ? (() => {
+                    const difficultyMultiplier = getDifficultyMultiplier(selectedDifficulty);
+                    const timeBonus = calculateTimeBonus(time, filteredQuestions.length);
+                    const finalScore = calculateWeightedScore(percentage, difficultyMultiplier, timeBonus, filteredQuestions.length);
+                    return {
+                        name: playerName,
+                        rawScore: score,
+                        percentage: percentage,
+                        difficulty: selectedDifficulty, // auch 'all' wird gespeichert
+                        finalScore: finalScore,
+                        time: time,
+                        xp: xp,
+                        level: selectedLevel,
+                        timestamp: Date.now(),
+                        questionCount: filteredQuestions.length
+                    };
+                })()
+                : {
+                    name: playerName,
+                    score: score,
+                    percentage: percentage,
+                    difficulty: selectedDifficulty, // für Anzeige auch im Normal-Modus
+                    xp: xp,
+                    level: selectedLevel,
+                    timestamp: Date.now(),
+                    questionCount: filteredQuestions.length
+                };
+
+            sessionLeaderboard[level].push(entry);
+            
+            // Sortierung: Timetrials nach finalScore, sonst nach (score|rawScore)
+            sessionLeaderboard[level].sort((a, b) => {
+                if (a.finalScore != null && b.finalScore != null) {
+                    return b.finalScore - a.finalScore;
+                }
+                const aBase = (a.score != null ? a.score : (a.rawScore != null ? a.rawScore : 0));
+                const bBase = (b.score != null ? b.score : (b.rawScore != null ? b.rawScore : 0));
+                return bBase - aBase;
+            });
+
+            // Nur die Top 20 behalten (für beide Modi)
+            sessionLeaderboard[level] = sessionLeaderboard[level].slice(0, 20);
+            
+            // Speichere Bestenliste im LocalStorage
+            saveLeaderboardToLocalStorage();
+        }
+
+        function getDifficultyMultiplier(difficulty) {
+            const multipliers = {
+                'easy': 1.0,
+                'medium': 1.5,
+                'hard': 2.0,
+                'expert': 2.5
+            };
+            return multipliers[difficulty] || 1.0;
+        }
+
+        function calculateTimeBonus(timeMs, questionCount) {
+            if (!timeMs) return 0;
+            
+            // Erwartete Zeit pro Frage (in Sekunden): 45s für einfach bis 90s für expert
+            const expectedTimePerQuestion = {
+                'easy': 45,
+                'medium': 60,
+                'hard': 75,
+                'expert': 90
+            };
+            
+            const expectedTime = (expectedTimePerQuestion[selectedDifficulty] || 60) * questionCount;
+            const actualTimeSeconds = timeMs / 1000;
+            
+            // Zeit-Bonus: Je schneller, desto mehr Bonus (max 50% Bonus)
+            const timeFactor = Math.max(0, (expectedTime - actualTimeSeconds) / expectedTime);
+            return Math.min(0.5, timeFactor); // Max 50% Zeitbonus
+        }
+
+        function calculateWeightedScore(percentage, difficultyMultiplier, timeBonus, questionCount) {
+            // Basis-Score aus Prozent und Schwierigkeit
+            const baseScore = percentage * difficultyMultiplier;
+
+            // Zeit-Bonus: Je schneller, desto mehr Bonus
+            const timeFactor = (1 + timeBonus);
+
+            // Fragen-Faktor: längere Sets sollen deutlich höher bewertet werden als sehr kurze
+            // Referenz: 15 Fragen = 1.0; exponentiell gewichtet, damit 3 Fragen stark benachteiligt werden
+            const baseline = 15;
+            const qc = Math.max(1, questionCount || baseline);
+            const ratio = qc / baseline;
+            const questionFactorRaw = Math.pow(ratio, 1.15); // starke Gewichtung
+            const questionFactor = Math.min(2.5, Math.max(0.4, questionFactorRaw)); // begrenzen
+
+            let finalScore = baseScore * timeFactor * questionFactor;
+            
+            // NEU: Bei perfektem Score (100%) zusätzlichen Zeit-Bonus als Tiebreaker
+            // Dieser Bonus macht den Unterschied zwischen schnellen und langsamen perfekten Runs
+            if (percentage >= 100) {
+                // Speed-Bonus: Je schneller, desto höher
+                // timeBonus ist bereits 0.0 bis 0.5 (50%)
+                // Bei perfektem Score: zusätzlich bis zu +50 Punkte für sehr schnelle Zeiten
+                const speedBonus = timeBonus * 100; // 0 bis 50 Punkte
+                finalScore += speedBonus;
+            }
+            
+            return Math.round(finalScore * 10) / 10; // Eine Dezimalstelle
+        }
+
+        // Leaderboard LocalStorage functions
+        function saveLeaderboardToLocalStorage() {
+            try {
+                localStorage.setItem('quizLeaderboard', JSON.stringify(sessionLeaderboard));
+            } catch (e) {
+                console.warn('Konnte Bestenliste nicht speichern:', e);
+            }
+        }
+
+        function loadLeaderboardFromLocalStorage() {
+            try {
+                const stored = localStorage.getItem('quizLeaderboard');
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    // Migration: altes Level "vorlesung" zu neuem "gemischt" migrieren
+                    if (parsed && parsed.vorlesung && Array.isArray(parsed.vorlesung)) {
+                        const migrated = parsed.vorlesung.map(e => ({ ...e, level: 'gemischt' }));
+                        parsed.gemischt = [ ...(parsed.gemischt || []), ...migrated ];
+                        delete parsed.vorlesung;
+                        try { localStorage.setItem('quizLeaderboard', JSON.stringify(parsed)); } catch(_) {}
+                    }
+                    // Merge mit der aktuellen Session-Bestenliste
+                    Object.keys(parsed).forEach(level => {
+                        if (parsed[level] && Array.isArray(parsed[level])) {
+                            sessionLeaderboard[level] = [...(sessionLeaderboard[level] || []), ...parsed[level]];
+                            // Sortieren und auf Top 10 begrenzen (Timetrials nach finalScore, sonst score/rawScore)
+                            sessionLeaderboard[level].sort((a, b) => {
+                                if (a.finalScore != null && b.finalScore != null) {
+                                    return b.finalScore - a.finalScore;
+                                }
+                                const aBase = (a.score != null ? a.score : (a.rawScore != null ? a.rawScore : 0));
+                                const bBase = (b.score != null ? b.score : (b.rawScore != null ? b.rawScore : 0));
+                                return bBase - aBase;
+                            });
+                            sessionLeaderboard[level] = sessionLeaderboard[level].slice(0, 10);
+                        }
+                    });
+                }
+            } catch (e) {
+                console.warn('Konnte Bestenliste nicht laden:', e);
+            }
+        }
+
+        // Name-related functions
+        function savePlayerName(name) {
+            try {
+                if (name && name.trim()) {
+                    localStorage.setItem('quizPlayerName', name.trim());
+                }
+            } catch (e) {
+                console.warn('Konnte Namen nicht speichern:', e);
+            }
+        }
+
+        function loadPlayerName() {
+            try {
+                const savedName = localStorage.getItem('quizPlayerName');
+                return savedName || '';
+            } catch (e) {
+                console.warn('Konnte Namen nicht laden:', e);
+                return '';
+            }
+        }
+
+        function clearPlayerName() {
+            try {
+                localStorage.removeItem('quizPlayerName');
+            } catch (e) {
+                console.warn('Konnte Namen nicht löschen:', e);
+            }
+        }
+
+        // Session-Name (nur für aktuelle Sitzung; unabhängig von "Name speichern")
+        function saveSessionName(name) {
+            try {
+                if (typeof sessionStorage !== 'undefined') {
+                    sessionStorage.setItem('quizSessionName', (name || '').trim());
+                }
+            } catch (e) {
+                // nicht kritisch
+            }
+        }
+
+        function loadSessionName() {
+            try {
+                if (typeof sessionStorage !== 'undefined') {
+                    return sessionStorage.getItem('quizSessionName') || '';
+                }
+            } catch (e) {
+                // nicht kritisch
+            }
+            return '';
+        }
+
+        function clearSessionName() {
+            try {
+                if (typeof sessionStorage !== 'undefined') {
+                    sessionStorage.removeItem('quizSessionName');
+                }
+            } catch (e) {
+                // nicht kritisch
+            }
+        }
+
+        // Level und XP Speicher-Funktionen (pro Name)
+        function getNameKey(name) {
+            return (name && name.trim()) ? name.trim() : '__anonymous__';
+        }
+
+        function saveProgressMap(map) {
+            localStorage.setItem('quizProgressByName', JSON.stringify(map));
+        }
+
+        function loadProgressMap() {
+            try {
+                const raw = localStorage.getItem('quizProgressByName');
+                return raw ? JSON.parse(raw) : {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveProgressToLocalStorage() {
+            try {
+                const map = loadProgressMap();
+                const key = getNameKey(playerName);
+                map[key] = { xp: xp, level: level, timestamp: Date.now() };
+                saveProgressMap(map);
+                // Backwards-Compat: für alte Version ggf. generischen Fortschritt aktualisieren, wenn anonym
+                if (key === '__anonymous__') {
+                    localStorage.setItem('quizProgress', JSON.stringify(map[key]));
+                }
+            } catch (e) {
+                console.warn('Konnte Fortschritt nicht speichern:', e);
+            }
+        }
+
+        function loadProgressForName(name) {
+            try {
+                const key = getNameKey(name);
+                const map = loadProgressMap();
+                let progress = map[key];
+                // Fallback: migriere alten generischen Fortschritt, falls vorhanden und kein Eintrag existiert
+                if (!progress) {
+                    const legacy = localStorage.getItem('quizProgress');
+                    if (legacy) {
+                        const legacyProgress = JSON.parse(legacy);
+                        if (legacyProgress && legacyProgress.xp !== undefined && legacyProgress.level !== undefined) {
+                            progress = legacyProgress;
+                            map[key] = legacyProgress;
+                            saveProgressMap(map);
+                        }
+                    }
+                }
+                if (progress && progress.xp !== undefined && progress.level !== undefined) {
+                    xp = progress.xp;
+                    level = progress.level;
+                    updateXPDisplay();
+                    updateLevelBadge();
+                    return true;
+                }
+            } catch (e) {
+                console.warn('Konnte Fortschritt nicht laden:', e);
+            }
+            return false;
+        }
+
+        function clearProgressForName(name) {
+            try {
+                const key = getNameKey(name);
+                const map = loadProgressMap();
+                if (map[key]) {
+                    delete map[key];
+                    saveProgressMap(map);
+                }
+                if (key === '__anonymous__') {
+                    localStorage.removeItem('quizProgress');
+                }
+            } catch (e) {
+                console.warn('Konnte Fortschritt nicht löschen:', e);
+            }
+        }
+
+        function displayLeaderboard() {
+            const leaderboardContent = document.getElementById('leaderboardContent');
+            if (!leaderboardContent) return;
+            
+            const currentLevel = selectedLevel || Object.keys(sessionLeaderboard).find(k => sessionLeaderboard[k] && sessionLeaderboard[k].length > 0) || 'uebung';
+            const entries = sessionLeaderboard[currentLevel] || [];
+            
+            // Prüfe welcher Tab aktiv ist
+            const activeTab = document.querySelector('.tab-btn.active');
+            const currentMode = activeTab ? activeTab.dataset.mode : 'timetrials';
+
+            let filteredEntries;
+            if (currentMode === 'timetrials') {
+                // Nur Timetrials anzeigen
+                filteredEntries = entries.filter(entry => entry.time != null && entry.finalScore != null);
+            } else {
+                // Normal-Modus: Alle Einträge ohne Timetrials
+                filteredEntries = entries.filter(entry => !entry.finalScore || entry.time == null);
+            }
+
+            if (filteredEntries.length === 0) {
+                const message = currentMode === 'timetrials' 
+                    ? 'Noch keine Timetrials-Einträge' 
+                    : 'Noch keine Normal-Einträge';
+                leaderboardContent.innerHTML = `<div class="leaderboard-entry" style="justify-content: center; color: #718096;">${message}</div>`;
+                return;
+            }
+
+            if (currentMode === 'timetrials') {
+                // Timetrials-Anzeige mit Score
+                leaderboardContent.innerHTML = filteredEntries
+                    .sort((a, b) => b.finalScore - a.finalScore)
+                    .slice(0, 15)
+                    .map((entry, index) => {
+                        const levelEmoji = {
+                            'uebung': '📝',
+                            'vorlesung-offiziell': '🎓',
+                            'gemischt': '⚖️',
+                            // Rückwärtskompatibilität
+                            'vorlesung': '⚖️',
+                            'offiziell': '📋'
+                        };
+                        const difficultyEmoji = {
+                            'easy': '🌱',
+                            'medium': '⚡',
+                            'hard': '🔥',
+                            'expert': '💎',
+                            'all': '🌟'
+                        };
+                        
+                        return `
+                            <div class="leaderboard-entry" data-entry-id="${entry.timestamp}">
+                                <span class="entry-rank">${index + 1}.</span>
+                                <span class="entry-name">${entry.name}</span>
+                                <span class="entry-details">
+                                    ${levelEmoji[entry.level] || '📚'}<br>
+                                    <small>${difficultyEmoji[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.level || 'N/A'}<br>${entry.percentage}% • Score: ${entry.finalScore}</small>
+                                </span>
+                                <span class="entry-time">${formatTime(entry.time)}</span>
+                                <button class="delete-entry-btn" data-entry-id="${entry.timestamp}" title="Eintrag löschen">×</button>
+                            </div>
+                        `;
+                    }).join('');
+            } else {
+                // Normal-Modus-Anzeige
+                leaderboardContent.innerHTML = filteredEntries
+                    .sort((a, b) => (b.rawScore || b.score || 0) - (a.rawScore || a.score || 0))
+                    .slice(0, 15)
+                    .map((entry, index) => {
+                        const levelEmoji = {
+                            'uebung': '📝',
+                            'vorlesung-offiziell': '🎓',
+                            'gemischt': '⚖️',
+                            // Rückwärtskompatibilität
+                            'vorlesung': '⚖️',
+                            'offiziell': '📋'
+                        };
+                        const difficultyEmoji = {
+                            'easy': '🌱',
+                            'medium': '⚡',
+                            'hard': '🔥',
+                            'expert': '💎',
+                            'all': '🌟'
+                        };
+                        const scoreText = `${entry.rawScore || entry.score || 0}/${entry.questionCount || 10}`;
+                        return `
+                            <div class="leaderboard-entry" data-entry-id="${entry.timestamp}">
+                                <span class="entry-rank">${index + 1}.</span>
+                                <span class="entry-name">${entry.name}</span>
+                                <span class="entry-details">
+                                    ${levelEmoji[entry.level] || '📚'}<br>
+                                    <small>${difficultyEmoji[entry.difficulty] || '🌟'} ${(entry.difficulty || 'all').toUpperCase()} • ${entry.level || 'N/A'}<br>${entry.percentage || Math.round(((entry.score || 0) / (entry.questionCount || 1)) * 100)}% • ${entry.xp || 0} XP</small>
+                                </span>
+                                <span class="entry-time">${scoreText}</span>
+                                <button class="delete-entry-btn" data-entry-id="${entry.timestamp}" title="Eintrag löschen">×</button>
+                            </div>
+                        `;
+                    }).join('');
+            }
+                
+            // Füge Event-Listener für Lösch-Buttons hinzu
+            document.querySelectorAll('.delete-entry-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const entryId = parseInt(this.dataset.entryId);
+                    deleteLeaderboardEntry(currentLevel, entryId);
+                });
+            });
+        }
+
+        function deleteLeaderboardEntry(level, entryId) {
+            if (confirm('Diesen Leaderboard-Eintrag wirklich löschen?')) {
+                sessionLeaderboard[level] = sessionLeaderboard[level].filter(entry => entry.timestamp !== entryId);
+                saveLeaderboardToLocalStorage();
+                displayLeaderboard();
+                displayStartLeaderboard(); // Aktualisiere auch Start-Anzeige
+            }
+        }
+
+        function displayStartLeaderboard() {
+            const startLeaderboardContent = document.getElementById('startLeaderboardContent');
+            if (!startLeaderboardContent) return;
+
+            // aktiven Modus von Start-Tabs bestimmen
+            const activeStartTab = document.querySelector('.start-tab-btn.active');
+            const mode = activeStartTab ? activeStartTab.dataset.mode : 'timetrials';
+
+            // Sammle alle Einträge aus allen Leveln
+            let allEntries = [];
+            Object.keys(sessionLeaderboard).forEach(level => {
+                sessionLeaderboard[level].forEach(entry => {
+                    allEntries.push({ ...entry, levelName: level });
+                });
+            });
+
+            // Filter nach Modus
+            if (mode === 'timetrials') {
+                allEntries = allEntries.filter(e => e.time != null && e.finalScore != null);
+            } else {
+                allEntries = allEntries.filter(e => !e.finalScore || e.time == null);
+            }
+
+            if (allEntries.length === 0) {
+                const msg = mode === 'timetrials'
+                    ? 'Noch keine Timetrials vorhanden.<br>Spiele mit Timer!'
+                    : 'Noch keine Normal-Einträge vorhanden.<br>Spiele ohne Timer.';
+                startLeaderboardContent.innerHTML = `<div class="empty-leaderboard">${msg}</div>`;
+                return;
+            }
+
+            if (mode === 'timetrials') {
+                // Top 5 Timetrials über alle Level
+                startLeaderboardContent.innerHTML = allEntries
+                    .sort((a, b) => b.finalScore - a.finalScore)
+                    .slice(0, 5)
+                    .map((entry, index) => {
+                        const levelEmoji = {
+                            'uebung': '📝',
+                            'vorlesung-offiziell': '🎓',
+                            'gemischt': '⚖️',
+                            // Rückwärtskompatibilität
+                            'vorlesung': '⚖️',
+                            'offiziell': '📋'
+                        };
+                        const difficultyEmoji = { 'easy': '🌱', 'medium': '⚡', 'hard': '🔥', 'expert': '💎', 'all': '🌟' };
+                        const levelLabel = ({
+                            'uebung': 'Übung',
+                            'vorlesung-offiziell': 'VL Offiziell',
+                            'gemischt': 'Gemischt',
+                            // Rückwärtskompatibilität
+                            'vorlesung': 'Gemischt',
+                            'offiziell': 'Offiziell'
+                        })[entry.levelName] || entry.levelName;
+                        const difficultyLabel = ({
+                            'easy': 'Einfach',
+                            'medium': 'Mittel',
+                            'hard': 'Schwer',
+                            'expert': 'Experte',
+                            'all': 'Alle'
+                        })[entry.difficulty || 'all'] || (entry.difficulty || 'all');
+                        return `
+                            <div class="leaderboard-entry">
+                                <span class="entry-rank">${index + 1}.</span>
+                                <span class="entry-name">${entry.name}</span>
+                                <span class="entry-details">
+                                    ${levelEmoji[entry.levelName] || '📚'}<br>
+                                    <small>${difficultyEmoji[entry.difficulty] || '🌟'} ${difficultyLabel} • ${levelLabel}<br>${entry.percentage}% • Score: ${entry.finalScore}</small>
+                                </span>
+                                <span class="entry-time">${formatTime(entry.time)}</span>
+                            </div>
+                        `;
+                    }).join('');
+            } else {
+                // Top 5 Normal über alle Level
+                startLeaderboardContent.innerHTML = allEntries
+                    .sort((a, b) => (b.rawScore || b.score || 0) - (a.rawScore || a.score || 0))
+                    .slice(0, 5)
+                    .map((entry, index) => {
+                        const levelEmoji = {
+                            'uebung': '📝',
+                            'vorlesung-offiziell': '🎓',
+                            'gemischt': '⚖️',
+                            // Rückwärtskompatibilität
+                            'vorlesung': '⚖️',
+                            'offiziell': '📋'
+                        };
+                        const levelLabel = ({
+                            'uebung': 'Übung',
+                            'vorlesung-offiziell': 'VL Offiziell',
+                            'gemischt': 'Gemischt',
+                            // Rückwärtskompatibilität
+                            'vorlesung': 'Gemischt',
+                            'offiziell': 'Offiziell'
+                        })[entry.levelName] || entry.levelName;
+                        const difficultyLabel = ({
+                            'easy': 'Einfach',
+                            'medium': 'Mittel',
+                            'hard': 'Schwer',
+                            'expert': 'Experte',
+                            'all': 'Alle'
+                        })[entry.difficulty || 'all'] || (entry.difficulty || 'all');
+                        const scoreText = `${entry.rawScore || entry.score || 0}/${entry.questionCount || 10}`;
+                        return `
+                        <div class="leaderboard-entry">
+                            <span class="entry-rank">${index + 1}.</span>
+                            <span class="entry-name">${entry.name}</span>
+                            <span class="entry-details">
+                                ${levelEmoji[entry.levelName] || '📚'}<br>
+                                <small>${({easy:'🌱',medium:'⚡',hard:'🔥',expert:'💎',all:'🌟'})[entry.difficulty] || '🌟'} ${difficultyLabel} • ${levelLabel}<br>${entry.percentage || Math.round(((entry.score || 0) / (entry.questionCount || 1)) * 100)}% • ${entry.xp || 0} XP</small>
+                            </span>
+                            <span class="entry-time">${scoreText}</span>
+                        </div>
+                    `}).join('');
+            }
+        }
+
+        async function startQuiz() {
+            // Validiere Auswahl
+            if (!selectedLevel) {
+                alert('Bitte wähle ein Level aus!');
+                return;
+            }
+
+            // Sicherstellen, dass Fragen geladen sind, bevor wir starten
+            const startBtn = document.getElementById('startBtn');
+            const dbReady = (typeof questionDatabase !== 'undefined' && Array.isArray(questionDatabase) && questionDatabase.length > 0) || (typeof questionsLoaded !== 'undefined' && questionsLoaded === true);
+            if (!dbReady) {
+                if (startBtn) {
+                    startBtn.disabled = true;
+                    startBtn.textContent = 'Lade Fragen...';
+                }
+                try { await initializeQuestionDatabase(); } catch(_) {}
+                if (!(Array.isArray(questionDatabase) && questionDatabase.length > 0)) {
+                    alert('Fragen werden noch geladen. Bitte kurz warten und erneut versuchen.');
+                    return;
+                }
+                if (startBtn) {
+                    startBtn.disabled = false;
+                    startBtn.textContent = 'Quiz starten';
+                }
+            }
+
+            // Name übernehmen (fallback: "Spieler/in")
+            const nameInput = document.getElementById('playerName');
+            playerName = (nameInput.value || "Spieler/in").trim();
+            saveSessionName(playerName); // für aktuelle Sitzung merken
+            
+            // Speichere Namen wenn Checkbox aktiv ist
+            const saveNameCheckbox = document.getElementById('saveNameCheckbox');
+            if (saveNameCheckbox && saveNameCheckbox.checked && nameInput.value && nameInput.value.trim()) {
+                savePlayerName(nameInput.value.trim());
+                updateNameUIState();
+            }
+
+            initializeQuestionPool();
+
+            // Hole Fragen basierend auf Level, Schwierigkeitsgrad und Modifiern
+            filteredQuestions = selectQuestionsFromPool(selectedLevel, selectedDifficulty, 15);
+            
+            // Prüfe ob Fragen verfügbar sind
+            if (filteredQuestions.length === 0) {
+                if (activeModifiers.includes('practice')) {
+                    alert('Keine falsch beantworteten Fragen für diese Kombination verfügbar. Versuche andere Einstellungen.');
+                    return;
+                } else {
+                    // kleiner Retry, falls Filter während Laden leer war
+                    await new Promise(r => setTimeout(r, 150));
+                    filteredQuestions = selectQuestionsFromPool(selectedLevel, selectedDifficulty, 15);
+                    if (filteredQuestions.length === 0) {
+                        alert('Keine Fragen für diese Kombination verfügbar. Versuche andere Einstellungen.');
+                        return;
+                    }
+                }
+            }
+
+            // Timer starten wenn Speedrun-Modifier aktiv
+            if (activeModifiers.includes('speedrun')) {
+                startTime = Date.now();
+                document.getElementById('timerDisplay').style.display = 'block';
+                timerInterval = setInterval(updateTimer, 1000);
+            }
+
+            document.getElementById('startScreen').style.display = 'none';
+            updateBodyClass();
+            renderQuestion();
+        }
+
+        let questionPhase = 'answering'; // 'answering' | 'review'
+
+        function renderQuestion() {
+            const container = document.getElementById('questionsContainer');
+            const question = filteredQuestions[currentQuestion];
+            const checkBtn = document.getElementById('checkBtn');
+
+            let optionsHTML = '';
+            const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+            if (question.type === 'multiple') {
+                // Erstelle Array mit Optionen und ihren ursprünglichen Indizes
+                const optionsWithIndex = question.options.map((option, index) => ({
+                    text: option,
+                    originalIndex: index
+                }));
+                
+                // Mische die Optionen zufällig
+                const shuffledOptions = shuffleArray([...optionsWithIndex]);
+                
+                // Finde den neuen Index der korrekten Antwort
+                const newCorrectIndex = shuffledOptions.findIndex(opt => opt.originalIndex === question.correct);
+                
+                // Speichere die neue korrekte Antwort für später
+                question._shuffledCorrect = newCorrectIndex;
+                
+                optionsHTML = shuffledOptions.map((option, index) => `
+                    <div class="option" data-index="${index}" data-letter="${letters[index]}">
+                        <span>${option.text}</span>
+                    </div>
+                `).join('');
+
+            } else if (question.type === 'checkbox') {
+                // Checkboxen: speichere original-index für robuste Validierung
+                optionsHTML = question.options.map((option, index) => `
+                    <div class="option" data-original-index="${index}">
+                        <input type="checkbox" id="option${index}" data-original-index="${index}">
+                        <label for="option${index}" style="cursor: pointer; flex: 1;">${option}</label>
+                    </div>
+                `).join('');
+
+            } else if (question.type === 'text') {
+                optionsHTML = `<input type="text" class="text-input" id="textAnswer" placeholder="Deine Antwort eingeben...">`;
+
+            } else if (question.type === 'fillblank') {
+                let questionText = question.question;
+                (question.blanks || []).forEach((_, i) => {
+                    questionText = questionText.replace('_____', `<input type="text" class="blank-input" id="blank${i}" placeholder="...">`);
+                });
+                optionsHTML = `<div style="font-size: 18px; line-height: 2;">${questionText}</div>`;
+
+            } else if (question.type === 'sort') {
+                // Sort: zeige nur die sortierbaren Items (keine Matching-Spalten hier)
+                const itemsToShow = shuffleArray([...question.items || []]);
+                optionsHTML = `<div class="sortable-container" id="sortableContainer">
+                    ${itemsToShow.map((item) => `
+                        <div class="sortable-item" draggable="true" data-item="${item}">
+                            <span class="drag-handle">☰</span>
+                            <span>${item}</span>
+                        </div>
+                    `).join('')}
+                </div>`;
+
+            } else if (question.type === 'matching') {
+                // Matching: benutze question.left / question.right wenn vorhanden, sonst paare aufteilen
+                const leftItems = question.left || (question.pairs || []).map(p => p.left);
+                const rightItems = question.right || (question.pairs || []).map(p => p.right);
+
+                // Shuffle both columns for randomization
+                const shuffledLeftItems = shuffleArray([...leftItems]);
+                const shuffledRightItems = shuffleArray([...rightItems]);
+
+                optionsHTML = `
+                    <div class="matching-container">
+                        <div class="matching-column" id="leftColumn">
+                            ${shuffledLeftItems.map((item) => `
+                                <div class="matching-item" data-value="${item}" data-side="left">
+                                    ${item}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="matching-column" id="rightColumn">
+                            ${shuffledRightItems.map((item) => `
+                                <div class="matching-item" data-value="${item}" data-side="right">
+                                    ${item}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div id="matchingPairs" style="margin-top: 20px; display: none;"></div>
+                `;
+            }
+
+            const difficultyDots = Array(4).fill(0).map((_, i) =>
+                `<div class="difficulty-dot ${i < (question.difficulty || 1) ? 'active' : ''}"></div>`
+            ).join('');
+
+            container.innerHTML = `
+                <div class="question-container active">
+                    <div class="question-toolbar" style="display:flex; justify-content:flex-start; margin-bottom:10px;">
+                        <button class="btn btn-abort" id="abortBtn">Quiz abbrechen</button>
+                    </div>
+                    <div class="question-header">
+                        <span class="question-number">Frage ${currentQuestion + 1}/${filteredQuestions.length}</span>
+                        <div class="difficulty-indicator">${difficultyDots}</div>
+                    </div>
+                    <div class="question-text">${(question.question || 'Bitte ordne die Elemente zu.')}</div>
+                    <div class="options" id="optionsContainer">
+                        ${optionsHTML}
+                    </div>
+                    <div class="feedback" id="feedback"></div>
+                    <div class="buttons">
+                        ${currentQuestion > 0 ? '<button class="btn btn-secondary" id="prevBtn">← Zurück</button>' : ''}
+                        <button class="btn btn-primary" id="checkBtn">Prüfen</button>
+                    </div>
+                </div>
+            `;
+
+            questionPhase = 'answering';
+            updateProgress();
+            attachEventListeners();
+        }
+
+        function showWarning(msg) {
+            const feedback = document.getElementById('feedback');
+            feedback.className = 'feedback warning show';
+            feedback.innerHTML = `<strong>⚠ Hinweis:</strong> ${msg}`;
+        }
+
+        function attachEventListeners() {
+            if (!filteredQuestions || currentQuestion >= filteredQuestions.length) {
+                console.error('Keine Fragen verfügbar oder ungültiger Index');
+                return;
+            }
+            
+            const question = filteredQuestions[currentQuestion];
+
+            if (question.type === 'multiple') {
+                document.querySelectorAll('.option').forEach(option => {
+                    option.addEventListener('click', function() {
+                        selectOption(parseInt(this.dataset.index));
+                        if (checkBtn) checkBtn.disabled = false;
+                    });
+                });
+                if (checkBtn) checkBtn.disabled = true;
+            }
+
+            if (question.type === 'sort') {
+                const container = document.getElementById('sortableContainer');
+                const items = container.querySelectorAll('.sortable-item');
+
+                items.forEach(item => {
+                    item.addEventListener('dragstart', handleDragStart);
+                    item.addEventListener('dragover', handleDragOver);
+                    item.addEventListener('drop', handleDrop);
+                    item.addEventListener('dragend', handleDragEnd);
+                });
+            }
+
+            if (question.type === 'matching') {
+                let selectedLeft = null;
+                let selectedRight = null;
+                const pairs = [];
+
+                document.querySelectorAll('.matching-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        if (this.dataset.side === 'left') {
+                            document.querySelectorAll('[data-side="left"]').forEach(i => i.classList.remove('selected'));
+                            this.classList.add('selected');
+                            selectedLeft = this.dataset.value;
+                        } else {
+                            document.querySelectorAll('[data-side="right"]').forEach(i => i.classList.remove('selected'));
+                            this.classList.add('selected');
+                            selectedRight = this.dataset.value;
+                        }
+
+                        if (selectedLeft && selectedRight) {
+                            pairs.push({ left: selectedLeft, right: selectedRight });
+                            document.querySelectorAll('.matching-item.selected').forEach(i => {
+                                i.style.opacity = '0.3';
+                                i.style.pointerEvents = 'none';
+                            });
+                            selectedLeft = null;
+                            selectedRight = null;
+                        }
+
+                        // Store pairs for checking
+                        window.matchingPairs = pairs;
+                    });
+                });
+            }
+
+            if (question.type === 'checkbox') {
+                const cbs = document.querySelectorAll('input[type="checkbox"][data-original-index]');
+                const updateBtn = () => {
+                    const anyChecked = Array.from(cbs).some(cb => cb.checked);
+                    if (checkBtn) checkBtn.disabled = !anyChecked;
+                };
+                cbs.forEach(cb => cb.addEventListener('change', updateBtn));
+                updateBtn();
+            }
+
+            const checkAnswerBtn = document.getElementById('checkBtn');
+            if (checkAnswerBtn) {
+                checkAnswerBtn.addEventListener('click', onCheckButtonClick);
+            }
+
+            const prevBtn = document.getElementById('prevBtn');
+            if (prevBtn) {
+                prevBtn.addEventListener('click', previousQuestion);
+            }
+
+            const abortBtn = document.getElementById('abortBtn');
+            if (abortBtn) {
+                abortBtn.addEventListener('click', function() {
+                    if (confirm('Möchtest du wirklich zum Hauptmenü zurückkehren? Der aktuelle Fortschritt geht verloren.')) {
+                        if (timerInterval) {
+                            clearInterval(timerInterval);
+                            timerInterval = null;
+                        }
+                        document.getElementById('questionsContainer').style.display = 'none';
+                        document.getElementById('resultScreen').style.display = 'none';
+                        document.getElementById('startScreen').style.display = 'block';
+                    }
+                });
+            }
+        }
+
+        let draggedItem = null;
+
+        function handleDragStart(e) {
+            draggedItem = this;
+            this.classList.add('dragging');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            if (this !== draggedItem) {
+                const container = document.getElementById('sortableContainer');
+                const items = Array.from(container.children);
+                const draggedIndex = items.indexOf(draggedItem);
+                const targetIndex = items.indexOf(this);
+
+                if (draggedIndex < targetIndex) {
+                    this.parentNode.insertBefore(draggedItem, this.nextSibling);
+                } else {
+                    this.parentNode.insertBefore(draggedItem, this);
+                }
+            }
+        }
+
+        function handleDragEnd() {
+            this.classList.remove('dragging');
+        }
+
+        function selectOption(index) {
+            const question = filteredQuestions[currentQuestion];
+            if (question.type !== 'multiple') return;
+
+            const options = document.querySelectorAll('.option');
+            options.forEach((opt, i) => {
+                opt.classList.remove('selected');
+                if (i === index) {
+                    opt.classList.add('selected');
+                }
+            });
+        }
+
+        function onCheckButtonClick() {
+            const btn = document.getElementById('checkBtn');
+            if (!btn) return;
+            if (questionPhase === 'answering') {
+                const evaluated = checkAnswer();
+                if (evaluated) {
+                    questionPhase = 'review';
+                    btn.textContent = currentQuestion === filteredQuestions.length - 1 ? 'Ergebnis anzeigen' : 'Weiter →';
+                }
+            } else {
+                nextQuestion();
+            }
+        }
+
+        function checkAnswer() {
+            const question = filteredQuestions[currentQuestion];
+            const feedback = document.getElementById('feedback');
+            let isCorrect = false;
+            let evaluated = false;
+
+            if (question.type === 'multiple') {
+                const selected = document.querySelector('.option.selected');
+                if (!selected) {
+                    showWarning('Bitte wähle eine Antwort aus!');
+                    return false;
+                }
+
+                const selectedIndex = parseInt(selected.dataset.index);
+                // Verwende den gemischten korrekten Index wenn verfügbar, sonst den ursprünglichen
+                const correctIndex = question._shuffledCorrect !== undefined ? question._shuffledCorrect : question.correct;
+                isCorrect = selectedIndex === correctIndex;
+
+                const options = document.querySelectorAll('.option');
+                options.forEach((opt, i) => {
+                    if (i === correctIndex) {
+                        opt.classList.add('correct');
+                    } else if (i === selectedIndex && !isCorrect) {
+                        opt.classList.add('wrong');
+                    }
+                    opt.style.pointerEvents = 'none';
+                });
+
+            } else if (question.type === 'checkbox') {
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                const selected = [];
+                
+                // Debug: Zeige was wir finden
+                console.log('🔍 Checkbox Debug - Found checkboxes:', checkboxes.length);
+                
+                // Sammle ausgewählte Original-Indizes
+                checkboxes.forEach((cb, domIndex) => {
+                    console.log(`  Checkbox ${domIndex}:`, {
+                        checked: cb.checked,
+                        hasDataAttr: cb.hasAttribute('data-original-index'),
+                        dataValue: cb.dataset.originalIndex,
+                        parsedValue: parseInt(cb.dataset.originalIndex, 10)
+                    });
+                    
+                    if (cb.checked) {
+                        const originalIndex = parseInt(cb.dataset.originalIndex, 10);
+                        if (!isNaN(originalIndex)) {
+                            selected.push(originalIndex);
+                        } else {
+                            console.warn(`⚠️ Checkbox ${domIndex} is checked but has no valid data-original-index!`);
+                        }
+                    }
+                });
+
+                if (selected.length === 0) {
+                    showWarning('Bitte wähle mindestens eine Antwort aus!');
+                    return false;
+                }
+
+                // Normalisiere korrekte Antworten zu Integer-Array
+                const optionCount = (question.options || []).length;
+                let correctIndices = [];
+                
+                if (Array.isArray(question.correct)) {
+                    // Array von Indizes (können Zahlen oder Strings sein)
+                    correctIndices = question.correct
+                        .map(v => {
+                            const num = typeof v === 'string' ? parseInt(v, 10) : v;
+                            return num;
+                        })
+                        .filter(v => Number.isInteger(v) && v >= 0 && v < optionCount);
+                } else if (question.correct === 'all' || question.correct === '*') {
+                    // Alle Optionen sind korrekt
+                    correctIndices = Array.from({ length: optionCount }, (_, i) => i);
+                } else if (typeof question.correct === 'number') {
+                    // Einzelner Index (sollte nicht bei checkbox vorkommen, aber sicher ist sicher)
+                    if (question.correct >= 0 && question.correct < optionCount) {
+                        correctIndices = [question.correct];
+                    }
+                } else if (typeof question.correct === 'string') {
+                    // String-Index konvertieren
+                    const num = parseInt(question.correct, 10);
+                    if (!isNaN(num) && num >= 0 && num < optionCount) {
+                        correctIndices = [num];
+                    }
+                }
+
+                // Debug-Log für Entwicklung (kann später entfernt werden)
+                console.log('Checkbox Debug:', {
+                    question: question.question,
+                    selected: selected.sort((a,b) => a-b),
+                    correct: correctIndices.sort((a,b) => a-b),
+                    questionCorrectRaw: question.correct
+                });
+
+                const selectedSet = new Set(selected);
+                const correctSet = new Set(correctIndices);
+                
+                // Set-Gleichheit: exakt die richtigen Antworten
+                isCorrect = selectedSet.size === correctSet.size && 
+                           [...selectedSet].every(i => correctSet.has(i));
+
+                // Visuelles Feedback
+                const optionDivs = document.querySelectorAll('.option[data-original-index]');
+                optionDivs.forEach((opt) => {
+                    const originalIndex = parseInt(opt.dataset.originalIndex, 10);
+                    const isCorrectAnswer = correctSet.has(originalIndex);
+                    const isSelected = selectedSet.has(originalIndex);
+
+                    if (isCorrectAnswer) {
+                        opt.classList.add('correct');
+                    } else if (isSelected) {
+                        opt.classList.add('wrong');
+                    }
+                });
+
+                checkboxes.forEach(cb => cb.disabled = true);
+
+            } else if (question.type === 'text') {
+                const answer = document.getElementById('textAnswer').value.trim().toLowerCase();
+                if (!answer) {
+                    showWarning('Bitte gib eine Antwort ein!');
+                    return false;
+                }
+
+                isCorrect = question.correct.some(correct =>
+                    answer.includes(correct.toLowerCase())
+                );
+
+                const textInput = document.getElementById('textAnswer');
+                textInput.style.borderColor = isCorrect ? '#48bb78' : '#f56565';
+                textInput.disabled = true;
+            } else if (question.type === 'fillblank') {
+                const blanks = question.blanks;
+                const answers = blanks.map((_, i) => {
+                    const input = document.getElementById(`blank${i}`);
+                    return input ? input.value.trim() : '';
+                });
+
+                if (answers.some(a => !a)) {
+                    showWarning('Bitte fülle alle Lücken aus!');
+                    return false;
+                }
+
+                isCorrect = answers.every((answer, i) =>
+                    answer.toLowerCase() === blanks[i].toLowerCase()
+                );
+
+                answers.forEach((_, i) => {
+                    const input = document.getElementById(`blank${i}`);
+                    if (input) {
+                        const right = input.value.trim().toLowerCase() === blanks[i].toLowerCase();
+                        input.style.borderColor = right ? '#48bb78' : '#f56565';
+                        input.disabled = true;
+                    }
+                });
+            } else if (question.type === 'sort') {
+                const container = document.getElementById('sortableContainer');
+                const items = Array.from(container.children);
+                const userOrder = items.map(item => item.dataset.item);
+
+                isCorrect = JSON.stringify(userOrder) === JSON.stringify(question.correct);
+
+                items.forEach((item, i) => {
+                    item.draggable = false;
+                    if (item.dataset.item === question.correct[i]) {
+                        item.classList.add('correct');
+                    } else {
+                        item.classList.add('wrong');
+                    }
+                });
+            } else if (question.type === 'matching') {
+                const userPairs = window.matchingPairs || [];
+
+                if (userPairs.length !== question.pairs.length) {
+                    showWarning('Bitte ordne alle Paare zu!');
+                    return false;
+                }
+
+                isCorrect = userPairs.every(userPair =>
+                    question.pairs.some(correctPair =>
+                        correctPair.left === userPair.left && correctPair.right === userPair.right
+                    )
+                );
+
+                document.querySelectorAll('.matching-item').forEach(item => {
+                    item.style.pointerEvents = 'none';
+                });
+            }
+
+            evaluated = true;
+
+            if (isCorrect) {
+                score++;
+                correctAnswers++;
+                let gainedXP = question.xp;
+                // Bonus XP im Speedrun-Modus
+                if (activeModifiers.includes('speedrun')) {
+                    gainedXP = Math.floor(gainedXP * 1.5); // 50% mehr XP im Speedrun
+                }
+                xp += gainedXP;
+                updateXPDisplay();
+                checkLevelUp();
+                feedback.className = 'feedback correct show';
+                feedback.innerHTML = `<strong>✓ Richtig!</strong> <span class="xp-gain">+${gainedXP} XP</span><br>${question.explanation}`;
+            } else {
+                wrongAnswers++;
+                let xpPenalty = 0;
+                // XP-Bestrafung bei mittlerem und höherem Schwierigkeitsgrad
+                if (question.difficulty >= 2 || activeModifiers.includes('speedrun')) {
+                    xpPenalty = Math.floor(question.xp * (activeModifiers.includes('speedrun') ? 0.75 : 0.5));
+                    xp = Math.max(0, xp - xpPenalty);
+                    updateXPDisplay();
+                }
+
+                // Speichere falsch beantwortete Frage
+                if (!activeModifiers.includes('practice')) {
+                    wrongAnsweredQuestions.push({
+                        question: question,
+                        timestamp: Date.now()
+                    });
+                    // Behalte nur die letzten 50 falsch beantworteten Fragen
+                    if (wrongAnsweredQuestions.length > 50) {
+                        wrongAnsweredQuestions.shift();
+                    }
+                }
+
+                feedback.className = 'feedback wrong show';
+                feedback.innerHTML = `<strong>✗ Leider falsch.</strong>${xpPenalty > 0 ? ` <span class="xp-gain" style="background: #f56565">-${xpPenalty} XP</span>` : ''}<br>${question.explanation}`;
+            }
+
+            userAnswers[currentQuestion] = isCorrect;
+
+            const nextBtn = document.getElementById('checkBtn');
+            if (nextBtn) {
+                nextBtn.disabled = false;
+            }
+
+            return evaluated;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+
+            if (currentQuestion >= filteredQuestions.length) {
+                showResults();
+            } else {
+                renderQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+            }
+        }
+
+        function showResults() {
+            const percentage = Math.round((score / filteredQuestions.length) * 100);
+            const resultScreen = document.getElementById('resultScreen');
+            const questionsContainer = document.getElementById('questionsContainer');
+
+            if (activeModifiers.includes('speedrun')) {
+                clearInterval(timerInterval);
+                currentTime = Date.now();
+            }
+
+            questionsContainer.style.display = 'none';
+            resultScreen.classList.add('show');
+
+            document.getElementById('scoreText').textContent = percentage + '%';
+
+            let message = '';
+            if (percentage >= 90) {
+                message = '🎉 Hervorragend!';
+            } else if (percentage >= 75) {
+                message = '👍 Sehr gut!';
+            } else if (percentage >= 60) {
+                message = '✓ Gut gemacht!';
+            } else if (percentage >= 50) {
+                message = '📚 Weiter üben!';
+            } else {
+                message = '💪 Nicht aufgeben!';
+            }
+
+            // Name dynamisch einbauen
+            document.getElementById('resultMessage').textContent = playerName + ': ' + message;
+            
+            let detailsText = `Du hast ${score} von ${filteredQuestions.length} Fragen richtig beantwortet.`;
+            const leaderboardLevel = selectedLevel || 'uebung';
+            
+            // Leaderboard-Update für alle Modi
+            if (activeModifiers.includes('speedrun')) {
+                const elapsedTime = currentTime - startTime;
+                detailsText += `\nBenötigte Zeit: ${formatTime(elapsedTime)}`;
+                updateLeaderboard(leaderboardLevel, score, elapsedTime);
+                
+                // Zeige Score nur bei qualifizierten Timetrials
+                const hasOnlyTimerModifier = activeModifiers.length === 1 && activeModifiers.includes('speedrun');
+                const hasDifficultySet = selectedDifficulty !== 'all';
+                
+                if (hasOnlyTimerModifier && hasDifficultySet) {
+                    const difficultyMultiplier = getDifficultyMultiplier(selectedDifficulty);
+                    const timeBonus = calculateTimeBonus(elapsedTime, filteredQuestions.length);
+                    const finalScore = calculateWeightedScore(percentage, difficultyMultiplier, timeBonus, filteredQuestions.length);
+                    detailsText += `\n⚡ Timetrial-Score: ${finalScore} (${selectedDifficulty.toUpperCase()})`;
+                }
+            } else {
+                // Normal-Modus ohne Timer
+                updateLeaderboard(leaderboardLevel, score, null);
+            }
+            document.getElementById('resultDetails').textContent = detailsText;
+
+            document.getElementById('statCorrect').textContent = correctAnswers;
+            document.getElementById('statWrong').textContent = wrongAnswers;
+            document.getElementById('statXP').textContent = xp;
+            document.getElementById('statLevel').textContent = level;
+
+            // Speichere falsch beantwortete Fragen dieses Durchlaufs in lastFiveRuns (für Übungsmodus)
+            try {
+                const currentRunWrong = filteredQuestions
+                    .map((q, i) => ({ q: q, idx: i }))
+                    .filter(item => userAnswers[item.idx] === false)
+                    .map(item => JSON.parse(JSON.stringify(item.q))); // deep clone
+
+                lastFiveRuns.push(currentRunWrong);
+                if (lastFiveRuns.length > 5) lastFiveRuns.shift();
+            } catch (e) {
+                // Falls etwas schiefgeht, nicht blockieren (robuster gegen undefiniertheiten)
+                console.warn('Konnte lastFiveRuns nicht aktualisieren:', e);
+            }
+
+            // updateLeaderboard() was already called with level/time above; avoid empty call
+            displayLeaderboard();
+            displayStartLeaderboard(); // Aktualisiere auch Start-Anzeige
+
+            // WhatsApp Share Link erzeugen (Text dynamisch)
+            const shareText = encodeURIComponent(
+                `${playerName} hat gerade ${percentage}% im Quiz "Web-basierte Anwendungssysteme" erreicht.\n` +
+                `Level ${level}, ${xp} XP.\n` +
+                `Willst du es auch spielen? Frag mich nach der HTML-Datei oder nimm den Link 👇`
+            );
+
+            const waUrl = `https://wa.me/?text=${shareText}`;
+
+            const waBtn = document.getElementById('whatsappShareBtn');
+            waBtn.setAttribute('href', waUrl);
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            userAnswers = [];
+            correctAnswers = 0;
+            wrongAnswers = 0;
+            // XP und Level NICHT zurücksetzen - bleiben bestehen!
+            // xp = 0; // ENTFERNT
+            // level = 1; // ENTFERNT
+            selectedLevel = null;
+            selectedDifficulty = 'all';
+            activeModifiers = ['normal'];
+            // Name in dieser Sitzung beibehalten
+            
+            // Reset Timer
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            document.getElementById('timerDisplay').style.display = 'none';
+
+            document.getElementById('resultScreen').classList.remove('show');
+            document.getElementById('questionsContainer').style.display = 'block';
+            document.getElementById('startScreen').style.display = 'block';
+            document.body.className = '';
+
+            updateXPDisplay();
+            updateLevelBadge();
+
+            // Reset Level Auswahl
+            document.querySelectorAll('.level-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Reset Modifier Auswahl
+            document.querySelectorAll('.modifier-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector('.modifier-btn[data-modifier="normal"]').classList.add('active');
+
+            // Reset Difficulty Auswahl
+            document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            document.querySelector('.difficulty-btn[data-difficulty="all"]').classList.add('selected');
+
+            document.getElementById('startBtn').disabled = true;
+            
+            // Reset Question Pool und Timer
+            usedQuestions.clear();
+            document.getElementById('timer').textContent = '00:00';
+            
+            // Name im Feld belassen (Session-Komfort)
+            const sessionName = loadSessionName();
+            if (sessionName) {
+                document.getElementById('playerName').value = sessionName;
+            }
+            
+            // Validate start conditions
+            validateStartConditions();
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / filteredQuestions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Globale Hilfsfunktionen (müssen außerhalb DOMContentLoaded liegen, da sie auch von globalen Funktionen aufgerufen werden)
+        // Stellt sicher, dass das Placeholder-Label für das Namensfeld auf Mobile/Desktop passend ist
+        function adjustNamePlaceholder() {
+            try {
+                const input = document.getElementById('playerName');
+                if (!input) return;
+                const isMobile = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
+                const desktopText = 'z.B. Luca, Marie';
+                const mobileText = 'Name (optional)';
+                input.placeholder = isMobile ? mobileText : desktopText;
+            } catch (_) {
+                // Fallback: ignoriere Fehler still
+            }
+        }
+        function updateNameUIState() {
+            const savedName = loadPlayerName();
+            const hasStoredName = !!savedName;
+            
+            const nameDisclaimer = document.getElementById('nameDisclaimer');
+            const resetProgressContainer = document.getElementById('resetProgressContainer');
+            const saveNameCheckbox = document.getElementById('saveNameCheckbox');
+            
+            if (hasStoredName) {
+                // Zeige Reset-Button, verstecke Disclaimer
+                if (nameDisclaimer) nameDisclaimer.style.display = 'none';
+                if (resetProgressContainer) resetProgressContainer.style.display = 'block';
+                if (saveNameCheckbox) saveNameCheckbox.checked = true;
+            } else {
+                // Zeige Disclaimer, verstecke Reset-Button
+                if (nameDisclaimer) nameDisclaimer.style.display = 'block';
+                if (resetProgressContainer) resetProgressContainer.style.display = 'none';
+                if (saveNameCheckbox) saveNameCheckbox && (saveNameCheckbox.checked = false);
+            }
+        }
+
+        function validateStartConditions() {
+            const nameInput = document.getElementById('playerName');
+            const startBtn = document.getElementById('startBtn');
+            if (!nameInput || !startBtn) return;
+            const nameOk = !!nameInput.value.trim();
+            const levelOk = !!selectedLevel;
+            const dbReady = (typeof questionDatabase !== 'undefined' && Array.isArray(questionDatabase) && questionDatabase.length > 0) || (typeof questionsLoaded !== 'undefined' && questionsLoaded === true);
+
+            // Wenn Fragen noch laden, Button deaktivieren und Label anpassen
+            if (!dbReady) {
+                startBtn.disabled = true;
+                startBtn.textContent = 'Lade Fragen...';
+                return;
+            } else {
+                startBtn.textContent = 'Quiz starten';
+            }
+
+            // Start ist erlaubt, sobald ein Level ausgewählt wurde (Name optional)
+            startBtn.disabled = !levelOk;
+
+            // Visuelles Feedback: Grün wenn Name gesetzt, sonst neutral
+            if (nameOk) {
+                nameInput.style.borderColor = 'rgba(46, 204, 113, 0.5)';
+            } else {
+                nameInput.style.borderColor = '';
+            }
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Adjust mobile placeholder
+            adjustNamePlaceholder();
+            window.addEventListener('resize', adjustNamePlaceholder);
+            
+            // ===== INITIALIZE UI FIRST (before loading questions) =====
+            // So buttons are immediately clickable
+            
+            // Set default selections in HTML already, but ensure classes are set
+            selectedLevel = 'gemischt';
+            selectedDifficulty = 'all';
+            activeModifiers = ['normal'];
+            
+            // Level selection - Set default to "Gemischt"
+            const defaultLevelCard = document.querySelector('.level-card[data-level="gemischt"]');
+            if (defaultLevelCard) {
+                defaultLevelCard.classList.add('selected');
+            }
+            
+            document.querySelectorAll('.level-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    document.querySelectorAll('.level-card').forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedLevel = this.dataset.level;
+                    validateStartConditions();
+                });
+            });
+
+            // Modifier selection (multiple selection possible)
+            document.querySelectorAll('.modifier-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const modifier = this.dataset.modifier;
+                    
+                    if (modifier === 'normal') {
+                        // Normal ersetzt alle anderen Modifier
+                        activeModifiers = ['normal'];
+                        document.querySelectorAll('.modifier-btn').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                    } else {
+                        // Entferne Normal wenn anderer Modifier gewählt wird
+                        const normalIndex = activeModifiers.indexOf('normal');
+                        if (normalIndex > -1) {
+                            activeModifiers.splice(normalIndex, 1);
+                            document.querySelector('.modifier-btn[data-modifier="normal"]').classList.remove('active');
+                        }
+                        
+                        // Toggle des gewählten Modifiers
+                        const index = activeModifiers.indexOf(modifier);
+                        if (index > -1) {
+                            activeModifiers.splice(index, 1);
+                            this.classList.remove('active');
+                        } else {
+                            activeModifiers.push(modifier);
+                            this.classList.add('active');
+                        }
+                        
+                        // Falls keine Modifier aktiv, setze Normal
+                        if (activeModifiers.length === 0) {
+                            activeModifiers = ['normal'];
+                            document.querySelector('.modifier-btn[data-modifier="normal"]').classList.add('active');
+                        }
+                    }
+                    
+                    validateStartConditions();
+                });
+            });
+
+            // Difficulty selection
+            document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedDifficulty = this.dataset.difficulty;
+                    validateStartConditions();
+                });
+            });
+
+            // Name input validation
+            document.getElementById('playerName').addEventListener('input', function() {
+                validateStartConditions();
+                updateNameUIState();
+            });
+
+            // Checkbox für Namen speichern
+            const saveNameCheckbox = document.getElementById('saveNameCheckbox');
+            if (saveNameCheckbox) {
+                saveNameCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        const nameInput = document.getElementById('playerName');
+                        if (nameInput.value.trim()) {
+                            savePlayerName(nameInput.value.trim());
+                            updateNameUIState();
+                        }
+                    } else {
+                        clearPlayerName();
+                        updateNameUIState();
+                    }
+                });
+            }
+
+            // Leaderboard Tab-Wechsel (Ergebnisseite)
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    displayLeaderboard();
+                });
+            });
+
+            // Start-Leaderboard Tab-Wechsel (Hauptmenü)
+            document.querySelectorAll('.start-tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.start-tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    displayStartLeaderboard();
+                });
+            });
+
+            const quizStartBtn = document.getElementById('startBtn');
+            if (quizStartBtn) {
+                quizStartBtn.addEventListener('click', startQuiz);
+            }
+
+            const quizRestartBtn = document.getElementById('restartBtn');
+            if (quizRestartBtn) {
+                quizRestartBtn.addEventListener('click', restartQuiz);
+            }
+
+            const abortBtn = document.getElementById('abortBtn');
+            if (abortBtn) {
+                abortBtn.addEventListener('click', function() {
+                    if (confirm('Möchtest du wirklich zum Hauptmenü zurückkehren? Der aktuelle Fortschritt geht verloren.')) {
+                        // Timer stoppen falls aktiv
+                        if (timerInterval) {
+                            clearInterval(timerInterval);
+                            timerInterval = null;
+                        }
+                        // Zurück zum Hauptmenü
+                        document.getElementById('questionsContainer').style.display = 'none';
+                        document.getElementById('resultScreen').style.display = 'none';
+                        document.getElementById('startScreen').style.display = 'block';
+                    }
+                });
+            }
+
+            const levelUpContinue = document.getElementById('levelUpContinue');
+            if (levelUpContinue) {
+                levelUpContinue.addEventListener('click', function() {
+                    const overlay = document.getElementById('levelUpOverlay');
+                    overlay.classList.remove('show');
+                    
+                    // Entferne alle heiligen Magie-Effekte
+                    const rays = document.getElementById('divineRays');
+                    if (rays) rays.remove();
+                    const runes = document.getElementById('runeCircle');
+                    if (runes) runes.remove();
+                    
+                    // Entferne alle Orbs
+                    document.querySelectorAll('.holy-orb').forEach(orb => orb.remove());
+                    
+                    // Entferne alle Ringe
+                    document.querySelectorAll('.glow-ring').forEach(ring => ring.remove());
+                    
+                    // Entferne alle Partikel
+                    document.querySelectorAll('.divine-particle').forEach(particle => particle.remove());
+                });
+            }
+
+            // Reset Progress Button
+            const resetProgressBtn = document.getElementById('resetProgressBtn');
+            if (resetProgressBtn) {
+                resetProgressBtn.addEventListener('click', function() {
+                    if (confirm('Möchtest du wirklich deinen gesamten Fortschritt (Level & XP) und ggf. gespeicherten Namen zurücksetzen?')) {
+                        xp = 0;
+                        level = 1;
+                        updateXPDisplay();
+                        updateLevelBadge();
+                        // Fortschritt nur für den aktuellen Namen löschen
+                        clearProgressForName(playerName);
+                        // Name & UI zurücksetzen
+                        clearPlayerName();
+                        clearSessionName();
+                        const nameInput = document.getElementById('playerName');
+                        if (nameInput) nameInput.value = '';
+                        updateNameUIState();
+                        alert('Fortschritt wurde zurückgesetzt!');
+                    }
+                });
+            }
+
+            // Clear-All-Button für Start-Leaderboard
+            const clearAllBtn = document.getElementById('clearAllLeaderboardBtn');
+            if (clearAllBtn) {
+                clearAllBtn.addEventListener('click', function() {
+                    if (confirm('Komplette Bestenliste wirklich löschen?')) {
+                        Object.keys(sessionLeaderboard).forEach(level => sessionLeaderboard[level] = []);
+                        saveLeaderboardToLocalStorage();
+                        displayStartLeaderboard();
+                        // Falls Ergebnis-Leaderboard sichtbar wäre
+                        if (document.getElementById('leaderboardContent')) {
+                            displayLeaderboard();
+                        }
+                    }
+                });
+            }
+
+            updateProgress();
+            updateXPDisplay();
+            updateLevelBadge();
+            
+            // Lade gespeicherte Bestenliste
+            loadLeaderboardFromLocalStorage();
+            
+            // Verwende spezielle Anzeige für Start-Leaderboard
+            displayStartLeaderboard();
+
+            // Lade Namen: zuerst aus der Sitzung, sonst aus dauerhaftem Speicher
+            const sessionName = loadSessionName();
+            const savedName = loadPlayerName();
+            const initialName = sessionName || savedName;
+            if (initialName) {
+                document.getElementById('playerName').value = initialName;
+                playerName = initialName;
+                // Lade Fortschritt für diesen Namen
+                if (!loadProgressForName(playerName)) {
+                    xp = 0; level = 1; updateXPDisplay(); updateLevelBadge();
+                }
+            } else {
+                // Kein Name: lade anonymen Fortschritt
+                if (!loadProgressForName('')) {
+                    xp = 0; level = 1; updateXPDisplay(); updateLevelBadge();
+                }
+            }
+
+            // Session-Name live mitführen, ohne Pflicht zum Speichern
+            const nameInputEl = document.getElementById('playerName');
+            if (nameInputEl) {
+                nameInputEl.addEventListener('input', function() {
+                    playerName = this.value.trim();
+                    saveSessionName(playerName);
+                    // Lade (oder initialisiere) Fortschritt des eingegebenen Namens
+                    if (!loadProgressForName(playerName)) {
+                        xp = 0; level = 1; updateXPDisplay(); updateLevelBadge();
+                    }
+                    validateStartConditions();
+                });
+            }
+            
+            // Aktualisiere Namen-UI (Disclaimer/Reset-Button)
+            updateNameUIState();
+            
+            // ===== NOW LOAD QUESTIONS (in background) =====
+            console.log('🔄 Loading questions from questions.json...');
+            const loadingSuccess = await initializeQuestionDatabase();
+            if (!loadingSuccess) {
+                console.error('Failed to initialize question database');
+                alert('Fehler beim Laden der Fragen. Bitte Seite neu laden.');
+                return;
+            }
+            console.log('✅ Question database initialized successfully');
+            
+            // Validate start conditions to enable the button (if needed)
+            validateStartConditions();
+        });
+    </script>
+</body>
+</html>
