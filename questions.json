@@ -2906,5 +2906,357 @@
     "tags": [
       "woche3"
     ]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Vorteile bietet Field Injection? (Mehrfachauswahl)",
+    "options": [
+      "Sehr kurz und unkompliziert zu schreiben",
+      "Wenig Boilerplate-Code",
+      "Abhängigkeiten sind final und unveränderbar",
+      "Ideal für Unit Tests",
+      "Einfach zu lesen"
+    ],
+    "correct": [
+      0,
+      1,
+      4
+    ],
+    "explanation": "Field Injection ist sehr kurz, unkompliziert und einfach zu lesen - erfordert minimal Code. Aber: Abhängigkeiten sind nicht final und es ist schwerer zu testen (keine Konstruktor-/Setter-Zugriff).",
+    "xp": 20,
+    "tags": [
+      "uebung",
+      "gemischt",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Nachteile hat Field Injection? (Mehrfachauswahl)",
+    "options": [
+      "Schwerer zu testen (kein Konstruktor/Setter verfügbar)",
+      "Nicht ideal für Clean Code",
+      "Nicht ideal für Unit Tests",
+      "Abhängigkeiten sind explizit sichtbar",
+      "Zu viel Boilerplate-Code"
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "explanation": "Field Injection macht Tests schwieriger, da man die Abhängigkeiten nicht über Konstruktor oder Setter setzen kann. Es gilt als weniger 'clean' und ist nicht ideal für Unit Tests. Die Abhängigkeiten sind versteckt (nicht explizit).",
+    "xp": 20,
+    "tags": [
+      "uebung",
+      "gemischt",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Vorteile bietet Setter Injection? (Mehrfachauswahl)",
+    "options": [
+      "Gut geeignet für optionale Abhängigkeiten",
+      "Unterstützt Lazy Loading",
+      "Abhängigkeiten sind unveränderbar (final)",
+      "Flexibel - Abhängigkeiten können nach Erstellung geändert werden",
+      "Stabilste Injection-Methode"
+    ],
+    "correct": [
+      0,
+      1,
+      3
+    ],
+    "explanation": "Setter Injection eignet sich besonders für optionale Abhängigkeiten und Lazy Loading. Die Flexibilität (Abhängigkeiten können geändert werden) ist Vor- und Nachteil zugleich. Abhängigkeiten sind nicht final und es ist weniger stabil als Constructor Injection.",
+    "xp": 20,
+    "tags": [
+      "uebung",
+      "gemischt",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Nachteile hat Setter Injection? (Mehrfachauswahl)",
+    "options": [
+      "Abhängigkeiten können nach der Erstellung geändert werden (nicht final)",
+      "Weniger stabil als Constructor Injection",
+      "Keine Möglichkeit für optionale Abhängigkeiten",
+      "Objekt kann in inkonsistentem Zustand existieren",
+      "Zu viel Code erforderlich"
+    ],
+    "correct": [
+      0,
+      1,
+      3
+    ],
+    "explanation": "Bei Setter Injection sind Abhängigkeiten nicht final (können geändert werden), was weniger stabil ist als Constructor Injection. Das Objekt kann nach Konstruktor-Aufruf in einem inkonsistenten Zustand sein, bis alle Setter aufgerufen wurden.",
+    "xp": 20,
+    "tags": [
+      "uebung",
+      "gemischt",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Vorteile bietet Constructor Injection? (Mehrfachauswahl)",
+    "options": [
+      "Abhängigkeiten sind final (können nicht verändert werden)",
+      "Testfreundlich - Objekte im Test leicht manuell übergeben",
+      "Empfohlene Standard-Methode in modernen Spring-Projekten",
+      "Garantiert vollständige Initialisierung",
+      "Weniger Code als Field Injection"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "explanation": "Constructor Injection ist die empfohlene Methode: Abhängigkeiten sind final (Immutability), sehr testfreundlich, garantiert vollständige Initialisierung. Nachteil: Etwas mehr Code als Field Injection, besonders bei vielen Abhängigkeiten.",
+    "xp": 25,
+    "tags": [
+      "uebung",
+      "gemischt",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne die Injection-Typen ihrem Hauptvorteil zu:",
+    "pairs": [
+      {
+        "left": "Field Injection",
+        "right": "Sehr kurz und unkompliziert"
+      },
+      {
+        "left": "Setter Injection",
+        "right": "Gut für optionale Abhängigkeiten"
+      },
+      {
+        "left": "Constructor Injection",
+        "right": "Abhängigkeiten sind final und testfreundlich"
+      }
+    ],
+    "explanation": "Jeder Injection-Typ hat seine Stärke: Field (minimaler Code), Setter (Flexibilität für optionale Dependencies), Constructor (Immutability und beste Testbarkeit).",
+    "xp": 20,
+    "tags": [
+      "uebung",
+      "gemischt",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne die Injection-Typen ihrem Hauptnachteil zu:",
+    "pairs": [
+      {
+        "left": "Field Injection",
+        "right": "Schwer zu testen, nicht ideal für Unit Tests"
+      },
+      {
+        "left": "Setter Injection",
+        "right": "Weniger stabil, Abhängigkeiten nicht final"
+      },
+      {
+        "left": "Constructor Injection",
+        "right": "Mehr Code bei vielen Abhängigkeiten"
+      }
+    ],
+    "explanation": "Jeder Typ hat Nachteile: Field (Testbarkeit), Setter (Stabilität/Immutability), Constructor (Code-Menge bei vielen Dependencies).",
+    "xp": 20,
+    "tags": [
+      "uebung",
+      "gemischt",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Welche Injection-Methode ist die empfohlene Standard-Methode in modernen Spring-Projekten?",
+    "options": [
+      "Field Injection",
+      "Setter Injection",
+      "Constructor Injection",
+      "Method Injection"
+    ],
+    "correct": 2,
+    "explanation": "Constructor Injection ist die empfohlene Standard-Methode in modernen Spring-Projekten, da sie Immutability garantiert, testfreundlich ist und vollständige Initialisierung sicherstellt.",
+    "xp": 25,
+    "tags": [
+      "uebung",
+      "gemischt",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Wann ist Setter Injection besonders sinnvoll?",
+    "options": [
+      "Wenn alle Abhängigkeiten zwingend erforderlich sind",
+      "Wenn Abhängigkeiten final sein müssen",
+      "Für optionale Abhängigkeiten oder Lazy Loading",
+      "Wenn minimaler Code gewünscht ist"
+    ],
+    "correct": 2,
+    "explanation": "Setter Injection eignet sich besonders für optionale Abhängigkeiten und Lazy Loading, da nicht alle Setter aufgerufen werden müssen und sie nach der Konstruktion gesetzt werden können.",
+    "xp": 20,
+    "tags": [
+      "uebung",
+      "gemischt",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Warum ist Field Injection nicht ideal für Unit Tests?",
+    "options": [
+      "Weil Spring nicht in Unit Tests funktioniert",
+      "Weil man die Abhängigkeiten nicht über Konstruktor oder Setter setzen kann",
+      "Weil @Autowired in Tests verboten ist",
+      "Weil Tests immer Constructor Injection erfordern"
+    ],
+    "correct": 1,
+    "explanation": "Bei Field Injection gibt es keinen Konstruktor oder Setter, über den man Test-Doubles (Mocks/Stubs) einfach injizieren kann. Man ist auf Reflection oder Spring-Test-Context angewiesen.",
+    "xp": 30,
+    "tags": [
+      "uebung",
+      "gemischt",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "fillblank",
+    "question": "Bei Field Injection wird @Autowired direkt am _____ platziert, bei Constructor Injection am _____, bei Setter Injection an der _____-Methode.",
+    "blanks": [
+      "Feld",
+      "Konstruktor",
+      "Setter"
+    ],
+    "explanation": "Die drei Injection-Typen unterscheiden sich in der Position von @Autowired: Field (am Feld), Constructor (am Konstruktor), Setter (an der Setter-Methode).",
+    "xp": 15,
+    "tags": [
+      "uebung",
+      "gemischt",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Was bedeutet 'Abhängigkeiten sind final' bei Constructor Injection?",
+    "options": [
+      "Die Klasse kann nicht vererbt werden",
+      "Die injizierten Abhängigkeiten können nach Konstruktor-Aufruf nicht mehr geändert werden",
+      "Der Konstruktor kann nicht überschrieben werden",
+      "Die Bean kann nur einmal erstellt werden"
+    ],
+    "correct": 1,
+    "explanation": "Bei Constructor Injection können die Felder als 'final' deklariert werden, was bedeutet, dass sie nach der Zuweisung im Konstruktor nicht mehr geändert werden können (Immutability).",
+    "xp": 30,
+    "tags": [
+      "uebung",
+      "gemischt",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "sort",
+    "question": "Sortiere die Injection-Methoden von 'am wenigsten Code' zu 'am meisten Code':",
+    "items": [
+      "Constructor Injection (bei vielen Dependencies)",
+      "Field Injection",
+      "Setter Injection"
+    ],
+    "correct": [
+      "Field Injection",
+      "Setter Injection",
+      "Constructor Injection (bei vielen Dependencies)"
+    ],
+    "explanation": "Field Injection erfordert am wenigsten Code (nur @Autowired am Feld), Setter Injection braucht Setter-Methoden, Constructor Injection erfordert den meisten Code bei vielen Abhängigkeiten (alle Parameter im Konstruktor).",
+    "xp": 20,
+    "tags": [
+      "uebung",
+      "gemischt",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "checkbox",
+    "question": "Welche Aussagen über die Testbarkeit der Injection-Typen sind korrekt? (Mehrfachauswahl)",
+    "options": [
+      "Constructor Injection ist am testfreundlichsten",
+      "Field Injection ist schwer zu testen ohne Spring-Context",
+      "Bei Setter Injection kann man Test-Doubles über Setter setzen",
+      "Field Injection erfordert Reflection für Tests",
+      "Constructor Injection ermöglicht einfaches manuelles Injizieren im Test"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "explanation": "Constructor Injection ist am testfreundlichsten (einfaches manuelles Injizieren). Field Injection ist schwer zu testen (braucht Reflection oder Spring-Context). Setter Injection erlaubt setzen über Setter-Methoden.",
+    "xp": 35,
+    "tags": [
+      "uebung",
+      "gemischt",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Bei Constructor Injection mit Spring Boot ist @Autowired am Konstruktor seit Spring 4.3...",
+    "options": [
+      "zwingend erforderlich",
+      "optional, wenn es nur einen Konstruktor gibt",
+      "verboten und führt zu Fehlern",
+      "nur bei mehreren Konstruktoren optional"
+    ],
+    "correct": 1,
+    "explanation": "Seit Spring 4.3 ist @Autowired am Konstruktor optional, wenn die Klasse nur einen Konstruktor hat. Spring injiziert automatisch. Bei mehreren Konstruktoren muss @Autowired explizit angegeben werden.",
+    "xp": 20,
+    "tags": [
+      "uebung",
+      "gemischt",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Was ist ein Indikator dafür, dass Constructor Injection mit zu vielen Parametern ein Design-Problem aufzeigt?",
+    "options": [
+      "Die Klasse hat wahrscheinlich zu viele Verantwortlichkeiten (Single Responsibility Principle verletzt)",
+      "Spring kann maximal 5 Parameter injizieren",
+      "Der Code wird zu langsam",
+      "Man sollte immer Field Injection verwenden"
+    ],
+    "correct": 0,
+    "explanation": "Ein Konstruktor mit sehr vielen Parametern deutet oft darauf hin, dass die Klasse zu viele Verantwortlichkeiten hat und gegen das Single Responsibility Principle verstößt. Dies sollte durch Refactoring behoben werden.",
+    "xp": 30,
+    "tags": [
+      "uebung",
+      "gemischt",
+      "woche3"
+    ]
   }
 ]
