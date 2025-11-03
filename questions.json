@@ -3586,4 +3586,28 @@
       "woche3"
     ]
   }
+  ,
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordnen Sie die Arten des ApplicationContext den passenden Beschreibungen zu:",
+    "pairs": [
+      { "left": "AnnotationConfigApplicationContext", "right": "verwendet Annotationen, um Komponenten als Beans zu registrieren" },
+      { "left": "FileSystemXmlApplicationContext", "right": "Beans werden durch eine XML-Datei registriert, die über eine URL zugänglich ist" },
+      { "left": "ClassPathXmlApplicationContext", "right": "verwendet XML-Dateien im Classpath, um Beans zu registrieren" }
+    ],
+    "explanation": "Die verschiedenen ApplicationContext-Typen unterscheiden sich in der Art, wie und woher sie Beans laden: Annotationen, XML im Dateisystem oder XML im Classpath.",
+    "xp": 20,
+    "tags": ["offiziell", "woche3"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Methoden kennzeichnen den Lebenszyklus von Beans? (Mehrfachauswahl)",
+    "options": ["@PostConstruct", "@PreDestroy", "@Bean", "@Autowired"],
+    "correct": [0,1],
+    "explanation": "@PostConstruct und @PreDestroy markieren Methoden, die beim Initialisieren bzw. vor der Zerstörung einer Bean ausgeführt werden.",
+    "xp": 15,
+    "tags": ["offiziell", "woche3"]
+  }
 ]
