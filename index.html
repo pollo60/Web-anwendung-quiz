@@ -625,7 +625,8 @@
                 });
                 
             } else if (question.type === 'checkbox') {
-                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                const optionsContainer = document.getElementById('optionsContainer');
+                const checkboxes = optionsContainer ? optionsContainer.querySelectorAll('input[type="checkbox"]') : document.querySelectorAll('#optionsContainer input[type="checkbox"]');
                 const updateBtn = () => {
                     const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
                     if (checkBtn) checkBtn.disabled = !anyChecked || STATE.questionAnswered;
@@ -786,7 +787,8 @@
                 });
                 
             } else if (question.type === 'checkbox') {
-                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                const optionsContainer = document.getElementById('optionsContainer');
+                const checkboxes = optionsContainer ? optionsContainer.querySelectorAll('input[type="checkbox"]') : document.querySelectorAll('#optionsContainer input[type="checkbox"]');
                 const selected = Array.from(checkboxes)
                     .map((cb, idx) => cb.checked ? idx : -1)
                     .filter(idx => idx >= 0);
@@ -805,7 +807,8 @@
                 isCorrect = selectedSet.size === correctSet.size && 
                            [...selectedSet].every(i => correctSet.has(i));
                 
-                document.querySelectorAll('.option').forEach((opt, idx) => {
+                const optionDivs = optionsContainer ? optionsContainer.querySelectorAll('.option') : document.querySelectorAll('#optionsContainer .option');
+                optionDivs.forEach((opt, idx) => {
                     if (correctSet.has(idx)) {
                         opt.classList.add('correct');
                     } else if (selectedSet.has(idx)) {
