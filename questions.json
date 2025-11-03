@@ -3259,4 +3259,331 @@
       "woche3"
     ]
   }
+  ,
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Der WebApplicationContext ist eine spezialisierte Form des ApplicationContext, die speziell für Web-Anwendungen verwendet wird.",
+    "options": [
+      "Wahr",
+      "Falsch"
+    ],
+    "correct": 0,
+    "explanation": "Richtig. Der WebApplicationContext erweitert den ApplicationContext um Web-spezifische Komponenten (z. B. Controller, ViewResolver).",
+    "xp": 10,
+    "tags": [
+      "offiziell",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welches Tool wird verwendet, um Beans in Spring zu verwalten?",
+    "options": [
+      "BeanFactory und ApplicationContext",
+      "BeanInjector",
+      "BeanManager",
+      "SpringService"
+    ],
+    "correct": 0,
+    "explanation": "Spring verwaltet Beans über BeanFactory (Basis) und ApplicationContext (erweitert, praxisüblich).",
+    "xp": 10,
+    "tags": [
+      "offiziell",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Die Annotation @Repository wird für die Präsentationsebene verwendet.",
+    "options": [
+      "Wahr",
+      "Falsch"
+    ],
+    "correct": 1,
+    "explanation": "Falsch. @Repository gehört zur Persistenzschicht (Datenzugriff).",
+    "xp": 10,
+    "tags": [
+      "offiziell",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "In Spring übernimmt der IoC-Container das Instanziieren von Objekten und deren Abhängigkeiten.",
+    "options": [
+      "Wahr",
+      "Falsch"
+    ],
+    "correct": 0,
+    "explanation": "Richtig. Der Inversion-of-Control-Container erstellt, konfiguriert und verkabelt Beans automatisch.",
+    "xp": 10,
+    "tags": [
+      "offiziell",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Was ist die Hauptfunktion des DispatcherServlet in einer Spring-Webanwendung?",
+    "options": [
+      "Es registriert XML-Dateien im ApplicationContext",
+      "Es erstellt eine Verbindung zur BeanFactory",
+      "Es verwaltet Web-spezifische Beans wie Controller und ViewResolver",
+      "Es startet die Datenbank"
+    ],
+    "correct": 2,
+    "explanation": "Das DispatcherServlet ist das zentrale Front-Controller-Servlet in Spring MVC und verteilt Requests an Controller und Views.",
+    "xp": 30,
+    "tags": [
+      "offiziell",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Mit @Qualifier kann eine spezifische Bean-Implementierung ausgewählt werden.",
+    "options": [
+      "Wahr",
+      "Falsch"
+    ],
+    "correct": 0,
+    "explanation": "Richtig. @Qualifier grenzt bei mehreren Kandidaten die zu injizierende Bean ein.",
+    "xp": 10,
+    "tags": [
+      "offiziell",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist ein Vorteil des Prototype-Scopes?",
+    "options": [
+      "Beans können verschiedene Zustände speichern",
+      "Beans können nicht injiziert werden",
+      "Beans speichern keine Zustände",
+      "Beans werden nur einmal erstellt"
+    ],
+    "correct": 0,
+    "explanation": "Prototype-Beans werden bei jeder Anforderung neu erstellt und können so je Instanz eigenen Zustand halten.",
+    "xp": 10,
+    "tags": [
+      "offiziell",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Aussagen sind korrekt bezüglich der Bean-Erstellung im IoC-Container?",
+    "options": [
+      "@Configuration-Klassen können Methoden mit @Bean annotieren",
+      "@EnableAutoConfiguration startet automatische Konfiguration",
+      "@Repository erzeugt automatisch Entities und Datenbanktabellen",
+      "@ComponentScan deaktiviert die Auto-Konfiguration",
+      "@Bean ersetzt @Component in allen Fällen"
+    ],
+    "correct": [
+      0,
+      1
+    ],
+    "explanation": "Korrekt sind @Bean-Methoden in @Configuration und die Auto-Konfiguration. Die übrigen Aussagen sind falsch: @Repository erstellt keine Entities/Tabellen, @ComponentScan deaktiviert nichts und @Bean ersetzt @Component nicht generell.",
+    "xp": 25,
+    "tags": [
+      "offiziell",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Annotation wird verwendet, um Abhängigkeiten zu injizieren?",
+    "options": [
+      "@InjectObject",
+      "@Bean",
+      "@Autowired",
+      "@Component"
+    ],
+    "correct": 2,
+    "explanation": "@Autowired markiert Punkte, an denen Spring passende Beans injiziert (Feld, Konstruktor, Setter).",
+    "xp": 10,
+    "tags": [
+      "offiziell",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Methode ist NICHT für Dependency Injection geeignet?",
+    "options": [
+      "Static Injection",
+      "Field Injection",
+      "Setter Injection",
+      "Constructor Injection"
+    ],
+    "correct": 0,
+    "explanation": "'Static Injection' ist kein gängiges DI-Verfahren in Spring; empfohlen ist i. d. R. Constructor Injection.",
+    "xp": 15,
+    "tags": [
+      "offiziell",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Das Hollywood-Prinzip (IoC) in Spring bedeutet, dass der Container den Objekten mitteilt, wann und wie sie aufgerufen werden.",
+    "options": [
+      "Wahr",
+      "Falsch"
+    ],
+    "correct": 0,
+    "explanation": "Richtig. 'Don't call us, we'll call you' – der Container steuert den Ablauf und ruft unseren Code auf.",
+    "xp": 10,
+    "tags": [
+      "offiziell",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist ein Vorteil des Prototype-Scopes? (Variante)",
+    "options": [
+      "Beans können verschiedene Zustände speichern",
+      "Beans sollten immer Singletons sein"
+    ],
+    "correct": 0,
+    "explanation": "Auch hier: Prototype erlaubt je Instanz eigenen Zustand; sinnvoll bei zustandstragenden Objekten.",
+    "xp": 10,
+    "tags": [
+      "offiziell",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wie wird eine Methode für die Initialisierung einer Bean gekennzeichnet?",
+    "options": [
+      "@InitBean",
+      "@PreDestroy",
+      "@PostConstruct",
+      "@PostStart"
+    ],
+    "correct": 2,
+    "explanation": "@PostConstruct markiert eine Methode, die nach der Konstruktion/Injection für Initialisierungscode ausgeführt wird.",
+    "xp": 10,
+    "tags": [
+      "offiziell",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Dependency Injection führt zu einer stärkeren Kopplung der Komponenten.",
+    "options": [
+      "Wahr",
+      "Falsch"
+    ],
+    "correct": 1,
+    "explanation": "Falsch. DI reduziert die Kopplung, da Abhängigkeiten von außen bereitgestellt werden und austauschbar sind.",
+    "xp": 10,
+    "tags": [
+      "offiziell",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welches Problem kann auftreten, wenn mehrere Implementierungen eines Interfaces existieren?",
+    "options": [
+      "Der IoC-Container weiß nicht, welche Implementierung zu injizieren ist",
+      "Der Code wird fehlerhaft kompiliert",
+      "Die Anwendung startet nicht",
+      "Keine Auswirkungen"
+    ],
+    "correct": 0,
+    "explanation": "Ohne @Qualifier oder @Primary ist unklar, welche Bean injiziert werden soll – es kommt zu einem Startfehler.",
+    "xp": 15,
+    "tags": [
+      "offiziell",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Die Annotation @Service dient ausschließlich zum Injizieren von Datenbankobjekten.",
+    "options": [
+      "Wahr",
+      "Falsch"
+    ],
+    "correct": 1,
+    "explanation": "Falsch. @Service markiert Service-Klassen; Datenzugriff gehört typischerweise zu @Repository.",
+    "xp": 10,
+    "tags": [
+      "offiziell",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist der Unterschied zwischen @Configuration und @Component?",
+    "options": [
+      "@Configuration markiert REST-Controller, @Component Daten-Repositories",
+      "@Configuration ist veraltet, @Component ist aktuell",
+      "@Configuration enthält @Bean-Methoden für spezifische Beans",
+      "Es gibt keinen Unterschied – vollständig identisch"
+    ],
+    "correct": 2,
+    "explanation": "@Configuration-Klassen definieren Beans explizit über @Bean-Methoden; @Component kennzeichnet allgemeine Komponenten für den Component-Scan.",
+    "xp": 20,
+    "tags": [
+      "offiziell",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Der ApplicationContext baut auf der BeanFactory auf.",
+    "options": [
+      "Wahr",
+      "Falsch"
+    ],
+    "correct": 0,
+    "explanation": "Richtig. ApplicationContext erweitert BeanFactory um u. a. Internationalisierung, Ereignisse, AOP-Integration.",
+    "xp": 10,
+    "tags": [
+      "offiziell",
+      "woche3"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Der IoC-Container ist für den Lebenszyklus der Beans verantwortlich.",
+    "options": [
+      "Wahr",
+      "Falsch"
+    ],
+    "correct": 0,
+    "explanation": "Richtig. Der Container steuert Lebenszyklus-Hooks wie @PostConstruct und @PreDestroy und verwaltet Beans insgesamt.",
+    "xp": 10,
+    "tags": [
+      "offiziell",
+      "woche3"
+    ]
+  }
 ]
