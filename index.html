@@ -401,7 +401,11 @@
         function getXPForLevel(level) {
             // Progressive formula: reaches ~77,560 total XP at level 190
             // Calibrated for 3 perfect quizzes/day over 88 days (290 XP each)
-            return Math.floor(20 + (level - 1) * 2.8 + Math.pow(level - 1, 1.12));
+            // Higher early levels to prevent leveling up multiple times per quiz
+            if (level <= 5) {
+                return 150 + (level - 1) * 50;
+            }
+            return Math.floor(80 + (level - 1) * 2.0 + Math.pow(level - 1, 1.12));
         }
 
         function getTitleForLevel(level) {
