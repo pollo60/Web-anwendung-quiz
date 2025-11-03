@@ -454,7 +454,13 @@
             const description = document.getElementById('levelUpDescription');
             
             message.textContent = `Level ${STATE.level} erreicht! 🎉`;
-            description.textContent = `Du bist jetzt ${getTitleForLevel(STATE.level)}!`;
+            
+            // Only show title message when unlocking a new title tier (every 10 levels)
+            if (STATE.level % 10 === 0) {
+                description.textContent = `Du bist jetzt ${getTitleForLevel(STATE.level)}!`;
+            } else {
+                description.textContent = '';
+            }
             
             overlay.classList.add('show');
         }
