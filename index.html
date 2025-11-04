@@ -401,13 +401,33 @@
             // Search localStorage for old progress keys that used the raw name (case-sensitive) before normalization
             try {
                 const norm = normalizePlayerKey(playerName);
+                // Pass 1: exact old pattern progress_<RawName>
                 for (let i = 0; i < localStorage.length; i++) {
                     const k = localStorage.key(i);
-                    if (!k || !k.startsWith('progress_') || k === normalizedKey) continue;
+                    if (!k || k === normalizedKey) continue;
+                    if (!k.startsWith('progress_')) continue;
                     const suffix = k.substring('progress_'.length);
                     if (normalizePlayerKey(suffix) === norm) {
                         const val = JSON.parse(localStorage.getItem(k));
                         return { key: k, value: val };
+                    }
+                }
+                // Pass 2: tolerant search – any key containing both 'progress' and the player's name (case-insensitive)
+                for (let i = 0; i < localStorage.length; i++) {
+                    const k = localStorage.key(i);
+                    if (!k || k === normalizedKey) continue;
+                    const lower = k.toLowerCase();
+                    if (!lower.includes('progress')) continue;
+                    if (!lower.includes(norm)) continue;
+                    // Avoid picking unrelated non-JSON values
+                    const raw = localStorage.getItem(k);
+                    try {
+                        const val = JSON.parse(raw);
+                        if (val && (typeof val === 'object') && ('xp' in val || 'level' in val || 'lifetimeXP' in val)) {
+                            return { key: k, value: val };
+                        }
+                    } catch (_) {
+                        // not JSON, skip
                     }
                 }
             } catch (e) {
