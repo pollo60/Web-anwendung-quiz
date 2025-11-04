@@ -2001,16 +2001,22 @@ body.level-expert {
 
 @media (max-width: 768px) {
     .entry-level-mobile {
-        display: inline;
+        display: inline !important;
     }
     
     .entry-level-desktop {
-        display: none;
+        display: none !important;
     }
     
     .entry-level {
         min-width: 40px;
     }
+}
+
+/* Ensure only one emoji is shown on desktop explicitly */
+@media (min-width: 769px) {
+    .entry-level-mobile { display: none !important; }
+    .entry-level-desktop { display: inline !important; }
 }
 
 .entry-score {

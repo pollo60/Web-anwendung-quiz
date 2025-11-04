@@ -4140,7 +4140,7 @@
     "correct": [0, 1, 2],
     "explanation": "HTML5 vereinfacht den Doctype, führt neue semantische Elemente ein und bringt native Audio-/Video-Tags; Framesets gelten als veraltet.",
     "xp": 20,
-    "tags": ["woche4", "gemischt"]
+  "tags": ["woche4", "gemischt", "vl-offiziell"]
   },
   {
     "difficulty": 2,
@@ -4155,7 +4155,7 @@
     ],
     "explanation": "Diese Elemente bilden die Basis einer modernen HTML5-Seite für korrekte Darstellung und Performance.",
     "xp": 20,
-    "tags": ["woche4", "gemischt"]
+  "tags": ["woche4", "gemischt", "vl-offiziell"]
   },
   {
     "difficulty": 2,
@@ -4170,7 +4170,7 @@
     ],
     "explanation": "Web-Apps kombinieren häufig serverseitige Sessions mit clientseitigen Speichern und Cookies zur Wiedererkennung.",
     "xp": 25,
-    "tags": ["woche4", "gemischt"]
+  "tags": ["woche4", "gemischt", "vl-offiziell"]
   },
   {
     "difficulty": 1,
@@ -4180,7 +4180,7 @@
     "correct": 1,
     "explanation": "Die WHATWG pflegt das HTML Living Standard. Das W3C hat frühere HTML-Versionen standardisiert.",
     "xp": 15,
-    "tags": ["woche4", "gemischt"]
+  "tags": ["woche4", "gemischt", "vl-offiziell"]
   },
   {
     "difficulty": 1,
@@ -4194,7 +4194,7 @@
     ],
     "explanation": "CSS kann inline, im <style>-Block, per <link> oder mit @import geladen werden.",
     "xp": 15,
-    "tags": ["woche4", "gemischt"]
+  "tags": ["woche4", "gemischt", "vl-offiziell"]
   },
   {
     "difficulty": 2,
@@ -4209,7 +4209,7 @@
     ],
     "explanation": "Die wichtigsten CSS-Selektoren adressieren Elemente nach Typ, Klasse, ID, Attributen oder Zustand.",
     "xp": 20,
-    "tags": ["woche4", "gemischt"]
+  "tags": ["woche4", "gemischt", "vl-offiziell"]
   },
   {
     "difficulty": 1,
@@ -4223,7 +4223,7 @@
     ],
     "explanation": "Das CSS-Box-Modell besteht aus content, padding, border und margin in dieser Reihenfolge von innen nach außen.",
     "xp": 15,
-    "tags": ["woche4", "gemischt"]
+  "tags": ["woche4", "gemischt", "vl-offiziell"]
   },
   {
     "difficulty": 2,
@@ -4238,7 +4238,7 @@
     "correct": [0, 1, 3],
     "explanation": "JS reagiert im Browser direkt auf Nutzeraktionen, manipuliert das DOM und liefert schnelles Feedback; HTML wird natürlich weiterhin nativ gerendert.",
     "xp": 20,
-    "tags": ["woche4", "gemischt"]
+  "tags": ["woche4", "gemischt", "vl-offiziell"]
   },
   {
     "difficulty": 2,
@@ -4254,7 +4254,7 @@
     "correct": [0, 1, 2, 4],
     "explanation": "JavaScript validiert Formulare, steuert SPAs, manipuliert DOM/CSS und ruft Daten asynchron ab; SSL erledigt die Transportebene (TLS), nicht JS.",
     "xp": 25,
-    "tags": ["woche4", "gemischt"]
+  "tags": ["woche4", "gemischt", "vl-offiziell"]
   },
   {
     "difficulty": 1,
@@ -4269,6 +4269,6 @@
     "correct": 0,
     "explanation": "Das DOM bildet HTML/XML als Baum von Knoten ab, den Skripte lesen und verändern können.",
     "xp": 15,
-    "tags": ["woche4", "gemischt"]
+  "tags": ["woche4", "gemischt", "vl-offiziell"]
   }
 ]

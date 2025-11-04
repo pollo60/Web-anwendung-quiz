@@ -369,7 +369,8 @@
             const tagMapping = {
                 'uebung': ['uebung'],
                 'vorlesung-offiziell': ['vl-offiziell'],
-                'gemischt': ['uebung', 'neue-vorlesung', 'vl-offiziell', 'offiziell'],
+                // Gemischt soll auch Fragen mit dem Tag "gemischt" enthalten
+                'gemischt': ['gemischt', 'uebung', 'neue-vorlesung', 'vl-offiziell', 'offiziell'],
                 'offiziell': ['offiziell']
             };
             
