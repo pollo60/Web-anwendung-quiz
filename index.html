@@ -482,8 +482,11 @@
                 }
                 approxTotal += STATE.xp;
                 STATE.lifetimeXP = approxTotal;
+                console.log(`🔄 Reconstructed lifetimeXP: ${STATE.lifetimeXP} (Level ${STATE.level}, XP ${STATE.xp})`);
                 // Persist migration so next load is correct
                 saveProgress();
+            } else {
+                console.log(`✓ Loaded lifetimeXP: ${STATE.lifetimeXP} (Level ${STATE.level}, XP ${STATE.xp})`);
             }
         }
 
@@ -630,7 +633,9 @@
             document.getElementById('levelBadge').textContent = `Level ${STATE.level}`;
             // Title reflects lifetime progression exclusively
             const lifetimeDerived = getLevelFromLifetimeXP(STATE.lifetimeXP || 0);
-            document.getElementById('titlePlaque').textContent = getTitleForLevel(lifetimeDerived.level);
+            const titleText = getTitleForLevel(lifetimeDerived.level);
+            console.log(`📊 Title update: lifetimeXP=${STATE.lifetimeXP} → derived level=${lifetimeDerived.level} → title="${titleText}"`);
+            document.getElementById('titlePlaque').textContent = titleText;
             saveProgress();
         }
 
