@@ -465,29 +465,31 @@
             STATE.level = progress.level || 1;
             STATE.lifetimeXP = progress.lifetimeXP || 0;
             
-            // Migrate missing or incorrect lifetimeXP from historic saves by reconstructing total earned XP
-            // Trigger if lifetimeXP is missing, zero, or suspiciously low given the current level
-            const needsReconstruction = (
-                STATE.lifetimeXP == null ||
-                (STATE.lifetimeXP === 0 && (STATE.level > 1 || STATE.xp > 0)) ||
-                // Also reconstruct if lifetimeXP seems too low for the current level
-                (STATE.level > 1 && STATE.lifetimeXP < getXPForLevel(1))
-            );
+            // CRITICAL FIX: Reconstruct lifetimeXP if missing or incorrect
+            // This ensures title calculation works properly based on total XP earned
+            const minLifetimeForLevel = calculateMinimumLifetimeXP(STATE.level, STATE.xp);
+            const needsReconstruction = STATE.lifetimeXP < minLifetimeForLevel;
             
             if (needsReconstruction) {
-                // Approximate lifetime total from cumulative level requirements + current XP
-                let approxTotal = 0;
-                for (let l = 1; l < STATE.level; l++) {
-                    approxTotal += getXPForLevel(l);
-                }
-                approxTotal += STATE.xp;
-                STATE.lifetimeXP = approxTotal;
-                console.log(`🔄 Reconstructed lifetimeXP: ${STATE.lifetimeXP} (Level ${STATE.level}, XP ${STATE.xp})`);
-                // Persist migration so next load is correct
+                STATE.lifetimeXP = minLifetimeForLevel;
+                console.log(`🔄 Reconstructed lifetimeXP: ${STATE.lifetimeXP} for Level ${STATE.level} (${STATE.xp} XP into level)`);
+                // Persist corrected value immediately
                 saveProgress();
             } else {
-                console.log(`✓ Loaded lifetimeXP: ${STATE.lifetimeXP} (Level ${STATE.level}, XP ${STATE.xp})`);
+                console.log(`✓ Loaded lifetimeXP: ${STATE.lifetimeXP} for Level ${STATE.level} (${STATE.xp} XP into level)`);
             }
+        }
+        
+        // Calculate minimum lifetime XP needed to reach a given level with current XP
+        function calculateMinimumLifetimeXP(currentLevel, currentXP) {
+            let total = 0;
+            // Sum XP requirements for all completed levels (1 to currentLevel-1)
+            for (let lvl = 1; lvl < currentLevel; lvl++) {
+                total += getXPForLevel(lvl);
+            }
+            // Add progress into current level
+            total += currentXP;
+            return total;
         }
 
         function saveLeaderboard() {
@@ -634,7 +636,8 @@
             // Title reflects lifetime progression exclusively
             const lifetimeDerived = getLevelFromLifetimeXP(STATE.lifetimeXP || 0);
             const titleText = getTitleForLevel(lifetimeDerived.level);
-            console.log(`📊 Title update: lifetimeXP=${STATE.lifetimeXP} → derived level=${lifetimeDerived.level} → title="${titleText}"`);
+            const titleIndex = Math.floor(lifetimeDerived.level / 10);
+            console.log(`📊 Title calculation: lifetimeXP=${STATE.lifetimeXP} → derived level=${lifetimeDerived.level} → titleIndex=${titleIndex} → title="${titleText}"`);
             document.getElementById('titlePlaque').textContent = titleText;
             saveProgress();
         }
