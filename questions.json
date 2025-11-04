@@ -3904,27 +3904,27 @@
   {
     "difficulty": 1,
     "type": "multiple",
-    "question": "Die Übung fordert das Starten unter http://localhost:8080/ und Analyse im Network-Tab der DevTools.",
+    "question": "Läuft eine Standard‑Spring‑Boot‑App ohne Portkonfiguration unter http://localhost:8080/?",
     "options": ["Wahr", "Falsch"],
     "correct": 0,
-    "explanation": "Wahr. Die Übung verlangt praktisches Testen der Anwendung und Analyse des HTTP-Verkehrs in den Browser-DevTools.",
+    "explanation": "Wahr. Spring Boot nutzt standardmäßig Port 8080, sofern kein anderer Port konfiguriert ist.",
     "xp": 10,
     "tags": ["uebung", "gemischt", "woche4"]
   },
   {
     "difficulty": 1,
     "type": "multiple",
-    "question": "Welche Request-Methode wird im Beispiel als erste in den DevTools analysiert?",
+    "question": "Welche HTTP‑Methode wird typischerweise zum Abrufen von HTML‑Seiten verwendet?",
     "options": ["POST", "GET", "PUT", "PATCH"],
     "correct": 1,
-    "explanation": "GET-Requests werden typischerweise zuerst analysiert, da sie zum Abrufen von Seiten verwendet werden.",
+    "explanation": "GET dient dem Abruf von Ressourcen wie HTML‑Seiten, ohne deren Zustand serverseitig zu verändern.",
     "xp": 10,
     "tags": ["uebung", "gemischt", "woche4"]
   },
   {
     "difficulty": 2,
     "type": "checkbox",
-    "question": "Was sollst du im Network-Tab vergleichen? (Mehrfachauswahl)",
+    "question": "Welche Prüfungen sind sinnvoll, um eine HTML‑Antwort zu validieren? (Mehrfachauswahl)",
     "options": [
       "HTTP-Response-Status",
       "Response-Inhalt vs. list.html",
@@ -3932,7 +3932,7 @@
       "Request-Headers (User-Agent)"
     ],
     "correct": [0, 1],
-    "explanation": "Die Übung fordert den Vergleich von Status-Code und Response-Inhalt mit dem Template.",
+    "explanation": "Wichtige Prüfungen sind u. a. der Status‑Code und der Response‑Body im Vergleich zur erwarteten Vorlage (Template).",
     "xp": 20,
     "tags": ["uebung", "gemischt", "woche4"]
   },
@@ -3954,10 +3954,10 @@
   {
     "difficulty": 1,
     "type": "multiple",
-    "question": "Die Übung fordert, den HTTP-Nachrichtenverlauf per Sequenzdiagramm zu skizzieren.",
+    "question": "Ein Sequenzdiagramm stellt den Nachrichtenfluss zwischen Client, Server und Komponenten dar.",
     "options": ["Wahr", "Falsch"],
     "correct": 0,
-    "explanation": "Wahr. Sequenzdiagramme visualisieren den Ablauf von HTTP-Requests zwischen Client, Server und Komponenten.",
+    "explanation": "Wahr. Sequenzdiagramme visualisieren den zeitlichen Ablauf von Nachrichten/Methodenaufrufen zwischen beteiligten Instanzen.",
     "xp": 10,
     "tags": ["uebung", "gemischt", "woche4"]
   },
@@ -4039,10 +4039,15 @@
   {
     "difficulty": 2,
     "type": "multiple",
-    "question": "Der Pfad /find?id=abc provoziert ein Fehlverhalten, das analysiert und nutzerfreundlicher gemacht werden soll.",
-    "options": ["Wahr", "Falsch"],
+    "question": "Welche Exception tritt auf, wenn ein Request‑Parameter nicht in den erwarteten Typ konvertiert werden kann?",
+    "options": [
+      "MethodArgumentTypeMismatchException",
+      "MissingServletRequestParameterException",
+      "HttpMessageNotReadableException",
+      "ConstraintViolationException"
+    ],
     "correct": 0,
-    "explanation": "Wahr. Die Übung verlangt die Analyse von Fehlfällen (z.B. falsches ID-Format) und deren nutzerfreundliche Behandlung.",
+    "explanation": "Fehltypisierte Parameter (z. B. 'id=abc' statt Zahl) führen zu MethodArgumentTypeMismatchException.",
     "xp": 15,
     "tags": ["uebung", "gemischt", "woche4"]
   },
@@ -4064,7 +4069,7 @@
   {
     "difficulty": 2,
     "type": "checkbox",
-    "question": "Welche Vorteile nennt die Übung für MVC/Schichten? (Mehrfachauswahl)",
+    "question": "Welche Vorteile bieten MVC/Schichten? (Mehrfachauswahl)",
     "options": [
       "Trennung von Darstellung und Logik",
       "Leichtere Änderbarkeit/Wartbarkeit",
@@ -4072,17 +4077,17 @@
       "Bessere Testbarkeit"
     ],
     "correct": [0, 1, 3],
-    "explanation": "MVC bietet Trennung der Concerns, bessere Wartbarkeit und Testbarkeit. Es erzwingt keinen Monolithen.",
+    "explanation": "MVC trennt Concerns, verbessert Wartbarkeit und Testbarkeit; es erzwingt keine monolithische Architektur.",
     "xp": 20,
     "tags": ["uebung", "gemischt", "woche4"]
   },
   {
     "difficulty": 1,
     "type": "multiple",
-    "question": "Welche Datei im Template-Ordner sollst du speziell prüfen, um Model-Einbindung zu verstehen?",
-    "options": ["index.html", "add.html", "base.html", "error.html"],
+    "question": "Mit welcher Thymeleaf‑Anweisung iterierst du über eine Liste im Model?",
+    "options": ["th:if", "th:each", "th:text", "th:src"],
     "correct": 1,
-    "explanation": "add.html ist das Beispiel-Template, das zeigt, wie Model-Daten in Thymeleaf verwendet werden.",
+    "explanation": "th:each durchläuft Sammlungen und rendert für jedes Element ein Fragment.",
     "xp": 10,
     "tags": ["uebung", "gemischt", "woche4"]
   },
