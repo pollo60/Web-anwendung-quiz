@@ -463,9 +463,19 @@
 
             STATE.xp = progress.xp || 0;
             STATE.level = progress.level || 1;
-            // Migrate missing lifetimeXP from historic saves by reconstructing total earned XP
-            if (progress.lifetimeXP == null || (progress.lifetimeXP === 0 && ((STATE.level && STATE.level > 1) || (STATE.xp && STATE.xp > 0)))) {
-                // If user already progressed beyond L1 or has XP, approximate lifetime total
+            STATE.lifetimeXP = progress.lifetimeXP || 0;
+            
+            // Migrate missing or incorrect lifetimeXP from historic saves by reconstructing total earned XP
+            // Trigger if lifetimeXP is missing, zero, or suspiciously low given the current level
+            const needsReconstruction = (
+                STATE.lifetimeXP == null ||
+                (STATE.lifetimeXP === 0 && (STATE.level > 1 || STATE.xp > 0)) ||
+                // Also reconstruct if lifetimeXP seems too low for the current level
+                (STATE.level > 1 && STATE.lifetimeXP < getXPForLevel(1))
+            );
+            
+            if (needsReconstruction) {
+                // Approximate lifetime total from cumulative level requirements + current XP
                 let approxTotal = 0;
                 for (let l = 1; l < STATE.level; l++) {
                     approxTotal += getXPForLevel(l);
@@ -474,8 +484,6 @@
                 STATE.lifetimeXP = approxTotal;
                 // Persist migration so next load is correct
                 saveProgress();
-            } else {
-                STATE.lifetimeXP = progress.lifetimeXP;
             }
         }
 
