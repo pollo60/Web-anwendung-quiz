@@ -277,6 +277,72 @@
             return arr;
         }
 
+        // Small helpers to reduce duplication
+        function renderDifficultyDots(diff = 1) {
+            const d = Math.max(1, Math.min(4, diff));
+            return Array(4).fill(0)
+                .map((_, i) => `<div class="difficulty-dot ${i < d ? 'active' : ''}"></div>`)
+                .join('');
+        }
+
+        function setsEqual(a, b) {
+            if (a.size !== b.size) return false;
+            for (const v of a) if (!b.has(v)) return false;
+            return true;
+        }
+        // ----------------------------------------------------------------------------
+        // Leaderboard helpers (DRY)
+        // ----------------------------------------------------------------------------
+        function getFilteredSortedLeaderboardEntries(mode) {
+            const allEntries = Object.values(STATE.leaderboard).flat();
+            const filtered = mode === 'timetrials'
+                ? allEntries.filter(e => e.time != null)
+                : allEntries.filter(e => e.time == null);
+            filtered.sort((a, b) => {
+                if (a.time != null && b.time != null) return a.time - b.time;
+                return b.score - a.score;
+            });
+            return filtered;
+        }
+
+        function leaderboardEntryHTML(e, i) {
+            const gi = getGameLevelInfo(e.gameLevel);
+            return `
+                <div class="leaderboard-entry">
+                    <span class="entry-rank">${i + 1}.</span>
+                    <span class="entry-name">${e.name}</span>
+                    <span class="entry-level">
+                        <span class="entry-level-mobile" title="${gi.label}">${gi.emoji}</span>
+                        <span class="entry-level-desktop">${gi.emoji} ${gi.label}</span>
+                    </span>
+                    <span class="entry-details">
+                        ${e.time ? formatTime(e.time) : `${e.score}/${e.questionCount}`}
+                        <br><small>${e.percentage}% • ${e.xp} XP</small>
+                    </span>
+                </div>`;
+        }
+
+        function renderLeaderboardTo(containerId, mode, emptyText) {
+            const content = document.getElementById(containerId);
+            if (!content) return;
+            const entries = getFilteredSortedLeaderboardEntries(mode);
+            if (entries.length === 0) {
+                content.innerHTML = `<div class="empty-leaderboard">${emptyText}</div>`;
+                return;
+            }
+            content.innerHTML = entries.slice(0, 10).map(leaderboardEntryHTML).join('');
+        }
+        // Mapping for Spiel-Level (Modus) → Emoji/Label (used by both leaderboards)
+        function getGameLevelInfo(levelKey) {
+            const map = {
+                'gemischt': { emoji: '⚖️', label: 'Gemischt' },
+                'uebung': { emoji: '📝', label: 'Übung' },
+                'vorlesung-offiziell': { emoji: '🎓', label: 'VL Offiziell' },
+                'offiziell': { emoji: '📋', label: 'Offiziell' }
+            };
+            return map[levelKey] || { emoji: '❓', label: 'Unbekannt' };
+        }
+
         function formatTime(ms) {
             const seconds = Math.floor(ms / 1000);
             const minutes = Math.floor(seconds / 60);
@@ -310,25 +376,46 @@
             saveToLocalStorage('playerName', name);
         }
 
+        // Normalize player names to avoid duplicate profiles by case/whitespace
+        function normalizePlayerKey(name) {
+            const key = (name || '').trim().toLowerCase();
+            return key || 'anonymous';
+        }
+
         function loadPlayerName() {
             return loadFromLocalStorage('playerName', '');
         }
 
         function saveProgress() {
-            const key = `progress_${STATE.playerName || 'anonymous'}`;
-            saveToLocalStorage(key, { 
-                xp: STATE.xp, 
+            const key = `progress_${normalizePlayerKey(STATE.playerName)}`;
+            const payload = {
+                xp: STATE.xp,
                 level: STATE.level,
-                lifetimeXP: STATE.lifetimeXP 
-            });
+                lifetimeXP: STATE.lifetimeXP,
+                dataVersion: 1
+            };
+            saveToLocalStorage(key, payload);
         }
 
         function loadProgress() {
-            const key = `progress_${STATE.playerName || 'anonymous'}`;
-            const progress = loadFromLocalStorage(key, { xp: 0, level: 1, lifetimeXP: 0 });
-            STATE.xp = progress.xp;
-            STATE.level = progress.level;
-            STATE.lifetimeXP = progress.lifetimeXP || 0;
+            const key = `progress_${normalizePlayerKey(STATE.playerName)}`;
+            const progress = loadFromLocalStorage(key, { xp: 0, level: 1, lifetimeXP: 0, dataVersion: 1 });
+            STATE.xp = progress.xp || 0;
+            STATE.level = progress.level || 1;
+            // Migrate missing lifetimeXP from historic saves by reconstructing total earned XP
+            if (progress.lifetimeXP == null || (progress.lifetimeXP === 0 && ((STATE.level && STATE.level > 1) || (STATE.xp && STATE.xp > 0)))) {
+                // If user already progressed beyond L1 or has XP, approximate lifetime total
+                let approxTotal = 0;
+                for (let l = 1; l < STATE.level; l++) {
+                    approxTotal += getXPForLevel(l);
+                }
+                approxTotal += STATE.xp;
+                STATE.lifetimeXP = approxTotal;
+                // Persist migration so next load is correct
+                saveProgress();
+            } else {
+                STATE.lifetimeXP = progress.lifetimeXP;
+            }
         }
 
         function saveLeaderboard() {
@@ -472,9 +559,9 @@
         function updateXPDisplay() {
             document.getElementById('xpDisplay').textContent = STATE.xp;
             document.getElementById('levelBadge').textContent = `Level ${STATE.level}`;
-            // Title should reflect lifetime progression
-            const derived = getLevelFromLifetimeXP(STATE.lifetimeXP || 0);
-            document.getElementById('titlePlaque').textContent = getTitleForLevel(derived.level);
+            // Title reflects lifetime progression exclusively
+            const lifetimeDerived = getLevelFromLifetimeXP(STATE.lifetimeXP || 0);
+            document.getElementById('titlePlaque').textContent = getTitleForLevel(lifetimeDerived.level);
             saveProgress();
         }
 
@@ -551,9 +638,7 @@
             
             let optionsHTML = renderQuestionOptions(question);
             
-            const difficultyDots = Array(4).fill(0)
-                .map((_, i) => `<div class="difficulty-dot ${i < (question.difficulty || 1) ? 'active' : ''}"></div>`)
-                .join('');
+            const difficultyDots = renderDifficultyDots(question.difficulty || 1);
 
             container.innerHTML = `
                 <div class="question-container active">
@@ -651,6 +736,71 @@
             return '<p>Unbekannter Fragetyp</p>';
         }
 
+        function getShuffledCorrectIndex(question) {
+            if (!question || !question._shuffledOptions) return null;
+            const correctOriginalIdx = question.correct;
+            return question._shuffledOptions.findIndex(opt => opt.originalIdx === correctOriginalIdx);
+        }
+
+        // ============================================================================
+        // QUESTION LISTENER HELPERS (modularized per type)
+        // ============================================================================
+        function setupMultipleListeners(checkBtn) {
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.addEventListener('click', function() {
+                    if (STATE.questionAnswered) return;
+                    document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    if (checkBtn) checkBtn.disabled = false;
+                });
+            });
+        }
+
+        function setupCheckboxListeners(checkBtn) {
+            const optionsContainer = document.getElementById('optionsContainer');
+            const checkboxes = optionsContainer ? optionsContainer.querySelectorAll('input[type="checkbox"]') : document.querySelectorAll('#optionsContainer input[type="checkbox"]');
+            const updateBtn = () => {
+                const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+                if (checkBtn) checkBtn.disabled = !anyChecked || STATE.questionAnswered;
+            };
+            checkboxes.forEach(cb => cb.addEventListener('change', updateBtn));
+            // initialize state
+            updateBtn();
+        }
+
+        function setupTextListeners(checkBtn) {
+            const input = document.getElementById('textAnswer');
+            if (input) {
+                const update = () => {
+                    if (checkBtn) checkBtn.disabled = !input.value.trim() || STATE.questionAnswered;
+                };
+                input.addEventListener('input', update);
+                // initialize state
+                update();
+            }
+        }
+
+        function setupFillblankListeners(checkBtn, question) {
+            const blanks = (question.blanks || []).map((_, i) => document.getElementById(`blank${i}`));
+            const updateBtn = () => {
+                const allFilled = blanks.every(b => b && b.value.trim());
+                if (checkBtn) checkBtn.disabled = !allFilled || STATE.questionAnswered;
+            };
+            blanks.forEach(b => b && b.addEventListener('input', updateBtn));
+            // initialize state
+            updateBtn();
+        }
+
+        function setupSortListeners(checkBtn) {
+            attachSortListeners();
+            if (checkBtn) checkBtn.disabled = false;
+        }
+
+        function setupMatchingListeners(_checkBtn, question) {
+            // Button will be enabled once all pairs are matched inside attachMatchingListeners
+            attachMatchingListeners(question);
+        }
+
         // ============================================================================
         // EVENT LISTENERS FOR QUESTIONS
         // ============================================================================
@@ -661,46 +811,17 @@
             const abortBtn = document.getElementById('abortBtn');
             
             if (question.type === 'multiple') {
-                document.querySelectorAll('.option').forEach(opt => {
-                    opt.addEventListener('click', function() {
-                        if (STATE.questionAnswered) return;
-                        document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
-                        this.classList.add('selected');
-                        if (checkBtn) checkBtn.disabled = false;
-                    });
-                });
-                
+                setupMultipleListeners(checkBtn);
             } else if (question.type === 'checkbox') {
-                const optionsContainer = document.getElementById('optionsContainer');
-                const checkboxes = optionsContainer ? optionsContainer.querySelectorAll('input[type="checkbox"]') : document.querySelectorAll('#optionsContainer input[type="checkbox"]');
-                const updateBtn = () => {
-                    const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
-                    if (checkBtn) checkBtn.disabled = !anyChecked || STATE.questionAnswered;
-                };
-                checkboxes.forEach(cb => cb.addEventListener('change', updateBtn));
-                
+                setupCheckboxListeners(checkBtn);
             } else if (question.type === 'text') {
-                const input = document.getElementById('textAnswer');
-                if (input) {
-                    input.addEventListener('input', () => {
-                        if (checkBtn) checkBtn.disabled = !input.value.trim() || STATE.questionAnswered;
-                    });
-                }
-                
+                setupTextListeners(checkBtn);
             } else if (question.type === 'fillblank') {
-                const blanks = (question.blanks || []).map((_, i) => document.getElementById(`blank${i}`));
-                const updateBtn = () => {
-                    const allFilled = blanks.every(b => b && b.value.trim());
-                    if (checkBtn) checkBtn.disabled = !allFilled || STATE.questionAnswered;
-                };
-                blanks.forEach(b => b && b.addEventListener('input', updateBtn));
-                
+                setupFillblankListeners(checkBtn, question);
             } else if (question.type === 'sort') {
-                attachSortListeners();
-                if (checkBtn) checkBtn.disabled = false;
-                
+                setupSortListeners(checkBtn);
             } else if (question.type === 'matching') {
-                attachMatchingListeners(question);
+                setupMatchingListeners(checkBtn, question);
             }
             
             if (checkBtn) {
@@ -819,8 +940,7 @@
                 }
                 
                 const selectedIdx = parseInt(selected.dataset.index);
-                const correctOriginalIdx = question.correct;
-                const correctShuffledIdx = question._shuffledOptions.findIndex(opt => opt.originalIdx === correctOriginalIdx);
+                const correctShuffledIdx = getShuffledCorrectIndex(question);
                 isCorrect = selectedIdx === correctShuffledIdx;
                 
                 document.querySelectorAll('.option').forEach((opt, idx) => {
@@ -850,8 +970,7 @@
                 
                 const selectedSet = new Set(selected);
                 const correctSet = new Set(correct);
-                isCorrect = selectedSet.size === correctSet.size && 
-                           [...selectedSet].every(i => correctSet.has(i));
+                isCorrect = setsEqual(selectedSet, correctSet);
                 
                 const optionDivs = optionsContainer ? optionsContainer.querySelectorAll('.option') : document.querySelectorAll('#optionsContainer .option');
                 optionDivs.forEach((opt, idx) => {
@@ -1112,102 +1231,13 @@
         }
 
         function displayLeaderboard() {
-            const mode = document.querySelector('.tab-btn.active')?.dataset.mode || 'normal';
-            const content = document.getElementById('leaderboardContent');
-            
-            if (!content) return;
-            
-            const allEntries = Object.values(STATE.leaderboard).flat();
-            const filtered = mode === 'timetrials' 
-                ? allEntries.filter(e => e.time != null)
-                : allEntries.filter(e => e.time == null);
-            
-            filtered.sort((a, b) => {
-                if (a.time != null && b.time != null) return a.time - b.time;
-                return b.score - a.score;
-            });
-            
-            if (filtered.length === 0) {
-                content.innerHTML = '<div class="empty-leaderboard">Noch keine Einträge vorhanden.</div>';
-                return;
-            }
-
-            // Helper for spiel-level mapping
-            const getGameLevelInfo = (levelKey) => {
-                const map = {
-                    'gemischt': { emoji: '⚖️', label: 'Gemischt' },
-                    'uebung': { emoji: '📝', label: 'Übung' },
-                    'vorlesung-offiziell': { emoji: '🎓', label: 'VL Offiziell' },
-                    'offiziell': { emoji: '📋', label: 'Offiziell' }
-                };
-                return map[levelKey] || { emoji: '❓', label: 'Unbekannt' };
-            };
-
-            content.innerHTML = filtered.slice(0, 10).map((e, i) => {
-                const gi = getGameLevelInfo(e.gameLevel);
-                return `
-                <div class="leaderboard-entry">
-                    <span class="entry-rank">${i + 1}.</span>
-                    <span class="entry-name">${e.name}</span>
-                    <span class="entry-level">
-                        <span class="entry-level-mobile" title="${gi.label}">${gi.emoji}</span>
-                        <span class="entry-level-desktop">${gi.emoji} ${gi.label}</span>
-                    </span>
-                    <span class="entry-details">
-                        ${e.time ? formatTime(e.time) : `${e.score}/${e.questionCount}`}
-                        <br><small>${e.percentage}% • ${e.xp} XP</small>
-                    </span>
-                </div>`;
-            }).join('');
+            const mode = document.querySelector('#resultScreen .tab-btn.active')?.dataset.mode || 'normal';
+            renderLeaderboardTo('leaderboardContent', mode, 'Noch keine Einträge vorhanden.');
         }
 
         function displayStartLeaderboard() {
             const mode = document.querySelector('.start-tab-btn.active')?.dataset.mode || 'normal';
-            const content = document.getElementById('startLeaderboardContent');
-            
-            if (!content) return;
-            
-            const allEntries = Object.values(STATE.leaderboard).flat();
-            const filtered = mode === 'timetrials' 
-                ? allEntries.filter(e => e.time != null)
-                : allEntries.filter(e => e.time == null);
-            
-            filtered.sort((a, b) => {
-                if (a.time != null && b.time != null) return a.time - b.time;
-                return b.score - a.score;
-            });
-            
-            if (filtered.length === 0) {
-                content.innerHTML = '<div class="empty-leaderboard">Noch keine Einträge vorhanden.<br>Spiele eine Runde – mit oder ohne Timer.</div>';
-                return;
-            }
-
-            const getGameLevelInfo = (levelKey) => {
-                const map = {
-                    'gemischt': { emoji: '⚖️', label: 'Gemischt' },
-                    'uebung': { emoji: '📝', label: 'Übung' },
-                    'vorlesung-offiziell': { emoji: '🎓', label: 'VL Offiziell' },
-                    'offiziell': { emoji: '📋', label: 'Offiziell' }
-                };
-                return map[levelKey] || { emoji: '❓', label: 'Unbekannt' };
-            };
-
-            content.innerHTML = filtered.slice(0, 10).map((e, i) => {
-                const gi = getGameLevelInfo(e.gameLevel);
-                return `
-                <div class="leaderboard-entry">
-                    <span class="entry-rank">${i + 1}.</span>
-                    <span class="entry-name">${e.name}</span>
-                    <span class="entry-level">
-                        <span class="entry-level-mobile" title="${gi.label}">${gi.emoji}</span>
-                        <span class="entry-level-desktop">${gi.emoji} ${gi.label}</span>
-                    </span>
-                    <span class="entry-details">
-                        ${e.time ? formatTime(e.time) : `${e.score}/${e.questionCount}`}
-                        <br><small>${e.percentage}% • ${e.xp} XP</small>
-                    </span>
-                </div>`;
-            }).join('');
+            renderLeaderboardTo('startLeaderboardContent', mode, 'Noch keine Einträge vorhanden.<br>Spiele eine Runde – mit oder ohne Timer.');
         }
 
         // ============================================================================
@@ -1370,6 +1400,9 @@
             if (nameInput) {
                 nameInput.addEventListener('input', function() {
                     STATE.playerName = this.value.trim();
+                    // Reload progress for this name so XP/Level/Title reflect correct profile immediately
+                    loadProgress();
+                    updateXPDisplay();
                     updateNameUI();
                 });
             }
