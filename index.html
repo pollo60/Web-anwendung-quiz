@@ -440,8 +440,14 @@
             const key = `progress_${normalizePlayerKey(STATE.playerName)}`;
             // Try exact (normalized) key first
             let progress = loadFromLocalStorage(key, null);
-            // If not found, attempt legacy key migration based on original name casing
-            if (!progress && (STATE.playerName || '').trim()) {
+            const hasName = (STATE.playerName || '').trim().length > 0;
+            // If not found OR looks like a fresh/empty record, attempt legacy migration
+            const looksEmpty = !progress || (
+                (Number(progress.level) || 1) <= 1 &&
+                (Number(progress.xp) || 0) === 0 &&
+                (Number(progress.lifetimeXP) || 0) === 0
+            );
+            if (hasName && looksEmpty) {
                 const legacy = findLegacyProgressForName(STATE.playerName, key);
                 if (legacy && legacy.value) {
                     progress = legacy.value;
