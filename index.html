@@ -397,9 +397,44 @@
             saveToLocalStorage(key, payload);
         }
 
+        function findLegacyProgressForName(playerName, normalizedKey) {
+            // Search localStorage for old progress keys that used the raw name (case-sensitive) before normalization
+            try {
+                const norm = normalizePlayerKey(playerName);
+                for (let i = 0; i < localStorage.length; i++) {
+                    const k = localStorage.key(i);
+                    if (!k || !k.startsWith('progress_') || k === normalizedKey) continue;
+                    const suffix = k.substring('progress_'.length);
+                    if (normalizePlayerKey(suffix) === norm) {
+                        const val = JSON.parse(localStorage.getItem(k));
+                        return { key: k, value: val };
+                    }
+                }
+            } catch (e) {
+                console.warn('Legacy progress scan failed:', e);
+            }
+            return null;
+        }
+
         function loadProgress() {
             const key = `progress_${normalizePlayerKey(STATE.playerName)}`;
-            const progress = loadFromLocalStorage(key, { xp: 0, level: 1, lifetimeXP: 0, dataVersion: 1 });
+            // Try exact (normalized) key first
+            let progress = loadFromLocalStorage(key, null);
+            // If not found, attempt legacy key migration based on original name casing
+            if (!progress && (STATE.playerName || '').trim()) {
+                const legacy = findLegacyProgressForName(STATE.playerName, key);
+                if (legacy && legacy.value) {
+                    progress = legacy.value;
+                    // Save under normalized key and remove old key to avoid duplicates
+                    saveToLocalStorage(key, progress);
+                    try { localStorage.removeItem(legacy.key); } catch (e) {}
+                }
+            }
+            // Default fresh profile if still missing
+            if (!progress) {
+                progress = { xp: 0, level: 1, lifetimeXP: 0, dataVersion: 1 };
+            }
+
             STATE.xp = progress.xp || 0;
             STATE.level = progress.level || 1;
             // Migrate missing lifetimeXP from historic saves by reconstructing total earned XP
@@ -619,6 +654,12 @@
             
             // Update body class for background
             document.body.className = screenId === 'questionsContainer' ? 'in-quiz' : '';
+
+            // Show progress bar only during quiz view
+            const progress = document.querySelector('.progress-container');
+            if (progress) {
+                progress.style.display = (screenId === 'questionsContainer') ? 'block' : 'none';
+            }
         }
 
         // ============================================================================
@@ -1317,6 +1358,10 @@
             loadProgress();
             updateXPDisplay();
             displayStartLeaderboard();
+
+            // Ensure progress bar is hidden on the start screen initially
+            const progress = document.querySelector('.progress-container');
+            if (progress) progress.style.display = 'none';
             
             // Setup event listeners
             setupStartScreenListeners();
