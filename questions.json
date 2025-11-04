@@ -3609,5 +3609,31 @@
     "explanation": "@PostConstruct und @PreDestroy markieren Methoden, die beim Initialisieren bzw. vor der Zerstörung einer Bean ausgeführt werden.",
     "xp": 15,
     "tags": ["offiziell", "woche3"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Im Spring IoC Container wird die Zerstörung einer Bean unmittelbar nach der Bean-Initialisierung automatisch ausgelöst, es sei denn, die Bean wird explizit durch den Entwickler zur Zerstörung freigegeben.",
+    "options": [
+      "Wahr",
+      "Falsch"
+    ],
+    "correct": 0,
+    "explanation": "Wahr. Beans durchlaufen einen definierten Lebenszyklus: Instanziierung → Dependency Injection → Initialisierung (@PostConstruct) → Nutzung → Zerstörung (@PreDestroy). Die Zerstörung erfolgt beim Container-Shutdown, es sei denn, der Entwickler steuert dies explizit.",
+    "xp": 20,
+    "tags": ["offiziell", "woche3"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Der ApplicationContext erweitert nicht die Funktionalität der BeanFactory.",
+    "options": [
+      "Wahr",
+      "Falsch"
+    ],
+    "correct": 1,
+    "explanation": "Falsch. Der ApplicationContext erweitert die BeanFactory um zusätzliche Enterprise-Features wie Internationalisierung, Event-Handling, AOP-Integration und deklarative Mechanismen.",
+    "xp": 10,
+    "tags": ["offiziell", "woche3"]
   }
 ]
