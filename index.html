@@ -94,6 +94,11 @@
                             <div style="font-weight: 600;">Nur 3. Woche</div>
                             <div style="font-size: 0.8em; opacity: 0.8;">2. Übungsblatt</div>
                         </button>
+                        <button class="modifier-btn" data-modifier="woche4">
+                            <div style="font-size: 24px; margin-bottom: 8px;">📆</div>
+                            <div style="font-weight: 600;">Nur 4. Woche</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">3. Übungsblatt</div>
+                        </button>
                     </div>
                 </div>
 
@@ -184,6 +189,10 @@
                         <div class="stat-value" id="statLevel">1</div>
                         <div class="stat-label">Level Erreicht</div>
                     </div>
+                    <div class="stat-card" style="grid-column: 1 / -1; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <div class="stat-value" id="statLifetimeXP">0</div>
+                        <div class="stat-label">🏆 Gesamt-XP (Lifetime)</div>
+                    </div>
                 </div>
 
                 <div class="share-box">
@@ -239,6 +248,7 @@
             playerName: '',
             xp: 0,
             level: 1,
+            lifetimeXP: 0,  // Total XP earned across all sessions (never reset)
             
             // Timer
             timerInterval: null,
@@ -306,14 +316,19 @@
 
         function saveProgress() {
             const key = `progress_${STATE.playerName || 'anonymous'}`;
-            saveToLocalStorage(key, { xp: STATE.xp, level: STATE.level });
+            saveToLocalStorage(key, { 
+                xp: STATE.xp, 
+                level: STATE.level,
+                lifetimeXP: STATE.lifetimeXP 
+            });
         }
 
         function loadProgress() {
             const key = `progress_${STATE.playerName || 'anonymous'}`;
-            const progress = loadFromLocalStorage(key, { xp: 0, level: 1 });
+            const progress = loadFromLocalStorage(key, { xp: 0, level: 1, lifetimeXP: 0 });
             STATE.xp = progress.xp;
             STATE.level = progress.level;
+            STATE.lifetimeXP = progress.lifetimeXP || 0;
         }
 
         function saveLeaderboard() {
@@ -399,13 +414,15 @@
         // ============================================================================
         
         function getXPForLevel(level) {
-            // Progressive formula: reaches ~77,560 total XP at level 190
-            // Calibrated for 3 perfect quizzes/day over 88 days (290 XP each)
-            // Higher early levels to prevent leveling up multiple times per quiz
-            if (level <= 5) {
-                return 150 + (level - 1) * 50;
+            // Optimized progressive formula with smooth, gradual increases
+            // Level 153 reachable in 88 days with 3 perfect quizzes/day (290 XP each)
+            // Early levels: Faster progression (80-150 XP)
+            // Late levels: Gentle exponential growth (2-8% increase per level)
+            if (level <= 10) {
+                return 80 + level * 7;
             }
-            return Math.floor(80 + (level - 1) * 2.0 + Math.pow(level - 1, 1.12));
+            // Combines linear and exponential growth for balanced progression
+            return Math.floor(100 + level * 3.5 + Math.pow(level - 10, 1.15));
         }
 
         function getTitleForLevel(level) {
@@ -437,10 +454,26 @@
             return titles[Math.min(titleIndex, titles.length - 1)] || 'Todesgottheit';
         }
 
+        // Calculate level purely based on lifetime XP (monotonic progression)
+        function getLevelFromLifetimeXP(lifetimeXP) {
+            let lvl = 1;
+            let remaining = lifetimeXP || 0;
+            while (true) {
+                const req = getXPForLevel(lvl);
+                if (remaining < req) break;
+                remaining -= req;
+                lvl++;
+                if (lvl > 10000) break; // safety
+            }
+            return { level: lvl, xpIntoLevel: remaining };
+        }
+
         function updateXPDisplay() {
             document.getElementById('xpDisplay').textContent = STATE.xp;
             document.getElementById('levelBadge').textContent = `Level ${STATE.level}`;
-            document.getElementById('titlePlaque').textContent = getTitleForLevel(STATE.level);
+            // Title should reflect lifetime progression
+            const derived = getLevelFromLifetimeXP(STATE.lifetimeXP || 0);
+            document.getElementById('titlePlaque').textContent = getTitleForLevel(derived.level);
             saveProgress();
         }
 
@@ -912,6 +945,7 @@
                     xpGain = Math.floor(xpGain * 1.5);
                 }
                 STATE.xp += xpGain;
+                STATE.lifetimeXP += xpGain;  // Track total XP earned
                 updateXPDisplay();
                 checkLevelUp();
                 
@@ -1006,6 +1040,12 @@
         function showResults() {
             stopTimer();
             
+            // Hide timer display
+            const timerDisplay = document.getElementById('timerDisplay');
+            if (timerDisplay) {
+                timerDisplay.style.display = 'none';
+            }
+            
             const percentage = Math.round((STATE.score / STATE.currentQuestions.length) * 100);
             
             document.getElementById('scoreText').textContent = `${percentage}%`;
@@ -1016,6 +1056,7 @@
             document.getElementById('statWrong').textContent = STATE.wrongCount;
             document.getElementById('statXP').textContent = STATE.xp;
             document.getElementById('statLevel').textContent = STATE.level;
+            document.getElementById('statLifetimeXP').textContent = STATE.lifetimeXP.toLocaleString();
             
             // Update leaderboard
             updateLeaderboard();
@@ -1048,6 +1089,7 @@
                 difficulty: STATE.selectedDifficulty,
                 xp: STATE.xp,
                 level: STATE.level,
+                gameLevel: STATE.selectedLevel,
                 questionCount: STATE.currentQuestions.length,
                 timestamp: Date.now()
             };
@@ -1088,17 +1130,34 @@
                 content.innerHTML = '<div class="empty-leaderboard">Noch keine Einträge vorhanden.</div>';
                 return;
             }
-            
-            content.innerHTML = filtered.slice(0, 10).map((e, i) => `
+
+            // Helper for spiel-level mapping
+            const getGameLevelInfo = (levelKey) => {
+                const map = {
+                    'gemischt': { emoji: '⚖️', label: 'Gemischt' },
+                    'uebung': { emoji: '📝', label: 'Übung' },
+                    'vorlesung-offiziell': { emoji: '🎓', label: 'VL Offiziell' },
+                    'offiziell': { emoji: '📋', label: 'Offiziell' }
+                };
+                return map[levelKey] || { emoji: '❓', label: 'Unbekannt' };
+            };
+
+            content.innerHTML = filtered.slice(0, 10).map((e, i) => {
+                const gi = getGameLevelInfo(e.gameLevel);
+                return `
                 <div class="leaderboard-entry">
                     <span class="entry-rank">${i + 1}.</span>
                     <span class="entry-name">${e.name}</span>
+                    <span class="entry-level">
+                        <span class="entry-level-mobile" title="${gi.label}">${gi.emoji}</span>
+                        <span class="entry-level-desktop">${gi.emoji} ${gi.label}</span>
+                    </span>
                     <span class="entry-details">
                         ${e.time ? formatTime(e.time) : `${e.score}/${e.questionCount}`}
                         <br><small>${e.percentage}% • ${e.xp} XP</small>
                     </span>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
         }
 
         function displayStartLeaderboard() {
@@ -1121,17 +1180,33 @@
                 content.innerHTML = '<div class="empty-leaderboard">Noch keine Einträge vorhanden.<br>Spiele eine Runde – mit oder ohne Timer.</div>';
                 return;
             }
-            
-            content.innerHTML = filtered.slice(0, 10).map((e, i) => `
+
+            const getGameLevelInfo = (levelKey) => {
+                const map = {
+                    'gemischt': { emoji: '⚖️', label: 'Gemischt' },
+                    'uebung': { emoji: '📝', label: 'Übung' },
+                    'vorlesung-offiziell': { emoji: '🎓', label: 'VL Offiziell' },
+                    'offiziell': { emoji: '📋', label: 'Offiziell' }
+                };
+                return map[levelKey] || { emoji: '❓', label: 'Unbekannt' };
+            };
+
+            content.innerHTML = filtered.slice(0, 10).map((e, i) => {
+                const gi = getGameLevelInfo(e.gameLevel);
+                return `
                 <div class="leaderboard-entry">
                     <span class="entry-rank">${i + 1}.</span>
                     <span class="entry-name">${e.name}</span>
+                    <span class="entry-level">
+                        <span class="entry-level-mobile" title="${gi.label}">${gi.emoji}</span>
+                        <span class="entry-level-desktop">${gi.emoji} ${gi.label}</span>
+                    </span>
                     <span class="entry-details">
                         ${e.time ? formatTime(e.time) : `${e.score}/${e.questionCount}`}
                         <br><small>${e.percentage}% • ${e.xp} XP</small>
                     </span>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
         }
 
         // ============================================================================
@@ -1315,17 +1390,20 @@
             const resetBtn = document.getElementById('resetProgressBtn');
             if (resetBtn) {
                 resetBtn.addEventListener('click', function() {
-                    if (confirm('Fortschritt zurücksetzen?')) {
+                    if (confirm('Fortschritt zurücksetzen?\n\nHinweis: Dein Gesamt-XP (Lifetime Stats) bleibt erhalten.')) {
+                        // Keep lifetimeXP, only reset current progress
+                        const currentLifetimeXP = STATE.lifetimeXP;
                         STATE.xp = 0;
                         STATE.level = 1;
+                        STATE.lifetimeXP = currentLifetimeXP;  // Preserve lifetime stats
                         updateXPDisplay();
-                        localStorage.removeItem(`progress_${STATE.playerName || 'anonymous'}`);
+                        saveProgress();  // Save the reset state
                         localStorage.removeItem('playerName');
                         const nameInput = document.getElementById('playerName');
                         if (nameInput) nameInput.value = '';
                         STATE.playerName = '';
                         updateNameUI();
-                        alert('Fortschritt zurückgesetzt!');
+                        alert('Fortschritt zurückgesetzt!\n\nGesamt-XP beibehalten: ' + currentLifetimeXP + ' XP');
                     }
                 });
             }
@@ -1360,10 +1438,25 @@
 
         function setupLevelUpListener() {
             const continueBtn = document.getElementById('levelUpContinue');
-            if (continueBtn) {
-                continueBtn.addEventListener('click', function() {
-                    const overlay = document.getElementById('levelUpOverlay');
+            const overlay = document.getElementById('levelUpOverlay');
+            
+            if (continueBtn && overlay) {
+                // Remove any existing listeners to avoid duplicates
+                const newBtn = continueBtn.cloneNode(true);
+                continueBtn.parentNode.replaceChild(newBtn, continueBtn);
+                
+                // Add click listener with event delegation
+                newBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
                     overlay.classList.remove('show');
+                });
+                
+                // Also allow closing with overlay click (outside content)
+                overlay.addEventListener('click', function(e) {
+                    if (e.target === overlay) {
+                        overlay.classList.remove('show');
+                    }
                 });
             }
         }

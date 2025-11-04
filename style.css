@@ -952,6 +952,13 @@ body.level-expert {
     color: #667eea;
 }
 
+.level-up-content button {
+     position: relative;
+     z-index: 10;
+     pointer-events: auto;
+     cursor: pointer;
+}
+
 .magic-particle {
     position: fixed;
     width: 10px;
@@ -1973,6 +1980,37 @@ body.level-expert {
 .entry-name {
     flex: 1;
     margin: 0 10px;
+}
+
+.entry-level {
+    margin: 0 10px;
+    text-align: center;
+    min-width: 60px;
+}
+
+.entry-level-mobile {
+    display: none;
+    font-size: 14px;
+}
+
+.entry-level-desktop {
+    display: inline;
+    font-size: 10px;
+    color: #FFD700;
+}
+
+@media (max-width: 768px) {
+    .entry-level-mobile {
+        display: inline;
+    }
+    
+    .entry-level-desktop {
+        display: none;
+    }
+    
+    .entry-level {
+        min-width: 40px;
+    }
 }
 
 .entry-score {

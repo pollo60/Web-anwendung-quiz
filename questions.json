@@ -3635,5 +3635,640 @@
     "explanation": "Falsch. Der ApplicationContext erweitert die BeanFactory um zusätzliche Enterprise-Features wie Internationalisierung, Event-Handling, AOP-Integration und deklarative Mechanismen.",
     "xp": 10,
     "tags": ["offiziell", "woche3"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Der Model-Teil im MVC hält die Daten der Anwendung, die View generiert die Darstellung, der Controller verarbeitet eingehende HTTP-Requests.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "Wahr. MVC trennt die Anwendung in Model (Daten/Geschäftslogik), View (Darstellung) und Controller (Request-Verarbeitung und Steuerung).",
+    "xp": 10,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Rolle leitet Model-Objekte an die View weiter?",
+    "options": ["Model", "View", "Controller", "Template Engine"],
+    "correct": 2,
+    "explanation": "Der Controller verarbeitet Requests, füllt das Model mit Daten und gibt es an die View weiter zur Darstellung.",
+    "xp": 15,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Ziel des MVC-Patterns ist eine möglichst große Unabhängigkeit der Softwarekomponenten.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "Wahr. MVC trennt Darstellung, Logik und Daten, um die Komponenten voneinander unabhängig zu machen und die Wartbarkeit zu erhöhen.",
+    "xp": 10,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "In der Beispielstruktur liegen Controller-Klassen in welchem Ordner?",
+    "options": ["/service", "/controller", "/repository", "/config"],
+    "correct": 1,
+    "explanation": "Controller-Klassen befinden sich konventionsgemäß im /controller-Ordner der Package-Struktur.",
+    "xp": 10,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Aussage zu Entity-/Model-Klassen trifft zu?",
+    "options": [
+      "Müssen ein Spring-Interface implementieren",
+      "Müssen von einer Spring-Basisklasse erben",
+      "Benötigen nur einen Default-Konstruktor",
+      "Dürfen keine Felder besitzen"
+    ],
+    "correct": 2,
+    "explanation": "Entity-/Model-Klassen benötigen einen parameterlosen Default-Konstruktor für die Instanziierung durch Frameworks. Sie müssen keine Spring-spezifischen Interfaces implementieren.",
+    "xp": 15,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Das Beispiel-Repository erweitert lediglich eine HashMap als Speicher.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "Wahr. In einfachen Beispielen wird oft eine HashMap als In-Memory-Speicher verwendet, bevor eine echte Datenbank angebunden wird.",
+    "xp": 10,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Wofür steht der Ordner /config im Beispielprojekt?",
+    "options": [
+      "Thymeleaf-Vorlagen",
+      "Initiale Datenkonfiguration (InitData)",
+      "Statische Ressourcen",
+      "Datenbankmigrationen"
+    ],
+    "correct": 1,
+    "explanation": "Der /config-Ordner enthält Konfigurationsklassen wie InitData für die initiale Dateninitialisierung beim Anwendungsstart.",
+    "xp": 15,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Annotation macht eine Klasse zum Web-Controller?",
+    "options": ["@Service", "@Controller", "@Repository", "@RestClient"],
+    "correct": 1,
+    "explanation": "@Controller markiert eine Klasse als Spring MVC Controller, der HTTP-Requests verarbeitet und Views zurückgibt.",
+    "xp": 10,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Mapping-Annotation wird im Beispiel für GET auf '/add' verwendet?",
+    "options": [
+      "@Get",
+      "@GetMapping(\"/add\")",
+      "@RequestMapping(value={\"/add\"}, method=GET)",
+      "@Route(\"/add\")"
+    ],
+    "correct": 2,
+    "explanation": "@RequestMapping mit method=GET ist die klassische Form. @GetMapping ist eine kürzere Alternative für GET-Requests.",
+    "xp": 15,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Der HandlerMapping bestimmt anhand der URL den passenden Controller und die Methode.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "Wahr. Das HandlerMapping ist für das URL-Routing zuständig und findet die passende Controller-Methode für einen Request.",
+    "xp": 15,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Klasse verarbeitet eingehende Requests zentral?",
+    "options": ["ViewResolver", "DispatcherServlet", "ResourceHandler", "ModelFactory"],
+    "correct": 1,
+    "explanation": "Das DispatcherServlet ist das zentrale Front-Controller-Servlet, das alle Requests empfängt und an die passenden Handler weiterleitet.",
+    "xp": 15,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Schritte gehören zum Ablauf einer Request-Verarbeitung in Spring MVC? (Mehrfachauswahl)",
+    "options": [
+      "DispatcherServlet empfängt Request",
+      "HandlerMapping findet Controller/Methode",
+      "ViewResolver ermittelt Ressource",
+      "Model-Daten werden in Template integriert"
+    ],
+    "correct": [0, 1, 2, 3],
+    "explanation": "Alle vier Schritte sind Teil des Spring MVC Request-Flows: DispatcherServlet → HandlerMapping → Controller → ViewResolver → View-Rendering.",
+    "xp": 20,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Parameterquelle nutzt @RequestParam?",
+    "options": ["Header", "Path Variable", "Query-String/Form", "Cookie"],
+    "correct": 2,
+    "explanation": "@RequestParam bindet Parameter aus dem Query-String (URL ?key=value) oder aus Formulardaten.",
+    "xp": 15,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne URL-Bestandteile zu:",
+    "pairs": [
+      {"left": "Host", "right": "example.com"},
+      {"left": "Pfad", "right": "/path"},
+      {"left": "Query String", "right": "Teil nach '?'"},
+      {"left": "Parameter/Wert", "right": "name=value"},
+      {"left": "Mehrere Parameter", "right": "mit '&' verbinden"}
+    ],
+    "explanation": "URL-Struktur: http://host/pfad?param1=wert1&param2=wert2",
+    "xp": 20,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Im Controller kann per model.addAttribute(...) ein Objekt für die View bereitgestellt werden.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "Wahr. Mit model.addAttribute(key, value) fügt man Daten zum Model hinzu, die dann in der View verfügbar sind.",
+    "xp": 10,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was liefert die Beispielmethode add(...) zurück?",
+    "options": [
+      "Ein JSON-Objekt",
+      "Den Namen einer View (z. B. 'add.html') als String",
+      "Eine ResponseEntity",
+      "Eine Model-Instanz"
+    ],
+    "correct": 1,
+    "explanation": "Controller-Methoden geben typischerweise einen View-Namen als String zurück, den der ViewResolver zur entsprechenden Template-Datei auflöst.",
+    "xp": 15,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Thymeleaf verarbeitet Model-Daten zur Laufzeit im Template.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "Wahr. Thymeleaf ist eine serverseitige Template Engine, die zur Laufzeit Model-Daten in HTML einbettet.",
+    "xp": 10,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welches Namespace-Attribut aktiviert Thymeleaf-Attribute in HTML?",
+    "options": [
+      "xmlns:tl",
+      "xmlns:th=\"http://www.thymeleaf.org\"",
+      "xmlns:spring",
+      "th:xmlns"
+    ],
+    "correct": 1,
+    "explanation": "xmlns:th=\"http://www.thymeleaf.org\" im <html>-Tag aktiviert Thymeleaf-Syntax wie th:text, th:if etc.",
+    "xp": 15,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wo liegen dynamische HTML-Templates?",
+    "options": [
+      "src/main/resources/templates",
+      "src/main/webapp",
+      "src/main/resources/static",
+      "templates/ außerhalb von resources"
+    ],
+    "correct": 0,
+    "explanation": "Templates liegen standardmäßig in src/main/resources/templates und werden von Thymeleaf verarbeitet.",
+    "xp": 10,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wo liegen statische Ressourcen (CSS, Bilder, JS)?",
+    "options": [
+      "/public",
+      "src/main/resources/static",
+      "/templates/static",
+      "/assets/root"
+    ],
+    "correct": 1,
+    "explanation": "Statische Ressourcen wie CSS, JavaScript und Bilder liegen in src/main/resources/static.",
+    "xp": 10,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Alle Ressourcen, die Spring Boot finden soll, müssen unterhalb von /resources liegen.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "Wahr. Spring Boot sucht Ressourcen (Templates, statische Dateien, Properties) in src/main/resources und Unterordnern.",
+    "xp": 10,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welcher Thymeleaf-Ausdruck setzt Textinhalt aus dem Model?",
+    "options": ["th:if", "th:text", "th:src", "th:class"],
+    "correct": 1,
+    "explanation": "th:text=\"${variable}\" setzt den Textinhalt eines HTML-Elements mit einem Wert aus dem Model.",
+    "xp": 10,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Die Übung fordert das Starten unter http://localhost:8080/ und Analyse im Network-Tab der DevTools.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "Wahr. Die Übung verlangt praktisches Testen der Anwendung und Analyse des HTTP-Verkehrs in den Browser-DevTools.",
+    "xp": 10,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Request-Methode wird im Beispiel als erste in den DevTools analysiert?",
+    "options": ["POST", "GET", "PUT", "PATCH"],
+    "correct": 1,
+    "explanation": "GET-Requests werden typischerweise zuerst analysiert, da sie zum Abrufen von Seiten verwendet werden.",
+    "xp": 10,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Was sollst du im Network-Tab vergleichen? (Mehrfachauswahl)",
+    "options": [
+      "HTTP-Response-Status",
+      "Response-Inhalt vs. list.html",
+      "Cookies mit CSRF-Token",
+      "Request-Headers (User-Agent)"
+    ],
+    "correct": [0, 1],
+    "explanation": "Die Übung fordert den Vergleich von Status-Code und Response-Inhalt mit dem Template.",
+    "xp": 20,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welcher Pfad fügt im Beispiel einen Nutzer per GET hinzu (inkl. URL-Encoding)?",
+    "options": [
+      "/add?firstName=John&lastName=Doe&email=jd@gmx.de&password=abc",
+      "/add?firstName=John&lastName=Doe&email=jd%40gmx.de&password=abc",
+      "/add/John/Doe",
+      "/user/add?json"
+    ],
+    "correct": 1,
+    "explanation": "Das @-Zeichen wird URL-encoded als %40. Die korrekte URL ist /add?firstName=John&lastName=Doe&email=jd%40gmx.de&password=abc",
+    "xp": 20,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Die Übung fordert, den HTTP-Nachrichtenverlauf per Sequenzdiagramm zu skizzieren.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "Wahr. Sequenzdiagramme visualisieren den Ablauf von HTTP-Requests zwischen Client, Server und Komponenten.",
+    "xp": 10,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was passiert bei /add?firstName=John&lastName=Doe (fehlende Parameter)?",
+    "options": [
+      "Success-Seite",
+      "Silent-Ignore",
+      "Exception, die zentral behandelt werden kann",
+      "301 Redirect"
+    ],
+    "correct": 2,
+    "explanation": "Fehlende @RequestParam-Parameter führen zu einer MissingServletRequestParameterException, die zentral behandelt werden kann.",
+    "xp": 20,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "@ControllerAdvice ermöglicht eine globale Exception-Behandlung für alle Controller.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "Wahr. @ControllerAdvice definiert eine Klasse, die Exceptions für alle Controller zentral behandelt.",
+    "xp": 15,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Exception reicht die Methode add(...) bei fehlenden Parametern weiter?",
+    "options": [
+      "MethodArgumentNotValidException",
+      "MissingServletRequestParameterException",
+      "HttpMessageNotReadableException",
+      "IllegalArgumentException"
+    ],
+    "correct": 1,
+    "explanation": "MissingServletRequestParameterException wird geworfen, wenn ein erforderlicher @RequestParam fehlt.",
+    "xp": 20,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Annotation markiert in einem Advice die Methode, die eine bestimmte Exception verarbeitet?",
+    "options": ["@Handle", "@ExceptionHandler", "@Catch", "@OnError"],
+    "correct": 1,
+    "explanation": "@ExceptionHandler(ExceptionType.class) markiert Methoden in @ControllerAdvice zur Exception-Behandlung.",
+    "xp": 15,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welches Rückgabeobjekt wird im Beispiel zur Fehlerdarstellung verwendet?",
+    "options": [
+      "ResponseEntity<String>",
+      "ModelAndView",
+      "String (View-Name)",
+      "Optional<Model>"
+    ],
+    "correct": 1,
+    "explanation": "ModelAndView kombiniert View-Name und Model-Daten und ist ideal für Exception-Handler.",
+    "xp": 20,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche View-Datei rendert die zentrale Fehlerausgabe im Beispiel?",
+    "options": ["error.html", "support.html", "exception.html", "fault.html"],
+    "correct": 1,
+    "explanation": "Die support.html-Datei wird im Beispiel für die nutzerfreundliche Fehlerdarstellung verwendet.",
+    "xp": 15,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Der Pfad /find?id=abc provoziert ein Fehlverhalten, das analysiert und nutzerfreundlicher gemacht werden soll.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "Wahr. Die Übung verlangt die Analyse von Fehlfällen (z.B. falsches ID-Format) und deren nutzerfreundliche Behandlung.",
+    "xp": 15,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne Ordner → Zweck zu:",
+    "pairs": [
+      {"left": "controller", "right": "Nutzerschnittstelle/Controller"},
+      {"left": "model", "right": "Entity-Klassen"},
+      {"left": "repository", "right": "Zugriff auf persistente Daten"},
+      {"left": "service", "right": "Dienstlogik"},
+      {"left": "config", "right": "Initiale Datenkonfiguration"}
+    ],
+    "explanation": "Standard Spring Boot Package-Struktur trennt Verantwortlichkeiten nach Schichten.",
+    "xp": 20,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Vorteile nennt die Übung für MVC/Schichten? (Mehrfachauswahl)",
+    "options": [
+      "Trennung von Darstellung und Logik",
+      "Leichtere Änderbarkeit/Wartbarkeit",
+      "Zwang zu Monolithen",
+      "Bessere Testbarkeit"
+    ],
+    "correct": [0, 1, 3],
+    "explanation": "MVC bietet Trennung der Concerns, bessere Wartbarkeit und Testbarkeit. Es erzwingt keinen Monolithen.",
+    "xp": 20,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Datei im Template-Ordner sollst du speziell prüfen, um Model-Einbindung zu verstehen?",
+    "options": ["index.html", "add.html", "base.html", "error.html"],
+    "correct": 1,
+    "explanation": "add.html ist das Beispiel-Template, das zeigt, wie Model-Daten in Thymeleaf verwendet werden.",
+    "xp": 10,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Thymeleaf kann Variablen, Befehle und Fragmente in Templates verwenden.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "Wahr. Thymeleaf unterstützt Variablen (${...}), Befehle (th:if, th:each) und wiederverwendbare Fragmente (th:fragment).",
+    "xp": 10,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 3,
+    "type": "matching",
+    "question": "Ordne Akteur → Aufgabe im MVC-Requestflow zu:",
+    "pairs": [
+      {"left": "DispatcherServlet", "right": "empfängt Request & orchestriert"},
+      {"left": "HandlerMapping", "right": "ermittelt Ziel-Controller"},
+      {"left": "Controller", "right": "verarbeitet & füllt Model"},
+      {"left": "ViewResolver", "right": "findet Template"},
+      {"left": "View", "right": "rendert HTML mit Model"}
+    ],
+    "explanation": "Der Spring MVC Request-Flow durchläuft diese Komponenten in dieser Reihenfolge.",
+    "xp": 30,
+    "tags": ["uebung", "gemischt", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wo muss sich eine repräsentierbare Ressource befinden, damit Spring Boot sie findet?",
+    "options": [
+      "Irgendwo im Projekt",
+      "/opt/resources",
+      "Unterhalb von src/main/resources",
+      "Nur im Klassenpfad META-INF/resources"
+    ],
+    "correct": 2,
+    "explanation": "Spring Boot sucht Ressourcen standardmäßig in src/main/resources und dessen Unterordnern (static, templates, etc.).",
+    "xp": 10,
+    "tags": ["uebung", "gemischt", "woche4"]
+  }
+  ,
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Aussagen unterscheiden HTML5 von HTML4? (Mehrfachauswahl)",
+    "options": [
+      "Einfachere Doctype-Deklaration: <!DOCTYPE html>",
+      "Semantische Elemente wie <header>, <nav>, <section>, <footer>",
+      "Native Medien-Elemente (<audio>, <video>) ohne Plugins",
+      "Framesets sind die empfohlene Layout-Technik"
+    ],
+    "correct": [0, 1, 2],
+    "explanation": "HTML5 vereinfacht den Doctype, führt neue semantische Elemente ein und bringt native Audio-/Video-Tags; Framesets gelten als veraltet.",
+    "xp": 20,
+    "tags": ["woche4", "gemischt"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne typische HTML5-Boilerplate-Elemente ihrem Zweck zu:",
+    "pairs": [
+      {"left": "<!DOCTYPE html>", "right": "Aktiviert Standards-Modus/HTML5"},
+      {"left": "<meta charset=\"utf-8\">", "right": "Zeichensatz festlegen"},
+      {"left": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">", "right": "Responsive Skalierung auf Mobilgeräten"},
+      {"left": "<link rel=\"stylesheet\" href=\"style.css\">", "right": "Externe CSS-Datei einbinden"},
+      {"left": "<script defer src=\"app.js\"></script>", "right": "JavaScript nicht-blockierend laden"}
+    ],
+    "explanation": "Diese Elemente bilden die Basis einer modernen HTML5-Seite für korrekte Darstellung und Performance.",
+    "xp": 20,
+    "tags": ["woche4", "gemischt"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne Sitzungs-/Zustands-Management-Methoden ihrem Merkmal zu:",
+    "pairs": [
+      {"left": "Cookies", "right": "ID clientseitig gespeichert, an jede Anfrage gesendet"},
+      {"left": "URL-Rewriting", "right": "Session-ID in der URL (z. B. ;jsessionid=...)"},
+      {"left": "Hidden Fields", "right": "Daten nur bei Formular-Submit gesendet"},
+      {"left": "HttpSession", "right": "Serverseitiger Zustand, via Cookie/URL referenziert"},
+      {"left": "Local/SessionStorage", "right": "Persistenz im Browser, nicht automatisch an Server gesendet"}
+    ],
+    "explanation": "Web-Apps kombinieren häufig serverseitige Sessions mit clientseitigen Speichern und Cookies zur Wiedererkennung.",
+    "xp": 25,
+    "tags": ["woche4", "gemischt"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wer pflegt den aktuellen HTML-Standard (Living Standard)?",
+    "options": ["W3C", "WHATWG", "ECMA", "ISO"],
+    "correct": 1,
+    "explanation": "Die WHATWG pflegt das HTML Living Standard. Das W3C hat frühere HTML-Versionen standardisiert.",
+    "xp": 15,
+    "tags": ["woche4", "gemischt"]
+  },
+  {
+    "difficulty": 1,
+    "type": "matching",
+    "question": "Wie kann CSS eingebunden werden? Ordne Methode → Beispiel zu:",
+    "pairs": [
+      {"left": "Inline-Stile", "right": "<h1 style=\"color:red\">..."},
+      {"left": "Interne Styles", "right": "<style> h1{color:red} </style>"},
+      {"left": "Externe Datei", "right": "<link rel=\"stylesheet\" href=\"style.css\">"},
+      {"left": "@import", "right": "@import url('theme.css');"}
+    ],
+    "explanation": "CSS kann inline, im <style>-Block, per <link> oder mit @import geladen werden.",
+    "xp": 15,
+    "tags": ["woche4", "gemischt"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne Selektor-Typ → Beispiel zu:",
+    "pairs": [
+      {"left": "Typselektor", "right": "p"},
+      {"left": "Klassenselektor", "right": ".btn"},
+      {"left": "ID-Selektor", "right": "#main"},
+      {"left": "Attributselektor", "right": "input[type=\"text\"]"},
+      {"left": "Pseudoklasse", "right": "a:hover"}
+    ],
+    "explanation": "Die wichtigsten CSS-Selektoren adressieren Elemente nach Typ, Klasse, ID, Attributen oder Zustand.",
+    "xp": 20,
+    "tags": ["woche4", "gemischt"]
+  },
+  {
+    "difficulty": 1,
+    "type": "matching",
+    "question": "Ordne Box-Model-Schicht → Beschreibung zu:",
+    "pairs": [
+      {"left": "content", "right": "Eigentlicher Inhalt (z. B. Text, Bild)"},
+      {"left": "padding", "right": "Innenabstand zwischen Inhalt und Rahmen"},
+      {"left": "border", "right": "Rahmenlinie um das Element"},
+      {"left": "margin", "right": "Außenabstand zum nächsten Element"}
+    ],
+    "explanation": "Das CSS-Box-Modell besteht aus content, padding, border und margin in dieser Reihenfolge von innen nach außen.",
+    "xp": 15,
+    "tags": ["woche4", "gemischt"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Warum wird JavaScript überwiegend clientseitig eingesetzt? (Mehrfachauswahl)",
+    "options": [
+      "Interaktive UI ohne Server-Roundtrip",
+      "Direkter Zugriff auf DOM und Browser-Events",
+      "Weil Browser kein HTML rendern können",
+      "Geringere Latenz und unmittelbares Feedback"
+    ],
+    "correct": [0, 1, 3],
+    "explanation": "JS reagiert im Browser direkt auf Nutzeraktionen, manipuliert das DOM und liefert schnelles Feedback; HTML wird natürlich weiterhin nativ gerendert.",
+    "xp": 20,
+    "tags": ["woche4", "gemischt"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Typische Anwendungsfälle für JavaScript im Browser sind … (Mehrfachauswahl)",
+    "options": [
+      "Formularvalidierung im Client",
+      "DOM- und Style-Manipulation",
+      "SPA-Routing und Navigation",
+      "SSL-Verschlüsselung auf Transportebene",
+      "Asynchrone Requests per fetch/AJAX"
+    ],
+    "correct": [0, 1, 2, 4],
+    "explanation": "JavaScript validiert Formulare, steuert SPAs, manipuliert DOM/CSS und ruft Daten asynchron ab; SSL erledigt die Transportebene (TLS), nicht JS.",
+    "xp": 25,
+    "tags": ["woche4", "gemischt"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was beschreibt das Document Object Model (DOM) korrekt?",
+    "options": [
+      "Baumstruktur aus Knoten, die ein Dokument repräsentiert",
+      "JSON-Format zur Browserkonfiguration",
+      "Netzwerkprotokoll zur Datenübertragung",
+      "CSS-Spezifikation für Layout"
+    ],
+    "correct": 0,
+    "explanation": "Das DOM bildet HTML/XML als Baum von Knoten ab, den Skripte lesen und verändern können.",
+    "xp": 15,
+    "tags": ["woche4", "gemischt"]
   }
 ]
