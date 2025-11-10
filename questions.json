@@ -4276,4 +4276,366 @@
     "xp": 15,
   "tags": ["woche4", "gemischt", "vl-offiziell"]
   }
+  ,
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Das MVC-Pattern fördert lose Kopplung zwischen Komponenten.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "Durch Trennung von Model, View und Controller entsteht geringere Abhängigkeit zwischen Schichten.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Annotation wird für HTTP Request Mappings verwendet?",
+    "options": ["@Service", "@ModelAttribute", "@RequestMapping", "@ControllerAdvice"],
+    "correct": 2,
+    "explanation": "@RequestMapping (bzw. @GetMapping/@PostMapping etc.) verknüpft URL-Pfade mit Controller-Methoden.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "@ExceptionHandler in Kombination mit @ControllerAdvice ermöglicht zentrale Behandlung einer Exception.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "@ControllerAdvice + @ExceptionHandler erlaubt globale Fehlerbehandlung für definierte Exception-Typen.",
+    "xp": 15,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was passiert, wenn eine HTTP-Anfrage mit fehlenden Parametern gesendet wird?",
+    "options": [
+      "Server ignoriert die Anfrage",
+      "Controller erstellt Parameter automatisch",
+      "Anfrage wird normal verarbeitet",
+      "MissingServletRequestParameterException wird ausgelöst"
+    ],
+    "correct": 3,
+    "explanation": "Fehlende Pflicht-Parameter führen zu MissingServletRequestParameterException.",
+    "xp": 15,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Die View leitet Model-Daten an den Controller weiter, um eine dynamische Anzeige zu generieren.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "Controller stellt Model bereit → View rendert; nicht umgekehrt.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Im Beispiel /add?firstName=Celine&lastName=Clever ist lastName der Name eines Parameters.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "Query-String Parameter: firstName, lastName.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne MVC-Komponente → Beschreibung zu:",
+    "pairs": [
+      {"left": "Model", "right": "Enthält Daten und Geschäftslogik"},
+      {"left": "View", "right": "Darstellung für den Benutzer"},
+      {"left": "Controller", "right": "Verarbeitet Anfragen und verbindet Model & View"}
+    ],
+    "explanation": "Standard-Zuordnung des MVC-Patterns.",
+    "xp": 15,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welches Muster trennt Daten, Logik und Darstellung?",
+    "options": ["Singleton", "MVC", "Factory", "Decorator"],
+    "correct": 1,
+    "explanation": "MVC = Model, View, Controller.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was passiert, wenn ein Parameter in einer HTTP-Anfrage fehlt?",
+    "options": ["Automatische Ergänzung", "Ignorieren", "Normal verarbeitet", "MissingServletRequestParameterException"],
+    "correct": 3,
+    "explanation": "Fehlende Pflicht-Parameter → MissingServletRequestParameterException.",
+    "xp": 15,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Komponente löst den View-Namen auf und sucht passende Ressource?",
+    "options": ["Controller", "ViewResolver", "DispatcherServlet", "TemplateEngine"],
+    "correct": 1,
+    "explanation": "ViewResolver mappt View-Namen zu Templates.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Annotation wird verwendet, um Exception-Handler global bereitzustellen?",
+    "options": ["@RestController", "@ControllerAdvice", "@ResponseStatus", "@ExceptionHandler"],
+    "correct": 1,
+    "explanation": "@ControllerAdvice erlaubt globale ExceptionHandler.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Annotation markiert eine Methode, die Exceptions behandelt?",
+    "options": ["@ExceptionHandler", "@Handle", "@Catch", "@ErrorMapping"],
+    "correct": 0,
+    "explanation": "@ExceptionHandler deklariert einen speziellen Exception-Handler.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was passiert mit einer Anfrage ohne passende Controller-Methode?",
+    "options": ["500 Fehler", "302 Redirect", "404 Fehler", "204 Leerantwort"],
+    "correct": 2,
+    "explanation": "Kein Mapping → 404 Not Found.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Annotation dient der Darstellung von Views in Spring Boot?",
+    "options": ["@Controller", "@Service", "@Repository", "@Component"],
+    "correct": 0,
+    "explanation": "@Controller kennzeichnet eine MVC-Controller-Klasse.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Annotation wird verwendet, um Controller-Methoden mit URL-Pfaden zu verbinden?",
+    "options": ["@RequestMapping", "@Autowired", "@Qualifier", "@Resource"],
+    "correct": 0,
+    "explanation": "@RequestMapping und Spezialisierungen verknüpfen Pfade.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist die Hauptaufgabe des Controllers im MVC-Muster?",
+    "options": ["Datenhaltung", "Rendering", "Verarbeitung von Anfragen und Übergabe der Daten an die View", "Persistenz-Schicht verwalten"],
+    "correct": 2,
+    "explanation": "Controller vermittelt zwischen Anfrage und Darstellung.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist die Hauptaufgabe des Models im MVC-Muster?",
+    "options": ["HTML erzeugen", "Geschäftslogik & Daten verwalten", "Routing", "Styling"],
+    "correct": 1,
+    "explanation": "Model kapselt Daten und Logik.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist die Hauptaufgabe der View im MVC-Muster?",
+    "options": ["Business-Logik", "Persistenz", "Darstellung der Daten", "Request-Routing"],
+    "correct": 2,
+    "explanation": "View rendert Inhalte für den Benutzer.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Annotation verbindet HTTP-Parameter mit Methodenparametern?",
+    "options": ["@RequestParam", "@PathVariable", "@Param", "@BindParam"],
+    "correct": 0,
+    "explanation": "@RequestParam bindet Query-Parameter an Signaturen.",
+    "xp": 15,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Spring-Komponente ist für das Rendern von HTML-Seiten zuständig?",
+    "options": ["Model", "View", "Controller", "HandlerMapping"],
+    "correct": 1,
+    "explanation": "Die View generiert die Ausgabe.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "sort",
+    "question": "In welcher Reihenfolge erfolgt die Verarbeitung eines HTTP-Requests im MVC-Framework?",
+    "items": ["Client", "DispatcherServlet", "Controller", "Model", "ViewResolver", "View", "Client"],
+    "correct": ["Client", "DispatcherServlet", "Controller", "Model", "ViewResolver", "View", "Client"],
+    "explanation": "Standardfluss einer Anfrage.",
+    "xp": 15,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welcher Vorteil ergibt sich durch das MVC-Muster?",
+    "options": ["Höhere Kopplung", "Bessere Wartbarkeit durch klare Trennung", "Mehr Serverlast", "Weniger Modularität"],
+    "correct": 1,
+    "explanation": "Trennung erhöht Wartbarkeit und Testbarkeit.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Datei-Struktur nutzt Spring Boot für statische Ressourcen wie CSS oder JS?",
+    "options": ["/src/main/resources/templates", "/src/main/resources/static", "/static/assets", "/public"],
+    "correct": 1,
+    "explanation": "Statische Ressourcen liegen unter /src/main/resources/static.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wie werden dynamische Werte aus dem Model in Thymeleaf angezeigt?",
+    "options": ["th:attr", "th:text", "th:model", "th:data"],
+    "correct": 1,
+    "explanation": "th:text bindet einen Model-Wert als Textinhalt.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welches Verhalten zeigt Spring Boot, wenn eine Exception nicht abgefangen wird?",
+    "options": ["Server stoppt", "Standard-Error-Controller zeigt Fehlerseite", "Silent Ignoring", "Automatische Wiederholung"],
+    "correct": 1,
+    "explanation": "Unbehandelte Exceptions landen beim ErrorController.",
+    "xp": 15,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Methode ruft das DispatcherServlet nach der Auflösung des Controllers auf?",
+    "options": ["Init-Methode", "Passende Handler-Methode gemäß Mapping", "Destroy-Methode", "Filter-Kette"],
+    "correct": 1,
+    "explanation": "Die gemappte Controller-Methode wird ausgeführt.",
+    "xp": 15,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Komponente übernimmt das Mapping zwischen URL und Controller-Methode?",
+    "options": ["HandlerMapping", "ViewResolver", "BeanFactory", "ErrorController"],
+    "correct": 0,
+    "explanation": "HandlerMapping bestimmt die Zielmethode.",
+    "xp": 15,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Wofür wird @ModelAttribute verwendet?",
+    "options": ["Logging aktivieren", "Model-Daten binden oder bereitstellen", "Validierung erzwingen", "Bean registrieren"],
+    "correct": 1,
+    "explanation": "@ModelAttribute bindet Formular-/Request-Daten und stellt sie der View bereit.",
+    "xp": 15,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was passiert, wenn ein Controller eine View zurückgibt, aber kein Model bereitstellt?",
+    "options": ["Fehler 500", "Leere View ohne dynamische Daten", "Automatische Dummy-Daten", "Endlosschleife"],
+    "correct": 1,
+    "explanation": "Ohne Model-Inhalte wird nur statisches Template gerendert.",
+    "xp": 15,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Spring-Annotation markiert eine Klasse als Controller, der direkt JSON-Objekte zurückgibt?",
+    "options": ["@RestController", "@JsonController", "@ControllerJSON", "@ResponseController"],
+    "correct": 0,
+    "explanation": "@RestController kombiniert @Controller + @ResponseBody.",
+    "xp": 15,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Schicht enthält in der Regel die Geschäftslogik?",
+    "options": ["View", "Model", "DispatcherServlet", "Templating"],
+    "correct": 1,
+    "explanation": "Daten + Logik liegen im Model/Service-Layer.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welcher Vorteil ergibt sich aus @ControllerAdvice und @ExceptionHandler?",
+    "options": ["Mehr Kopplung", "Zentrale einheitliche Fehlerbehandlung", "Automatisches Logging deaktivieren", "Performance-Optimierung"],
+    "correct": 1,
+    "explanation": "Globale Fehlerlogik statt duplizierter Handler pro Controller.",
+    "xp": 15,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist der Zweck der Annotation @Service?",
+    "options": ["Templating", "Markiert Geschäftslogik-Komponente", "Routing", "Static Binding"],
+    "correct": 1,
+    "explanation": "@Service kennzeichnet eine Service-Klasse (Business-Logik).",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Wie nennt man den Mechanismus, der View-Namen in Dateien wie HTML oder JSP auflöst?",
+    "options": ["ViewResolver", "ViewEngine", "TemplateScanner", "NameMapper"],
+    "correct": 0,
+    "explanation": "Der ViewResolver sucht das passende Template.",
+    "xp": 15,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne MVC Ablauf: Komponente → Aufgabe",
+    "pairs": [
+      {"left": "Controller", "right": "Nimmt HTTP-Requests entgegen"},
+      {"left": "Model", "right": "Speichert Daten und Logik"},
+      {"left": "View", "right": "Rendert HTML-Ausgabe"}
+    ],
+    "explanation": "Grundlegende Verantwortlichkeiten der MVC-Schichten.",
+    "xp": 15,
+    "tags": ["offiziell", "woche4"]
+  }
 ]
