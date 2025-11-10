@@ -696,7 +696,7 @@
       "WARN",
       "ERROR"
     ],
-    "explanation": "Die Log-Level von niedrigster zu höchster Priorität: TRACE (am detailliertesten) → DEBUG → INFO → WARN → ERROR (kritischste Fehler).",
+  "explanation": "Die Log-Level von niedrigster zu höchster Priorität: TRACE (am detailliertesten) → DEBUG → INFO → WARN → ERROR (kritischste Fehler).\n✅ TRACE → DEBUG → INFO → WARN → ERROR",
     "xp": 25,
     "tags": [
       "uebung"
@@ -746,7 +746,7 @@
       "Anwendungslogik-Schicht",
       "Datenhaltungsschicht"
     ],
-    "explanation": "3-Tier-Architektur von oben: Präsentationsschicht (UI) → Anwendungslogik (Business Logic) → Datenhaltung (Datenbank).",
+  "explanation": "3-Tier-Architektur von oben: Präsentationsschicht (UI) → Anwendungslogik (Business Logic) → Datenhaltung (Datenbank).\n✅ Präsentationsschicht → Anwendungslogik-Schicht → Datenhaltungsschicht",
     "xp": 30,
     "tags": [
       "uebung"
@@ -897,7 +897,7 @@
       "Verifizierung",
       "Installation"
     ],
-    "explanation": "Maven Build-Zyklus: Validierung → Kompilierung → Testen → Paketieren → Integrationstests → Verifizierung → Installation → Verteilung.",
+  "explanation": "Maven Build-Zyklus: Validierung → Kompilierung → Testen → Paketieren → Verifizierung → Installation (Items-Reihenfolge; Integrationstests & Verteilung sind optionale weitere Phasen).\n✅ Validierung → Kompilierung → Testen → Paketieren → Verifizierung → Installation",
     "xp": 40,
     "tags": [
       "uebung"
@@ -1470,7 +1470,7 @@
       "HTTP/2",
       "HTTP/3"
     ],
-    "explanation": "HTTP-Versionen chronologisch: HTTP/1.0 (1996) → HTTP/1.1 (1997, Keep-Alive) → HTTP/2 (2015, Multiplexing) → HTTP/3 (2022, QUIC/UDP).",
+  "explanation": "HTTP-Versionen chronologisch: HTTP/1.0 (1996) → HTTP/1.1 (1997, Keep-Alive) → HTTP/2 (2015, Multiplexing) → HTTP/3 (2022, QUIC/UDP).\n✅ HTTP/1.0 → HTTP/1.1 → HTTP/2 → HTTP/3",
     "xp": 30,
     "tags": [
       "neue-vorlesung"
@@ -2837,7 +2837,7 @@
       "Datenbankserver liefert Daten",
       "Antwort wird über Web-Server an den Browser zurückgegeben"
     ],
-    "explanation": "Typischer Request-Flow: 1) Browser sendet Request, 2) Web-Server empfängt, 3) Anwendungsserver verarbeitet Business Logic, 4) Datenbank liefert Daten, 5) Response zurück an Browser.",
+  "explanation": "Typischer Request-Flow: 1) Browser sendet Request, 2) Web-Server empfängt, 3) Anwendungsserver verarbeitet Business Logic, 4) Datenbank liefert Daten, 5) Response zurück an Browser.\n✅ Browser stellt Anfrage → Web-Server/Präsentationsschicht nimmt Request an und leitet weiter → Anwendungsserver führt Geschäftslogik aus → Datenbankserver liefert Daten → Antwort wird über Web-Server an den Browser zurückgegeben",
     "xp": 25,
     "tags": [
       "woche3"
@@ -3187,7 +3187,7 @@
       "Setter Injection",
       "Constructor Injection (bei vielen Dependencies)"
     ],
-    "explanation": "Field Injection erfordert am wenigsten Code (nur @Autowired am Feld), Setter Injection braucht Setter-Methoden, Constructor Injection erfordert den meisten Code bei vielen Abhängigkeiten (alle Parameter im Konstruktor).",
+  "explanation": "Field Injection erfordert am wenigsten Code (nur @Autowired am Feld), Setter Injection braucht Setter-Methoden, Constructor Injection erfordert den meisten Code bei vielen Abhängigkeiten (alle Parameter im Konstruktor).\n✅ Field Injection → Setter Injection → Constructor Injection (bei vielen Dependencies)",
     "xp": 20,
     "tags": [
       "uebung",
@@ -4491,7 +4491,7 @@
     "question": "In welcher Reihenfolge erfolgt die Verarbeitung eines HTTP-Requests im MVC-Framework?",
     "items": ["Client", "DispatcherServlet", "Controller", "Model", "ViewResolver", "View", "Client"],
     "correct": ["Client", "DispatcherServlet", "Controller", "Model", "ViewResolver", "View", "Client"],
-    "explanation": "Standardfluss einer Anfrage.",
+    "explanation": "Standardfluss einer Anfrage.\n✅ Client → DispatcherServlet → Controller → Model → ViewResolver → View → Client",
     "xp": 15,
     "tags": ["offiziell", "woche4"]
   },
