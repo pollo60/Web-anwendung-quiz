@@ -51,12 +51,12 @@
     "type": "multiple",
     "question": "Was ist das Hauptziel des MVC-Entwurfsmusters?",
     "options": [
-      "Die Beschleunigung der Web-Entwicklung",
       "Die Trennung von Präsentation, Logik und Daten",
+      "Die Beschleunigung der Web-Entwicklung",
       "Die Verbesserung der Sicherheit",
       "Die Integration von Datenbanken"
     ],
-    "correct": 1,
+    "correct": 0,
     "explanation": "MVC sorgt für klare Trennung: Model (Daten/Logik), View (Darstellung), Controller (Steuerung).",
     "xp": 15,
     "tags": ["offiziell", "woche4"]
@@ -4479,8 +4479,8 @@
     "difficulty": 1,
     "type": "multiple",
     "question": "Welches Muster trennt Daten, Logik und Darstellung?",
-    "options": ["Singleton", "MVC", "Factory", "Decorator"],
-    "correct": 1,
+    "options": ["MVC", "Singleton", "Factory", "Decorator"],
+    "correct": 0,
     "explanation": "MVC = Model, View, Controller.",
     "xp": 10,
     "tags": ["offiziell", "woche4"]
@@ -4499,8 +4499,8 @@
     "difficulty": 1,
     "type": "multiple",
     "question": "Welche Komponente löst den View-Namen auf und sucht passende Ressource?",
-    "options": ["Controller", "ViewResolver", "DispatcherServlet", "TemplateEngine"],
-    "correct": 1,
+    "options": ["ViewResolver", "Controller", "DispatcherServlet", "TemplateEngine"],
+    "correct": 0,
     "explanation": "ViewResolver mappt View-Namen zu Templates.",
     "xp": 10,
     "tags": ["offiziell", "woche4"]
@@ -4509,8 +4509,8 @@
     "difficulty": 1,
     "type": "multiple",
     "question": "Welche Annotation wird verwendet, um Exception-Handler global bereitzustellen?",
-    "options": ["@RestController", "@ControllerAdvice", "@ResponseStatus", "@ExceptionHandler"],
-    "correct": 1,
+    "options": ["@ControllerAdvice", "@RestController", "@ResponseStatus", "@ExceptionHandler"],
+    "correct": 0,
     "explanation": "@ControllerAdvice erlaubt globale ExceptionHandler.",
     "xp": 10,
     "tags": ["offiziell", "woche4"]
@@ -4529,8 +4529,8 @@
     "difficulty": 1,
     "type": "multiple",
     "question": "Was passiert mit einer Anfrage ohne passende Controller-Methode?",
-    "options": ["500 Fehler", "302 Redirect", "404 Fehler", "204 Leerantwort"],
-    "correct": 2,
+    "options": ["404 Fehler", "500 Fehler", "302 Redirect", "204 Leerantwort"],
+    "correct": 0,
     "explanation": "Kein Mapping → 404 Not Found.",
     "xp": 10,
     "tags": ["offiziell", "woche4"]
@@ -4569,8 +4569,8 @@
     "difficulty": 1,
     "type": "multiple",
     "question": "Was ist die Hauptaufgabe des Models im MVC-Muster?",
-    "options": ["HTML erzeugen", "Geschäftslogik & Daten verwalten", "Routing", "Styling"],
-    "correct": 1,
+    "options": ["Geschäftslogik & Daten verwalten", "HTML erzeugen", "Routing", "Styling"],
+    "correct": 0,
     "explanation": "Model kapselt Daten und Logik.",
     "xp": 10,
     "tags": ["offiziell", "woche4"]
@@ -4579,8 +4579,8 @@
     "difficulty": 1,
     "type": "multiple",
     "question": "Was ist die Hauptaufgabe der View im MVC-Muster?",
-    "options": ["Business-Logik", "Persistenz", "Darstellung der Daten", "Request-Routing"],
-    "correct": 2,
+    "options": ["Darstellung der Daten", "Business-Logik", "Persistenz", "Request-Routing"],
+    "correct": 0,
     "explanation": "View rendert Inhalte für den Benutzer.",
     "xp": 10,
     "tags": ["offiziell", "woche4"]
@@ -4599,8 +4599,8 @@
     "difficulty": 1,
     "type": "multiple",
     "question": "Welche Spring-Komponente ist für das Rendern von HTML-Seiten zuständig?",
-    "options": ["Model", "View", "Controller", "HandlerMapping"],
-    "correct": 1,
+    "options": ["View", "Model", "Controller", "HandlerMapping"],
+    "correct": 0,
     "explanation": "Die View generiert die Ausgabe.",
     "xp": 10,
     "tags": ["offiziell", "woche4"]
@@ -4619,8 +4619,8 @@
     "difficulty": 1,
     "type": "multiple",
     "question": "Welcher Vorteil ergibt sich durch das MVC-Muster?",
-    "options": ["Höhere Kopplung", "Bessere Wartbarkeit durch klare Trennung", "Mehr Serverlast", "Weniger Modularität"],
-    "correct": 1,
+    "options": ["Bessere Wartbarkeit durch klare Trennung", "Höhere Kopplung", "Mehr Serverlast", "Weniger Modularität"],
+    "correct": 0,
     "explanation": "Trennung erhöht Wartbarkeit und Testbarkeit.",
     "xp": 10,
     "tags": ["offiziell", "woche4"]
@@ -4629,8 +4629,8 @@
     "difficulty": 1,
     "type": "multiple",
     "question": "Welche Datei-Struktur nutzt Spring Boot für statische Ressourcen wie CSS oder JS?",
-    "options": ["/src/main/resources/templates", "/src/main/resources/static", "/static/assets", "/public"],
-    "correct": 1,
+    "options": ["/src/main/resources/static", "/src/main/resources/templates", "/static/assets", "/public"],
+    "correct": 0,
     "explanation": "Statische Ressourcen liegen unter /src/main/resources/static.",
     "xp": 10,
     "tags": ["offiziell", "woche4"]
@@ -4639,8 +4639,8 @@
     "difficulty": 1,
     "type": "multiple",
     "question": "Wie werden dynamische Werte aus dem Model in Thymeleaf angezeigt?",
-    "options": ["th:attr", "th:text", "th:model", "th:data"],
-    "correct": 1,
+    "options": ["th:text", "th:attr", "th:model", "th:data"],
+    "correct": 0,
     "explanation": "th:text bindet einen Model-Wert als Textinhalt.",
     "xp": 10,
     "tags": ["offiziell", "woche4"]
@@ -4649,8 +4649,8 @@
     "difficulty": 2,
     "type": "multiple",
     "question": "Welches Verhalten zeigt Spring Boot, wenn eine Exception nicht abgefangen wird?",
-    "options": ["Server stoppt", "Standard-Error-Controller zeigt Fehlerseite", "Silent Ignoring", "Automatische Wiederholung"],
-    "correct": 1,
+    "options": ["Standard-Error-Controller zeigt Fehlerseite", "Server stoppt", "Silent Ignoring", "Automatische Wiederholung"],
+    "correct": 0,
     "explanation": "Unbehandelte Exceptions landen beim ErrorController.",
     "xp": 15,
     "tags": ["offiziell", "woche4"]
@@ -4659,8 +4659,8 @@
     "difficulty": 2,
     "type": "multiple",
     "question": "Welche Methode ruft das DispatcherServlet nach der Auflösung des Controllers auf?",
-    "options": ["Init-Methode", "Passende Handler-Methode gemäß Mapping", "Destroy-Methode", "Filter-Kette"],
-    "correct": 1,
+    "options": ["Passende Handler-Methode gemäß Mapping", "Init-Methode", "Destroy-Methode", "Filter-Kette"],
+    "correct": 0,
     "explanation": "Die gemappte Controller-Methode wird ausgeführt.",
     "xp": 15,
     "tags": ["offiziell", "woche4"]
@@ -4679,8 +4679,8 @@
     "difficulty": 2,
     "type": "multiple",
     "question": "Wofür wird @ModelAttribute verwendet?",
-    "options": ["Logging aktivieren", "Model-Daten binden oder bereitstellen", "Validierung erzwingen", "Bean registrieren"],
-    "correct": 1,
+    "options": ["Model-Daten binden oder bereitstellen", "Logging aktivieren", "Validierung erzwingen", "Bean registrieren"],
+    "correct": 0,
     "explanation": "@ModelAttribute bindet Formular-/Request-Daten und stellt sie der View bereit.",
     "xp": 15,
     "tags": ["offiziell", "woche4"]
@@ -4689,8 +4689,8 @@
     "difficulty": 2,
     "type": "multiple",
     "question": "Was passiert, wenn ein Controller eine View zurückgibt, aber kein Model bereitstellt?",
-    "options": ["Fehler 500", "Leere View ohne dynamische Daten", "Automatische Dummy-Daten", "Endlosschleife"],
-    "correct": 1,
+    "options": ["Leere View ohne dynamische Daten", "Fehler 500", "Automatische Dummy-Daten", "Endlosschleife"],
+    "correct": 0,
     "explanation": "Ohne Model-Inhalte wird nur statisches Template gerendert.",
     "xp": 15,
     "tags": ["offiziell", "woche4"]
@@ -4709,8 +4709,8 @@
     "difficulty": 1,
     "type": "multiple",
     "question": "Welche Schicht enthält in der Regel die Geschäftslogik?",
-    "options": ["View", "Model", "DispatcherServlet", "Templating"],
-    "correct": 1,
+    "options": ["Model", "View", "DispatcherServlet", "Templating"],
+    "correct": 0,
     "explanation": "Daten + Logik liegen im Model/Service-Layer.",
     "xp": 10,
     "tags": ["offiziell", "woche4"]
@@ -4719,8 +4719,8 @@
     "difficulty": 2,
     "type": "multiple",
     "question": "Welcher Vorteil ergibt sich aus @ControllerAdvice und @ExceptionHandler?",
-    "options": ["Mehr Kopplung", "Zentrale einheitliche Fehlerbehandlung", "Automatisches Logging deaktivieren", "Performance-Optimierung"],
-    "correct": 1,
+    "options": ["Zentrale einheitliche Fehlerbehandlung", "Mehr Kopplung", "Automatisches Logging deaktivieren", "Performance-Optimierung"],
+    "correct": 0,
     "explanation": "Globale Fehlerlogik statt duplizierter Handler pro Controller.",
     "xp": 15,
     "tags": ["offiziell", "woche4"]
@@ -4729,8 +4729,8 @@
     "difficulty": 1,
     "type": "multiple",
     "question": "Was ist der Zweck der Annotation @Service?",
-    "options": ["Templating", "Markiert Geschäftslogik-Komponente", "Routing", "Static Binding"],
-    "correct": 1,
+    "options": ["Markiert Geschäftslogik-Komponente", "Templating", "Routing", "Static Binding"],
+    "correct": 0,
     "explanation": "@Service kennzeichnet eine Service-Klasse (Business-Logik).",
     "xp": 10,
     "tags": ["offiziell", "woche4"]
@@ -4776,6 +4776,56 @@
     "options": ["Wahr", "Falsch"],
     "correct": 0,
     "explanation": "example.com = Second-Level-Domain 'example' + Top-Level-Domain '.com'; Subdomain optional (z.B. www.example.com).",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welches Attribut in Thymeleaf wird verwendet, um dynamische Daten darzustellen?",
+    "options": ["th:src", "th:text", "th:class", "th:each"],
+    "correct": 1,
+    "explanation": "th:text=\"${variable}\" zeigt dynamische Daten aus dem Model im HTML-Element an.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Die Trennung von Model, View und Controller erleichtert die Wartung der Anwendung.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "Klare Trennung sorgt für bessere Testbarkeit, Wiederverwendbarkeit und Wartbarkeit.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Klasse ist für die Verarbeitung von Ausnahmen in der gesamten Anwendung zuständig?",
+    "options": ["ExceptionManager", "GlobalExceptionHandler", "ErrorService", "FaultController"],
+    "correct": 1,
+    "explanation": "GlobalExceptionHandler (oder ähnliche Klasse mit @ControllerAdvice) behandelt zentral Exceptions.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "HTML-Dateien für dynamische Inhalte müssen im Ordner /templates gespeichert werden.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "Thymeleaf-Templates (dynamische Views) liegen unter src/main/resources/templates.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Rolle übernimmt der Controller im MVC-Entwurfsmuster?",
+    "options": ["Daten speichern", "Anfragen verarbeiten und Daten an die View weiterleiten", "HTML rendern", "Datenbank verwalten"],
+    "correct": 1,
+    "explanation": "Controller nimmt Request entgegen, verarbeitet ihn (ggf. mit Model) und leitet Daten an View weiter.",
     "xp": 10,
     "tags": ["offiziell", "woche4"]
   }
