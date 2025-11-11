@@ -181,6 +181,11 @@
                         <div class="stat-value" id="statWrong">0</div>
                         <div class="stat-label">Falsch</div>
                     </div>
+                    <!-- Time taken (only shown for Timer/Speedrun mode) -->
+                    <div class="stat-card" id="statTimeCard" style="display:none;">
+                        <div class="stat-value" id="statTime">00:00</div>
+                        <div class="stat-label">Zeit gebraucht</div>
+                    </div>
                     <div class="stat-card">
                         <div class="stat-value" id="statXP">0</div>
                         <div class="stat-label">XP Gewonnen</div>
@@ -1260,12 +1265,27 @@
             document.getElementById('statXP').textContent = STATE.xp;
             document.getElementById('statLevel').textContent = STATE.level;
             document.getElementById('statLifetimeXP').textContent = STATE.lifetimeXP.toLocaleString();
+            // Show time if speedrun active
+            const timeCard = document.getElementById('statTimeCard');
+            if (STATE.activeModifiers.includes('speedrun')) {
+                const elapsed = (STATE.currentTime - STATE.startTime);
+                const formatted = formatTime(elapsed);
+                const statTime = document.getElementById('statTime');
+                if (statTime) statTime.textContent = formatted;
+                if (timeCard) timeCard.style.display = 'block';
+            } else if (timeCard) {
+                timeCard.style.display = 'none';
+            }
             
             // Update leaderboard
             updateLeaderboard();
             
             // WhatsApp share
-            const shareText = `Ich habe ${percentage}% im Web-Quiz erreicht! 🎉 ${STATE.score}/${STATE.currentQuestions.length} Fragen richtig.`;
+            let shareText = `Ich habe ${percentage}% im Web-Quiz erreicht! 🎉 ${STATE.score}/${STATE.currentQuestions.length} Fragen richtig.`;
+            if (STATE.activeModifiers.includes('speedrun')) {
+                const elapsed = (STATE.currentTime - STATE.startTime);
+                shareText += ` Zeit: ${formatTime(elapsed)}`;
+            }
             document.getElementById('whatsappShareBtn').href = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
             
             showScreen('resultScreen');
