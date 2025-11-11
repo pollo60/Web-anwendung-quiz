@@ -17,6 +17,126 @@
     ]
   },
   {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Im Beispiel wird bei einer fehlenden URL-Parameterangabe (MissingServletRequestParameterException) automatisch support.html als View zurückgegeben.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "Beispiel-Handler gibt bei MissingServletRequestParameterException die View support.html zurück (ModelAndView mit View-Namen).",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Der Controller leitet Model-Daten an die View weiter, um eine dynamische Anzeige zu generieren.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "Controller füllt Model → View rendert dynamisch daraus.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Fehlende Parameter in HTTP-Anfragen führen immer zu einem Server-Absturz.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "Fehlende Pflicht-Parameter erzeugen Exceptions (z.B. MissingServletRequestParameterException), kein Absturz – Handler möglich.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist das Hauptziel des MVC-Entwurfsmusters?",
+    "options": [
+      "Die Beschleunigung der Web-Entwicklung",
+      "Die Trennung von Präsentation, Logik und Daten",
+      "Die Verbesserung der Sicherheit",
+      "Die Integration von Datenbanken"
+    ],
+    "correct": 1,
+    "explanation": "MVC sorgt für klare Trennung: Model (Daten/Logik), View (Darstellung), Controller (Steuerung).",
+    "xp": 15,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Das DispatcherServlet leitet Anfragen an den passenden Controller weiter.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "DispatcherServlet = Front Controller: empfängt Request, delegiert an passenden Handler.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Thymeleaf benötigt zwingend die Annotation @ThymeleafEnabled.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "Es existiert keine Annotation @ThymeleafEnabled; Spring Boot autokonfiguriert Thymeleaf über Starter.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Der Query String beginnt immer nach dem ersten Gleichheitszeichen in der URL.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "Der Query-String beginnt nach '?' und enthält key=value Paare; '=' trennt Schlüssel und Wert.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Eine MissingServletRequestParameterException tritt nur dann auf, wenn alle URL-Parameter fehlen.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "Sie tritt auf, wenn EIN erforderlicher Parameter fehlt – nicht alle müssen fehlen.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Im MVC-Pattern speichert der Controller die Anwendungsdaten.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "Kontroller steuert Fluss; Daten & Logik liegen im Model.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welcher Ordner enthält statische Ressourcen wie CSS- und JavaScript-Dateien in Spring Boot?",
+    "options": [
+      "/resources/views",
+      "/src/main/resources/templates",
+      "/static/resources",
+      "/src/main/resources/static"
+    ],
+    "correct": 3,
+    "explanation": "Statische Dateien liegen unter src/main/resources/static (nicht templates).",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "@ControllerAdvice kann mehrere unterschiedliche Exceptions behandeln, nicht nur eine einzige.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "@ControllerAdvice + mehrere @ExceptionHandler Methoden für verschiedene Exception-Typen.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
     "difficulty": 2,
     "type": "multiple",
     "question": "Was ist die Funktion der Annotation @Autowired?",
@@ -4636,6 +4756,27 @@
     ],
     "explanation": "Grundlegende Verantwortlichkeiten der MVC-Schichten.",
     "xp": 15,
+    "tags": ["offiziell", "woche4"]
+  }
+  ,
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Das Model enthält die Logik zur Anzeige der Daten.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "Anzeige (Rendering) gehört zur View; Model hält Daten & Geschäftslogik, nicht die Präsentationslogik.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Der Hostname example.com besteht aus einer Top-Level-Domain, einer Second-Level-Domain und ggf. einer Subdomain.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "example.com = Second-Level-Domain 'example' + Top-Level-Domain '.com'; Subdomain optional (z.B. www.example.com).",
+    "xp": 10,
     "tags": ["offiziell", "woche4"]
   }
 ]
