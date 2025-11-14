@@ -4828,5 +4828,389 @@
     "explanation": "✅ Richtig: Anfragen verarbeiten und Daten an die View weiterleiten – Der Controller nimmt Requests entgegen, verarbeitet sie (ggf. mit Model) und leitet die Daten an die View weiter.",
     "xp": 10,
     "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was beschreibt REST im Kern?",
+    "options": [
+      "Ein Protokoll zur Datenbankkommunikation",
+      "Ein Architekturstil für verteilte Systeme",
+      "Ein Messaging-Framework",
+      "Eine serverseitige Template-Engine"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: REST ist ein Architekturstil für verteilte Systeme und definiert Prinzipien wie Ressourcenorientierung, standardisierte HTTP-Methoden und Hypermedia-Navigation.",
+    "xp": 12,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Aussage beschreibt eine Ressource korrekt?",
+    "options": [
+      "Ressourcen bestehen immer aus JSON",
+      "Alles, was eindeutig adressierbar ist, kann eine Ressource sein",
+      "Ressourcen sind nur Dateien",
+      "Ressourcen können keine Listen sein"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Jede eindeutig adressierbare Entität – Dokument, Sammlung, Ergebnisliste – kann eine Ressource sein, unabhängig vom Format.",
+    "xp": 12,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "fillblank",
+    "question": "Eine REST-Ressource wird eindeutig über eine _____ adressiert.",
+    "blanks": ["URI"],
+    "explanation": "✅ Richtig: URIs (Uniform Resource Identifier) identifizieren Ressourcen eindeutig und stellen sicher, dass Client und Server über dieselbe Adresse sprechen.",
+    "xp": 15,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 2,
+    "type": "sort",
+    "question": "Sortiere die Bestandteile einer vollständigen URI in der Reihenfolge, wie sie in der Adresse erscheinen:",
+    "items": ["query", "host", "scheme", "path", "port"],
+    "correct": ["scheme", "host", "port", "path", "query"],
+    "explanation": "✅ Richtig: scheme://host:port/path?query – erst das Schema, dann Host, optional der Port, anschließend der Pfad und zuletzt der Query-Teil.",
+    "xp": 18,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Eigenschaft beschreibt zustandslose Kommunikation (stateless) korrekt?",
+    "options": [
+      "Der Server speichert Session-Daten eines Clients",
+      "Der Client übermittelt alle nötigen Informationen bei jeder Anfrage",
+      "Cookies müssen immer gesetzt werden",
+      "Der Server hält den Zustand der letzten zehn Requests"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Bei Statelessness enthält jede Anfrage sämtliche benötigten Kontextinformationen, sodass der Server keinen Sitzungszustand behalten muss.",
+    "xp": 12,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche HTTP-Methode wird klassisch zum Erstellen einer neuen Ressource verwendet?",
+    "options": ["GET", "PUT", "POST", "DELETE"],
+    "correct": 2,
+    "explanation": "✅ Richtig: POST erzeugt neue Ressourcen oder löst serverseitige Verarbeitung aus, bei der der Server die finale URI bestimmt.",
+    "xp": 10,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche HTTP-Methode gilt im CRUD-Kontext als idempotent für Updates?",
+    "options": ["POST", "PUT", "PATCH", "OPTIONS"],
+    "correct": 1,
+    "explanation": "✅ Richtig: PUT überschreibt eine Ressource vollständig – mehrere identische Aufrufe führen zum selben Ergebnis und sind deshalb idempotent.",
+    "xp": 12,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was tut die DELETE-Methode im REST-Kontext?",
+    "options": [
+      "Sie führt Berechnungen aus",
+      "Sie löscht eine Ressource",
+      "Sie listet mehrere Ressourcen auf",
+      "Sie erstellt mehrere Ressourcen"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: DELETE entfernt die adressierte Ressource – wiederholte Aufrufe liefern höchstens einen 404, verändern das Ergebnis aber nicht.",
+    "xp": 10,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Operation ist NICHT idempotent?",
+    "options": ["GET", "PUT", "DELETE", "POST"],
+    "correct": 3,
+    "explanation": "✅ Richtig: POST ist nicht idempotent, weil jeder Aufruf eine neue Ressource erzeugen oder einen neuen Zustand bewirken kann.",
+    "xp": 12,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Annotationen bildet ein klassischer CrudController ab? (Mehrfachauswahl)",
+    "options": ["@GetMapping", "@PostMapping", "@PutMapping", "@DeleteMapping", "@PatchMapping"],
+    "correct": [0, 1, 2, 3],
+    "explanation": "✅ Richtig: CRUD deckt Lesen, Erstellen, Aktualisieren und Löschen ab – typischerweise @GetMapping, @PostMapping, @PutMapping und @DeleteMapping.",
+    "xp": 18,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Aussage über Repräsentationen ist korrekt?",
+    "options": [
+      "Eine Ressource kann nur in HTML ausgeliefert werden",
+      "Ressourcen können verschiedene Repräsentationen haben",
+      "Der Client entscheidet nicht über das Format",
+      "Repräsentationen dürfen kein JSON enthalten"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Eine Ressource kann mehrere Repräsentationen (JSON, XML, HTML …) besitzen – Content-Negotiation wählt das passende Format.",
+    "xp": 12,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Warum ist es sinnvoll, komplexe Daten im Request-Body statt in der URL zu übertragen?",
+    "options": [
+      "URLs unterstützen nur Zahlen",
+      "URLs sind nicht verschlüsselbar",
+      "URLs sind begrenzt und ungeeignet für komplexe Daten",
+      "Body-Daten sind grundsätzlich schneller"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: URLs haben Längenlimits und sind schlecht lesbar für komplexe Strukturen; der Body erlaubt strukturierte JSON/Payloads.",
+    "xp": 12,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was repräsentiert ResponseEntity?",
+    "options": [
+      "Nur den HTTP-Body",
+      "HTTP-Status, Header und Body zusammen",
+      "Nur den HTTP-Header",
+      "Nur Metadaten"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: ResponseEntity kapselt Statuscode, Header und Body und erlaubt so vollständige Kontrolle über die Antwort.",
+    "xp": 12,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Annotation kombiniert @Controller und @ResponseBody?",
+    "options": ["@RestController", "@JSONController", "@HtmlController", "@ResponseRest"],
+    "correct": 0,
+    "explanation": "✅ Richtig: @RestController setzt automatisch @Controller + @ResponseBody und liefert Rückgabewerte direkt als JSON/XML.",
+    "xp": 10,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was bewirkt produces=MediaType.APPLICATION_JSON_VALUE?",
+    "options": [
+      "Der Client sendet nur XML",
+      "Der Rückgabewert wird im JSON-Format geliefert",
+      "Der Controller wird nicht aufgerufen",
+      "HTML wird automatisch erzeugt"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Über das produces-Attribut signalisiert die Methode, dass sie eine JSON-Repräsentation liefert.",
+    "xp": 10,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welcher Statuscode wird gesendet, wenn eine Liste existiert und zurückgegeben wird?",
+    "options": ["200 OK", "201 Created", "204 No Content", "404 Not Found"],
+    "correct": 0,
+    "explanation": "✅ Richtig: 200 OK signalisiert, dass eine Ressource gefunden und im Body (z.B. als Liste) übertragen wurde.",
+    "xp": 10,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welcher Statuscode wird für eine leere Liste zurückgegeben?",
+    "options": ["200 OK", "204 No Content", "422 Unprocessable Entity", "500 Internal Server Error"],
+    "correct": 1,
+    "explanation": "✅ Richtig: 204 No Content signalisiert erfolgreiche Verarbeitung ohne Body – passend für leere Sammlungen.",
+    "xp": 10,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was bedeutet 201 Created?",
+    "options": [
+      "Eine Ressource wurde gefunden",
+      "Eine Ressource wurde erfolgreich erstellt",
+      "Der Request war unvollständig",
+      "Der Client ist nicht autorisiert"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: 201 Created bestätigt, dass eine neue Ressource erstellt wurde – meist mit Verweis auf deren URI.",
+    "xp": 10,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wann wird der Statuscode 422 Unprocessable Entity gesendet?",
+    "options": [
+      "Wenn ein URL-Parameter fehlt oder leer ist",
+      "Wenn die Ressource nicht existiert",
+      "Wenn die Anfrage syntaktisch gültig ist, aber nicht verarbeitet werden kann",
+      "Wenn der Server abstürzt"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: 422 signalisiert, dass der Request formal korrekt ist, aber fachlich nicht verarbeitet werden kann (z.B. Validierungsfehler).",
+    "xp": 12,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welcher Header wird bei 201 Created in der Regel zusätzlich gesetzt?",
+    "options": ["Accept-Language", "Authorization", "Location", "Content-Encoding"],
+    "correct": 2,
+    "explanation": "✅ Richtig: Der Location-Header enthält die URI der neu erstellten Ressource und ermöglicht dem Client direktes Nachladen.",
+    "xp": 12,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wofür steht das Akronym HATEOAS?",
+    "options": [
+      "Hypermedia As The Engine Of Application State",
+      "Hyperlinks And Testing Engine Of API Services",
+      "HTML As Template Engine On API Services",
+      "Hostname Allocation Through External API System"
+    ],
+    "correct": 0,
+    "explanation": "✅ Richtig: HATEOAS bedeutet Hypermedia As The Engine Of Application State – Links in den Antworten führen den Client durch den API-Zustand.",
+    "xp": 12,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was enthält eine Sammelressource (Collection Resource)?",
+    "options": [
+      "Alle Details aller Objekte",
+      "Eine Liste plus Links zu Einzelressourcen",
+      "Ein einzelnes Objekt",
+      "Nur Query-Parameter"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Collections bündeln mehrere Elemente und liefern Hypermedia-Links zu den jeweiligen Einzelressourcen.",
+    "xp": 12,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was enthält eine Einzelressource?",
+    "options": [
+      "Nur einen Link",
+      "Alle Details zur Ressource",
+      "Nur Metadaten",
+      "Nur die Ressourcengröße"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Einzelressourcen liefern die vollständige Darstellung eines konkreten Objekts inklusive seiner Attribute und Links.",
+    "xp": 12,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche URI entspricht einer korrekten Ressourcendefinition?",
+    "options": ["/createUser", "/deleteConversation", "/conversations/{id}", "/runActionNow"],
+    "correct": 2,
+    "explanation": "✅ Richtig: /conversations/{id} nutzt Substantive und Platzhalter – REST-URIs benennen Ressourcen, nicht Aktionen.",
+    "xp": 12,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Regel gilt für URIs im REST-Design?",
+    "options": [
+      "Verben müssen verwendet werden",
+      "URIs bestehen ausschließlich aus Substantiven",
+      "URIs enthalten immer einen Query-String",
+      "URIs müssen groß geschrieben sein"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Ressourcen werden als Substantive modelliert (z.B. /users/42) – Aktionen werden durch HTTP-Methoden beschrieben, nicht durch den Pfad.",
+    "xp": 12,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche URI zeigt Paging?",
+    "options": ["/conversations?page=1", "/conversations!page", "/page/conversations/1", "/conversation/page?next"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Query-Parameter wie page=1 signalisieren Paging – die Ressource selbst bleibt /conversations.",
+    "xp": 10,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was beschreibt eine sekundäre Sammlung?",
+    "options": [
+      "Eine Ressourcenliste, die eine Untermenge einer anderen Liste ist",
+      "Eine Ressource ohne ID",
+      "Ein Datenbankindex",
+      "Einen Fehlercode"
+    ],
+    "correct": 0,
+    "explanation": "✅ Richtig: Sekundäre Sammlungen hängen an einer Oberressource (z.B. /conversations/42/messages) und bilden deren Teilmengen ab.",
+    "xp": 12,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Funktion erfüllt Swagger-UI?",
+    "options": [
+      "Es generiert automatisch HTML-Views",
+      "Es dokumentiert und testet REST-APIs im Browser",
+      "Es überwacht Serverlogs",
+      "Es ersetzt ResponseEntity"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Swagger-UI visualisiert OpenAPI-Spezifikationen, dokumentiert Endpunkte und erlaubt interaktive Tests direkt im Browser.",
+    "xp": 12,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Aussage zu cURL ist korrekt?",
+    "options": [
+      "cURL kann nur GET-Requests senden",
+      "cURL kann alle HTTP-Methoden senden",
+      "cURL funktioniert nur mit HTML-Webseiten",
+      "cURL kann keine Header anzeigen"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: cURL ist ein Kommandozeilen-Client für HTTP/HTTPS und unterstützt sämtliche Methoden inklusive Header- und Body-Konfiguration.",
+    "xp": 12,
+    "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Antwort gibt GET /restful/users/25 zurück, wenn der User nicht existiert?",
+    "options": ["200 OK", "204 No Content", "404 Not Found", "422 Unprocessable Entity"],
+    "correct": 2,
+    "explanation": "✅ Richtig: Existiert die Ressource nicht, liefert der Server 404 Not Found – der Client weiß so, dass die URI unbekannt ist.",
+    "xp": 12,
+    "tags": ["uebung", "woche5"]
   }
 ]
