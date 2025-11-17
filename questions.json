@@ -5813,5 +5813,21 @@
     "explanation": "✅ Richtig: HATEOAS ist das Gegenteil – der Server liefert dynamisch Links zu verfügbaren Aktionen mit, sodass der Client nur den Entry-Point kennen muss.",
     "xp": 12,
     "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Gegeben sei die HTTP-Antwort:\n\nHTTP/1.1 201 Created\nLocation: http://127.0.0.1:8080/api/v1/users/alice\nContent-Type: application/json\n\nWelche HTTP-Methode mit Ressource wurde verwendet?",
+    "options": [
+      "POST /users/alice",
+      "PUT /users/alice",
+      "DELETE /users/alice",
+      "GET /users/alice",
+      "POST /users"
+    ],
+    "correct": 4,
+    "explanation": "✅ Richtig: 201 Created + Location-Header zeigen, dass eine neue Ressource erstellt wurde. POST /users (Collection) erstellt eine neue User-Ressource – der Server generiert die ID (alice) und gibt die URI im Location-Header zurück.",
+    "xp": 18,
+    "tags": ["offiziell", "woche5"]
   }
 ]
