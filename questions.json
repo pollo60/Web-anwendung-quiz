@@ -5588,5 +5588,160 @@
     "explanation": "✅ Richtig: GraphQL erlaubt Batching mehrerer Queries/Mutations in einem Request – REST benötigt in der Regel separate Calls.",
     "xp": 18,
     "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "matching",
+    "question": "Ordnen Sie die entsprechenden HTTP-Statuscodes richtig zu:",
+    "pairs": [
+      {
+        "left": "Ressource erfolgreich erstellt",
+        "right": "201 (Created)"
+      },
+      {
+        "left": "Anfrage konnte aufgrund fehlerhafter Parameter nicht verarbeitet werden",
+        "right": "422 (Unprocessable Entity)"
+      },
+      {
+        "left": "Anfrage erfolgreich, Inhalt im Body vorhanden",
+        "right": "200 (OK)"
+      },
+      {
+        "left": "Ressource nicht gefunden",
+        "right": "404 (Not Found)"
+      },
+      {
+        "left": "Anfrage erfolgreich, aber keine Rückgabe",
+        "right": "204 (No Content)"
+      }
+    ],
+    "explanation": "✅ Richtig: 201 = Created (neue Ressource), 422 = Unprocessable Entity (fehlerhafte Parameter), 200 = OK (Erfolg mit Body), 404 = Not Found (unbekannte URI), 204 = No Content (Erfolg ohne Body).",
+    "xp": 20,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Annotation wird verwendet, um eine Klasse als REST-Controller zu markieren?",
+    "options": ["@RestController", "@Controller", "@ResponseEntity", "@Service"],
+    "correct": 0,
+    "explanation": "✅ Richtig: @RestController kombiniert @Controller und @ResponseBody – die Rückgabewerte werden direkt serialisiert (z. B. als JSON).",
+    "xp": 10,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Ressourcen-URIs im REST-Design sollen möglichst Verben enthalten, um Aktionen zu beschreiben.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: URIs sollten Substantive (Ressourcen) verwenden, z. B. /users/123. Aktionen werden durch HTTP-Methoden (GET, POST, PUT, DELETE) ausgedrückt.",
+    "xp": 10,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "REST-Kommunikation ist immer synchron.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: REST ist typischerweise synchron (Request-Response), kann aber mit Callbacks, Webhooks oder asynchronen Patterns (z. B. 202 Accepted) asynchron gestaltet werden.",
+    "xp": 12,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "GET-Anfragen können den HTTP-Body enthalten. (Im Sinne der Best Practice)",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Laut HTTP-Spezifikation ist ein Body bei GET technisch erlaubt, aber Best Practice und viele Frameworks ignorieren ihn – Parameter gehören in die URL.",
+    "xp": 12,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was bedeutet es, dass REST-Kommunikation zustandslos ist?",
+    "options": [
+      "Kommunikation erfolgt synchron",
+      "Der Server speichert keine Sitzungsinformationen",
+      "Der Client hält die Sitzungsinformationen",
+      "Der Server speichert alle Client-Daten"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Stateless bedeutet, der Server speichert keinen Session-State – jede Anfrage enthält alle benötigten Informationen (z. B. via Token).",
+    "xp": 12,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Markieren Sie alle HTTP-Methoden, die sowohl 'safe' (sicher) als auch 'idempotent' (idempotent) sind:",
+    "options": ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS", "PATCH"],
+    "correct": [0, 4, 5],
+    "explanation": "✅ Richtig: GET, HEAD und OPTIONS sind safe (keine Seiteneffekte) und idempotent (wiederholbar ohne Änderung). POST und PATCH sind weder safe noch idempotent. PUT und DELETE sind idempotent, aber nicht safe.",
+    "xp": 18,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "checkbox",
+    "question": "Markieren Sie alle HTTP-Methoden, die idempotent sind (wiederholbare Aufrufe führen zum gleichen Zustand):",
+    "options": ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS", "PATCH"],
+    "correct": [0, 2, 3, 4, 5],
+    "explanation": "✅ Richtig: GET, PUT, DELETE, HEAD und OPTIONS sind idempotent. POST ist nicht idempotent (erzeugt mehrfach Ressourcen). PATCH ist typischerweise nicht idempotent.",
+    "xp": 15,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Eine Ressource kann nur aus einem einzelnen Objekt bestehen, niemals aus einer Liste.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Eine Ressource kann sowohl eine einzelne Entität (/users/123) als auch eine Sammlung (/users) darstellen.",
+    "xp": 10,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Ein MVC-Controller ist darauf ausgelegt, View-Namen zurückzugeben und ein Modell für die Darstellung in HTML-Seiten anzureichern.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Klassische @Controller in Spring MVC geben View-Namen (z. B. \"index\") zurück und füllen das Model für Template-Engines wie Thymeleaf.",
+    "xp": 10,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Es ist sinnvoll, Nutzdaten bei HTTP-POST- oder PUT-Requests im URL-Parameter zu übertragen, da URLs für alle Nutzdaten optimiert sind.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Nutzdaten (z. B. JSON) gehören in den HTTP-Body, nicht in URL-Parameter – URLs sind begrenzt, unsicher für sensible Daten und schlecht lesbar bei großen Payloads.",
+    "xp": 12,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Primärsammlungen sind Hauptsammlungen von Ressourcen, während Sekundärsammlungen Untersammlungen innerhalb einer Primärsammlung sind.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Primärsammlung: /users (Hauptressource). Sekundärsammlung: /users/123/orders (Unterressourcen eines Users).",
+    "xp": 12,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Ohne HATEOAS wäre eine REST-API immer vollständig und intuitiv navigierbar.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: HATEOAS (Hypermedia As The Engine Of Application State) macht APIs navigierbar, indem Responses Links zu verwandten Ressourcen enthalten – ohne HATEOAS muss der Client alle URIs kennen.",
+    "xp": 12,
+    "tags": ["offiziell", "woche5"]
   }
 ]
