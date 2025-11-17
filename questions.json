@@ -1178,47 +1178,325 @@
   {
     "difficulty": 3,
     "type": "multiple",
-    "question": "Was ist HATEOAS im Kontext von REST?",
+    "question": "Was passiert, wenn ein @ControllerAdvice eine Exception behandelt?",
     "options": [
-      "Ein HTTP-Header",
-      "Eine Datenbank-Technologie",
-      "Hypermedia as Engine of Application State - Links in Responses",
-      "Ein JavaScript Framework"
+      "Die Anwendung stürzt ab",
+      "Der Benutzer sieht eine Fehlerseite",
+      "Die Exception wird stillschweigend ignoriert",
+      "Es wird eine alternative Methode im Controller aufgerufen"
     ],
-    "correct": 2,
-    "explanation": "HATEOAS (Hypermedia as the Engine of Application State): Der Server liefert in Responses Links zu verwandten Ressourcen mit.",
+    "correct": 1,
+    "explanation": "✅ Richtig: Der Benutzer sieht eine Fehlerseite – @ControllerAdvice kann Fehler zentral behandeln und eine View zurückgeben.",
     "xp": 30,
     "tags": [
-      "uebung"
+      "uebung",
+      "neue-vorlesung",
+      "offiziell"
     ]
   },
   {
-    "difficulty": 3,
-    "type": "fillblank",
-    "question": "Um eine Datei für Logging anzugeben, verwendet man logging._____ und für ein Verzeichnis logging._____",
-    "blanks": [
-      "file",
-      "path"
+    "difficulty": 4,
+    "type": "multiple",
+    "question": "Was ist der Hauptzweck von @ResponseStatus?",
+    "options": [
+      "Setzen des HTTP-Statuscodes für eine Antwort",
+      "Definieren von Sicherheitsbeschränkungen",
+      "Dokumentation von REST-APIs",
+      "Steuern der Cache-Einstellungen"
     ],
-    "explanation": "Mit logging.file gibt man eine Datei an, mit logging.path ein Verzeichnis. Ohne Angabe wird in spring.log geschrieben.",
-    "xp": 30,
+    "correct": 0,
+    "explanation": "✅ Richtig: @ResponseStatus setzt den HTTP-Statuscode (z.B. 404, 500) für die Antwort einer Controller-Methode.",
+    "xp": 40,
     "tags": [
-      "uebung"
+      "uebung",
+      "neue-vorlesung",
+      "offiziell"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Eine Spring-Boot-Anwendung kann eigenständig und ohne externe Laufzeitabhängigkeiten ausgeführt werden",
+    "options": [
+      "Wahr",
+      "Falsch"
+    ],
+    "correct": 0,
+    "explanation": "Spring Boot-Anwendungen sind als Fat JARs/Executable JARs lauffähig und benötigen keine externen Laufzeitabhängigkeiten.",
+    "xp": 10,
+    "tags": [
+      "uebung",
+      "neue-vorlesung",
+      "offiziell"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Im Beispiel wird bei einer fehlenden URL-Parameterangabe (MissingServletRequestParameterException) automatisch support.html als View zurückgegeben.",
+    "options": ["Falsch", "Wahr"],
+    "correct": 1,
+    "explanation": "Beispiel-Handler gibt bei MissingServletRequestParameterException die View support.html zurück (ModelAndView mit View-Namen).",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Der Controller leitet Model-Daten an die View weiter, um eine dynamische Anzeige zu generieren.",
+    "options": ["Falsch", "Wahr"],
+    "correct": 1,
+    "explanation": "Controller füllt Model → View rendert dynamisch daraus.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Fehlende Parameter in HTTP-Anfragen führen immer zu einem Server-Absturz.",
+    "options": ["Falsch", "Wahr"],
+    "correct": 0,
+    "explanation": "Fehlende Pflicht-Parameter erzeugen Exceptions (z.B. MissingServletRequestParameterException), kein Absturz – Handler möglich.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist das Hauptziel des MVC-Entwurfsmusters?",
+    "options": [
+      "Die Beschleunigung der Web-Entwicklung",
+      "Die Integration von Datenbanken",
+      "Die Trennung von Präsentation, Logik und Daten",
+      "Die Verbesserung der Sicherheit"
+    ],
+    "correct": 2,
+    "explanation": "MVC sorgt für klare Trennung: Model (Daten/Logik), View (Darstellung), Controller (Steuerung).",
+    "xp": 15,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Das DispatcherServlet leitet Anfragen an den passenden Controller weiter.",
+    "options": ["Falsch", "Wahr"],
+    "correct": 1,
+    "explanation": "DispatcherServlet = Front Controller: empfängt Request, delegiert an passenden Handler.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Thymeleaf benötigt zwingend die Annotation @ThymeleafEnabled.",
+    "options": ["Falsch", "Wahr"],
+    "correct": 0,
+    "explanation": "Es existiert keine Annotation @ThymeleafEnabled; Spring Boot autokonfiguriert Thymeleaf über Starter.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Der Query String beginnt immer nach dem ersten Gleichheitszeichen in der URL.",
+    "options": ["Falsch", "Wahr"],
+    "correct": 0,
+    "explanation": "Der Query-String beginnt nach '?' und enthält key=value Paare; '=' trennt Schlüssel und Wert.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Eine MissingServletRequestParameterException tritt nur dann auf, wenn alle URL-Parameter fehlen.",
+    "options": ["Falsch", "Wahr"],
+    "correct": 0,
+    "explanation": "Sie tritt auf, wenn EIN erforderlicher Parameter fehlt – nicht alle müssen fehlen.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Im MVC-Pattern speichert der Controller die Anwendungsdaten.",
+    "options": ["Falsch", "Wahr"],
+    "correct": 0,
+    "explanation": "Kontroller steuert Fluss; Daten & Logik liegen im Model.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welcher Ordner enthält statische Ressourcen wie CSS- und JavaScript-Dateien in Spring Boot?",
+    "options": [
+      "/static/resources",
+      "/src/main/resources/static",
+      "/resources/views",
+      "/src/main/resources/templates"
+    ],
+    "correct": 1,
+    "explanation": "Statische Dateien liegen unter src/main/resources/static (nicht templates).",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "@ControllerAdvice kann mehrere unterschiedliche Exceptions behandeln, nicht nur eine einzige.",
+    "options": ["Falsch", "Wahr"],
+    "correct": 1,
+    "explanation": "@ControllerAdvice + mehrere @ExceptionHandler Methoden für verschiedene Exception-Typen.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist die Funktion der Annotation @Autowired?",
+    "options": [
+      "Sie gibt an, dass eine Methode als Spring Bean registriert werden soll",
+      "Sie markiert die Main-Methode des Programms",
+      "Sie erstellt eine neue Bean im Spring Container",
+      "Sie injiziert eine Bean in eine andere Klasse und stellt diese zur Verfügung"
+    ],
+    "correct": 3,
+    "explanation": "@Autowired injiziert eine Bean in eine andere Klasse und stellt sie dort zur Verfügung.",
+    "xp": 20,
+    "tags": [
+      "uebung",
+      "neue-vorlesung",
+      "offiziell"
     ]
   },
   {
     "difficulty": 2,
     "type": "multiple",
-    "question": "Wofür steht AJAX?",
+    "question": "In welcher Datei werden die Abhängigkeiten bei einem Spring Boot-Projekt verwaltet (Gradle)?",
     "options": [
-      "Advanced Java and XML",
-      "Asynchronous JavaScript and XML",
-      "Automatic JSON and XML",
-      "Application JavaScript Architecture XML"
+      "pom.xml",
+      "settings.gradle",
+      "build.gradle",
+      "application.properties"
     ],
-    "correct": 1,
-    "explanation": "AJAX steht für Asynchronous JavaScript and XML - ermöglicht asynchrone Datenübertragung ohne Seitenneuladung.",
-    "xp": 20,
+    "correct": 2,
+    "explanation": "Bei Gradle werden Dependencies in der build.gradle gepflegt. Die pom.xml ist für Maven-Projekte.",
+    "xp": 15,
+    "tags": [
+      "uebung",
+      "neue-vorlesung",
+      "offiziell"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Log-Level sind standardmäßig in Spring Boot aktiviert?",
+    "options": [
+      "TRACE, WARN, DEBUG",
+      "DEBUG, INFO, ERROR",
+      "ERROR, WARN, INFO",
+      "ERROR, TRACE, INFO"
+    ],
+    "correct": 2,
+    "explanation": "Standardmäßig sind ERROR, WARN und INFO in Spring Boot aktiviert. DEBUG und TRACE müssen explizit aktiviert werden.",
+    "xp": 10,
+    "tags": [
+      "uebung",
+      "neue-vorlesung",
+      "offiziell"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was macht die Methode setMessage() in der Klasse MessageService?",
+    "options": [
+      "Sie gibt den Wert der Variablen message zurück",
+      "Sie initialisiert die Bean message",
+      "Sie setzt den Wert der Variablen message",
+      "Sie speichert eine Nachricht in einer Datenbank"
+    ],
+    "correct": 2,
+    "explanation": "Die Methode setMessage() setzt den Wert der Variablen message in der Klasse MessageService.",
+    "xp": 10,
+    "tags": [
+      "uebung",
+      "neue-vorlesung",
+      "offiziell"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Die Methode assertThat() wird nicht von JUnit nativ bereitgestellt.",
+    "options": [
+      "Wahr",
+      "Falsch"
+    ],
+    "correct": 0,
+    "explanation": "assertThat() stammt aus Bibliotheken wie AssertJ oder Hamcrest, nicht aus JUnit selbst.",
+    "xp": 30,
+    "tags": [
+      "uebung",
+      "neue-vorlesung",
+      "offiziell"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "multiple",
+    "question": "Mit Maven können Abhängigkeiten eines Projekts automatisch aufgelöst werden.",
+    "options": [
+      "Wahr",
+      "Falsch"
+    ],
+    "correct": 0,
+    "explanation": "Maven löst Abhängigkeiten automatisch über die pom.xml auf und lädt sie aus Repositories herunter.",
+    "xp": 40,
+    "tags": [
+      "uebung",
+      "neue-vorlesung",
+      "offiziell"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wohin schreibt Spring Boot Logs standardmäßig ohne zusätzliche Konfiguration?",
+    "options": [
+      "In die Konsole (Standard Output)",
+      "In eine Datei namens 'application.log'",
+      "In eine Datenbank",
+      "In das Windows Event Log"
+    ],
+    "correct": 0,
+    "explanation": "Standardmäßig schreibt Spring Boot alle Logs in die Konsole (Standard Output). Für andere Ziele ist zusätzliche Konfiguration nötig.",
+    "xp": 10,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "checkbox",
+    "question": "Welche Log-Level sind in Spring Boot standardmäßig verfügbar? (Mehrfachauswahl)",
+    "options": [
+      "ERROR",
+      "WARN",
+      "INFO",
+      "DEBUG",
+      "TRACE"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "explanation": "Spring Boot unterstützt die Standard-Log-Level: ERROR (kritisch), WARN (Warnungen), INFO (Information), DEBUG (Entwicklung) und TRACE (detailliert).",
+    "xp": 15,
     "tags": [
       "uebung"
     ]
@@ -1226,16 +1504,85 @@
   {
     "difficulty": 1,
     "type": "multiple",
-    "question": "Wer ist für die Standardisierung von HTML zuständig?",
+    "question": "Was ist das grundlegende Schema für User Stories?",
     "options": [
-      "W3C (World Wide Web Consortium)",
-      "Microsoft",
-      "Google",
-      "ISO"
+      "Als <Rolle> möchte ich <Ziel>, damit <Nutzen>",
+      "Wenn <Bedingung> dann <Aktion>",
+      "Gegeben <Zustand> wenn <Ereignis> dann <Ergebnis>",
+      "Falls <Problem> soll <Lösung> implementiert werden"
     ],
     "correct": 0,
-    "explanation": "Das W3C (World Wide Web Consortium) ist für die Standardisierung von HTML zuständig.",
+    "explanation": "User Stories folgen dem Schema: 'Als <Rolle> möchte ich <Ziel>, damit <Nutzen>'. Dies macht Anforderungen verständlich und nutzerorientiert.",
     "xp": 10,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne die Logging-Properties ihren Effekten zu:",
+    "pairs": [
+      {
+        "left": "logging.file",
+        "right": "Definiert eine spezifische Log-Datei"
+      },
+      {
+        "left": "logging.path",
+        "right": "Setzt das Verzeichnis für Log-Dateien"
+      },
+      {
+        "left": "logging.level.*",
+        "right": "Konfiguriert Log-Level für Packages"
+      },
+      {
+        "left": "logging.pattern.console",
+        "right": "Bestimmt das Format der Konsolenausgabe"
+      }
+    ],
+    "explanation": "Die verschiedenen Logging-Properties steuern unterschiedliche Aspekte: Dateien, Pfade, Level und Ausgabeformat.",
+    "xp": 25,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was bewirkt logging.level.edu.fra.uas=debug in der Konfiguration?",
+    "options": [
+      "Setzt DEBUG-Level für das spezifische Package und Unterpackages",
+      "Aktiviert Debugging für die gesamte Anwendung",
+      "Loggt nur Fehler aus dem edu.fra.uas Package",
+      "Deaktiviert Logging für andere Packages"
+    ],
+    "correct": 0,
+    "explanation": "Diese Einstellung setzt das Log-Level DEBUG für das Package edu.fra.uas und alle seine Unterpackages. Andere Packages bleiben unberührt.",
+    "xp": 20,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "checkbox",
+    "question": "Welche Vorteile bietet strukturiertes Logging (SLF4J/Logback) gegenüber System.out.println in Spring Boot? (Mehrfachauswahl)",
+    "options": [
+      "Konfigurierbare Log-Level und Filter",
+      "Performance durch asynchrones Logging",
+      "Standardisierte Formatierung",
+      "Integration mit Spring Boot Actuator",
+      "Automatische Dateirotation"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "explanation": "Strukturiertes Logging bietet viele Vorteile: konfigurierbare Level, bessere Performance, einheitliche Formate, Monitoring-Integration und Dateiverwaltung.",
+    "xp": 30,
     "tags": [
       "uebung"
     ]
@@ -1243,30 +1590,44 @@
   {
     "difficulty": 3,
     "type": "multiple",
-    "question": "Was ist das Ziel von Responsive Web Design?",
+    "question": "Was passiert, wenn @Autowired an einer Feldstelle entfernt wird?",
     "options": [
-      "Automatische Updates",
-      "Optimale Darstellung auf verschiedenen Bildschirmgrößen",
-      "Schnellere Serverantworten",
-      "Bessere Suchmaschinenoptimierung"
+      "Das Feld bleibt null und führt zu NullPointerException bei Verwendung",
+      "Spring erstellt automatisch eine neue Instanz",
+      "Die Anwendung startet nicht",
+      "Es wird eine Warnung ausgegeben"
     ],
-    "correct": 1,
-    "explanation": "Responsive Web Design sorgt für optimale Darstellung und Bedienbarkeit auf verschiedenen Geräten und Bildschirmgrößen.",
+    "correct": 0,
+    "explanation": "Ohne @Autowired erfolgt keine Dependency Injection. Das Feld bleibt null, was bei Verwendung zu einer NullPointerException führt.",
     "xp": 30,
     "tags": [
       "uebung"
     ]
   },
   {
-    "difficulty": 2,
-    "type": "fillblank",
-    "question": "Git wurde 2005 von _____ _____ entwickelt.",
-    "blanks": [
-      "Linus",
-      "Torvalds"
+    "difficulty": 4,
+    "type": "matching",
+    "question": "Ordne die Test-Konzepte ihren Haupteigenschaften zu:",
+    "pairs": [
+      {
+        "left": "@SpringBootTest",
+        "right": "Lädt den vollständigen Application Context"
+      },
+      {
+        "left": "AssertJ",
+        "right": "Bietet fluent assertions und bessere Fehlermeldungen"
+      },
+      {
+        "left": "Slice Tests",
+        "right": "Testet nur spezifische Schichten der Anwendung"
+      },
+      {
+        "left": "Unit Tests",
+        "right": "Testet isolierte Komponenten ohne Spring Context"
+      }
     ],
-    "explanation": "Git ist ein Open-Source-Versionskontrollsystem, das 2005 von Linus Torvalds entwickelt wurde.",
-    "xp": 20,
+    "explanation": "@SpringBootTest ist für Integrationstests mit vollem Context, AssertJ verbessert die Testlesbarkeit, Slice Tests fokussieren einzelne Schichten, Unit Tests sind am schnellsten.",
+    "xp": 40,
     "tags": [
       "uebung"
     ]
@@ -1274,56 +1635,40 @@
   {
     "difficulty": 4,
     "type": "multiple",
-    "question": "Welche Java-Bibliothek wird in Spring Boot Tests für aussagekräftige Assertions verwendet?",
+    "question": "Welche Funktion hat der <parent>-Eintrag in der pom.xml bei Spring Boot?",
     "options": [
-      "Hamcrest",
-      "JUnit Basic",
-      "AssertJ",
-      "Mockito"
+      "Definiert Versionen, Dependencies und Plugins durch Vererbung",
+      "Ist nur für Multi-Modul-Projekte erforderlich",
+      "Dient ausschließlich der Dokumentation",
+      "Wird nur für Test-Konfigurationen verwendet"
     ],
-    "correct": 2,
-    "explanation": "AssertJ wird verwendet. Tests werden mit verketteten Methodenaufrufen lesbarer und Fehlermeldungen sind detaillierter als bei Hamcrest.",
+    "correct": 0,
+    "explanation": "Der <parent>-Eintrag ermöglicht die Vererbung von Versionen, Dependencies und Plugin-Konfigurationen vom Spring Boot Parent POM, was die Projektkonfiguration vereinfacht.",
     "xp": 40,
     "tags": [
       "uebung"
     ]
   },
   {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Was war der erste Dienst des Internets?",
-    "options": [
-      "World Wide Web",
-      "E-Mail (1972)",
-      "FTP",
-      "Telnet"
-    ],
-    "correct": 1,
-    "explanation": "1972 wurde das E-Mail-Protokoll von Ray Tomlinson für das ARPANET entwickelt - der erste Dienst des Internets.",
-    "xp": 10,
-    "tags": [
-      "uebung",
-      "vl-offiziell"
-    ]
-  },
-  {
-    "difficulty": 3,
+    "difficulty": 4,
     "type": "checkbox",
-    "question": "Welche Basiskonzepte gehören zum WWW? (Mehrfachauswahl)",
+    "question": "Was sind die Besonderheiten eines CommandLineRunner als @Bean? (Mehrfachauswahl)",
     "options": [
-      "Client-Server Architektur",
-      "Peer-to-Peer Netzwerk",
-      "Hypermedia-Inhalte",
-      "URIs (Links)",
-      "Blockchain"
+      "Wird nach Kontext-Initialisierung ausgeführt",
+      "Kann mehrfach im Projekt definiert werden",
+      "Hat Zugriff auf andere Beans",
+      "Ermöglicht Start-up Logik",
+      "Unterstützt Ordering mit @Order"
     ],
     "correct": [
       0,
+      1,
       2,
-      3
+      3,
+      4
     ],
-    "explanation": "WWW-Basiskonzepte: Client-Server Architektur, Hypermedia-Inhalte, URIs, HTML, HTTP. Peer-to-Peer und Blockchain gehören nicht dazu.",
-    "xp": 30,
+    "explanation": "CommandLineRunner als @Bean: läuft nach Kontext-Start, mehrfache Definition möglich, hat Bean-Zugriff, ideal für Start-up Logik, unterstützt Reihenfolge via @Order.",
+    "xp": 45,
     "tags": [
       "uebung"
     ]
@@ -1331,174 +1676,49 @@
   {
     "difficulty": 1,
     "type": "multiple",
-    "question": "Was ist das Ziel von Logging in Spring Boot?",
+    "question": "Was ist eine Bean im Spring-Container?",
     "options": [
-      "Datenbankverwaltung",
-      "Server-Überwachung",
-      "Sicherheitsprüfung",
-      "Fehlerbehebung und Programmverfolgung"
-    ],
-    "correct": 3,
-    "explanation": "Logging dient in erster Linie dazu, die Ausführung der Anwendung nachzuvollziehen und Fehler schneller zu finden und zu beheben.",
-    "xp": 10,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Die Mainklasse in einem Spring Boot ist nicht mit der Annotation @SpringBootApplication versehen",
-    "options": [
-      "Wahr",
-      "Falsch"
-    ],
-    "correct": 1,
-    "explanation": "Typischerweise ist die Main-Klasse mit @SpringBootApplication annotiert, was Auto-Konfiguration, Component-Scan und Konfiguration bündelt.",
-    "xp": 10,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Was macht die Annotation @SpringBootApplication?",
-    "options": [
-      "Sie definiert eine REST-API",
-      "Sie markiert die Main-Klasse einer Anwendung",
-      "Sie erstellt ein Logging-Template",
-      "Sie deaktiviert die automatische Konfiguration"
-    ],
-    "correct": 1,
-    "explanation": "@SpringBootApplication kennzeichnet die Hauptanwendung und kombiniert @Configuration, @EnableAutoConfiguration und @ComponentScan.",
-    "xp": 10,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Eine Bean wird durch den Spring Container nicht automatisch ausgeführt",
-    "options": [
-      "Wahr",
-      "Falsch"
-    ],
-    "correct": 1,
-    "explanation": "Falsch. Spring erstellt beim Start automatisch eine Instanz jeder registrierten Bean (@Component, @Service, @Bean, etc.), initialisiert sie, verwaltet ihren Lifecycle und injiziert Abhängigkeiten – die Bean wird also durchaus automatisch 'ausgeführt' (erzeugt und verdrahtet).",
-    "xp": 10,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Die Annotation @SpringBootTest wird nicht verwendet, um anzugeben, dass ein JUnit-Test für die gesamte Spring-Anwendung ausgeführt wird",
-    "options": [
-      "Wahr",
-      "Falsch"
-    ],
-    "correct": 1,
-    "explanation": "@SpringBootTest lädt typischerweise den vollständigen Application Context für Integrationstests – die Aussage ist daher falsch.",
-    "xp": 15,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "System.out.println() sollte nicht in einer Produktionsumgebung verwendet werden, um Fehlerprotokolle auszugeben",
-    "options": [
-      "Wahr",
-      "Falsch"
+      "Ein Java-Objekt, das von Spring verwaltet wird",
+      "Eine Datenbankverbindung",
+      "Ein UI-Element",
+      "Eine Konfigurationsdatei"
     ],
     "correct": 0,
-    "explanation": "In Produktion sollten strukturierte Logs (z.B. SLF4J/Logback) verwendet werden – println ist unstrukturiert und schlecht zu verarbeiten.",
+    "explanation": "Eine Bean ist ein Java-Objekt, das vom Spring Container verwaltet wird - inklusive Erstellung, Konfiguration und Lebenszyklus-Management.",
     "xp": 10,
     "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "offiziell"
+      "uebung"
     ]
   },
   {
     "difficulty": 1,
     "type": "multiple",
-    "question": "Spring Boot basiert vollständig auf dem Spring Framework",
+    "question": "Welches Log-Level zeigt die wichtigsten Fehler an?",
     "options": [
-      "Wahr",
-      "Falsch"
-    ],
-    "correct": 0,
-    "explanation": "Spring Boot basiert vollständig auf dem Spring Framework und erweitert es um Auto-Konfiguration und eingebettete Server.",
-    "xp": 10,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Beans können nur mit der Annotation @Service erstellt werden",
-    "options": [
-      "Wahr",
-      "Falsch"
-    ],
-    "correct": 1,
-    "explanation": "Beans können mit verschiedenen Annotationen erstellt werden: @Component, @Service, @Repository, @Controller, @Bean, etc.",
-    "xp": 10,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Welche Maven-Datei enthält die Projektkonfiguration?",
-    "options": [
-      "pom.xml",
-      "application.properties",
-      "build.gradle",
-      "config.yaml"
-    ],
-    "correct": 0,
-    "explanation": "Die pom.xml (Project Object Model) enthält die gesamte Maven-Projektkonfiguration inkl. Dependencies, Plugins und Build-Einstellungen.",
-    "xp": 10,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "In welcher Datei werden die Abhängigkeiten bei einem Spring Boot-Projekt verwaltet (Maven)?",
-    "options": [
-      "mvnw.cmd",
-      "application.properties",
-      "pom.xml",
-      "build.gradle"
+      "DEBUG",
+      "INFO",
+      "ERROR",
+      "TRACE"
     ],
     "correct": 2,
-    "explanation": "Die pom.xml (Project Object Model) enthält die gesamte Maven-Projektkonfiguration inkl. Dependencies, Plugins und Build-Einstellungen.",
+    "explanation": "ERROR ist das Log-Level für die kritischsten Fehlermeldungen. Es zeigt schwerwiegende Probleme an, die sofortige Aufmerksamkeit erfordern.",
+    "xp": 10,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist ein Fork in GitHub?",
+    "options": [
+      "Eine Kopie eines Repositories unter deinem eigenen Account",
+      "Ein Branch in einem Repository",
+      "Ein Pull Request",
+      "Ein Commit in der Historie"
+    ],
+    "correct": 0,
+    "explanation": "Ein Fork ist eine persönliche Kopie eines fremden Repositories unter deinem GitHub-Account. Dies ermöglicht es dir, Änderungen vorzunehmen, ohne das Original zu beeinflussen.",
     "xp": 10,
     "tags": [
       "uebung",
@@ -1509,275 +1729,41 @@
   {
     "difficulty": 2,
     "type": "matching",
-    "question": "Ordnen Sie die einzelnen Log-Level den entsprechenden Meldungen zu",
+    "question": "Ordne die Log-Level ihrer typischen Verwendung zu:",
     "pairs": [
       {
         "left": "ERROR",
-        "right": "Fehler (wie behandelte Ausnahme oder zu analysierende Probleme)"
+        "right": "Kritische Fehler, die sofortige Aktion erfordern"
       },
       {
         "left": "WARN",
-        "right": "Situation, die nicht erwartet werden und zu Fehler führen könnte"
+        "right": "Potenziell schädliche Situationen"
       },
       {
         "left": "INFO",
-        "right": "Informationen zu auftretenden Ereignissen (z.B. Start/Ende, DB-Verbindung)"
+        "right": "Wichtige Geschäftsereignisse"
       },
       {
         "left": "DEBUG",
-        "right": "Debugging inklusive Informationen zum Programmablauf"
-      },
-      {
-        "left": "TRACE",
-        "right": "Ausführlicheres Debugging inklusive detaillierter Informationen zum Ablauf"
+        "right": "Detaillierte Entwicklerinformationen"
       }
     ],
-    "explanation": "ERROR = kritische Fehler, WARN = potenziell problematische Situationen, INFO = wichtige Ereignisse, DEBUG = Details für Entwickler, TRACE = sehr detaillierte Ablaufverfolgung.",
+    "explanation": "Die Log-Level haben unterschiedliche Prioritäten und Verwendungszwecke: ERROR für kritische Fehler, WARN für Warnungen, INFO für wichtige Events, DEBUG für Entwicklerdetails.",
     "xp": 25,
     "tags": [
-      "uebung",
-      "neue-vorlesung"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Der Eintrag in der pom.xml-Datei <groupId>edu.fra.uas</groupId> nennt man auch …",
-    "options": [
-      "Gruppenkennung (package)",
-      "Annotation",
-      "Keines der oben genannten",
-      "Projektversion"
-    ],
-    "correct": 0,
-    "explanation": "Die groupId ist die Gruppenkennung (package), die organisationsweite, eindeutige Identifikation für Maven-Projekte.",
-    "xp": 15,
-    "tags": [
-      "neue-vorlesung",
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Was sind die Hauptverbesserungen von HTTP/2 gegenüber HTTP/1.1?",
-    "options": [
-      "Nur HTTPS-Unterstützung",
-      "Multiplexing, Header-Kompression, Server Push und binäres Protokoll",
-      "Bessere Sicherheit durch Verschlüsselung",
-      "Kleinere Dateigrößen durch automatische Kompression"
-    ],
-    "correct": 1,
-    "explanation": "HTTP/2 brachte wichtige Verbesserungen: Multiplexing (mehrere Anfragen parallel), Header-Kompression (HPACK), Server Push (proaktives Senden) und binäres statt textbasiertes Protokoll.",
-    "xp": 20,
-    "tags": [
-      "neue-vorlesung"
-    ]
-  },
-  {
-    "difficulty": 3,
-    "type": "sort",
-    "question": "Sortiere die HTTP-Versionen nach ihrer Veröffentlichungsreihenfolge:",
-    "items": [
-      "HTTP/3",
-      "HTTP/1.0",
-      "HTTP/2",
-      "HTTP/1.1"
-    ],
-    "correct": [
-      "HTTP/1.0",
-      "HTTP/1.1",
-      "HTTP/2",
-      "HTTP/3"
-    ],
-  "explanation": "HTTP-Versionen chronologisch: HTTP/1.0 (1996) → HTTP/1.1 (1997, Keep-Alive) → HTTP/2 (2015, Multiplexing) → HTTP/3 (2022, QUIC/UDP).\n✅ HTTP/1.0 → HTTP/1.1 → HTTP/2 → HTTP/3",
-    "xp": 30,
-    "tags": [
-      "neue-vorlesung"
+      "uebung"
     ]
   },
   {
     "difficulty": 2,
     "type": "checkbox",
-    "question": "Welche HTTP-Methoden sind 'safe' (sicher) und ändern keine Serverdaten? (Mehrfachauswahl)",
+    "question": "Welche Vorteile bietet strukturiertes Logging gegenüber System.out.println? (Mehrfachauswahl)",
     "options": [
-      "GET",
-      "POST",
-      "HEAD",
-      "PUT",
-      "OPTIONS"
-    ],
-    "correct": [
-      0,
-      2,
-      4
-    ],
-    "explanation": "Safe HTTP-Methoden ändern keine Serverdaten: GET (Daten abrufen), HEAD (nur Header abrufen), OPTIONS (verfügbare Methoden abfragen). POST und PUT ändern Daten.",
-    "xp": 25,
-    "tags": [
-      "neue-vorlesung"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "System.out.println ist nicht zum produktiven Logging in Spring Boot geeignet",
-    "options": [
-      "Wahr",
-      "Falsch"
-    ],
-    "correct": 0,
-    "explanation": "System.out.println ist für produktive Anwendungen ungeeignet. Stattdessen sollte ein Logger (z.B. SLF4J) verwendet werden.",
-    "xp": 10,
-    "tags": [
-      "neue-vorlesung"
-    ]
-  },
-  {
-    "type": "multiple",
-    "question": "Was ist das Basisprotokoll des WWW?",
-    "options": [
-      "FTP - File Transfer Protocol",
-      "HTTP - Hypertext Transfer Protocol",
-      "SMTP - Simple Mail Transfer Protocol",
-      "TCP - Transmission Control Protocol"
-    ],
-    "wrongAnswerPool": "protocols",
-    "correct": 1,
-    "explanation": "HTTP (Hypertext Transfer Protocol) ist das Basisprotokoll des WWW.",
-    "xp": 10,
-    "tags": [
-      "vl-offiziell"
-    ]
-  },
-  {
-    "type": "text",
-    "question": "Was ist eine Web-Anwendung? (Geben Sie die Definition ein)",
-    "correct": [
-      "web-anwendung",
-      "client-server",
-      "webbrowser",
-      "web-technologien"
-    ],
-    "explanation": "Eine Web-Anwendung ist eine auf Web-Technologien basierende Client-Server-Anwendung. Bedienung erfolgt über Webbrowser oder dedizierte Clients, mit Webserver, Applikationsserver und Datenbanksystem serverseitig. Die Kommunikation erfolgt über HTTP, typischerweise unter Einsatz von Webframeworks.",
-    "xp": 10,
-    "tags": [
-      "vl-offiziell"
-    ]
-  },
-  {
-    "type": "checkbox",
-    "question": "Welche Vorteile bietet eine web-basierte Anwendung? (Wählen Sie mindestens 5)",
-    "options": [
-      "Parallele Nutzung",
-      "Informationsaustausch in Echtzeit",
-      "Zugriff von überall",
-      "Nutzung durch Thin-Clients/kleine Geräte",
-      "Einfacher Datenaustausch über standardisierte Schnittstellen",
-      "Keine Nutzer-Updates nötig",
-      "Skalierbarkeit",
-      "Modularisierung (Microservices/Web Services)"
-    ],
-    "correct": [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7
-    ],
-    "explanation": "Web-basierte Anwendungen bieten zahlreiche Vorteile: Parallele Nutzung, Echtzeit-Informationsaustausch, universeller Zugriff, Thin-Client-Nutzung, standardisierte Schnittstellen, automatische Updates, Skalierbarkeit und Modularisierung.",
-    "xp": 15,
-    "tags": [
-      "vl-offiziell"
-    ]
-  },
-  {
-    "type": "checkbox",
-    "question": "Welche HTTP-Methoden gehören zu Version 1.1?",
-    "options": [
-      "GET",
-      "HEAD",
-      "POST",
-      "PUT",
-      "DELETE",
-      "CONNECT",
-      "OPTIONS",
-      "TRACE",
-      "PATCH"
-    ],
-    "correct": [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8
-    ],
-    "explanation": "HTTP 1.1 umfasst die Methoden: GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE und PATCH.",
-    "xp": 15,
-    "tags": [
-      "vl-offiziell"
-    ]
-  },
-  {
-    "type": "multiple",
-    "question": "Wozu dient das Keep-Alive Header-Feld in HTTP?",
-    "options": [
-      "Zum dauerhaften Speichern von Cookies",
-      "Zur Wiederverwendung der TCP-Verbindung für mehrere Anfragen",
-      "Zum Caching von Webseitendaten",
-      "Zur Authentifizierung von Benutzern"
-    ],
-    "correct": 1,
-    "explanation": "Keep-Alive hält die TCP-Verbindung zwischen Client und Server offen, damit mehrere HTTP-Anfragen über dieselbe Verbindung möglich sind. Dies ermöglicht auch Pipelining.",
-    "xp": 10,
-    "tags": [
-      "vl-offiziell"
-    ]
-  },
-  {
-    "type": "fillblank",
-    "question": "HTTP-Nachrichten bestehen aus: _____ → _____ → Leerzeile → Body",
-    "blanks": [
-      "Start-Zeile",
-      "Header-Felder"
-    ],
-    "explanation": "HTTP-Nachrichten bestehen aus: Start-Zeile (Request-Line oder Status-Line) → Header-Felder → Leerzeile → Body (Nutzdaten).",
-    "xp": 10,
-    "tags": [
-      "vl-offiziell"
-    ]
-  },
-  {
-    "type": "multiple",
-    "question": "Was ist der Unterschied zwischen HTTP-Anfrage und HTTP-Statusinformation in der Start-Zeile?",
-    "options": [
-      "Request: Method SP Request-URI SP HTTP-Version CRLF; Response: HTTP-Version SP Status-Code SP Reason-Phrase CRLF",
-      "Kein Unterschied, beide haben das gleiche Format",
-      "Request verwendet GET, Response verwendet POST",
-      "Request enthält immer einen Body, Response nie"
-    ],
-    "correct": 0,
-    "explanation": "Request-Start-Line: Method SP Request-URI SP HTTP-Version CRLF; Response-Start-Line: HTTP-Version SP Status-Code SP Reason-Phrase CRLF",
-    "xp": 15,
-    "tags": [
-      "vl-offiziell"
-    ]
-  },
-  {
-    "type": "checkbox",
-    "question": "Welche Verbesserungen wurden durch HTTP 1.1 eingeführt?",
-    "options": [
-      "Verbindung wird standardmäßig nicht sofort getrennt",
-      "Unterstützung für mehrere Anfragen über dieselbe Verbindung",
-      "Pipelining",
-      "Effizientere Nutzung der TCP-Verbindung"
+      "Konfigurierbare Log-Level",
+      "Bessere Filterbarkeit",
+      "Mehrere Ausgabekanäle möglich",
+      "Formatierte Zeitstempel",
+      "Schnellere Ausführung"
     ],
     "correct": [
       0,
@@ -1785,1684 +1771,1698 @@
       2,
       3
     ],
-    "explanation": "HTTP 1.1 brachte folgende Verbesserungen: persistente Verbindungen, Multiplexing von Anfragen, Pipelining und effizientere TCP-Nutzung.",
-    "xp": 15,
+    "explanation": "Strukturiertes Logging bietet viele Vorteile: konfigurierbare Level, Filterbarkeit, multiple Ausgabekanäle und automatische Zeitstempel. Die Ausführungsgeschwindigkeit ist nicht primär relevant.",
+    "xp": 20,
     "tags": [
-      "vl-offiziell"
+      "uebung"
     ]
   },
   {
-    "type": "checkbox",
-    "question": "Welche Neuerungen brachte HTTP/2?",
-    "options": [
-      "Nur noch eine TCP-Verbindung nötig",
-      "Kompression der Header",
-      "Binäres statt textbasiertes Protokoll",
-      "Server Push möglich",
-      "Unterteilung in Streams und Frames"
-    ],
-    "wrongAnswerPool": "protocols",
-    "additionalWrongAnswers": [
-      "Ausschließlich verschlüsselte Verbindungen",
-      "Unterstützung nur für mobile Geräte",
-      "Automatische Übersetzung von Inhalten",
-      "Integrierte Firewall-Funktionen",
-      "Direkte Datenbankanbindung"
-    ],
-    "correct": [
-      0,
-      1,
-      2,
-      3,
-      4
-    ],
-    "explanation": "HTTP/2 führte ein: Single TCP Connection, Header-Kompression, binäres Protokoll, Server Push und Stream/Frame-Struktur.",
-    "xp": 15,
-    "tags": [
-      "vl-offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
+    "difficulty": 2,
     "type": "multiple",
-    "question": "Was ist der Unterschied zwischen Internet und World Wide Web (WWW)?",
+    "question": "Was ist die Hauptaufgabe des CommandLineRunner in Spring Boot?",
     "options": [
-      "Das Internet ist neuer als das WWW",
-      "WWW und Internet sind dasselbe",
-      "Internet ist die physikalische Verbindung; WWW ist die Aufteilung in Web-Client und Web-Server",
-      "Internet ist nur für E-Mails, WWW nur für Webseiten"
-    ],
-    "correct": 2,
-    "explanation": "Internet ist die Verbindung unzähliger Subnetze (Interconnected Network, physikalische Verbindung). World Wide Web ist die Aufteilung der Kommunikation in Web-Client und Web-Server zur gezielten Adressierung von Dateien.",
-    "xp": 10,
-    "tags": [
-      "vl-offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Wie hieß der Vorläufer des Internet und was waren dessen Ziele?",
-    "options": [
-      "ARPANET; Ziel war ein ausfallsicheres, weltweites Rechnernetz",
-      "BITNET; Ziel war E-Mail-Kommunikation",
-      "NSFNET; Ziel war wissenschaftlicher Austausch",
-      "CSNET; Ziel war Verbindung von Universitäten"
-    ],
-    "correct": 0,
-    "explanation": "ARPANET war der Vorläufer. Ziele: Ein Netz, in dem weltweit Rechner verbunden sind, das auch funktioniert, wenn Teile ausgefallen sind.",
-    "xp": 10,
-    "tags": [
-      "vl-offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Wie waren die Rechner des ARPANET untergliedert?",
-    "options": [
-      "Nur Server und Clients",
-      "Hosts (Benutzerrechner), IMPs (Netzrechner), TIPs (Terminal-Zugang)",
-      "Mainframes und Terminals",
-      "Workstations und Peripheriegeräte"
+      "Datenbankverbindungen aufbauen",
+      "Code beim Anwendungsstart ausführen",
+      "REST-Endpunkte definieren",
+      "Logging konfigurieren"
     ],
     "correct": 1,
-    "explanation": "Die Rechner waren untergliedert in: Hosts (Benutzerrechner), Interface Message Processor (IMP, Netzrechner zur Nachrichtenzerlegung und Paketvermittlung), Terminal IMP (TIP, spezielle IMPs für direkten Terminalzugang)",
-    "xp": 10,
-    "tags": [
-      "vl-offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Wozu dienten die Interface Message Processors (IMP)?",
-    "options": [
-      "Zur Benutzerauthentifizierung",
-      "Zur Nachrichtenzerlegung und Paketvermittlung",
-      "Zur Datenspeicherung",
-      "Zur Grafikverarbeitung"
-    ],
-    "correct": 1,
-    "explanation": "Die Interface Message Processors (IMPs) waren Netzrechner zur Nachrichtenzerlegung und Paketvermittlung.",
-    "xp": 10,
-    "tags": [
-      "vl-offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Was versteht man unter Paketvermittlung?",
-    "options": [
-      "Versenden von Bytes durch elektromagnetische Signale",
-      "Physische Zustellung von Paketen",
-      "Speicherung von Daten in Paketen",
-      "Verwaltung von Netzwerkprotokollen"
-    ],
-    "correct": 0,
-    "explanation": "Unter Paketvermittlung versteht man das Versenden von Bytes durch elektromagnetische Signale.",
-    "xp": 10,
-    "tags": [
-      "vl-offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "checkbox",
-    "question": "Welche sind die grundlegenden Protokolle des Internet?",
-    "options": [
-      "TCP",
-      "IP",
-      "HTTP",
-      "FTP"
-    ],
-    "correct": [
-      0,
-      1
-    ],
-    "explanation": "Die grundlegenden Protokolle des Internet sind TCP und IP.",
-    "xp": 10,
-    "tags": [
-      "vl-offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Wer erfand das WWW?",
-    "options": [
-      "Tim Berners-Lee",
-      "Vint Cerf",
-      "Larry Page",
-      "Bill Gates"
-    ],
-    "correct": 0,
-    "explanation": "Tim Berners-Lee erfand das World Wide Web (zusammen mit Robert Cailliau).",
-    "xp": 10,
-    "tags": [
-      "vl-offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "checkbox",
-    "question": "Was sind die Basiskonzepte des WWW?",
-    "options": [
-      "Client-Server-Architektur",
-      "Hypermedia-Inhalte",
-      "Links auf Objekte im Netz (URIs)",
-      "Textauszeichnungssprache HTML",
-      "Übertragungsprotokoll HTTP"
-    ],
-    "correct": [
-      0,
-      1,
-      2,
-      3,
-      4
-    ],
-    "explanation": "Die Basiskonzepte des WWW sind: Client-Server-Architektur, Hypermedia-Inhalte, Links auf Objekte im Netz (URIs), Textauszeichnungssprache HTML und das Übertragungsprotokoll HTTP.",
-    "xp": 10,
-    "tags": [
-      "vl-offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Was ist eine Bean in Spring Boot?",
-    "options": [
-      "Eine Java-Datei",
-      "Ein verwaltetes Java-Objekt im Spring Container",
-      "Eine Logging-Konfiguration",
-      "Eine Datenbankverbindung"
-    ],
-    "correct": 1,
-    "explanation": "Eine Bean ist ein verwaltetes Java-Objekt im Spring Container, das von Spring verwaltet wird - inklusive Erstellung, Konfiguration und Lebenszyklus-Management.",
-    "xp": 10,
-    "tags": [
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Die Methode init() ist ohne die Annotation @Bean immer noch automatisch ausführbar.",
-    "options": [
-      "Wahr",
-      "Falsch"
-    ],
-    "correct": 1,
-    "explanation": "Ohne @Bean wird init() nicht automatisch als Bean registriert und auch nicht ausgeführt.",
-    "xp": 15,
-    "tags": [
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Spring Boot kann mit eingebetteten Servern wie Tomcat oder Jetty arbeiten.",
-    "options": [
-      "Wahr",
-      "Falsch"
-    ],
-    "correct": 0,
-    "explanation": "Spring Boot kommt mit eingebetteten Servern wie Tomcat, Jetty oder Undertow und erfordert keine externe Server-Installation.",
-    "xp": 10,
-    "tags": [
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Die Annotation @Test markiert eine Methode als zu testender Code.",
-    "options": [
-      "Wahr",
-      "Falsch"
-    ],
-    "correct": 0,
-    "explanation": "@Test markiert eine Methode als Test-Methode, die vom Testing-Framework ausgeführt wird, nicht als zu testenden Code.",
-    "xp": 10,
-    "tags": [
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Welche Annotation wird verwendet, um eine Klasse als Bean verfügbar zu machen?",
-    "options": [
-      "@Override",
-      "@Service",
-      "@Component",
-      "@Autowired"
-    ],
-    "correct": 2,
-    "explanation": "@Component markiert eine Klasse als Spring-Bean. @Service und andere sind spezialisierte Varianten von @Component.",
-    "xp": 10,
-    "tags": [
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Logging in Spring Boot kann ausschließlich in die Konsole ausgegeben werden.",
-    "options": [
-      "Wahr",
-      "Falsch"
-    ],
-    "correct": 1,
-    "explanation": "Spring Boot kann auch in Dateien, externe Logging-Systeme, Datenbanken und viele andere Ziele loggen, nicht nur in die Konsole.",
-    "xp": 15,
-    "tags": [
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Was beschreibt das Hollywood-Prinzip (\"Don't call us, we'll call you\") im Kontext von Spring?",
-    "options": [
-      "Jede Klasse erstellt ihre Abhängigkeiten selbst per new",
-      "Das Framework ruft Komponenten auf und verkabelt Abhängigkeiten für uns",
-      "Alle Services laufen immer im eigenen Thread",
-      "Methoden werden automatisch parallel ausgeführt"
-    ],
-    "correct": 1,
-    "explanation": "Das Hollywood-Prinzip bedeutet Inversion of Control (IoC): Das Framework übernimmt die Kontrolle und ruft unseren Code auf, statt umgekehrt.",
+    "explanation": "CommandLineRunner ist ein Interface, dessen run()-Methode nach der Initialisierung der Spring Boot App ausgeführt wird. Es eignet sich für Initialisierungscode beim Start.",
     "xp": 20,
     "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Welches Problem löst Dependency Injection?",
-    "options": [
-      "Man kann Java-Code ohne Klassen schreiben",
-      "Man braucht keine Interfaces mehr",
-      "Klassen müssen ihre Abhängigkeiten nicht mehr selbst instanziieren",
-      "Exceptions werden unterdrückt"
-    ],
-    "correct": 2,
-    "explanation": "Dependency Injection ermöglicht es, dass Abhängigkeiten von außen injiziert werden, statt sie per 'new' selbst zu erstellen. Das führt zu loser Kopplung.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Wofür ist der IoC Container in Spring zuständig?",
-    "options": [
-      "Für die Übersetzung von Java in Bytecode",
-      "Für das automatische Deployen auf Tomcat",
-      "Für das Instanziieren, Konfigurieren und Injizieren von Beans",
-      "Für das Speichern der Logs in einer Datenbank"
-    ],
-    "correct": 2,
-    "explanation": "Der IoC (Inversion of Control) Container verwaltet den Lebenszyklus von Beans: Er erstellt, konfiguriert und injiziert sie automatisch.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Was ist eine Bean im Sinne von Spring?",
-    "options": [
-      "Eine lokale Variable innerhalb von main()",
-      "Ein Objekt, das vom Spring Container verwaltet wird",
-      "Eine Datei in application.properties",
-      "Ein HTTP Request"
-    ],
-    "correct": 1,
-    "explanation": "Eine Bean ist ein Objekt, das vom Spring Container instanziiert, verwaltet und injiziert wird.",
-    "xp": 10,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Welche Aussage über lose Kopplung durch DI ist korrekt?",
-    "options": [
-      "Klassen hängen weniger hart voneinander ab",
-      "Klassen reden nur noch über statische Methoden miteinander",
-      "Man braucht kein Interface mehr",
-      "Getter/Setter werden überflüssig"
-    ],
-    "correct": 0,
-    "explanation": "Dependency Injection fördert lose Kopplung, da Klassen ihre Abhängigkeiten nicht selbst erstellen und dadurch weniger stark voneinander abhängen.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Die Annotation @Autowired dient dazu, Abhängigkeiten automatisch zu injizieren",
-    "options": [
-      "Wahr",
-      "Falsch"
-    ],
-    "correct": 0,
-    "explanation": "@Autowired markiert Stellen, an denen Spring automatisch passende Beans injizieren soll.",
-    "xp": 10,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Welche Rolle hat @Qualifier?",
-    "options": [
-      "Startet die Spring Boot Anwendung",
-      "Legt fest, welche konkrete Bean injiziert werden soll, wenn mehrere möglich sind",
-      "Aktiviert das Logging",
-      "Deaktiviert Autowiring"
-    ],
-    "correct": 1,
-    "explanation": "@Qualifier hilft Spring zu entscheiden, welche Bean injiziert werden soll, wenn mehrere Beans vom gleichen Typ existieren.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Warum kann es ohne @Qualifier bei mehreren Implementierungen eines Interfaces zu einem Fehler kommen?",
-    "options": [
-      "Spring injiziert immer die falsche Klasse absichtlich",
-      "Spring kann nicht entscheiden, welche konkrete Bean gemeint ist",
-      "Interfaces sind in Spring verboten",
-      "Die Anwendung darf dann nicht mehr loggen"
-    ],
-    "correct": 1,
-    "explanation": "Wenn mehrere Beans den gleichen Typ haben, kann Spring ohne @Qualifier nicht automatisch entscheiden, welche injiziert werden soll.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Was macht @Primary?",
-    "options": [
-      "Markiert eine Bean als bevorzugte Wahl, falls mehrere Kandidaten existieren",
-      "Startet den Garbage Collector",
-      "Erzwingt Singleton Scope",
-      "Aktiviert HTTPS"
-    ],
-    "correct": 0,
-    "explanation": "@Primary markiert eine Bean als bevorzugte Standard-Wahl, wenn mehrere Beans vom gleichen Typ verfügbar sind.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Was fasst @SpringBootApplication zusammen?",
-    "options": [
-      "@Controller, @Repository, @Service",
-      "@PostConstruct, @PreDestroy, @Bean",
-      "@Configuration, @EnableAutoConfiguration, @ComponentScan",
-      "@Autowired, @Qualifier, @Primary"
-    ],
-    "correct": 2,
-    "explanation": "@SpringBootApplication kombiniert @Configuration, @EnableAutoConfiguration und @ComponentScan in einer Annotation.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Welche Aufgabe hat @EnableAutoConfiguration innerhalb von @SpringBootApplication?",
-    "options": [
-      "Sie deaktiviert alle Beans",
-      "Sie sorgt dafür, dass Spring versucht, anhand des Classpaths passende Konfigurationen und Beans automatisch zu erstellen",
-      "Sie startet die Datenbank",
-      "Sie erzeugt automatisch Controller für alle Services"
-    ],
-    "correct": 1,
-    "explanation": "@EnableAutoConfiguration analysiert den Classpath und konfiguriert Spring Boot automatisch basierend auf den gefundenen Abhängigkeiten.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Was bewirkt @ComponentScan?",
-    "options": [
-      "Es kompiliert das Projekt",
-      "Es durchsucht bestimmte Pakete nach Komponenten/Beans",
-      "Es löscht unbenutzte Beans",
-      "Es erzeugt HTTP Endpunkte für alle Klassen"
-    ],
-    "correct": 1,
-    "explanation": "@ComponentScan durchsucht angegebene Pakete nach mit @Component (oder @Service, @Repository, etc.) annotierten Klassen und registriert sie als Beans.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Was unterscheidet eine Klasse mit @Configuration von einer Klasse mit @Component?",
-    "options": [
-      "@Configuration-Klassen dürfen keinen Code enthalten",
-      "@Configuration-Klassen sind nur für Logging zuständig",
-      "@Configuration-Klassen enthalten Methoden mit @Bean, deren Rückgabewerte als Beans registriert werden",
-      "Es gibt keinen Unterschied"
-    ],
-    "correct": 2,
-    "explanation": "@Configuration-Klassen dienen als Bean-Definitionen und enthalten typischerweise @Bean-Methoden, die Objekte als Beans im Container registrieren.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Die Methode, die mit @Bean annotiert ist, liefert ein Objekt zurück, das in den ApplicationContext als Bean gelegt wird",
-    "options": [
-      "Wahr",
-      "Falsch"
-    ],
-    "correct": 0,
-    "explanation": "Eine @Bean-Methode gibt ein Objekt zurück, das Spring als Bean im ApplicationContext registriert und verwaltet.",
-    "xp": 10,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Welche Aussage über ApplicationContext ist korrekt?",
-    "options": [
-      "ApplicationContext ist nur in Desktop-Anwendungen verfügbar",
-      "ApplicationContext ist der zentrale Spring-Container, der Beans verwaltet",
-      "ApplicationContext ersetzt den Java Compiler",
-      "ApplicationContext ist nur für Datenbankverbindungen zuständig"
-    ],
-    "correct": 1,
-    "explanation": "Der ApplicationContext ist der zentrale Spring IoC Container, der alle Beans verwaltet, konfiguriert und deren Lebenszyklus steuert.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Was ist der WebApplicationContext?",
-    "options": [
-      "Ein spezieller Context für Web-spezifische Beans (Controller etc.)",
-      "Ein JDBC-Treiber",
-      "Ein Logging-Adapter",
-      "Ein Maven-Plugin"
-    ],
-    "correct": 0,
-    "explanation": "Der WebApplicationContext ist eine Spezialisierung des ApplicationContext für Webanwendungen mit zusätzlichen Features für Web-Komponenten.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
+      "uebung"
     ]
   },
   {
     "difficulty": 3,
     "type": "multiple",
-    "question": "Welche Aufgabe hat das DispatcherServlet in einer Spring Web-Anwendung?",
+    "question": "Was bedeutet 'Inversion of Control' im Spring-Kontext?",
     "options": [
-      "Es kompiliert Java in Bytecode",
-      "Es mapped HTTP-Requests auf Controller und nutzt den WebApplicationContext",
-      "Es erzeugt Docker Images",
-      "Es verwaltet die Gradle-Dependencies"
+      "Die Umkehrung der Programmflusssteuerung",
+      "Das manuelle Erstellen von Objekten",
+      "Die direkte Objektreferenzierung",
+      "Die Verwendung von statischen Methoden"
     ],
-    "correct": 1,
-    "explanation": "Das DispatcherServlet ist das zentrale Servlet in Spring MVC, das eingehende HTTP-Requests auf die passenden Controller-Methoden verteilt.",
+    "correct": 0,
+    "explanation": "Inversion of Control bedeutet, dass die Kontrolle über Objekterstellung und -verwaltung an den Spring Container übertragen wird, statt sie selbst zu implementieren.",
     "xp": 30,
     "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
+      "uebung"
     ]
   },
   {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Welche Aussage über den Bean-Lifecycle ist sinnvoll?",
-    "options": [
-      "Beans entstehen zufällig zur Laufzeit ohne Reihenfolge",
-      "Beans haben einen definierten Lebenszyklus, in dem Initialisierung und Zerstörung gehookt werden können",
-      "Beans werden nie zerstört",
-      "Der Lifecycle gilt nur für Datenbank-Beans, nicht für Controller"
-    ],
-    "correct": 1,
-    "explanation": "Beans durchlaufen einen definierten Lebenszyklus mit Phasen wie Instanziierung, Dependency Injection, Initialisierung (@PostConstruct) und Zerstörung (@PreDestroy).",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Wozu dient @PostConstruct?",
-    "options": [
-      "Läuft nach der Bean-Initialisierung und kann Startwerte setzen / initialisieren",
-      "Läuft vor dem Kompilieren",
-      "Läuft nach dem Shutdown der JVM",
-      "Läuft nur bei HTTP-GET-Requests"
-    ],
-    "correct": 0,
-    "explanation": "@PostConstruct markiert eine Methode, die nach der Dependency Injection ausgeführt wird, um Initialisierungslogik durchzuführen.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Wozu dient @PreDestroy?",
-    "options": [
-      "Zum automatischen Deployment in die Cloud",
-      "Wird vor dem Entfernen/Shutdown der Bean ausgeführt, um aufzuräumen",
-      "Zum Generieren von Swagger-Dokumentation",
-      "Zum Erstellen von neuen Threads"
-    ],
-    "correct": 1,
-    "explanation": "@PreDestroy markiert eine Methode, die vor der Zerstörung einer Bean ausgeführt wird, um Ressourcen freizugeben oder aufzuräumen.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Welche Injektionsarten gibt es in Spring?",
-    "options": [
-      "Field Injection, Constructor Injection, Setter Injection",
-      "Main Injection, Log Injection, Thread Injection",
-      "Heap Injection, Stack Injection, Pool Injection",
-      "Static Injection, Dynamic Injection, Hybrid Injection"
-    ],
-    "correct": 0,
-    "explanation": "Spring unterstützt drei Arten von Dependency Injection: Field Injection (@Autowired am Feld), Constructor Injection und Setter Injection.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Was ist ein möglicher Nachteil von Constructor Injection bei sehr vielen Abhängigkeiten?",
-    "options": [
-      "Konstruktor wird privat und ist nicht mehr aufrufbar",
-      "Code wird extrem aufgebläht (viele Parameter, unübersichtlich)",
-      "Spring kann dann nicht mehr starten",
-      "Es ist nicht mehr möglich, Unit-Tests zu schreiben"
-    ],
-    "correct": 1,
-    "explanation": "Bei zu vielen Abhängigkeiten wird der Konstruktor unübersichtlich mit vielen Parametern. Dies kann ein Hinweis darauf sein, dass die Klasse zu viele Verantwortlichkeiten hat.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Was passiert, wenn du versuchst, eine Bean zu nutzen, die nie injiziert wurde (z. B. weil Autowiring fehlt)?",
-    "options": [
-      "Spring kompensiert das automatisch",
-      "Das Objekt wird durch Reflection konstruiert",
-      "Du landest bei Runtime in einer NullPointerException",
-      "Das Projekt baut nicht mehr unter Maven"
-    ],
-    "correct": 2,
-    "explanation": "Ohne Dependency Injection bleibt das Feld null und führt zu einer NullPointerException beim Zugriff.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Standardmäßig erstellt Spring pro Bean …",
-    "options": [
-      "unendlich viele Objekte pro Request",
-      "genau ein Objekt pro Container (Singleton)",
-      "ein Objekt pro Thread immer neu",
-      "gar keine Objekte, bis man sie manuell newt"
-    ],
-    "correct": 1,
-    "explanation": "Der Standard-Scope in Spring ist 'singleton', d.h. es gibt genau eine Instanz pro Bean im ApplicationContext.",
-    "xp": 10,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Warum sind die meisten Services in Spring zustandslos (stateless)?",
-    "options": [
-      "Weil Spring keine Felder unterstützt",
-      "Weil ein Singleton-Bean sonst unerwartete alte Zustände zwischen Aufrufen durchschleppen würde",
-      "Weil Java Verbote für Membervariablen hat",
-      "Weil das im HTTP-Standard vorgeschrieben ist"
-    ],
-    "correct": 1,
-    "explanation": "Da Singleton-Beans für alle Anfragen wiederverwendet werden, würden Zustandsvariablen zu unerwarteten Nebenwirkungen zwischen verschiedenen Aufrufen führen.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Welcher Scope erzeugt standardmäßig genau eine Instanz pro Spring Container?",
-    "options": [
-      "prototype",
-      "session",
-      "singleton",
-      "request"
-    ],
-    "correct": 2,
-    "explanation": "Der Singleton-Scope ist der Standard in Spring und erstellt genau eine Bean-Instanz pro ApplicationContext.",
-    "xp": 10,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Welcher Scope erstellt eine neue Bean-Instanz bei jedem neuen HTTP Request?",
-    "options": [
-      "singleton",
-      "prototype",
-      "request",
-      "session"
-    ],
-    "correct": 2,
-    "explanation": "Der Request-Scope erstellt für jeden HTTP-Request eine neue Bean-Instanz, die nach dem Request wieder verworfen wird.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Welcher Scope sorgt dafür, dass eine Bean während einer einzelnen HTTP-Session gleich bleibt (also pro User-Session eine Instanz)?",
-    "options": [
-      "session",
-      "request",
-      "prototype",
-      "singleton"
-    ],
-    "correct": 0,
-    "explanation": "Der Session-Scope erstellt eine Bean-Instanz pro HTTP-Session, die für die Dauer der Session erhalten bleibt.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Welcher Scope ist sinnvoll, wenn man pro Instanz einen eigenen Zustand halten will (z. B. einen eigenen Warenkorb), statt immer dieselbe Singleton-Instanz zu teilen?",
-    "options": [
-      "prototype",
-      "singleton",
-      "static",
-      "compiled"
-    ],
-    "correct": 0,
-    "explanation": "Der Prototype-Scope erstellt bei jeder Anforderung eine neue Bean-Instanz, sodass jede Instanz ihren eigenen Zustand haben kann.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Was passiert im Fehlerfall, wenn mehrere Beans das gleiche Interface implementieren und Spring ohne Qualifier injizieren soll?",
-    "options": [
-      "Spring nimmt zufällig die alphabetisch erste Bean",
-      "Spring startet trotzdem normal durch",
-      "Spring bricht den Start ab und meldet, dass mehrere passende Beans gefunden wurden",
-      "Spring merged beide Beans automatisch"
-    ],
-    "correct": 2,
-    "explanation": "Spring kann ohne zusätzliche Informationen (@Qualifier oder @Primary) nicht entscheiden, welche Bean injiziert werden soll, und wirft einen Fehler beim Start.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
+    "difficulty": 3,
     "type": "checkbox",
-    "question": "Welche Verbesserungen wurden durch HTTP 1.1 eingeführt? (Mehrfachauswahl)",
+    "question": "Welche Aussagen über Konstruktor-Injektion sind korrekt? (Mehrfachauswahl)",
     "options": [
-      "Wiederverwendung der Verbindung (Keep-Alive)",
-      "Mehrere Anfragen über die gleiche Verbindung",
-      "Pipelining - mehrere Anfragen hintereinander",
-      "Header-Kompression",
-      "Binäres Protokoll"
-    ],
-    "correct": [
-      0,
-      1,
-      2
-    ],
-    "explanation": "HTTP 1.1 führte wichtige Verbesserungen ein: Connection Keep-Alive ermöglicht die Wiederverwendung von TCP-Verbindungen, mehrere Anfragen können über dieselbe Verbindung gesendet werden und Pipelining erlaubt das Senden mehrerer Anfragen hintereinander ohne auf die Antworten zu warten. Header-Kompression und binäres Protokoll kamen erst mit HTTP/2.",
-    "xp": 20,
-    "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "checkbox",
-    "question": "Welche Neuerungen bringt HTTP/2 mit sich? (Mehrfachauswahl)",
-    "options": [
-      "Zusammenfassung mehrerer Requests und Priorisierung",
-      "Multiplexing über eine TCP-Verbindung",
-      "Header-Kompression (HPACK)",
-      "Server Push",
-      "Binäres statt textbasiertes Protokoll"
-    ],
-    "correct": [
-      0,
-      1,
-      2,
-      3,
-      4
-    ],
-    "explanation": "HTTP/2 revolutionierte die Web-Kommunikation: Zusammenfassung und Priorisierung mehrerer Requests, Multiplexing (parallele Streams über eine Verbindung), Header-Kompression mit HPACK, Server Push (proaktives Senden von Ressourcen) und ein effizienteres binäres Protokoll statt textbasiert.",
-    "xp": 25,
-    "tags": [
-      "woche3",
-      "vl-offiziell",
-      "gemischt"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Welcher Doctype ist in HTML5 korrekt?",
-    "options": [
-      "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\">",
-      "<!DOCTYPE html>",
-      "<!DOCTYPE XHTML 1.0 Strict>",
-      "<?doctype html?>"
-    ],
-    "correct": 1,
-    "explanation": "HTML5 vereinfachte die Doctype-Deklaration drastisch auf <!DOCTYPE html> - keine DTD-Referenzierung mehr nötig wie in HTML4.",
-    "xp": 10,
-    "tags": [
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Welches Element bettet Videos standardkonform in HTML5 ein?",
-    "options": [
-      "<media>",
-      "<object>",
-      "<video>",
-      "<movie>"
-    ],
-    "correct": 2,
-    "explanation": "HTML5 führte das native <video>-Element ein, das Videos ohne Plugins einbetten kann. Früher war <object> für Plugins wie Flash nötig.",
-    "xp": 10,
-    "tags": [
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Welches Verfahren ermöglicht plugin-freie Vektorgrafik im Browser (HTML5-Kontext)?",
-    "options": [
-      "Flash",
-      "Silverlight",
-      "SVG",
-      "ActiveX"
-    ],
-    "correct": 2,
-    "explanation": "SVG (Scalable Vector Graphics) ist der HTML5-Standard für Vektorgrafiken im Browser - ohne Plugins. Flash, Silverlight und ActiveX sind veraltete Plugin-Technologien.",
-    "xp": 15,
-    "tags": [
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Welche Angabe setzt die Zeichenkodierung im HTML5-Head minimal korrekt?",
-    "options": [
-      "<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\">",
-      "<meta charset=\"UTF-8\">",
-      "<charset=UTF-8>",
-      "<meta encoding=\"UTF-8\">"
-    ],
-    "correct": 1,
-    "explanation": "HTML5 vereinfachte die Charset-Deklaration auf <meta charset=\"UTF-8\">. Die lange http-equiv-Variante ist HTML4-Syntax.",
-    "xp": 10,
-    "tags": [
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Laut den Folien: Wer standardisiert HTML?",
-    "options": [
-      "ISO",
-      "IETF",
-      "W3C",
-      "ECMA"
-    ],
-    "correct": 2,
-    "explanation": "Das W3C (World Wide Web Consortium) ist die Organisation, die HTML standardisiert. IETF kümmert sich um Internet-Protokolle, ISO um allgemeine Standards, ECMA um JavaScript.",
-    "xp": 10,
-    "tags": [
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Welche Schicht ist in der 3-Tier-Architektur für die Geschäftslogik zuständig?",
-    "options": [
-      "Präsentation",
-      "Verarbeitung",
-      "Datenhaltung",
-      "Netzwerk"
-    ],
-    "correct": 1,
-    "explanation": "Die Verarbeitungsschicht (auch Anwendungslogik-Schicht) ist für die Geschäftslogik zuständig. Präsentation zeigt die UI, Datenhaltung speichert Daten.",
-    "xp": 15,
-    "tags": [
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "checkbox",
-    "question": "Welche der folgenden Neuerungen sind Teil von HTML5 (im Vergleich zu HTML4)? (Mehrfachauswahl)",
-    "options": [
-      "<video>",
-      "<canvas>",
-      "WebSockets (JavaScript-API)",
-      "Web Storage (z.B. localStorage)",
-      "<frameset>",
-      "<center>"
-    ],
-    "correct": [
-      0,
-      1,
-      2,
-      3
-    ],
-    "explanation": "HTML5 führte viele neue Features ein: <video> und <audio> für Medien, <canvas> für Grafiken, WebSockets-API für bidirektionale Kommunikation und Web Storage für clientseitige Datenspeicherung. <frameset> und <center> sind deprecated/obsolet.",
-    "xp": 20,
-    "tags": [
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "checkbox",
-    "question": "Welche Zeilen gehören zum minimalen HTML5-Grundgerüst? (Mehrfachauswahl)",
-    "options": [
-      "<!DOCTYPE html>",
-      "<meta charset=\"UTF-8\">",
-      "<title>...</title>",
-      "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\">",
-      "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
-    ],
-    "correct": [
-      0,
-      1,
-      2
-    ],
-    "explanation": "Ein minimales HTML5-Dokument benötigt: <!DOCTYPE html>, <meta charset=\"UTF-8\"> und <title>. Die HTML4-Doctype-Deklaration und die alte charset-Syntax sind veraltet.",
-    "xp": 15,
-    "tags": [
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "checkbox",
-    "question": "Wählen Sie alle Aussagen, die HTML4 korrekt beschreiben. (Mehrfachauswahl)",
-    "options": [
-      "Native Audio/Video-Elemente sind enthalten",
-      "Vektorgrafik ist nur über Plugins üblich",
-      "Eine ausführliche DTD-basierte Doctype-Deklaration wird verwendet",
-      "Es existiert eine JavaScript-API für WebSockets"
-    ],
-    "correct": [
-      1,
-      2
-    ],
-    "explanation": "HTML4 hatte keine nativen Audio/Video-Elemente (benötigte Plugins wie Flash), Vektorgrafiken erforderten Plugins, die Doctype-Deklaration war lang und DTD-basiert. WebSockets kamen erst mit HTML5.",
-    "xp": 20,
-    "tags": [
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "HTML5 integriert <audio> und <video> als Standard-Elemente.",
-    "options": [
-      "Richtig",
-      "Falsch"
-    ],
-    "correct": 0,
-    "explanation": "Richtig. HTML5 führte native <audio> und <video> Elemente ein, die Medien ohne Plugins abspielen können - ein Hauptunterschied zu HTML4.",
-    "xp": 10,
-    "tags": [
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "In HTML5 muss der Doctype eine konkrete DTD referenzieren.",
-    "options": [
-      "Richtig",
-      "Falsch"
-    ],
-    "correct": 1,
-    "explanation": "Falsch. HTML5 vereinfachte die Doctype-Deklaration auf <!DOCTYPE html> - keine DTD-Referenz mehr nötig wie in HTML4.",
-    "xp": 10,
-    "tags": [
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "HTML5 ermöglicht Zeichnungen über <canvas> ohne zusätzliche Plugins.",
-    "options": [
-      "Richtig",
-      "Falsch"
-    ],
-    "correct": 0,
-    "explanation": "Richtig. Das <canvas>-Element ermöglicht dynamische Grafiken und Animationen per JavaScript - direkt im Browser ohne Plugins.",
-    "xp": 10,
-    "tags": [
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "matching",
-    "question": "Ordnen Sie Schicht ↔ Aufgabe in der 3-Tier-Architektur zu:",
-    "pairs": [
-      {
-        "left": "Präsentation",
-        "right": "Darstellung/Interaktion im Client bzw. serverseitige Präsentation"
-      },
-      {
-        "left": "Verarbeitung",
-        "right": "Geschäftslogik/Anwendungslogik"
-      },
-      {
-        "left": "Datenhaltung",
-        "right": "Persistenz/Datenbankzugriff"
-      }
-    ],
-    "explanation": "Die 3-Tier-Architektur teilt Webanwendungen in drei Schichten: Präsentation (UI/Darstellung), Verarbeitung (Business Logic), Datenhaltung (Datenbank/Persistenz).",
-    "xp": 20,
-    "tags": [
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "matching",
-    "question": "Ordnen Sie Komponente ↔ Schicht in der 3-Tier-Architektur zu:",
-    "pairs": [
-      {
-        "left": "Browser / HTML-Seite",
-        "right": "Präsentationsschicht"
-      },
-      {
-        "left": "Anwendungsserver",
-        "right": "Verarbeitungsschicht"
-      },
-      {
-        "left": "Datenbankserver",
-        "right": "Datenhaltungsschicht"
-      }
-    ],
-    "explanation": "Typische Komponenten-Zuordnung: Browser zeigt die Präsentation, Anwendungsserver führt Geschäftslogik aus, Datenbankserver speichert Daten.",
-    "xp": 20,
-    "tags": [
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "sort",
-    "question": "Bringen Sie den typischen Ablauf einer Web-Anfrage in die richtige Reihenfolge:",
-    "items": [
-      "Antwort wird über Web-Server an den Browser zurückgegeben",
-      "Anwendungsserver führt Geschäftslogik aus",
-      "Datenbankserver liefert Daten",
-      "Browser stellt Anfrage",
-      "Web-Server/Präsentationsschicht nimmt Request an und leitet weiter"
-    ],
-    "correct": [
-      "Browser stellt Anfrage",
-      "Web-Server/Präsentationsschicht nimmt Request an und leitet weiter",
-      "Anwendungsserver führt Geschäftslogik aus",
-      "Datenbankserver liefert Daten",
-      "Antwort wird über Web-Server an den Browser zurückgegeben"
-    ],
-  "explanation": "Typischer Request-Flow: 1) Browser sendet Request, 2) Web-Server empfängt, 3) Anwendungsserver verarbeitet Business Logic, 4) Datenbank liefert Daten, 5) Response zurück an Browser.\n✅ Browser stellt Anfrage → Web-Server/Präsentationsschicht nimmt Request an und leitet weiter → Anwendungsserver führt Geschäftslogik aus → Datenbankserver liefert Daten → Antwort wird über Web-Server an den Browser zurückgegeben",
-    "xp": 25,
-    "tags": [
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "fillblank",
-    "question": "Ergänzen Sie das HTML5-Grundgerüst: _____ <html> <head> _____ <title>_____ </title> </head> <body> ... </body> </html>",
-    "blanks": [
-      "<!DOCTYPE html>",
-      "<meta charset=\"UTF-8\">",
-      "Seitentitel"
-    ],
-    "explanation": "Ein minimales HTML5-Dokument beginnt mit <!DOCTYPE html>, enthält <meta charset=\"UTF-8\"> im Head für die Zeichenkodierung und einen <title> für den Seitentitel.",
-    "xp": 20,
-    "tags": [
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "fillblank",
-    "question": "Benennen Sie die drei Schichten der 3-Tier-Architektur (in beliebiger Reihenfolge): _____, _____, _____",
-    "blanks": [
-      "Präsentation",
-      "Verarbeitung",
-      "Datenhaltung"
-    ],
-    "explanation": "Die 3-Tier-Architektur besteht aus drei Schichten: Präsentationsschicht (UI), Verarbeitungsschicht (Business Logic) und Datenhaltungsschicht (Persistenz).",
-    "xp": 15,
-    "tags": [
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Sie sollen bidirektionale Echtzeit-Kommunikation zwischen Browser und Server bereitstellen (z.B. Live-Chat). Welche Technologie aus dem HTML5-Umfeld ist passend?",
-    "options": [
-      "Long Polling",
-      "WebSockets (JS-API)",
-      "Meta-Refresh",
-      "iFrame-Streaming"
-    ],
-    "correct": 1,
-    "explanation": "WebSockets ermöglichen echte bidirektionale Echtzeit-Kommunikation über eine persistente Verbindung. Long Polling, Meta-Refresh und iFrames sind Workarounds aus der Pre-HTML5-Ära.",
-    "xp": 20,
-    "tags": [
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Eine Anwendung soll kleine, persistente Key/Value-Daten im Client speichern – ohne Cookies. Welche HTML5-Funktion ist dafür gedacht?",
-    "options": [
-      "HTTP-Cache",
-      "Web Storage",
-      "DNS-Cache",
-      "MIME-Sniffing"
-    ],
-    "correct": 1,
-    "explanation": "Web Storage (localStorage/sessionStorage) ermöglicht clientseitige Key-Value-Speicherung mit mehr Kapazität als Cookies und ohne diese bei jedem Request mitzusenden.",
-    "xp": 20,
-    "tags": [
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "checkbox",
-    "question": "Welche Vorteile bietet Field Injection? (Mehrfachauswahl)",
-    "options": [
-      "Sehr kurz und unkompliziert zu schreiben",
-      "Wenig Boilerplate-Code",
-      "Abhängigkeiten sind final und unveränderbar",
-      "Ideal für Unit Tests",
-      "Einfach zu lesen"
-    ],
-    "correct": [
-      0,
-      1,
-      4
-    ],
-    "explanation": "Field Injection ist sehr kurz, unkompliziert und einfach zu lesen - erfordert minimal Code. Aber: Abhängigkeiten sind nicht final und es ist schwerer zu testen (keine Konstruktor-/Setter-Zugriff).",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "gemischt",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "checkbox",
-    "question": "Welche Nachteile hat Field Injection? (Mehrfachauswahl)",
-    "options": [
-      "Schwerer zu testen (kein Konstruktor/Setter verfügbar)",
-      "Nicht ideal für Clean Code",
-      "Nicht ideal für Unit Tests",
-      "Abhängigkeiten sind explizit sichtbar",
-      "Zu viel Boilerplate-Code"
-    ],
-    "correct": [
-      0,
-      1,
-      2
-    ],
-    "explanation": "Field Injection macht Tests schwieriger, da man die Abhängigkeiten nicht über Konstruktor oder Setter setzen kann. Es gilt als weniger 'clean' und ist nicht ideal für Unit Tests. Die Abhängigkeiten sind versteckt (nicht explizit).",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "gemischt",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "checkbox",
-    "question": "Welche Vorteile bietet Setter Injection? (Mehrfachauswahl)",
-    "options": [
-      "Gut geeignet für optionale Abhängigkeiten",
-      "Unterstützt Lazy Loading",
-      "Abhängigkeiten sind unveränderbar (final)",
-      "Flexibel - Abhängigkeiten können nach Erstellung geändert werden",
-      "Stabilste Injection-Methode"
-    ],
-    "correct": [
-      0,
-      1,
-      3
-    ],
-    "explanation": "Setter Injection eignet sich besonders für optionale Abhängigkeiten und Lazy Loading. Die Flexibilität (Abhängigkeiten können geändert werden) ist Vor- und Nachteil zugleich. Abhängigkeiten sind nicht final und es ist weniger stabil als Constructor Injection.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "gemischt",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "checkbox",
-    "question": "Welche Nachteile hat Setter Injection? (Mehrfachauswahl)",
-    "options": [
-      "Abhängigkeiten können nach der Erstellung geändert werden (nicht final)",
-      "Weniger stabil als Constructor Injection",
-      "Keine Möglichkeit für optionale Abhängigkeiten",
-      "Objekt kann in inkonsistentem Zustand existieren",
-      "Zu viel Code erforderlich"
-    ],
-    "correct": [
-      0,
-      1,
-      3
-    ],
-    "explanation": "Bei Setter Injection sind Abhängigkeiten nicht final (können geändert werden), was weniger stabil ist als Constructor Injection. Das Objekt kann nach Konstruktor-Aufruf in einem inkonsistenten Zustand sein, bis alle Setter aufgerufen wurden.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "gemischt",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "checkbox",
-    "question": "Welche Vorteile bietet Constructor Injection? (Mehrfachauswahl)",
-    "options": [
-      "Abhängigkeiten sind final (können nicht verändert werden)",
-      "Testfreundlich - Objekte im Test leicht manuell übergeben",
-      "Empfohlene Standard-Methode in modernen Spring-Projekten",
       "Garantiert vollständige Initialisierung",
-      "Weniger Code als Field Injection"
+      "Unterstützt Immutability",
+      "Macht Abhängigkeiten explizit",
+      "Ist flexibler als Setter-Injektion",
+      "Erfordert weniger Code als Feld-Injektion"
     ],
     "correct": [
       0,
       1,
-      2,
-      3
+      2
     ],
-    "explanation": "Constructor Injection ist die empfohlene Methode: Abhängigkeiten sind final (Immutability), sehr testfreundlich, garantiert vollständige Initialisierung. Nachteil: Etwas mehr Code als Field Injection, besonders bei vielen Abhängigkeiten.",
-    "xp": 25,
-    "tags": [
-      "uebung",
-      "gemischt",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "matching",
-    "question": "Ordne die Injection-Typen ihrem Hauptvorteil zu:",
-    "pairs": [
-      {
-        "left": "Field Injection",
-        "right": "Sehr kurz und unkompliziert"
-      },
-      {
-        "left": "Setter Injection",
-        "right": "Gut für optionale Abhängigkeiten"
-      },
-      {
-        "left": "Constructor Injection",
-        "right": "Abhängigkeiten sind final und testfreundlich"
-      }
-    ],
-    "explanation": "Jeder Injection-Typ hat seine Stärke: Field (minimaler Code), Setter (Flexibilität für optionale Dependencies), Constructor (Immutability und beste Testbarkeit).",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "gemischt",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "matching",
-    "question": "Ordne die Injection-Typen ihrem Hauptnachteil zu:",
-    "pairs": [
-      {
-        "left": "Field Injection",
-        "right": "Schwer zu testen, nicht ideal für Unit Tests"
-      },
-      {
-        "left": "Setter Injection",
-        "right": "Weniger stabil, Abhängigkeiten nicht final"
-      },
-      {
-        "left": "Constructor Injection",
-        "right": "Mehr Code bei vielen Abhängigkeiten"
-      }
-    ],
-    "explanation": "Jeder Typ hat Nachteile: Field (Testbarkeit), Setter (Stabilität/Immutability), Constructor (Code-Menge bei vielen Dependencies).",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "gemischt",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 3,
-    "type": "multiple",
-    "question": "Welche Injection-Methode ist die empfohlene Standard-Methode in modernen Spring-Projekten?",
-    "options": [
-      "Field Injection",
-      "Setter Injection",
-      "Constructor Injection",
-      "Method Injection"
-    ],
-    "correct": 2,
-    "explanation": "Constructor Injection ist die empfohlene Standard-Methode in modernen Spring-Projekten, da sie Immutability garantiert, testfreundlich ist und vollständige Initialisierung sicherstellt.",
-    "xp": 25,
-    "tags": [
-      "uebung",
-      "gemischt",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Wann ist Setter Injection besonders sinnvoll?",
-    "options": [
-      "Wenn alle Abhängigkeiten zwingend erforderlich sind",
-      "Wenn Abhängigkeiten final sein müssen",
-      "Für optionale Abhängigkeiten oder Lazy Loading",
-      "Wenn minimaler Code gewünscht ist"
-    ],
-    "correct": 2,
-    "explanation": "Setter Injection eignet sich besonders für optionale Abhängigkeiten und Lazy Loading, da nicht alle Setter aufgerufen werden müssen und sie nach der Konstruktion gesetzt werden können.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "gemischt",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 3,
-    "type": "multiple",
-    "question": "Warum ist Field Injection nicht ideal für Unit Tests?",
-    "options": [
-      "Weil Spring nicht in Unit Tests funktioniert",
-      "Weil man die Abhängigkeiten nicht über Konstruktor oder Setter setzen kann",
-      "Weil @Autowired in Tests verboten ist",
-      "Weil Tests immer Constructor Injection erfordern"
-    ],
-    "correct": 1,
-    "explanation": "Bei Field Injection gibt es keinen Konstruktor oder Setter, über den man Test-Doubles (Mocks/Stubs) einfach injizieren kann. Man ist auf Reflection oder Spring-Test-Context angewiesen.",
+    "explanation": "Konstruktor-Injektion wird bevorzugt, weil sie vollständige Initialisierung garantiert, Immutability ermöglicht und Abhängigkeiten explizit macht. Sie ist nicht flexibler und erfordert mehr Code.",
     "xp": 30,
     "tags": [
-      "uebung",
-      "gemischt",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "fillblank",
-    "question": "Bei Field Injection wird @Autowired direkt am _____ platziert, bei Constructor Injection am _____, bei Setter Injection an der _____-Methode.",
-    "blanks": [
-      "Feld",
-      "Konstruktor",
-      "Setter"
-    ],
-    "explanation": "Die drei Injection-Typen unterscheiden sich in der Position von @Autowired: Field (am Feld), Constructor (am Konstruktor), Setter (an der Setter-Methode).",
-    "xp": 15,
-    "tags": [
-      "uebung",
-      "gemischt",
-      "woche3"
+      "uebung"
     ]
   },
   {
     "difficulty": 3,
-    "type": "multiple",
-    "question": "Was bedeutet 'Abhängigkeiten sind final' bei Constructor Injection?",
-    "options": [
-      "Die Klasse kann nicht vererbt werden",
-      "Die injizierten Abhängigkeiten können nach Konstruktor-Aufruf nicht mehr geändert werden",
-      "Der Konstruktor kann nicht überschrieben werden",
-      "Die Bean kann nur einmal erstellt werden"
+    "type": "matching",
+    "question": "Ordne die Spring-Annotationen ihrer Hauptfunktion zu:",
+    "pairs": [
+      {
+        "left": "@SpringBootApplication",
+        "right": "Kombiniert mehrere Basis-Annotationen"
+      },
+      {
+        "left": "@Component",
+        "right": "Markiert Klasse als Spring-verwaltete Komponente"
+      },
+      {
+        "left": "@Bean",
+        "right": "Definiert Methode zur Bean-Erstellung"
+      },
+      {
+        "left": "@Autowired",
+        "right": "Injiziert Abhängigkeiten"
+      }
     ],
-    "correct": 1,
-    "explanation": "Bei Constructor Injection können die Felder als 'final' deklariert werden, was bedeutet, dass sie nach der Zuweisung im Konstruktor nicht mehr geändert werden können (Immutability).",
-    "xp": 30,
-    "tags": [
-      "uebung",
-      "gemischt",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "sort",
-    "question": "Sortiere die Injection-Methoden von 'am wenigsten Code' zu 'am meisten Code':",
-    "items": [
-      "Constructor Injection (bei vielen Dependencies)",
-      "Field Injection",
-      "Setter Injection"
-    ],
-    "correct": [
-      "Field Injection",
-      "Setter Injection",
-      "Constructor Injection (bei vielen Dependencies)"
-    ],
-  "explanation": "Field Injection erfordert am wenigsten Code (nur @Autowired am Feld), Setter Injection braucht Setter-Methoden, Constructor Injection erfordert den meisten Code bei vielen Abhängigkeiten (alle Parameter im Konstruktor).\n✅ Field Injection → Setter Injection → Constructor Injection (bei vielen Dependencies)",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "gemischt",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 3,
-    "type": "checkbox",
-    "question": "Welche Aussagen über die Testbarkeit der Injection-Typen sind korrekt? (Mehrfachauswahl)",
-    "options": [
-      "Constructor Injection ist am testfreundlichsten",
-      "Field Injection ist schwer zu testen ohne Spring-Context",
-      "Bei Setter Injection kann man Test-Doubles über Setter setzen",
-      "Field Injection erfordert Reflection für Tests",
-      "Constructor Injection ermöglicht einfaches manuelles Injizieren im Test"
-    ],
-    "correct": [
-      0,
-      1,
-      2,
-      3,
-      4
-    ],
-    "explanation": "Constructor Injection ist am testfreundlichsten (einfaches manuelles Injizieren). Field Injection ist schwer zu testen (braucht Reflection oder Spring-Context). Setter Injection erlaubt setzen über Setter-Methoden.",
+    "explanation": "Die Annotationen haben unterschiedliche Zwecke: @SpringBootApplication für App-Konfiguration, @Component für Komponenten-Scanning, @Bean für explizite Bean-Definition, @Autowired für Dependency Injection.",
     "xp": 35,
     "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "checkbox",
+    "question": "Welche Konzepte sind Teil der Spring Boot Auto-Konfiguration? (Mehrfachauswahl)",
+    "options": [
+      "Konvention vor Konfiguration",
+      "Bedingte Bean-Registrierung",
+      "Externe Konfigurationsdateien",
+      "Starter Dependencies",
+      "Metriken und Health-Checks"
+    ],
+    "correct": [
+      0,
+      1,
+      3
+    ],
+    "explanation": "Spring Boot's Auto-Konfiguration basiert auf mehreren Konzepten: Konventionen, bedingter Bean-Registrierung und Starter Dependencies. Externe Konfigurationsdateien und Metriken sind separate Features.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "matching",
+    "question": "Ordne die Maven-Konzepte ihrer Bedeutung zu:",
+    "pairs": [
+      {
+        "left": "groupId",
+        "right": "Organisationsweiter, eindeutiger Identifier"
+      },
+      {
+        "left": "artifactId",
+        "right": "Name des Projekts/der Bibliothek"
+      },
+      {
+        "left": "version",
+        "right": "Spezifische Release-Kennung"
+      },
+      {
+        "left": "parent",
+        "right": "Vererbungshierarchie und gemeinsame Konfiguration"
+      }
+    ],
+    "explanation": "Maven POM-Elemente haben spezifische Rollen: groupId für Organisation, artifactId für Projektname, version für Release-Identifikation, parent für Vererbung.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "checkbox",
+    "question": "Welche Aspekte unterscheiden Integration-Tests von Unit-Tests in Spring Boot? (Mehrfachauswahl)",
+    "options": [
+      "Vollständiger Spring Kontext wird geladen",
+      "Testen mehrerer Komponenten zusammen",
+      "Verwendung von @SpringBootTest",
+      "Längere Ausführungszeit",
+      "Externe Ressourcen können eingebunden sein"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "explanation": "Integration-Tests unterscheiden sich durch: Laden des Spring Kontexts, Testing mehrerer Komponenten, @SpringBootTest Annotation, längere Laufzeit und mögliche externe Ressourcen.",
+    "xp": 45,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist GitHub?",
+    "options": [
+      "Ein Texteditor",
+      "Eine Codehosting-Plattform für Versionskontrolle",
+      "Eine Programmiersprache",
+      "Ein Betriebssystem"
+    ],
+    "correct": 1,
+    "explanation": "GitHub ist eine Codehosting-Plattform für die Versionskontrolle und Zusammenarbeit in Projekten.",
+    "xp": 10,
+    "tags": [
       "uebung",
-      "gemischt",
-      "woche3"
+      "offiziell"
     ]
   },
   {
     "difficulty": 2,
     "type": "multiple",
-    "question": "Bei Constructor Injection mit Spring Boot ist @Autowired am Konstruktor seit Spring 4.3...",
+    "question": "Was ist eine Bean in Spring?",
     "options": [
-      "zwingend erforderlich",
-      "optional, wenn es nur einen Konstruktor gibt",
-      "verboten und führt zu Fehlern",
-      "nur bei mehreren Konstruktoren optional"
+      "Eine JavaScript-Bibliothek",
+      "Eine Datenbank-Tabelle",
+      "Ein verwaltetes Java-Objekt innerhalb des Spring Containers",
+      "Ein Konfigurationsfile"
+    ],
+    "correct": 2,
+    "explanation": "Eine Bean ist ein verwaltetes Java-Objekt innerhalb des Spring Containers. Die Bean wird erstellt, überwacht und gelöscht.",
+    "xp": 20,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne die Spring-Annotationen ihrer Funktion zu:",
+    "pairs": [
+      {
+        "left": "@SpringBootApplication",
+        "right": "Kennzeichnet die Main-Klasse"
+      },
+      {
+        "left": "@Component",
+        "right": "Macht die Klasse zu einer Bean"
+      },
+      {
+        "left": "@Autowired",
+        "right": "Injiziert ein Bean-Objekt"
+      },
+      {
+        "left": "@Bean",
+        "right": "Definiert eine Bean-Methode"
+      }
+    ],
+    "explanation": "@SpringBootApplication markiert die Main-Klasse, @Component macht Klassen zu Beans, @Autowired injiziert Dependencies, @Bean definiert Bean-Methoden.",
+    "xp": 25,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "fillblank",
+    "question": "In Spring Boot wird die Konfiguration in der Datei _____ im Ordner _____ gespeichert.",
+    "blanks": [
+      "application.properties",
+      "resources"
+    ],
+    "explanation": "Die Datei application.properties im Ordner resources enthält die Konfiguration für Spring Boot Anwendungen.",
+    "xp": 20,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "sort",
+    "question": "Sortiere die Log-Level von niedrigster zu höchster Priorität:",
+    "items": [
+      "ERROR",
+      "WARN",
+      "INFO",
+      "DEBUG",
+      "TRACE"
+    ],
+    "correct": [
+      "TRACE",
+      "DEBUG",
+      "INFO",
+      "WARN",
+      "ERROR"
+    ],
+  "explanation": "Die Log-Level von niedrigster zu höchster Priorität: TRACE (am detailliertesten) → DEBUG → INFO → WARN → ERROR (kritischste Fehler).\n✅ TRACE → DEBUG → INFO → WARN → ERROR",
+    "xp": 25,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist Maven?",
+    "options": [
+      "Ein Web-Framework",
+      "Eine Datenbank",
+      "Eine Programmiersprache",
+      "Ein Build-Management-Tool für Java-Projekte"
+    ],
+    "correct": 3,
+    "explanation": "Maven ist ein Build-Management-Tool, das den Software-Erstellungszyklus verwaltet. Konfiguration erfolgt in pom.xml.",
+    "xp": 20,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "fillblank",
+    "question": "Um den Log-Level für ein Package auf DEBUG zu setzen, verwendet man in application.properties: logging.level.<Packagename>=_____",
+    "blanks": [
+      "DEBUG"
+    ],
+    "explanation": "Mit logging.level.<packagename>=DEBUG wird der Log-Level für ein Package auf DEBUG gesetzt.",
+    "xp": 20,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "sort",
+    "question": "Sortiere die Schichten der 3-Tier-Architektur von oben nach unten:",
+    "items": [
+      "Datenhaltungsschicht",
+      "Anwendungslogik-Schicht",
+      "Präsentationsschicht"
+    ],
+    "correct": [
+      "Präsentationsschicht",
+      "Anwendungslogik-Schicht",
+      "Datenhaltungsschicht"
+    ],
+  "explanation": "3-Tier-Architektur von oben: Präsentationsschicht (UI) → Anwendungslogik (Business Logic) → Datenhaltung (Datenbank).\n✅ Präsentationsschicht → Anwendungslogik-Schicht → Datenhaltungsschicht",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "matching",
+    "question": "Ordne die REST-Prinzipien ihrer Beschreibung zu:",
+    "pairs": [
+      {
+        "left": "Stateless",
+        "right": "Zustandslosigkeit der Anfragen"
+      },
+      {
+        "left": "Cacheability",
+        "right": "Responses können gecacht werden"
+      },
+      {
+        "left": "Uniform Interface",
+        "right": "Einheitliche Schnittstelle"
+      },
+      {
+        "left": "HATEOAS",
+        "right": "Links zu verwandten Ressourcen"
+      }
+    ],
+    "explanation": "REST-Prinzipien: Stateless (zustandslos), Cacheability (cachebar), Uniform Interface (einheitlich), HATEOAS (Hypermedia as Engine of Application State).",
+    "xp": 35,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "checkbox",
+    "question": "Welche HTTP-Methoden sind 'safe' (sicher)? (Mehrfachauswahl)",
+    "options": [
+      "POST",
+      "GET",
+      "PUT",
+      "HEAD",
+      "DELETE"
+    ],
+    "correct": [
+      1,
+      3
+    ],
+    "explanation": "Safe (sicher) sind nur GET und HEAD - sie ändern keine Daten auf dem Server. POST, PUT und DELETE ändern Daten.",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "fillblank",
+    "question": "Die Annotation _____ kennzeichnet Test-Methoden in JUnit, während _____ die Test-Klasse für Spring Boot markiert.",
+    "blanks": [
+      "@Test",
+      "@SpringBootTest"
+    ],
+    "explanation": "@Test markiert einzelne Test-Methoden, @SpringBootTest kennzeichnet die Test-Klasse für Spring Boot.",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Was passiert, wenn die @Autowired Annotation entfernt wird?",
+    "options": [
+      "Das Programm läuft schneller",
+      "Die Bean wird nicht injiziert und es gibt eine NullPointerException",
+      "Die Bean wird automatisch erstellt",
+      "Das Programm kompiliert nicht"
     ],
     "correct": 1,
-    "explanation": "Seit Spring 4.3 ist @Autowired am Konstruktor optional, wenn die Klasse nur einen Konstruktor hat. Spring injiziert automatisch. Bei mehreren Konstruktoren muss @Autowired explizit angegeben werden.",
+    "explanation": "Ohne @Autowired wird das Bean-Objekt nicht injiziert und bleibt null, was zu einer NullPointerException führt, wenn darauf zugegriffen wird.",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Welche Operationen unterstützt GraphQL?",
+    "options": [
+      "SELECT, INSERT, UPDATE, DELETE",
+      "GET, POST, PUT, DELETE",
+      "Query, Mutation, Subscription",
+      "READ, WRITE, UPDATE"
+    ],
+    "correct": 2,
+    "explanation": "GraphQL unterstützt: Query (Abfragen), Mutation (Änderungen), Subscription (Echtzeit-Updates).",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "matching",
+    "question": "Ordne die Komponenten des MVC-Patterns ihrer Rolle zu:",
+    "pairs": [
+      {
+        "left": "Model",
+        "right": "Datenmodell und Geschäftslogik"
+      },
+      {
+        "left": "View",
+        "right": "Darstellung der Benutzeroberfläche"
+      },
+      {
+        "left": "Controller",
+        "right": "Steuerung und Vermittlung"
+      },
+      {
+        "left": "@RequestMapping",
+        "right": "Verknüpfung von URLs mit Methoden"
+      }
+    ],
+    "explanation": "MVC: Model (Daten/Logik), View (UI), Controller (Steuerung). @RequestMapping verbindet HTTP-Requests mit Handler-Methoden.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "sort",
+    "question": "Sortiere den Maven Build-Zyklus in der richtigen Reihenfolge:",
+    "items": [
+      "Installation",
+      "Validierung",
+      "Verifizierung",
+      "Kompilierung",
+      "Testen",
+      "Paketieren"
+    ],
+    "correct": [
+      "Validierung",
+      "Kompilierung",
+      "Testen",
+      "Paketieren",
+      "Verifizierung",
+      "Installation"
+    ],
+  "explanation": "Maven Build-Zyklus: Validierung → Kompilierung → Testen → Paketieren → Verifizierung → Installation (Items-Reihenfolge; Integrationstests & Verteilung sind optionale weitere Phasen).\n✅ Validierung → Kompilierung → Testen → Paketieren → Verifizierung → Installation",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Wo wird in einer Maven-basierten Spring-Boot-Anwendung die Spring Boot Version üblicherweise festgelegt?",
+    "options": [
+      "Im <dependencies>-Block der pom.xml",
+      "Im <parent>-Tag der pom.xml mit artifactId 'spring-boot-starter-parent'",
+      "In der application.properties",
+      "In der Klasse mit @SpringBootApplication"
+    ],
+    "correct": 1,
+    "explanation": "In Maven-Projekten wird die Spring Boot Version über den <parent>-Eintrag mit artifactId 'spring-boot-starter-parent' definiert. Die Version vererbt sich dann auf die Starter-Abhängigkeiten.",
+    "xp": 20,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "checkbox",
+    "question": "Welche Eigenschaften hat Spring Boot? (Mehrfachauswahl)",
+    "options": [
+      "Benötigt externe War-Dateien",
+      "Eingebettete Container (Tomcat, Jetty)",
+      "Automatische Konfiguration soweit möglich",
+      "Generierung von Code und Konfiguration",
+      "Keine externen Laufzeitabhängigkeiten"
+    ],
+    "correct": [
+      1,
+      2,
+      4
+    ],
+    "explanation": "Spring Boot: eingebettete Container, automatische Konfiguration, keine externen Laufzeitabhängigkeiten, KEINE War-Dateien nötig, KEINE Code-Generierung.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "multiple",
+    "question": "Welches Protokoll nutzt gRPC als Transportprotokoll und zu welcher OSI-Schicht gehört es?",
+    "options": [
+      "WebSocket, Schicht 6",
+      "TCP, Schicht 4",
+      "HTTP/2, Schicht 7",
+      "HTTP/1.1, Schicht 7"
+    ],
+    "correct": 2,
+    "explanation": "gRPC nutzt HTTP/2 als Transportprotokoll, welches zur OSI-Schicht 7 (Anwendungsschicht) gehört.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "text",
+    "question": "Was ist das besondere Feature von gRPC im Vergleich zu REST und GraphQL?",
+    "correct": [
+      "bidirektionales streaming",
+      "bidirectional streaming",
+      "streaming"
+    ],
+    "explanation": "gRPC unterstützt bidirektionales Streaming in verschiedenen Formen: Unary, Server-Streaming, Client-Streaming, Bidirectional-Streaming.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "fillblank",
+    "question": "Eine SPA (Single Page Application) lädt Inhalte dynamisch per _____ nach, ohne die Seite neu zu _____.",
+    "blanks": [
+      "ajax",
+      "laden"
+    ],
+    "explanation": "Bei einer SPA läuft die Anwendung auf einer HTML-Seite. Inhalte werden dynamisch per AJAX nachgeladen, ohne Seitenneuladung.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "checkbox",
+    "question": "Welche sind serverseitige Technologien? (Mehrfachauswahl)",
+    "options": [
+      "JavaScript (Client)",
+      "PHP",
+      "Java Servlets",
+      "CSS",
+      "Node.js"
+    ],
+    "correct": [
+      1,
+      2,
+      4
+    ],
+    "explanation": "Serverseitige Technologien: PHP, Java Servlets, Node.js, Python (Django), Ruby on Rails. JavaScript und CSS laufen primär clientseitig.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "matching",
+    "question": "Ordne die URL-Bestandteile dem Beispiel zu: http://fb2.fra-uas.de:8080/ebis/urls.html?prof=lehmann",
+    "pairs": [
+      {
+        "left": "Scheme",
+        "right": "http://"
+      },
+      {
+        "left": "Hostname",
+        "right": "fb2.fra-uas.de"
+      },
+      {
+        "left": "Port",
+        "right": ":8080"
+      },
+      {
+        "left": "Query",
+        "right": "?prof=lehmann"
+      }
+    ],
+    "explanation": "URL-Struktur: Scheme (Protokoll) → Hostname (Domain) → Port → Path (Pfad) → Query (Parameter).",
+    "xp": 45,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "multiple",
+    "question": "Wofür steht die Abkürzung PHP (rekursives Akronym)?",
+    "options": [
+      "Personal Home Page",
+      "Private Hypertext Processor",
+      "PHP: Hypertext Preprocessor",
+      "Public HTML Protocol"
+    ],
+    "correct": 2,
+    "explanation": "PHP steht für 'PHP: Hypertext Preprocessor' - ein rekursives Akronym. PHP ist eine serverseitige Skriptsprache.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Was passiert, wenn ein @ControllerAdvice eine Exception behandelt?",
+    "options": [
+      "Die Anwendung stürzt ab",
+      "Der Benutzer sieht eine Fehlerseite",
+      "Die Exception wird stillschweigend ignoriert",
+      "Es wird eine alternative Methode im Controller aufgerufen"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Der Benutzer sieht eine Fehlerseite – @ControllerAdvice kann Fehler zentral behandeln und eine View zurückgeben.",
+    "xp": 30,
+    "tags": [
+      "uebung",
+      "neue-vorlesung",
+      "offiziell"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "multiple",
+    "question": "Was ist der Hauptzweck von @ResponseStatus?",
+    "options": [
+      "Setzen des HTTP-Statuscodes für eine Antwort",
+      "Definieren von Sicherheitsbeschränkungen",
+      "Dokumentation von REST-APIs",
+      "Steuern der Cache-Einstellungen"
+    ],
+    "correct": 0,
+    "explanation": "✅ Richtig: @ResponseStatus setzt den HTTP-Statuscode (z.B. 404, 500) für die Antwort einer Controller-Methode.",
+    "xp": 40,
+    "tags": [
+      "uebung",
+      "neue-vorlesung",
+      "offiziell"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Eine Spring-Boot-Anwendung kann eigenständig und ohne externe Laufzeitabhängigkeiten ausgeführt werden",
+    "options": [
+      "Wahr",
+      "Falsch"
+    ],
+    "correct": 0,
+    "explanation": "Spring Boot-Anwendungen sind als Fat JARs/Executable JARs lauffähig und benötigen keine externen Laufzeitabhängigkeiten.",
+    "xp": 10,
+    "tags": [
+      "uebung",
+      "neue-vorlesung",
+      "offiziell"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Im Beispiel wird bei einer fehlenden URL-Parameterangabe (MissingServletRequestParameterException) automatisch support.html als View zurückgegeben.",
+    "options": ["Falsch", "Wahr"],
+    "correct": 1,
+    "explanation": "Beispiel-Handler gibt bei MissingServletRequestParameterException die View support.html zurück (ModelAndView mit View-Namen).",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Der Controller leitet Model-Daten an die View weiter, um eine dynamische Anzeige zu generieren.",
+    "options": ["Falsch", "Wahr"],
+    "correct": 1,
+    "explanation": "Controller füllt Model → View rendert dynamisch daraus.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Fehlende Parameter in HTTP-Anfragen führen immer zu einem Server-Absturz.",
+    "options": ["Falsch", "Wahr"],
+    "correct": 0,
+    "explanation": "Fehlende Pflicht-Parameter erzeugen Exceptions (z.B. MissingServletRequestParameterException), kein Absturz – Handler möglich.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist das Hauptziel des MVC-Entwurfsmusters?",
+    "options": [
+      "Die Beschleunigung der Web-Entwicklung",
+      "Die Integration von Datenbanken",
+      "Die Trennung von Präsentation, Logik und Daten",
+      "Die Verbesserung der Sicherheit"
+    ],
+    "correct": 2,
+    "explanation": "MVC sorgt für klare Trennung: Model (Daten/Logik), View (Darstellung), Controller (Steuerung).",
+    "xp": 15,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Das DispatcherServlet leitet Anfragen an den passenden Controller weiter.",
+    "options": ["Falsch", "Wahr"],
+    "correct": 1,
+    "explanation": "DispatcherServlet = Front Controller: empfängt Request, delegiert an passenden Handler.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Thymeleaf benötigt zwingend die Annotation @ThymeleafEnabled.",
+    "options": ["Falsch", "Wahr"],
+    "correct": 0,
+    "explanation": "Es existiert keine Annotation @ThymeleafEnabled; Spring Boot autokonfiguriert Thymeleaf über Starter.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Der Query String beginnt immer nach dem ersten Gleichheitszeichen in der URL.",
+    "options": ["Falsch", "Wahr"],
+    "correct": 0,
+    "explanation": "Der Query-String beginnt nach '?' und enthält key=value Paare; '=' trennt Schlüssel und Wert.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Eine MissingServletRequestParameterException tritt nur dann auf, wenn alle URL-Parameter fehlen.",
+    "options": ["Falsch", "Wahr"],
+    "correct": 0,
+    "explanation": "Sie tritt auf, wenn EIN erforderlicher Parameter fehlt – nicht alle müssen fehlen.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Im MVC-Pattern speichert der Controller die Anwendungsdaten.",
+    "options": ["Falsch", "Wahr"],
+    "correct": 0,
+    "explanation": "Kontroller steuert Fluss; Daten & Logik liegen im Model.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welcher Ordner enthält statische Ressourcen wie CSS- und JavaScript-Dateien in Spring Boot?",
+    "options": [
+      "/static/resources",
+      "/src/main/resources/static",
+      "/resources/views",
+      "/src/main/resources/templates"
+    ],
+    "correct": 1,
+    "explanation": "Statische Dateien liegen unter src/main/resources/static (nicht templates).",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "@ControllerAdvice kann mehrere unterschiedliche Exceptions behandeln, nicht nur eine einzige.",
+    "options": ["Falsch", "Wahr"],
+    "correct": 1,
+    "explanation": "@ControllerAdvice + mehrere @ExceptionHandler Methoden für verschiedene Exception-Typen.",
+    "xp": 10,
+    "tags": ["offiziell", "woche4"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist die Funktion der Annotation @Autowired?",
+    "options": [
+      "Sie gibt an, dass eine Methode als Spring Bean registriert werden soll",
+      "Sie markiert die Main-Methode des Programms",
+      "Sie erstellt eine neue Bean im Spring Container",
+      "Sie injiziert eine Bean in eine andere Klasse und stellt diese zur Verfügung"
+    ],
+    "correct": 3,
+    "explanation": "@Autowired injiziert eine Bean in eine andere Klasse und stellt sie dort zur Verfügung.",
     "xp": 20,
     "tags": [
       "uebung",
-      "gemischt",
-      "woche3"
+      "neue-vorlesung",
+      "offiziell"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "In welcher Datei werden die Abhängigkeiten bei einem Spring Boot-Projekt verwaltet (Gradle)?",
+    "options": [
+      "pom.xml",
+      "settings.gradle",
+      "build.gradle",
+      "application.properties"
+    ],
+    "correct": 2,
+    "explanation": "Bei Gradle werden Dependencies in der build.gradle gepflegt. Die pom.xml ist für Maven-Projekte.",
+    "xp": 15,
+    "tags": [
+      "uebung",
+      "neue-vorlesung",
+      "offiziell"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Log-Level sind standardmäßig in Spring Boot aktiviert?",
+    "options": [
+      "TRACE, WARN, DEBUG",
+      "DEBUG, INFO, ERROR",
+      "ERROR, WARN, INFO",
+      "ERROR, TRACE, INFO"
+    ],
+    "correct": 2,
+    "explanation": "Standardmäßig sind ERROR, WARN und INFO in Spring Boot aktiviert. DEBUG und TRACE müssen explizit aktiviert werden.",
+    "xp": 10,
+    "tags": [
+      "uebung",
+      "neue-vorlesung",
+      "offiziell"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was macht die Methode setMessage() in der Klasse MessageService?",
+    "options": [
+      "Sie gibt den Wert der Variablen message zurück",
+      "Sie initialisiert die Bean message",
+      "Sie setzt den Wert der Variablen message",
+      "Sie speichert eine Nachricht in einer Datenbank"
+    ],
+    "correct": 2,
+    "explanation": "Die Methode setMessage() setzt den Wert der Variablen message in der Klasse MessageService.",
+    "xp": 10,
+    "tags": [
+      "uebung",
+      "neue-vorlesung",
+      "offiziell"
     ]
   },
   {
     "difficulty": 3,
     "type": "multiple",
-    "question": "Was ist ein Indikator dafür, dass Constructor Injection mit zu vielen Parametern ein Design-Problem aufzeigt?",
+    "question": "Die Methode assertThat() wird nicht von JUnit nativ bereitgestellt.",
     "options": [
-      "Die Klasse hat wahrscheinlich zu viele Verantwortlichkeiten (Single Responsibility Principle verletzt)",
-      "Spring kann maximal 5 Parameter injizieren",
-      "Der Code wird zu langsam",
-      "Man sollte immer Field Injection verwenden"
+      "Wahr",
+      "Falsch"
     ],
     "correct": 0,
-    "explanation": "Ein Konstruktor mit sehr vielen Parametern deutet oft darauf hin, dass die Klasse zu viele Verantwortlichkeiten hat und gegen das Single Responsibility Principle verstößt. Dies sollte durch Refactoring behoben werden.",
+    "explanation": "assertThat() stammt aus Bibliotheken wie AssertJ oder Hamcrest, nicht aus JUnit selbst.",
     "xp": 30,
     "tags": [
       "uebung",
-      "gemischt",
-      "woche3"
+      "neue-vorlesung",
+      "offiziell"
     ]
-  }
-  ,
+  },
   {
-    "difficulty": 1,
+    "difficulty": 4,
     "type": "multiple",
-    "question": "Der WebApplicationContext ist eine spezialisierte Form des ApplicationContext, die speziell für Web-Anwendungen verwendet wird.",
+    "question": "Mit Maven können Abhängigkeiten eines Projekts automatisch aufgelöst werden.",
     "options": [
       "Wahr",
       "Falsch"
     ],
     "correct": 0,
-    "explanation": "Richtig. Der WebApplicationContext erweitert den ApplicationContext um Web-spezifische Komponenten (z. B. Controller, ViewResolver).",
-    "xp": 10,
+    "explanation": "Maven löst Abhängigkeiten automatisch über die pom.xml auf und lädt sie aus Repositories herunter.",
+    "xp": 40,
     "tags": [
-      "offiziell",
-      "woche3"
+      "uebung",
+      "neue-vorlesung",
+      "offiziell"
     ]
   },
   {
     "difficulty": 1,
     "type": "multiple",
-    "question": "Welches Tool wird verwendet, um Beans in Spring zu verwalten?",
+    "question": "Wohin schreibt Spring Boot Logs standardmäßig ohne zusätzliche Konfiguration?",
     "options": [
-      "BeanFactory und ApplicationContext",
-      "BeanInjector",
-      "BeanManager",
-      "SpringService"
+      "In die Konsole (Standard Output)",
+      "In eine Datei namens 'application.log'",
+      "In eine Datenbank",
+      "In das Windows Event Log"
     ],
     "correct": 0,
-    "explanation": "Spring verwaltet Beans über BeanFactory (Basis) und ApplicationContext (erweitert, praxisüblich).",
+    "explanation": "Standardmäßig schreibt Spring Boot alle Logs in die Konsole (Standard Output). Für andere Ziele ist zusätzliche Konfiguration nötig.",
     "xp": 10,
     "tags": [
-      "offiziell",
-      "woche3"
+      "uebung"
     ]
   },
   {
     "difficulty": 1,
-    "type": "multiple",
-    "question": "Die Annotation @Repository wird für die Präsentationsebene verwendet.",
+    "type": "checkbox",
+    "question": "Welche Log-Level sind in Spring Boot standardmäßig verfügbar? (Mehrfachauswahl)",
     "options": [
-      "Wahr",
-      "Falsch"
+      "ERROR",
+      "WARN",
+      "INFO",
+      "DEBUG",
+      "TRACE"
     ],
-    "correct": 1,
-    "explanation": "Falsch. @Repository gehört zur Persistenzschicht (Datenzugriff).",
-    "xp": 10,
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "explanation": "Spring Boot unterstützt die Standard-Log-Level: ERROR (kritisch), WARN (Warnungen), INFO (Information), DEBUG (Entwicklung) und TRACE (detailliert).",
+    "xp": 15,
     "tags": [
-      "offiziell",
-      "woche3"
+      "uebung"
     ]
   },
   {
     "difficulty": 1,
     "type": "multiple",
-    "question": "In Spring übernimmt der IoC-Container das Instanziieren von Objekten und deren Abhängigkeiten.",
+    "question": "Was ist das grundlegende Schema für User Stories?",
     "options": [
-      "Wahr",
-      "Falsch"
+      "Als <Rolle> möchte ich <Ziel>, damit <Nutzen>",
+      "Wenn <Bedingung> dann <Aktion>",
+      "Gegeben <Zustand> wenn <Ereignis> dann <Ergebnis>",
+      "Falls <Problem> soll <Lösung> implementiert werden"
     ],
     "correct": 0,
-    "explanation": "Richtig. Der Inversion-of-Control-Container erstellt, konfiguriert und verkabelt Beans automatisch.",
+    "explanation": "User Stories folgen dem Schema: 'Als <Rolle> möchte ich <Ziel>, damit <Nutzen>'. Dies macht Anforderungen verständlich und nutzerorientiert.",
     "xp": 10,
     "tags": [
-      "offiziell",
-      "woche3"
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne die Logging-Properties ihren Effekten zu:",
+    "pairs": [
+      {
+        "left": "logging.file",
+        "right": "Definiert eine spezifische Log-Datei"
+      },
+      {
+        "left": "logging.path",
+        "right": "Setzt das Verzeichnis für Log-Dateien"
+      },
+      {
+        "left": "logging.level.*",
+        "right": "Konfiguriert Log-Level für Packages"
+      },
+      {
+        "left": "logging.pattern.console",
+        "right": "Bestimmt das Format der Konsolenausgabe"
+      }
+    ],
+    "explanation": "Die verschiedenen Logging-Properties steuern unterschiedliche Aspekte: Dateien, Pfade, Level und Ausgabeformat.",
+    "xp": 25,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was bewirkt logging.level.edu.fra.uas=debug in der Konfiguration?",
+    "options": [
+      "Setzt DEBUG-Level für das spezifische Package und Unterpackages",
+      "Aktiviert Debugging für die gesamte Anwendung",
+      "Loggt nur Fehler aus dem edu.fra.uas Package",
+      "Deaktiviert Logging für andere Packages"
+    ],
+    "correct": 0,
+    "explanation": "Diese Einstellung setzt das Log-Level DEBUG für das Package edu.fra.uas und alle seine Unterpackages. Andere Packages bleiben unberührt.",
+    "xp": 20,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "checkbox",
+    "question": "Welche Vorteile bietet strukturiertes Logging (SLF4J/Logback) gegenüber System.out.println in Spring Boot? (Mehrfachauswahl)",
+    "options": [
+      "Konfigurierbare Log-Level und Filter",
+      "Performance durch asynchrones Logging",
+      "Standardisierte Formatierung",
+      "Integration mit Spring Boot Actuator",
+      "Automatische Dateirotation"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "explanation": "Strukturiertes Logging bietet viele Vorteile: konfigurierbare Level, bessere Performance, einheitliche Formate, Monitoring-Integration und Dateiverwaltung.",
+    "xp": 30,
+    "tags": [
+      "uebung"
     ]
   },
   {
     "difficulty": 3,
     "type": "multiple",
-    "question": "Was ist die Hauptfunktion des DispatcherServlet in einer Spring-Webanwendung?",
+    "question": "Was passiert, wenn @Autowired an einer Feldstelle entfernt wird?",
     "options": [
-      "Es registriert XML-Dateien im ApplicationContext",
-      "Es erstellt eine Verbindung zur BeanFactory",
-      "Es verwaltet Web-spezifische Beans wie Controller und ViewResolver",
-      "Es startet die Datenbank"
+      "Das Feld bleibt null und führt zu NullPointerException bei Verwendung",
+      "Spring erstellt automatisch eine neue Instanz",
+      "Die Anwendung startet nicht",
+      "Es wird eine Warnung ausgegeben"
     ],
-    "correct": 2,
-    "explanation": "Das DispatcherServlet ist das zentrale Front-Controller-Servlet in Spring MVC und verteilt Requests an Controller und Views.",
+    "correct": 0,
+    "explanation": "Ohne @Autowired erfolgt keine Dependency Injection. Das Feld bleibt null, was bei Verwendung zu einer NullPointerException führt.",
     "xp": 30,
     "tags": [
-      "offiziell",
-      "woche3"
+      "uebung"
     ]
+  },
+  {
+    "difficulty": 4,
+    "type": "matching",
+    "question": "Ordne die Test-Konzepte ihren Haupteigenschaften zu:",
+    "pairs": [
+      {
+        "left": "@SpringBootTest",
+        "right": "Lädt den vollständigen Application Context"
+      },
+      {
+        "left": "AssertJ",
+        "right": "Bietet fluent assertions und bessere Fehlermeldungen"
+      },
+      {
+        "left": "Slice Tests",
+        "right": "Testet nur spezifische Schichten der Anwendung"
+      },
+      {
+        "left": "Unit Tests",
+        "right": "Testet isolierte Komponenten ohne Spring Context"
+      }
+    ],
+    "explanation": "@SpringBootTest ist für Integrationstests mit vollem Context, AssertJ verbessert die Testlesbarkeit, Slice Tests fokussieren einzelne Schichten, Unit Tests sind am schnellsten.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "multiple",
+    "question": "Welche Funktion hat der <parent>-Eintrag in der pom.xml bei Spring Boot?",
+    "options": [
+      "Definiert Versionen, Dependencies und Plugins durch Vererbung",
+      "Ist nur für Multi-Modul-Projekte erforderlich",
+      "Dient ausschließlich der Dokumentation",
+      "Wird nur für Test-Konfigurationen verwendet"
+    ],
+    "correct": 0,
+    "explanation": "Der <parent>-Eintrag ermöglicht die Vererbung von Versionen, Dependencies und Plugin-Konfigurationen vom Spring Boot Parent POM, was die Projektkonfiguration vereinfacht.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "checkbox",
+    "question": "Was sind die Besonderheiten eines CommandLineRunner als @Bean? (Mehrfachauswahl)",
+    "options": [
+      "Wird nach Kontext-Initialisierung ausgeführt",
+      "Kann mehrfach im Projekt definiert werden",
+      "Hat Zugriff auf andere Beans",
+      "Ermöglicht Start-up Logik",
+      "Unterstützt Ordering mit @Order"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "explanation": "CommandLineRunner als @Bean: läuft nach Kontext-Start, mehrfache Definition möglich, hat Bean-Zugriff, ideal für Start-up Logik, unterstützt Reihenfolge via @Order.",
+    "xp": 45,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist eine Bean im Spring-Container?",
+    "options": [
+      "Ein Java-Objekt, das von Spring verwaltet wird",
+      "Eine Datenbankverbindung",
+      "Ein UI-Element",
+      "Eine Konfigurationsdatei"
+    ],
+    "correct": 0,
+    "explanation": "Eine Bean ist ein Java-Objekt, das vom Spring Container verwaltet wird - inklusive Erstellung, Konfiguration und Lebenszyklus-Management.",
+    "xp": 10,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welches Log-Level zeigt die wichtigsten Fehler an?",
+    "options": [
+      "DEBUG",
+      "INFO",
+      "ERROR",
+      "TRACE"
+    ],
+    "correct": 2,
+    "explanation": "ERROR ist das Log-Level für die kritischsten Fehlermeldungen. Es zeigt schwerwiegende Probleme an, die sofortige Aufmerksamkeit erfordern.",
+    "xp": 10,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist ein Fork in GitHub?",
+    "options": [
+      "Eine Kopie eines Repositories unter deinem eigenen Account",
+      "Ein Branch in einem Repository",
+      "Ein Pull Request",
+      "Ein Commit in der Historie"
+    ],
+    "correct": 0,
+    "explanation": "Ein Fork ist eine persönliche Kopie eines fremden Repositories unter deinem GitHub-Account. Dies ermöglicht es dir, Änderungen vorzunehmen, ohne das Original zu beeinflussen.",
+    "xp": 10,
+    "tags": [
+      "uebung",
+      "neue-vorlesung",
+      "offiziell"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne die Log-Level ihrer typischen Verwendung zu:",
+    "pairs": [
+      {
+        "left": "ERROR",
+        "right": "Kritische Fehler, die sofortige Aktion erfordern"
+      },
+      {
+        "left": "WARN",
+        "right": "Potenziell schädliche Situationen"
+      },
+      {
+        "left": "INFO",
+        "right": "Wichtige Geschäftsereignisse"
+      },
+      {
+        "left": "DEBUG",
+        "right": "Detaillierte Entwicklerinformationen"
+      }
+    ],
+    "explanation": "Die Log-Level haben unterschiedliche Prioritäten und Verwendungszwecke: ERROR für kritische Fehler, WARN für Warnungen, INFO für wichtige Events, DEBUG für Entwicklerdetails.",
+    "xp": 25,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Vorteile bietet strukturiertes Logging gegenüber System.out.println? (Mehrfachauswahl)",
+    "options": [
+      "Konfigurierbare Log-Level",
+      "Bessere Filterbarkeit",
+      "Mehrere Ausgabekanäle möglich",
+      "Formatierte Zeitstempel",
+      "Schnellere Ausführung"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "explanation": "Strukturiertes Logging bietet viele Vorteile: konfigurierbare Level, Filterbarkeit, multiple Ausgabekanäle und automatische Zeitstempel. Die Ausführungsgeschwindigkeit ist nicht primär relevant.",
+    "xp": 20,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist die Hauptaufgabe des CommandLineRunner in Spring Boot?",
+    "options": [
+      "Datenbankverbindungen aufbauen",
+      "Code beim Anwendungsstart ausführen",
+      "REST-Endpunkte definieren",
+      "Logging konfigurieren"
+    ],
+    "correct": 1,
+    "explanation": "CommandLineRunner ist ein Interface, dessen run()-Methode nach der Initialisierung der Spring Boot App ausgeführt wird. Es eignet sich für Initialisierungscode beim Start.",
+    "xp": 20,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Was bedeutet 'Inversion of Control' im Spring-Kontext?",
+    "options": [
+      "Die Umkehrung der Programmflusssteuerung",
+      "Das manuelle Erstellen von Objekten",
+      "Die direkte Objektreferenzierung",
+      "Die Verwendung von statischen Methoden"
+    ],
+    "correct": 0,
+    "explanation": "Inversion of Control bedeutet, dass die Kontrolle über Objekterstellung und -verwaltung an den Spring Container übertragen wird, statt sie selbst zu implementieren.",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "checkbox",
+    "question": "Welche Aussagen über Konstruktor-Injektion sind korrekt? (Mehrfachauswahl)",
+    "options": [
+      "Garantiert vollständige Initialisierung",
+      "Unterstützt Immutability",
+      "Macht Abhängigkeiten explizit",
+      "Ist flexibler als Setter-Injektion",
+      "Erfordert weniger Code als Feld-Injektion"
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "explanation": "Konstruktor-Injektion wird bevorzugt, weil sie vollständige Initialisierung garantiert, Immutability ermöglicht und Abhängigkeiten explizit macht. Sie ist nicht flexibler und erfordert mehr Code.",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "matching",
+    "question": "Ordne die Spring-Annotationen ihrer Hauptfunktion zu:",
+    "pairs": [
+      {
+        "left": "@SpringBootApplication",
+        "right": "Kombiniert mehrere Basis-Annotationen"
+      },
+      {
+        "left": "@Component",
+        "right": "Markiert Klasse als Spring-verwaltete Komponente"
+      },
+      {
+        "left": "@Bean",
+        "right": "Definiert Methode zur Bean-Erstellung"
+      },
+      {
+        "left": "@Autowired",
+        "right": "Injiziert Abhängigkeiten"
+      }
+    ],
+    "explanation": "Die Annotationen haben unterschiedliche Zwecke: @SpringBootApplication für App-Konfiguration, @Component für Komponenten-Scanning, @Bean für explizite Bean-Definition, @Autowired für Dependency Injection.",
+    "xp": 35,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "checkbox",
+    "question": "Welche Konzepte sind Teil der Spring Boot Auto-Konfiguration? (Mehrfachauswahl)",
+    "options": [
+      "Konvention vor Konfiguration",
+      "Bedingte Bean-Registrierung",
+      "Externe Konfigurationsdateien",
+      "Starter Dependencies",
+      "Metriken und Health-Checks"
+    ],
+    "correct": [
+      0,
+      1,
+      3
+    ],
+    "explanation": "Spring Boot's Auto-Konfiguration basiert auf mehreren Konzepten: Konventionen, bedingter Bean-Registrierung und Starter Dependencies. Externe Konfigurationsdateien und Metriken sind separate Features.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "matching",
+    "question": "Ordne die Maven-Konzepte ihrer Bedeutung zu:",
+    "pairs": [
+      {
+        "left": "groupId",
+        "right": "Organisationsweiter, eindeutiger Identifier"
+      },
+      {
+        "left": "artifactId",
+        "right": "Name des Projekts/der Bibliothek"
+      },
+      {
+        "left": "version",
+        "right": "Spezifische Release-Kennung"
+      },
+      {
+        "left": "parent",
+        "right": "Vererbungshierarchie und gemeinsame Konfiguration"
+      }
+    ],
+    "explanation": "Maven POM-Elemente haben spezifische Rollen: groupId für Organisation, artifactId für Projektname, version für Release-Identifikation, parent für Vererbung.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "checkbox",
+    "question": "Welche Aspekte unterscheiden Integration-Tests von Unit-Tests in Spring Boot? (Mehrfachauswahl)",
+    "options": [
+      "Vollständiger Spring Kontext wird geladen",
+      "Testen mehrerer Komponenten zusammen",
+      "Verwendung von @SpringBootTest",
+      "Längere Ausführungszeit",
+      "Externe Ressourcen können eingebunden sein"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "explanation": "Integration-Tests unterscheiden sich durch: Laden des Spring Kontexts, Testing mehrerer Komponenten, @SpringBootTest Annotation, längere Laufzeit und mögliche externe Ressourcen.",
+    "xp": 45,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist GitHub?",
+    "options": [
+      "Ein Texteditor",
+      "Eine Codehosting-Plattform für Versionskontrolle",
+      "Eine Programmiersprache",
+      "Ein Betriebssystem"
+    ],
+    "correct": 1,
+    "explanation": "GitHub ist eine Codehosting-Plattform für die Versionskontrolle und Zusammenarbeit in Projekten.",
+    "xp": 10,
+    "tags": [
+      "uebung",
+      "offiziell"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist eine Bean in Spring?",
+    "options": [
+      "Eine JavaScript-Bibliothek",
+      "Eine Datenbank-Tabelle",
+      "Ein verwaltetes Java-Objekt innerhalb des Spring Containers",
+      "Ein Konfigurationsfile"
+    ],
+    "correct": 2,
+    "explanation": "Eine Bean ist ein verwaltetes Java-Objekt innerhalb des Spring Containers. Die Bean wird erstellt, überwacht und gelöscht.",
+    "xp": 20,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne die Spring-Annotationen ihrer Funktion zu:",
+    "pairs": [
+      {
+        "left": "@SpringBootApplication",
+        "right": "Kennzeichnet die Main-Klasse"
+      },
+      {
+        "left": "@Component",
+        "right": "Macht die Klasse zu einer Bean"
+      },
+      {
+        "left": "@Autowired",
+        "right": "Injiziert ein Bean-Objekt"
+      },
+      {
+        "left": "@Bean",
+        "right": "Definiert eine Bean-Methode"
+      }
+    ],
+    "explanation": "@SpringBootApplication markiert die Main-Klasse, @Component macht Klassen zu Beans, @Autowired injiziert Dependencies, @Bean definiert Bean-Methoden.",
+    "xp": 25,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "fillblank",
+    "question": "In Spring Boot wird die Konfiguration in der Datei _____ im Ordner _____ gespeichert.",
+    "blanks": [
+      "application.properties",
+      "resources"
+    ],
+    "explanation": "Die Datei application.properties im Ordner resources enthält die Konfiguration für Spring Boot Anwendungen.",
+    "xp": 20,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "sort",
+    "question": "Sortiere die Log-Level von niedrigster zu höchster Priorität:",
+    "items": [
+      "ERROR",
+      "WARN",
+      "INFO",
+      "DEBUG",
+      "TRACE"
+    ],
+    "correct": [
+      "TRACE",
+      "DEBUG",
+      "INFO",
+      "WARN",
+      "ERROR"
+    ],
+  "explanation": "Die Log-Level von niedrigster zu höchster Priorität: TRACE (am detailliertesten) → DEBUG → INFO → WARN → ERROR (kritischste Fehler).\n✅ TRACE → DEBUG → INFO → WARN → ERROR",
+    "xp": 25,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist Maven?",
+    "options": [
+      "Ein Web-Framework",
+      "Eine Datenbank",
+      "Eine Programmiersprache",
+      "Ein Build-Management-Tool für Java-Projekte"
+    ],
+    "correct": 3,
+    "explanation": "Maven ist ein Build-Management-Tool, das den Software-Erstellungszyklus verwaltet. Konfiguration erfolgt in pom.xml.",
+    "xp": 20,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "fillblank",
+    "question": "Um den Log-Level für ein Package auf DEBUG zu setzen, verwendet man in application.properties: logging.level.<Packagename>=_____",
+    "blanks": [
+      "DEBUG"
+    ],
+    "explanation": "Mit logging.level.<packagename>=DEBUG wird der Log-Level für ein Package auf DEBUG gesetzt.",
+    "xp": 20,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "sort",
+    "question": "Sortiere die Schichten der 3-Tier-Architektur von oben nach unten:",
+    "items": [
+      "Datenhaltungsschicht",
+      "Anwendungslogik-Schicht",
+      "Präsentationsschicht"
+    ],
+    "correct": [
+      "Präsentationsschicht",
+      "Anwendungslogik-Schicht",
+      "Datenhaltungsschicht"
+    ],
+  "explanation": "3-Tier-Architektur von oben: Präsentationsschicht (UI) → Anwendungslogik (Business Logic) → Datenhaltung (Datenbank).\n✅ Präsentationsschicht → Anwendungslogik-Schicht → Datenhaltungsschicht",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "matching",
+    "question": "Ordne die REST-Prinzipien ihrer Beschreibung zu:",
+    "pairs": [
+      {
+        "left": "Stateless",
+        "right": "Zustandslosigkeit der Anfragen"
+      },
+      {
+        "left": "Cacheability",
+        "right": "Responses können gecacht werden"
+      },
+      {
+        "left": "Uniform Interface",
+        "right": "Einheitliche Schnittstelle"
+      },
+      {
+        "left": "HATEOAS",
+        "right": "Links zu verwandten Ressourcen"
+      }
+    ],
+    "explanation": "REST-Prinzipien: Stateless (zustandslos), Cacheability (cachebar), Uniform Interface (einheitlich), HATEOAS (Hypermedia as Engine of Application State).",
+    "xp": 35,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "checkbox",
+    "question": "Welche HTTP-Methoden sind 'safe' (sicher)? (Mehrfachauswahl)",
+    "options": [
+      "POST",
+      "GET",
+      "PUT",
+      "HEAD",
+      "DELETE"
+    ],
+    "correct": [
+      1,
+      3
+    ],
+    "explanation": "Safe (sicher) sind nur GET und HEAD - sie ändern keine Daten auf dem Server. POST, PUT und DELETE ändern Daten.",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "fillblank",
+    "question": "Die Annotation _____ kennzeichnet Test-Methoden in JUnit, während _____ die Test-Klasse für Spring Boot markiert.",
+    "blanks": [
+      "@Test",
+      "@SpringBootTest"
+    ],
+    "explanation": "@Test markiert einzelne Test-Methoden, @SpringBootTest kennzeichnet die Test-Klasse für Spring Boot.",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Was passiert, wenn die @Autowired Annotation entfernt wird?",
+    "options": [
+      "Das Programm läuft schneller",
+      "Die Bean wird nicht injiziert und es gibt eine NullPointerException",
+      "Die Bean wird automatisch erstellt",
+      "Das Programm kompiliert nicht"
+    ],
+    "correct": 1,
+    "explanation": "Ohne @Autowired wird das Bean-Objekt nicht injiziert und bleibt null, was zu einer NullPointerException führt, wenn darauf zugegriffen wird.",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Welche Operationen unterstützt GraphQL?",
+    "options": [
+      "SELECT, INSERT, UPDATE, DELETE",
+      "GET, POST, PUT, DELETE",
+      "Query, Mutation, Subscription",
+      "READ, WRITE, UPDATE"
+    ],
+    "correct": 2,
+    "explanation": "GraphQL unterstützt: Query (Abfragen), Mutation (Änderungen), Subscription (Echtzeit-Updates).",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "matching",
+    "question": "Ordne die Komponenten des MVC-Patterns ihrer Rolle zu:",
+    "pairs": [
+      {
+        "left": "Model",
+        "right": "Datenmodell und Geschäftslogik"
+      },
+      {
+        "left": "View",
+        "right": "Darstellung der Benutzeroberfläche"
+      },
+      {
+        "left": "Controller",
+        "right": "Steuerung und Vermittlung"
+      },
+      {
+        "left": "@RequestMapping",
+        "right": "Verknüpfung von URLs mit Methoden"
+      }
+    ],
+    "explanation": "MVC: Model (Daten/Logik), View (UI), Controller (Steuerung). @RequestMapping verbindet HTTP-Requests mit Handler-Methoden.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "sort",
+    "question": "Sortiere den Maven Build-Zyklus in der richtigen Reihenfolge:",
+    "items": [
+      "Installation",
+      "Validierung",
+      "Verifizierung",
+      "Kompilierung",
+      "Testen",
+      "Paketieren"
+    ],
+    "correct": [
+      "Validierung",
+      "Kompilierung",
+      "Testen",
+      "Paketieren",
+      "Verifizierung",
+      "Installation"
+    ],
+  "explanation": "Maven Build-Zyklus: Validierung → Kompilierung → Testen → Paketieren → Verifizierung → Installation (Items-Reihenfolge; Integrationstests & Verteilung sind optionale weitere Phasen).\n✅ Validierung → Kompilierung → Testen → Paketieren → Verifizierung → Installation",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Wo wird in einer Maven-basierten Spring-Boot-Anwendung die Spring Boot Version üblicherweise festgelegt?",
+    "options": [
+      "Im <dependencies>-Block der pom.xml",
+      "Im <parent>-Tag der pom.xml mit artifactId 'spring-boot-starter-parent'",
+      "In der application.properties",
+      "In der Klasse mit @SpringBootApplication"
+    ],
+    "correct": 1,
+    "explanation": "In Maven-Projekten wird die Spring Boot Version über den <parent>-Eintrag mit artifactId 'spring-boot-starter-parent' definiert. Die Version vererbt sich dann auf die Starter-Abhängigkeiten.",
   },
   {
     "difficulty": 1,
