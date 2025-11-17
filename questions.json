@@ -5743,5 +5743,75 @@
     "explanation": "✅ Richtig: HATEOAS (Hypermedia As The Engine Of Application State) macht APIs navigierbar, indem Responses Links zu verwandten Ressourcen enthalten – ohne HATEOAS muss der Client alle URIs kennen.",
     "xp": 12,
     "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Die HTTP-Methoden @GetMapping, @PostMapping, @PutMapping und @DeleteMapping werden sowohl in MVC- als auch in REST-Controllern zur Behandlung von Requests verwendet, unterscheiden sich aber in der Art der Rückgabe.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Die Annotations sind identisch – der Unterschied liegt in der Rückgabe: MVC-Controller geben View-Namen zurück, REST-Controller (@RestController) serialisieren direkt zu JSON/XML.",
+    "xp": 12,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "RESTful APIs verwenden häufig JSON für Datenrepräsentation.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: JSON ist das Standard-Datenformat für moderne REST-APIs – es ist kompakt, lesbar und wird von allen Plattformen unterstützt.",
+    "xp": 10,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Im REST-Paradigma ist Sitzungsverwaltung (Session Management) zwingend erforderlich.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: REST ist stateless – keine serverseitige Session nötig. Authentifizierung erfolgt per Token (z. B. JWT) in jedem Request.",
+    "xp": 12,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche HTTP-Methode wird verwendet, um neue Ressourcen zu erstellen?",
+    "options": ["DELETE", "PATCH", "GET", "POST"],
+    "correct": 3,
+    "explanation": "✅ Richtig: POST erstellt neue Ressourcen (z. B. POST /users mit JSON-Body) – der Server generiert die ID und gibt 201 Created zurück.",
+    "xp": 10,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Eine Sammelressource sollte nur die wichtigsten Informationen über die enthaltenen Einzelressourcen zurückliefern, um die Antwort klein zu halten.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Collections (z. B. GET /users) liefern oft nur Basis-Felder (id, name) – Details per GET /users/123. Das reduziert Payload-Größe und Ladezeit.",
+    "xp": 12,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "checkbox",
+    "question": "Welche Formate werden häufig für die Darstellung von REST-Ressourcen verwendet? (Mehrfachauswahl)",
+    "options": ["HTML", "XML", "YAML", "JSON", "CSV"],
+    "correct": [1, 3],
+    "explanation": "✅ Richtig: JSON und XML sind die Standard-Formate für REST-APIs. JSON dominiert heute aufgrund seiner Einfachheit und Kompaktheit.",
+    "xp": 12,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "HATEOAS bedeutet, dass der Client alle möglichen URLs und Aktionen bereits kennen muss, bevor er mit der API kommuniziert.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: HATEOAS ist das Gegenteil – der Server liefert dynamisch Links zu verfügbaren Aktionen mit, sodass der Client nur den Entry-Point kennen muss.",
+    "xp": 12,
+    "tags": ["offiziell", "woche5"]
   }
 ]
