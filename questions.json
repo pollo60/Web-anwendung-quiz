@@ -5212,5 +5212,381 @@
     "explanation": "✅ Richtig: Existiert die Ressource nicht, liefert der Server 404 Not Found – der Client weiß so, dass die URI unbekannt ist.",
     "xp": 12,
     "tags": ["uebung", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche HTTP-Methode wird bei GraphQL-Requests in der Übung verwendet?",
+    "options": ["GET", "PUT", "POST", "DELETE"],
+    "correct": 2,
+    "explanation": "✅ Richtig: GraphQL-Anfragen werden typischerweise per POST an einen einzigen Endpoint gesendet, unabhängig davon, ob es sich um Query, Mutation oder Subscription handelt.",
+    "xp": 10,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welches Datenformat wird für die Übertragung von GraphQL-Anfragen und -Antworten genutzt?",
+    "options": ["XML", "JSON", "CSV", "YAML"],
+    "correct": 1,
+    "explanation": "✅ Richtig: JSON ist das Standardformat für GraphQL-Request-Payloads und -Responses und gewährleistet strukturierte Daten.",
+    "xp": 10,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist ein zentrales Merkmal von GraphQL im Vergleich zu REST?",
+    "options": [
+      "Jede Operation braucht einen eigenen HTTP-Endpoint",
+      "Der Client kann exakt angeben, welche Felder er zurückhaben möchte",
+      "Es werden ausschließlich GET-Requests verwendet",
+      "GraphQL unterstützt keine Mutationen"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: GraphQL erlaubt es dem Client, in der Query präzise zu spezifizieren, welche Felder er benötigt – das reduziert Over- und Underfetching.",
+    "xp": 12,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Operation aus dem Schema ist eine \"read\"-Operation (Query)?",
+    "options": ["addUser", "updateUser", "deleteUser", "allUsers"],
+    "correct": 3,
+    "explanation": "✅ Richtig: allUsers ist eine Query zum Abrufen von Daten. Mutationen wie addUser, updateUser oder deleteUser verändern Daten.",
+    "xp": 10,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "fillblank",
+    "question": "Der Typ _____ im GraphQL-Schema beschreibt die Struktur eines User-Objekts mit seinen Feldern.",
+    "blanks": ["User"],
+    "explanation": "✅ Richtig: Der User-Typ definiert die Feldstruktur (id, firstName, lastName etc.) und legt fest, welche Daten ein User-Objekt enthält.",
+    "xp": 15,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was bedeutet das Ausrufezeichen ! hinter einem Feldtyp im GraphQL-Schema (z. B. firstName: String!)?",
+    "options": [
+      "Das Feld ist veraltet",
+      "Das Feld wird clientseitig berechnet",
+      "Das Feld darf nicht null sein",
+      "Das Feld ist optional"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: Das ! markiert ein Pflichtfeld – der Server garantiert, dass dieses Feld nie null ist.",
+    "xp": 12,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "checkbox",
+    "question": "Welche Scalar-Typen gehören zu den standardmäßig in GraphQL unterstützten Typen? (Mehrfachauswahl)",
+    "options": ["Int", "Float", "String", "Boolean", "ID"],
+    "correct": [0, 1, 2, 3, 4],
+    "explanation": "✅ Richtig: GraphQL definiert die fünf Standard-Scalar-Typen Int, Float, String, Boolean und ID – sie bilden die Basis für alle Felder.",
+    "xp": 15,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Operationen werden in GraphQL typischerweise über Mutation abgebildet?",
+    "options": [
+      "Nur Lese-Operationen",
+      "Änderungen, Erstellungen oder Löschungen von Daten",
+      "Nur Logging-Operationen",
+      "Nur Authentifizierungs-Operationen"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Mutationen dienen zum Erstellen, Ändern oder Löschen von Daten – im Gegensatz zu Queries, die nur lesen.",
+    "xp": 12,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Query im Schema unterstützt Paging-Funktionalität?",
+    "options": ["allUsers", "users", "userById", "addUser"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Die Query users(offset: Int, limit: Int) ermöglicht Paging durch optionale Parameter für Offset und Limit.",
+    "xp": 12,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wie werden die GraphQL-Schema-Dateien in der Beispielanwendung organisiert?",
+    "options": [
+      "In src/main/resources/graphql",
+      "In src/main/resources/templates",
+      "In src/main/java/graphql",
+      "In src/test/resources/graphql"
+    ],
+    "correct": 0,
+    "explanation": "✅ Richtig: Spring for GraphQL sucht Schema-Dateien standardmäßig unter src/main/resources/graphql und lädt sie automatisch.",
+    "xp": 12,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Annotation wird im Spring-Controller verwendet, um eine Query wie allUsers zu binden?",
+    "options": ["@GetMapping", "@QueryMapping", "@GraphQLQuery", "@RestController"],
+    "correct": 1,
+    "explanation": "✅ Richtig: @QueryMapping verknüpft eine Controller-Methode mit einer GraphQL-Query aus dem Schema.",
+    "xp": 12,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Annotation wird verwendet, um eine Mutation wie deleteUser zu binden?",
+    "options": ["@MutationMapping", "@PostMapping", "@PatchMapping", "@CommandMapping"],
+    "correct": 0,
+    "explanation": "✅ Richtig: @MutationMapping bindet Controller-Methoden an Mutation-Operationen im GraphQL-Schema.",
+    "xp": 12,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Wozu dient die Annotation @SchemaMapping(typeName = \"User\") auf Klassenebene?",
+    "options": [
+      "Sie aktiviert die HTTP-Security für die Klasse",
+      "Sie legt fest, dass alle Handler-Methoden dieser Klasse sich standardmäßig auf den Typ User im Schema beziehen",
+      "Sie erzeugt automatisch das User-Repository",
+      "Sie registriert den Controller als REST-Endpoint unter /user"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: @SchemaMapping(typeName = \"User\") setzt den Kontext für alle Handler in der Klasse – sie beziehen sich auf den User-Typ.",
+    "xp": 18,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "fillblank",
+    "question": "Um die GraphiQL-Oberfläche zu aktivieren, wird in application.properties die Eigenschaft _____ auf true gesetzt.",
+    "blanks": ["spring.graphql.graphiql.enabled"],
+    "explanation": "✅ Richtig: spring.graphql.graphiql.enabled=true aktiviert die integrierte GraphiQL-Oberfläche für interaktive Tests.",
+    "xp": 15,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Unter welcher URI wird der GraphiQL-Editor in der Übung aufgerufen?",
+    "options": [
+      "http://127.0.0.1:8080/graphql-ui",
+      "http://127.0.0.1:8080/graphiql?path=/graphql",
+      "http://127.0.0.1:8080/api/graphiql",
+      "http://127.0.0.1:8080/graphqleditor"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: GraphiQL ist unter /graphiql?path=/graphql erreichbar und bietet eine grafische Oberfläche zum Testen von Queries und Mutationen.",
+    "xp": 12,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Dependency stellt in der Spring-Boot-Anwendung die GraphQL-Funktionalität bereit?",
+    "options": [
+      "spring-boot-starter-data-jpa",
+      "spring-boot-starter-webflux",
+      "spring-boot-starter-graphql",
+      "spring-boot-starter-thymeleaf"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: spring-boot-starter-graphql bringt die nötigen Bibliotheken für Spring for GraphQL und den GraphQL-Endpoint mit.",
+    "xp": 12,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist der Zweck der Klasse HttpSyncGraphQlClient im GraphQL-Client?",
+    "options": [
+      "Sie implementiert einen asynchronen Non-Blocking-Client",
+      "Sie stellt eine synchrone GraphQL-Client-API auf Basis eines REST-Clients bereit",
+      "Sie rendert GraphQL-Antworten als HTML",
+      "Sie ersetzt den DispatcherServlet"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: HttpSyncGraphQlClient ermöglicht synchrone GraphQL-Anfragen über HTTP und baut auf RestClient auf.",
+    "xp": 18,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wie wird in der Client-Methode getAllUsers() die GraphQL-Query repräsentiert?",
+    "options": [
+      "Als Java-Annotation",
+      "Als XML-Datei",
+      "Als String document mit der GraphQL-Syntax",
+      "Als JSON-Schema"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: Die Query wird als String document = \"{ allUsers { ... } }\" definiert und an den Server gesendet.",
+    "xp": 12,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Methode des GraphQL-Clients wird verwendet, um die Antwort in eine Liste von User-Objekten umzuwandeln?",
+    "options": ["toList()", "toEntity(User.class)", "toEntityList(User.class)", "mapToList(User.class)"],
+    "correct": 2,
+    "explanation": "✅ Richtig: toEntityList(User.class) wandelt die JSON-Antwort in eine typisierte Liste von User-Objekten um.",
+    "xp": 12,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was passiert in der Methode deleteUser(int id) im GraphQL-Client?",
+    "options": [
+      "Es wird ein REST-DELETE auf /users/{id} gesendet",
+      "Es wird eine GraphQL-Mutation deleteUser mit der übergebenen ID ausgeführt",
+      "Es wird nur lokal aus der Liste entfernt",
+      "Es wird ein WebSocket-Event gesendet"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Die Methode führt eine GraphQL-Mutation aus: mutation { deleteUser(id: ...) } – keine REST-Operationen.",
+    "xp": 12,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Aufgabe hat die Methode logExceptionalResponse(ClientGraphQlResponse response) im Client?",
+    "options": [
+      "Sie loggt erfolgreiche Responses",
+      "Sie wandelt die Antwort in JSON um",
+      "Sie protokolliert Fehler und Response-Fehlermeldungen",
+      "Sie führt Retries bei Timeout durch"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: logExceptionalResponse() prüft auf Fehler in der Antwort (response.getErrors()) und loggt diese für Debugging-Zwecke.",
+    "xp": 18,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "fillblank",
+    "question": "Der GraphQL-Endpoint wird im Client als statische Variable _____ = \"http://localhost:8080/graphql\" definiert.",
+    "blanks": ["baseURI"],
+    "explanation": "✅ Richtig: Die Variable baseURI speichert die URL des GraphQL-Servers und wird beim Client-Aufbau verwendet.",
+    "xp": 15,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist der Zweck von GraphQL-Subscriptions?",
+    "options": [
+      "Einmalige Lese-Anfragen",
+      "Serverseitiges Streaming von Datenänderungen an den Client",
+      "Nur zum Löschen von Daten",
+      "Nur für Authentifizierung"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Subscriptions ermöglichen es dem Server, Datenänderungen in Echtzeit an verbundene Clients zu streamen.",
+    "xp": 12,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welcher zusätzliche Datentyp wird für das Subscription-Beispiel definiert?",
+    "options": ["UserEvent", "StockPrice", "SubscriptionEvent", "PriceHistory"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Der Typ StockPrice (mit Feldern wie symbol, price, timestamp) wird im Schema definiert, um Aktienkurse zu streamen.",
+    "xp": 12,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Annotation kennzeichnet im Controller eine GraphQL-Subscription-Methode?",
+    "options": ["@QueryMapping", "@MutationMapping", "@SubscriptionMapping", "@WebSocketMapping"],
+    "correct": 2,
+    "explanation": "✅ Richtig: @SubscriptionMapping bindet eine Controller-Methode an eine Subscription-Operation aus dem Schema.",
+    "xp": 12,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Warum wird im Subscription-Beispiel die Klasse Flux verwendet?",
+    "options": [
+      "Um HTML-Templates zu parsen",
+      "Um reaktive Datenströme mit regelmäßigen Intervallen zu erzeugen",
+      "Um Datenbanktransaktionen zu verwalten",
+      "Um REST-Endpunkte zu registrieren"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Flux (aus Project Reactor) ermöglicht reaktive, asynchrone Datenströme – ideal für kontinuierliche Subscriptions.",
+    "xp": 18,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "fillblank",
+    "question": "Der WebSocket-Endpoint für GraphQL-Subscriptions wird in application.properties als _____ konfiguriert.",
+    "blanks": ["/graphqlws"],
+    "explanation": "✅ Richtig: spring.graphql.websocket.path=/graphqlws legt den WebSocket-Pfad fest, über den Subscriptions laufen.",
+    "xp": 15,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche zusätzliche Spring-Boot-Dependency wird für WebSockets benötigt?",
+    "options": [
+      "spring-boot-starter-security",
+      "spring-boot-starter-web",
+      "spring-boot-starter-websocket",
+      "spring-boot-starter-logging"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: spring-boot-starter-websocket bringt die WebSocket-Infrastruktur mit, die für GraphQL-Subscriptions nötig ist.",
+    "xp": 12,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wofür wird der Parameter wsPath=/graphqlws in der GraphiQL-URL verwendet?",
+    "options": [
+      "Zur Angabe des REST-Endpoints",
+      "Zur Konfiguration des Datenbankpfads",
+      "Zur Angabe des WebSocket-Endpoints für Subscriptions",
+      "Zur Auswahl des Schemanamens"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: wsPath=/graphqlws teilt GraphiQL mit, wo es sich für Subscriptions per WebSocket verbinden soll.",
+    "xp": 12,
+    "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Wie unterscheidet sich die Ausführung mehrerer Operationen (Queries/Mutations) in einer GraphQL-Request vom typischen REST-Ansatz?",
+    "options": [
+      "In GraphQL kann nur genau eine Operation pro Request gesendet werden",
+      "In GraphQL können mehrere Operationen in einer einzigen HTTP-Request kombiniert werden",
+      "REST unterstützt grundsätzlich keine POST-Requests",
+      "REST sendet immer mehrere Operationen automatisch"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: GraphQL erlaubt Batching mehrerer Queries/Mutations in einem Request – REST benötigt in der Regel separate Calls.",
+    "xp": 18,
+    "tags": ["uebung", "woche6"]
   }
 ]
