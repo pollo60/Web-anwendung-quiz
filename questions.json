@@ -5954,5 +5954,65 @@
     "explanation": "✅ Richtig: 404 Not Found signalisiert, dass die angeforderte Ressource unter der angegebenen URI nicht existiert.",
     "xp": 10,
     "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "checkbox",
+    "question": "Welche HTTP-Statuscodes beschreiben eine erfolgreiche Anfrage? (Mehrfachauswahl)",
+    "options": ["200", "201", "204", "301", "404", "422"],
+    "correct": [0, 1, 2],
+    "explanation": "✅ Richtig: 200 OK (Erfolg mit Body), 201 Created (Ressource erstellt), 204 No Content (Erfolg ohne Body) sind Erfolgs-Statuscodes (2xx). 301 ist Redirect, 404/422 sind Fehler.",
+    "xp": 15,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "HATEOAS fügt den HTTP-Responses Links hinzu, die mögliche nächste Aktionen beschreiben.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: HATEOAS erweitert REST-Responses mit Hyperlinks (z. B. rel=\"self\", rel=\"next\"), die dem Client verfügbare Aktionen aufzeigen.",
+    "xp": 12,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche HTTP-Methode wird verwendet, um eine Ressource zu löschen?",
+    "options": ["DELETE", "GET", "POST", "PATCH", "PUT"],
+    "correct": 0,
+    "explanation": "✅ Richtig: DELETE entfernt eine Ressource – z. B. DELETE /users/123 löscht den User mit ID 123.",
+    "xp": 10,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "matching",
+    "question": "Ordnen Sie die HTTP-Methoden den entsprechenden Beschreibungen zu:",
+    "pairs": [
+      {
+        "left": "GET",
+        "right": "Liest eine Ressource oder eine Liste von Ressourcen"
+      },
+      {
+        "left": "PUT",
+        "right": "Aktualisiert oder legt eine Ressource neu an"
+      },
+      {
+        "left": "POST",
+        "right": "Erstellt eine neue Ressource"
+      },
+      {
+        "left": "PATCH",
+        "right": "Aktualisiert Teile einer bestehenden Ressource"
+      },
+      {
+        "left": "DELETE",
+        "right": "Löscht eine Ressource"
+      }
+    ],
+    "explanation": "✅ Richtig: GET = Lesen, POST = Erstellen, PUT = Vollständig aktualisieren/ersetzen, PATCH = Teilweise aktualisieren, DELETE = Löschen.",
+    "xp": 20,
+    "tags": ["offiziell", "woche5"]
   }
 ]
