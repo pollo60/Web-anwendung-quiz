@@ -5934,5 +5934,25 @@
     "explanation": "✅ Richtig: GET ist eine 'safe' Methode – sie darf keine Seiteneffekte (Datenänderungen) verursachen, sondern nur lesen.",
     "xp": 10,
     "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Jede Ressource oder Sammlung muss mindestens einen Link enthalten, der typischerweise auf sich selbst verweist (Self-Link).",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: In HATEOAS-konformen REST-APIs enthält jede Ressource einen Self-Link (rel=\"self\") zur eigenen URI – das ermöglicht eindeutige Referenzierung.",
+    "xp": 12,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Der HTTP-Statuscode 404 bedeutet \"Nicht gefunden\".",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: 404 Not Found signalisiert, dass die angeforderte Ressource unter der angegebenen URI nicht existiert.",
+    "xp": 10,
+    "tags": ["offiziell", "woche5"]
   }
 ]
