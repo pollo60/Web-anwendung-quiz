@@ -5829,5 +5829,110 @@
     "explanation": "✅ Richtig: 201 Created + Location-Header zeigen, dass eine neue Ressource erstellt wurde. POST /users (Collection) erstellt eine neue User-Ressource – der Server generiert die ID (alice) und gibt die URI im Location-Header zurück.",
     "xp": 18,
     "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "HATEOAS ist ein Konzept innerhalb von REST, das sicherstellt, dass die API dem Client über Links im Response mitteilt, welche nächsten Schritte möglich sind.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: HATEOAS (Hypermedia as the Engine of Application State) nutzt Hyperlinks in Responses, um dem Client dynamisch verfügbare Aktionen mitzuteilen.",
+    "xp": 12,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welches Prinzip beschreibt die REST-Anforderung, dass eine Ressource immer über eine URI identifiziert wird?",
+    "options": [
+      "Standardmethoden",
+      "Zustandlose Kommunikation",
+      "Hypermedia",
+      "Eindeutige Identifikation von Ressourcen"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: REST verlangt, dass jede Ressource durch eine eindeutige URI identifizierbar ist – das ist das Prinzip der Ressourcen-Identifikation.",
+    "xp": 12,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Einzelressourcen enthalten vollständige Informationen zu einer spezifischen Entität und können Links zu anderen Ressourcen enthalten.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Einzelressourcen (z. B. GET /users/123) liefern alle Details einer Entität und oft HATEOAS-Links zu verwandten Ressourcen (z. B. /users/123/orders).",
+    "xp": 10,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "HATEOAS stellt sicher, dass der Client weiß, welche Aktionen als Nächstes möglich sind.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Durch eingebettete Links in Responses weiß der Client dynamisch, welche Aktionen verfügbar sind – er muss keine URIs vorher kennen.",
+    "xp": 10,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "REST definiert, dass Ressourcen immer durch eine eindeutige URI identifiziert werden.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Jede Ressource hat eine eindeutige URI – das ist ein Grundprinzip von REST (Uniform Resource Identifier).",
+    "xp": 10,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Der HTTP-Statuscode 204 No Content bedeutet, dass keine Daten im Body zurückgegeben werden.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: 204 No Content signalisiert erfolgreiche Verarbeitung ohne Response-Body – typisch bei DELETE oder bei leeren Collections.",
+    "xp": 10,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "REST und HATEOAS sind zwei völlig unabhängige Architekturen, die nichts miteinander zu tun haben.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: HATEOAS ist Teil der REST-Architektur (Level 3 im Richardson Maturity Model) – es erweitert REST um Hypermedia-Links für dynamische Navigation.",
+    "xp": 12,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Sekundärsammlungen sind eigenständige, unabhängige Ressourcen, die keine Beziehung zu einer Primärsammlung haben.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Sekundärsammlungen sind Unterressourcen einer Primärsammlung – z. B. /users/123/orders (Orders eines bestimmten Users).",
+    "xp": 12,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Ein ResponseEntity-Objekt kann HTTP-Status, Header und Body enthalten.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: ResponseEntity in Spring ermöglicht volle Kontrolle über HTTP-Responses – Status (z. B. 201), Header (z. B. Location) und Body (z. B. JSON).",
+    "xp": 10,
+    "tags": ["offiziell", "woche5"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Ein GET-Request darf niemals Daten auf dem Server verändern.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: GET ist eine 'safe' Methode – sie darf keine Seiteneffekte (Datenänderungen) verursachen, sondern nur lesen.",
+    "xp": 10,
+    "tags": ["offiziell", "woche5"]
   }
 ]
