@@ -1178,15 +1178,13 @@
   {
     "difficulty": 3,
     "type": "multiple",
-    "question": "Was passiert, wenn ein @ControllerAdvice eine Exception behandelt?",
+    "question": "Die Methode assertThat() wird nicht von JUnit nativ bereitgestellt.",
     "options": [
-      "Die Anwendung stürzt ab",
-      "Der Benutzer sieht eine Fehlerseite",
-      "Die Exception wird stillschweigend ignoriert",
-      "Es wird eine alternative Methode im Controller aufgerufen"
+      "Wahr",
+      "Falsch"
     ],
-    "correct": 1,
-    "explanation": "✅ Richtig: Der Benutzer sieht eine Fehlerseite – @ControllerAdvice kann Fehler zentral behandeln und eine View zurückgeben.",
+    "correct": 0,
+    "explanation": "assertThat() stammt aus Bibliotheken wie AssertJ oder Hamcrest, nicht aus JUnit selbst.",
     "xp": 30,
     "tags": [
       "uebung",
@@ -1197,15 +1195,13 @@
   {
     "difficulty": 4,
     "type": "multiple",
-    "question": "Was ist der Hauptzweck von @ResponseStatus?",
+    "question": "Mit Maven können Abhängigkeiten eines Projekts automatisch aufgelöst werden.",
     "options": [
-      "Setzen des HTTP-Statuscodes für eine Antwort",
-      "Definieren von Sicherheitsbeschränkungen",
-      "Dokumentation von REST-APIs",
-      "Steuern der Cache-Einstellungen"
+      "Wahr",
+      "Falsch"
     ],
     "correct": 0,
-    "explanation": "✅ Richtig: @ResponseStatus setzt den HTTP-Statuscode (z.B. 404, 500) für die Antwort einer Controller-Methode.",
+    "explanation": "Maven löst Abhängigkeiten automatisch über die pom.xml auf und lädt sie aus Repositories herunter.",
     "xp": 40,
     "tags": [
       "uebung",
@@ -1216,154 +1212,264 @@
   {
     "difficulty": 1,
     "type": "multiple",
-    "question": "Eine Spring-Boot-Anwendung kann eigenständig und ohne externe Laufzeitabhängigkeiten ausgeführt werden",
+    "question": "Wohin schreibt Spring Boot Logs standardmäßig ohne zusätzliche Konfiguration?",
     "options": [
-      "Wahr",
-      "Falsch"
+      "In die Konsole (Standard Output)",
+      "In eine Datei namens 'application.log'",
+      "In eine Datenbank",
+      "In das Windows Event Log"
     ],
     "correct": 0,
-    "explanation": "Spring Boot-Anwendungen sind als Fat JARs/Executable JARs lauffähig und benötigen keine externen Laufzeitabhängigkeiten.",
+    "explanation": "Standardmäßig schreibt Spring Boot alle Logs in die Konsole (Standard Output). Für andere Ziele ist zusätzliche Konfiguration nötig.",
     "xp": 10,
     "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "offiziell"
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "checkbox",
+    "question": "Welche Log-Level sind in Spring Boot standardmäßig verfügbar? (Mehrfachauswahl)",
+    "options": [
+      "ERROR",
+      "WARN",
+      "INFO",
+      "DEBUG",
+      "TRACE"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "explanation": "Spring Boot unterstützt die Standard-Log-Level: ERROR (kritisch), WARN (Warnungen), INFO (Information), DEBUG (Entwicklung) und TRACE (detailliert).",
+    "xp": 15,
+    "tags": [
+      "uebung"
     ]
   },
   {
     "difficulty": 1,
     "type": "multiple",
-    "question": "Im Beispiel wird bei einer fehlenden URL-Parameterangabe (MissingServletRequestParameterException) automatisch support.html als View zurückgegeben.",
-    "options": ["Falsch", "Wahr"],
-    "correct": 1,
-    "explanation": "Beispiel-Handler gibt bei MissingServletRequestParameterException die View support.html zurück (ModelAndView mit View-Namen).",
-    "xp": 10,
-    "tags": ["offiziell", "woche4"]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Der Controller leitet Model-Daten an die View weiter, um eine dynamische Anzeige zu generieren.",
-    "options": ["Falsch", "Wahr"],
-    "correct": 1,
-    "explanation": "Controller füllt Model → View rendert dynamisch daraus.",
-    "xp": 10,
-    "tags": ["offiziell", "woche4"]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Fehlende Parameter in HTTP-Anfragen führen immer zu einem Server-Absturz.",
-    "options": ["Falsch", "Wahr"],
-    "correct": 0,
-    "explanation": "Fehlende Pflicht-Parameter erzeugen Exceptions (z.B. MissingServletRequestParameterException), kein Absturz – Handler möglich.",
-    "xp": 10,
-    "tags": ["offiziell", "woche4"]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Was ist das Hauptziel des MVC-Entwurfsmusters?",
+    "question": "Was ist das grundlegende Schema für User Stories?",
     "options": [
-      "Die Beschleunigung der Web-Entwicklung",
-      "Die Integration von Datenbanken",
-      "Die Trennung von Präsentation, Logik und Daten",
-      "Die Verbesserung der Sicherheit"
+      "Als <Rolle> möchte ich <Ziel>, damit <Nutzen>",
+      "Wenn <Bedingung> dann <Aktion>",
+      "Gegeben <Zustand> wenn <Ereignis> dann <Ergebnis>",
+      "Falls <Problem> soll <Lösung> implementiert werden"
     ],
-    "correct": 2,
-    "explanation": "MVC sorgt für klare Trennung: Model (Daten/Logik), View (Darstellung), Controller (Steuerung).",
-    "xp": 15,
-    "tags": ["offiziell", "woche4"]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Das DispatcherServlet leitet Anfragen an den passenden Controller weiter.",
-    "options": ["Falsch", "Wahr"],
-    "correct": 1,
-    "explanation": "DispatcherServlet = Front Controller: empfängt Request, delegiert an passenden Handler.",
-    "xp": 10,
-    "tags": ["offiziell", "woche4"]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Thymeleaf benötigt zwingend die Annotation @ThymeleafEnabled.",
-    "options": ["Falsch", "Wahr"],
     "correct": 0,
-    "explanation": "Es existiert keine Annotation @ThymeleafEnabled; Spring Boot autokonfiguriert Thymeleaf über Starter.",
+    "explanation": "User Stories folgen dem Schema: 'Als <Rolle> möchte ich <Ziel>, damit <Nutzen>'. Dies macht Anforderungen verständlich und nutzerorientiert.",
     "xp": 10,
-    "tags": ["offiziell", "woche4"]
+    "tags": [
+      "uebung"
+    ]
   },
   {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Der Query String beginnt immer nach dem ersten Gleichheitszeichen in der URL.",
-    "options": ["Falsch", "Wahr"],
-    "correct": 0,
-    "explanation": "Der Query-String beginnt nach '?' und enthält key=value Paare; '=' trennt Schlüssel und Wert.",
-    "xp": 10,
-    "tags": ["offiziell", "woche4"]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Eine MissingServletRequestParameterException tritt nur dann auf, wenn alle URL-Parameter fehlen.",
-    "options": ["Falsch", "Wahr"],
-    "correct": 0,
-    "explanation": "Sie tritt auf, wenn EIN erforderlicher Parameter fehlt – nicht alle müssen fehlen.",
-    "xp": 10,
-    "tags": ["offiziell", "woche4"]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Im MVC-Pattern speichert der Controller die Anwendungsdaten.",
-    "options": ["Falsch", "Wahr"],
-    "correct": 0,
-    "explanation": "Kontroller steuert Fluss; Daten & Logik liegen im Model.",
-    "xp": 10,
-    "tags": ["offiziell", "woche4"]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Welcher Ordner enthält statische Ressourcen wie CSS- und JavaScript-Dateien in Spring Boot?",
-    "options": [
-      "/static/resources",
-      "/src/main/resources/static",
-      "/resources/views",
-      "/src/main/resources/templates"
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne die Logging-Properties ihren Effekten zu:",
+    "pairs": [
+      {
+        "left": "logging.file",
+        "right": "Definiert eine spezifische Log-Datei"
+      },
+      {
+        "left": "logging.path",
+        "right": "Setzt das Verzeichnis für Log-Dateien"
+      },
+      {
+        "left": "logging.level.*",
+        "right": "Konfiguriert Log-Level für Packages"
+      },
+      {
+        "left": "logging.pattern.console",
+        "right": "Bestimmt das Format der Konsolenausgabe"
+      }
     ],
-    "correct": 1,
-    "explanation": "Statische Dateien liegen unter src/main/resources/static (nicht templates).",
-    "xp": 10,
-    "tags": ["offiziell", "woche4"]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "@ControllerAdvice kann mehrere unterschiedliche Exceptions behandeln, nicht nur eine einzige.",
-    "options": ["Falsch", "Wahr"],
-    "correct": 1,
-    "explanation": "@ControllerAdvice + mehrere @ExceptionHandler Methoden für verschiedene Exception-Typen.",
-    "xp": 10,
-    "tags": ["offiziell", "woche4"]
+    "explanation": "Die verschiedenen Logging-Properties steuern unterschiedliche Aspekte: Dateien, Pfade, Level und Ausgabeformat.",
+    "xp": 25,
+    "tags": [
+      "uebung"
+    ]
   },
   {
     "difficulty": 2,
     "type": "multiple",
-    "question": "Was ist die Funktion der Annotation @Autowired?",
+    "question": "Was bewirkt logging.level.edu.fra.uas=debug in der Konfiguration?",
     "options": [
-      "Sie gibt an, dass eine Methode als Spring Bean registriert werden soll",
-      "Sie markiert die Main-Methode des Programms",
-      "Sie erstellt eine neue Bean im Spring Container",
-      "Sie injiziert eine Bean in eine andere Klasse und stellt diese zur Verfügung"
+      "Setzt DEBUG-Level für das spezifische Package und Unterpackages",
+      "Aktiviert Debugging für die gesamte Anwendung",
+      "Loggt nur Fehler aus dem edu.fra.uas Package",
+      "Deaktiviert Logging für andere Packages"
     ],
-    "correct": 3,
-    "explanation": "@Autowired injiziert eine Bean in eine andere Klasse und stellt sie dort zur Verfügung.",
+    "correct": 0,
+    "explanation": "Diese Einstellung setzt das Log-Level DEBUG für das Package edu.fra.uas und alle seine Unterpackages. Andere Packages bleiben unberührt.",
     "xp": 20,
     "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "checkbox",
+    "question": "Welche Vorteile bietet strukturiertes Logging (SLF4J/Logback) gegenüber System.out.println in Spring Boot? (Mehrfachauswahl)",
+    "options": [
+      "Konfigurierbare Log-Level und Filter",
+      "Performance durch asynchrones Logging",
+      "Standardisierte Formatierung",
+      "Integration mit Spring Boot Actuator",
+      "Automatische Dateirotation"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "explanation": "Strukturiertes Logging bietet viele Vorteile: konfigurierbare Level, bessere Performance, einheitliche Formate, Monitoring-Integration und Dateiverwaltung.",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Was passiert, wenn @Autowired an einer Feldstelle entfernt wird?",
+    "options": [
+      "Das Feld bleibt null und führt zu NullPointerException bei Verwendung",
+      "Spring erstellt automatisch eine neue Instanz",
+      "Die Anwendung startet nicht",
+      "Es wird eine Warnung ausgegeben"
+    ],
+    "correct": 0,
+    "explanation": "Ohne @Autowired erfolgt keine Dependency Injection. Das Feld bleibt null, was bei Verwendung zu einer NullPointerException führt.",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "matching",
+    "question": "Ordne die Test-Konzepte ihren Haupteigenschaften zu:",
+    "pairs": [
+      {
+        "left": "@SpringBootTest",
+        "right": "Lädt den vollständigen Application Context"
+      },
+      {
+        "left": "AssertJ",
+        "right": "Bietet fluent assertions und bessere Fehlermeldungen"
+      },
+      {
+        "left": "Slice Tests",
+        "right": "Testet nur spezifische Schichten der Anwendung"
+      },
+      {
+        "left": "Unit Tests",
+        "right": "Testet isolierte Komponenten ohne Spring Context"
+      }
+    ],
+    "explanation": "@SpringBootTest ist für Integrationstests mit vollem Context, AssertJ verbessert die Testlesbarkeit, Slice Tests fokussieren einzelne Schichten, Unit Tests sind am schnellsten.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "multiple",
+    "question": "Welche Funktion hat der <parent>-Eintrag in der pom.xml bei Spring Boot?",
+    "options": [
+      "Definiert Versionen, Dependencies und Plugins durch Vererbung",
+      "Ist nur für Multi-Modul-Projekte erforderlich",
+      "Dient ausschließlich der Dokumentation",
+      "Wird nur für Test-Konfigurationen verwendet"
+    ],
+    "correct": 0,
+    "explanation": "Der <parent>-Eintrag ermöglicht die Vererbung von Versionen, Dependencies und Plugin-Konfigurationen vom Spring Boot Parent POM, was die Projektkonfiguration vereinfacht.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "checkbox",
+    "question": "Was sind die Besonderheiten eines CommandLineRunner als @Bean? (Mehrfachauswahl)",
+    "options": [
+      "Wird nach Kontext-Initialisierung ausgeführt",
+      "Kann mehrfach im Projekt definiert werden",
+      "Hat Zugriff auf andere Beans",
+      "Ermöglicht Start-up Logik",
+      "Unterstützt Ordering mit @Order"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "explanation": "CommandLineRunner als @Bean: läuft nach Kontext-Start, mehrfache Definition möglich, hat Bean-Zugriff, ideal für Start-up Logik, unterstützt Reihenfolge via @Order.",
+    "xp": 45,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist eine Bean im Spring-Container?",
+    "options": [
+      "Ein Java-Objekt, das von Spring verwaltet wird",
+      "Eine Datenbankverbindung",
+      "Ein UI-Element",
+      "Eine Konfigurationsdatei"
+    ],
+    "correct": 0,
+    "explanation": "Eine Bean ist ein Java-Objekt, das vom Spring Container verwaltet wird - inklusive Erstellung, Konfiguration und Lebenszyklus-Management.",
+    "xp": 10,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welches Log-Level zeigt die wichtigsten Fehler an?",
+    "options": [
+      "DEBUG",
+      "INFO",
+      "ERROR",
+      "TRACE"
+    ],
+    "correct": 2,
+    "explanation": "ERROR ist das Log-Level für die kritischsten Fehlermeldungen. Es zeigt schwerwiegende Probleme an, die sofortige Aufmerksamkeit erfordern.",
+    "xp": 10,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist ein Fork in GitHub?",
+    "options": [
+      "Eine Kopie eines Repositories unter deinem eigenen Account",
+      "Ein Branch in einem Repository",
+      "Ein Pull Request",
+      "Ein Commit in der Historie"
+    ],
+    "correct": 0,
+    "explanation": "Ein Fork ist eine persönliche Kopie eines fremden Repositories unter deinem GitHub-Account. Dies ermöglicht es dir, Änderungen vorzunehmen, ohne das Original zu beeinflussen.",
+    "xp": 10,
+    "tags": [
       "uebung",
       "neue-vorlesung",
       "offiziell"
@@ -1371,59 +1477,665 @@
   },
   {
     "difficulty": 2,
-    "type": "multiple",
-    "question": "In welcher Datei werden die Abhängigkeiten bei einem Spring Boot-Projekt verwaltet (Gradle)?",
-    "options": [
-      "pom.xml",
-      "settings.gradle",
-      "build.gradle",
-      "application.properties"
+    "type": "matching",
+    "question": "Ordne die Log-Level ihrer typischen Verwendung zu:",
+    "pairs": [
+      {
+        "left": "ERROR",
+        "right": "Kritische Fehler, die sofortige Aktion erfordern"
+      },
+      {
+        "left": "WARN",
+        "right": "Potenziell schädliche Situationen"
+      },
+      {
+        "left": "INFO",
+        "right": "Wichtige Geschäftsereignisse"
+      },
+      {
+        "left": "DEBUG",
+        "right": "Detaillierte Entwicklerinformationen"
+      }
     ],
-    "correct": 2,
-    "explanation": "Bei Gradle werden Dependencies in der build.gradle gepflegt. Die pom.xml ist für Maven-Projekte.",
-    "xp": 15,
+    "explanation": "Die Log-Level haben unterschiedliche Prioritäten und Verwendungszwecke: ERROR für kritische Fehler, WARN für Warnungen, INFO für wichtige Events, DEBUG für Entwicklerdetails.",
+    "xp": 25,
     "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "offiziell"
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Vorteile bietet strukturiertes Logging gegenüber System.out.println? (Mehrfachauswahl)",
+    "options": [
+      "Konfigurierbare Log-Level",
+      "Bessere Filterbarkeit",
+      "Mehrere Ausgabekanäle möglich",
+      "Formatierte Zeitstempel",
+      "Schnellere Ausführung"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "explanation": "Strukturiertes Logging bietet viele Vorteile: konfigurierbare Level, Filterbarkeit, multiple Ausgabekanäle und automatische Zeitstempel. Die Ausführungsgeschwindigkeit ist nicht primär relevant.",
+    "xp": 20,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist die Hauptaufgabe des CommandLineRunner in Spring Boot?",
+    "options": [
+      "Datenbankverbindungen aufbauen",
+      "Code beim Anwendungsstart ausführen",
+      "REST-Endpunkte definieren",
+      "Logging konfigurieren"
+    ],
+    "correct": 1,
+    "explanation": "CommandLineRunner ist ein Interface, dessen run()-Methode nach der Initialisierung der Spring Boot App ausgeführt wird. Es eignet sich für Initialisierungscode beim Start.",
+    "xp": 20,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Was bedeutet 'Inversion of Control' im Spring-Kontext?",
+    "options": [
+      "Die Umkehrung der Programmflusssteuerung",
+      "Das manuelle Erstellen von Objekten",
+      "Die direkte Objektreferenzierung",
+      "Die Verwendung von statischen Methoden"
+    ],
+    "correct": 0,
+    "explanation": "Inversion of Control bedeutet, dass die Kontrolle über Objekterstellung und -verwaltung an den Spring Container übertragen wird, statt sie selbst zu implementieren.",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "checkbox",
+    "question": "Welche Aussagen über Konstruktor-Injektion sind korrekt? (Mehrfachauswahl)",
+    "options": [
+      "Garantiert vollständige Initialisierung",
+      "Unterstützt Immutability",
+      "Macht Abhängigkeiten explizit",
+      "Ist flexibler als Setter-Injektion",
+      "Erfordert weniger Code als Feld-Injektion"
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "explanation": "Konstruktor-Injektion wird bevorzugt, weil sie vollständige Initialisierung garantiert, Immutability ermöglicht und Abhängigkeiten explizit macht. Sie ist nicht flexibler und erfordert mehr Code.",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "matching",
+    "question": "Ordne die Spring-Annotationen ihrer Hauptfunktion zu:",
+    "pairs": [
+      {
+        "left": "@SpringBootApplication",
+        "right": "Kombiniert mehrere Basis-Annotationen"
+      },
+      {
+        "left": "@Component",
+        "right": "Markiert Klasse als Spring-verwaltete Komponente"
+      },
+      {
+        "left": "@Bean",
+        "right": "Definiert Methode zur Bean-Erstellung"
+      },
+      {
+        "left": "@Autowired",
+        "right": "Injiziert Abhängigkeiten"
+      }
+    ],
+    "explanation": "Die Annotationen haben unterschiedliche Zwecke: @SpringBootApplication für App-Konfiguration, @Component für Komponenten-Scanning, @Bean für explizite Bean-Definition, @Autowired für Dependency Injection.",
+    "xp": 35,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "checkbox",
+    "question": "Welche Konzepte sind Teil der Spring Boot Auto-Konfiguration? (Mehrfachauswahl)",
+    "options": [
+      "Konvention vor Konfiguration",
+      "Bedingte Bean-Registrierung",
+      "Externe Konfigurationsdateien",
+      "Starter Dependencies",
+      "Metriken und Health-Checks"
+    ],
+    "correct": [
+      0,
+      1,
+      3
+    ],
+    "explanation": "Spring Boot's Auto-Konfiguration basiert auf mehreren Konzepten: Konventionen, bedingter Bean-Registrierung und Starter Dependencies. Externe Konfigurationsdateien und Metriken sind separate Features.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "matching",
+    "question": "Ordne die Maven-Konzepte ihrer Bedeutung zu:",
+    "pairs": [
+      {
+        "left": "groupId",
+        "right": "Organisationsweiter, eindeutiger Identifier"
+      },
+      {
+        "left": "artifactId",
+        "right": "Name des Projekts/der Bibliothek"
+      },
+      {
+        "left": "version",
+        "right": "Spezifische Release-Kennung"
+      },
+      {
+        "left": "parent",
+        "right": "Vererbungshierarchie und gemeinsame Konfiguration"
+      }
+    ],
+    "explanation": "Maven POM-Elemente haben spezifische Rollen: groupId für Organisation, artifactId für Projektname, version für Release-Identifikation, parent für Vererbung.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "checkbox",
+    "question": "Welche Aspekte unterscheiden Integration-Tests von Unit-Tests in Spring Boot? (Mehrfachauswahl)",
+    "options": [
+      "Vollständiger Spring Kontext wird geladen",
+      "Testen mehrerer Komponenten zusammen",
+      "Verwendung von @SpringBootTest",
+      "Längere Ausführungszeit",
+      "Externe Ressourcen können eingebunden sein"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "explanation": "Integration-Tests unterscheiden sich durch: Laden des Spring Kontexts, Testing mehrerer Komponenten, @SpringBootTest Annotation, längere Laufzeit und mögliche externe Ressourcen.",
+    "xp": 45,
+    "tags": [
+      "uebung"
     ]
   },
   {
     "difficulty": 1,
     "type": "multiple",
-    "question": "Welche Log-Level sind standardmäßig in Spring Boot aktiviert?",
+    "question": "Was ist GitHub?",
     "options": [
-      "TRACE, WARN, DEBUG",
-      "DEBUG, INFO, ERROR",
-      "ERROR, WARN, INFO",
-      "ERROR, TRACE, INFO"
+      "Ein Texteditor",
+      "Eine Codehosting-Plattform für Versionskontrolle",
+      "Eine Programmiersprache",
+      "Ein Betriebssystem"
     ],
-    "correct": 2,
-    "explanation": "Standardmäßig sind ERROR, WARN und INFO in Spring Boot aktiviert. DEBUG und TRACE müssen explizit aktiviert werden.",
+    "correct": 1,
+    "explanation": "GitHub ist eine Codehosting-Plattform für die Versionskontrolle und Zusammenarbeit in Projekten.",
     "xp": 10,
     "tags": [
       "uebung",
-      "neue-vorlesung",
       "offiziell"
     ]
   },
   {
-    "difficulty": 1,
+    "difficulty": 2,
     "type": "multiple",
-    "question": "Was macht die Methode setMessage() in der Klasse MessageService?",
+    "question": "Was ist eine Bean in Spring?",
     "options": [
-      "Sie gibt den Wert der Variablen message zurück",
-      "Sie initialisiert die Bean message",
-      "Sie setzt den Wert der Variablen message",
-      "Sie speichert eine Nachricht in einer Datenbank"
+      "Eine JavaScript-Bibliothek",
+      "Eine Datenbank-Tabelle",
+      "Ein verwaltetes Java-Objekt innerhalb des Spring Containers",
+      "Ein Konfigurationsfile"
     ],
     "correct": 2,
-    "explanation": "Die Methode setMessage() setzt den Wert der Variablen message in der Klasse MessageService.",
-    "xp": 10,
+    "explanation": "Eine Bean ist ein verwaltetes Java-Objekt innerhalb des Spring Containers. Die Bean wird erstellt, überwacht und gelöscht.",
+    "xp": 20,
     "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "offiziell"
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne die Spring-Annotationen ihrer Funktion zu:",
+    "pairs": [
+      {
+        "left": "@SpringBootApplication",
+        "right": "Kennzeichnet die Main-Klasse"
+      },
+      {
+        "left": "@Component",
+        "right": "Macht die Klasse zu einer Bean"
+      },
+      {
+        "left": "@Autowired",
+        "right": "Injiziert ein Bean-Objekt"
+      },
+      {
+        "left": "@Bean",
+        "right": "Definiert eine Bean-Methode"
+      }
+    ],
+    "explanation": "@SpringBootApplication markiert die Main-Klasse, @Component macht Klassen zu Beans, @Autowired injiziert Dependencies, @Bean definiert Bean-Methoden.",
+    "xp": 25,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "fillblank",
+    "question": "In Spring Boot wird die Konfiguration in der Datei _____ im Ordner _____ gespeichert.",
+    "blanks": [
+      "application.properties",
+      "resources"
+    ],
+    "explanation": "Die Datei application.properties im Ordner resources enthält die Konfiguration für Spring Boot Anwendungen.",
+    "xp": 20,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "sort",
+    "question": "Sortiere die Log-Level von niedrigster zu höchster Priorität:",
+    "items": [
+      "ERROR",
+      "WARN",
+      "INFO",
+      "DEBUG",
+      "TRACE"
+    ],
+    "correct": [
+      "TRACE",
+      "DEBUG",
+      "INFO",
+      "WARN",
+      "ERROR"
+    ],
+  "explanation": "Die Log-Level von niedrigster zu höchster Priorität: TRACE (am detailliertesten) → DEBUG → INFO → WARN → ERROR (kritischste Fehler).\n✅ TRACE → DEBUG → INFO → WARN → ERROR",
+    "xp": 25,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist Maven?",
+    "options": [
+      "Ein Web-Framework",
+      "Eine Datenbank",
+      "Eine Programmiersprache",
+      "Ein Build-Management-Tool für Java-Projekte"
+    ],
+    "correct": 3,
+    "explanation": "Maven ist ein Build-Management-Tool, das den Software-Erstellungszyklus verwaltet. Konfiguration erfolgt in pom.xml.",
+    "xp": 20,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "fillblank",
+    "question": "Um den Log-Level für ein Package auf DEBUG zu setzen, verwendet man in application.properties: logging.level.<Packagename>=_____",
+    "blanks": [
+      "DEBUG"
+    ],
+    "explanation": "Mit logging.level.<packagename>=DEBUG wird der Log-Level für ein Package auf DEBUG gesetzt.",
+    "xp": 20,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "sort",
+    "question": "Sortiere die Schichten der 3-Tier-Architektur von oben nach unten:",
+    "items": [
+      "Datenhaltungsschicht",
+      "Anwendungslogik-Schicht",
+      "Präsentationsschicht"
+    ],
+    "correct": [
+      "Präsentationsschicht",
+      "Anwendungslogik-Schicht",
+      "Datenhaltungsschicht"
+    ],
+  "explanation": "3-Tier-Architektur von oben: Präsentationsschicht (UI) → Anwendungslogik (Business Logic) → Datenhaltung (Datenbank).\n✅ Präsentationsschicht → Anwendungslogik-Schicht → Datenhaltungsschicht",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "matching",
+    "question": "Ordne die REST-Prinzipien ihrer Beschreibung zu:",
+    "pairs": [
+      {
+        "left": "Stateless",
+        "right": "Zustandslosigkeit der Anfragen"
+      },
+      {
+        "left": "Cacheability",
+        "right": "Responses können gecacht werden"
+      },
+      {
+        "left": "Uniform Interface",
+        "right": "Einheitliche Schnittstelle"
+      },
+      {
+        "left": "HATEOAS",
+        "right": "Links zu verwandten Ressourcen"
+      }
+    ],
+    "explanation": "REST-Prinzipien: Stateless (zustandslos), Cacheability (cachebar), Uniform Interface (einheitlich), HATEOAS (Hypermedia as Engine of Application State).",
+    "xp": 35,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "checkbox",
+    "question": "Welche HTTP-Methoden sind 'safe' (sicher)? (Mehrfachauswahl)",
+    "options": [
+      "POST",
+      "GET",
+      "PUT",
+      "HEAD",
+      "DELETE"
+    ],
+    "correct": [
+      1,
+      3
+    ],
+    "explanation": "Safe (sicher) sind nur GET und HEAD - sie ändern keine Daten auf dem Server. POST, PUT und DELETE ändern Daten.",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "fillblank",
+    "question": "Die Annotation _____ kennzeichnet Test-Methoden in JUnit, während _____ die Test-Klasse für Spring Boot markiert.",
+    "blanks": [
+      "@Test",
+      "@SpringBootTest"
+    ],
+    "explanation": "@Test markiert einzelne Test-Methoden, @SpringBootTest kennzeichnet die Test-Klasse für Spring Boot.",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Was passiert, wenn die @Autowired Annotation entfernt wird?",
+    "options": [
+      "Das Programm läuft schneller",
+      "Die Bean wird nicht injiziert und es gibt eine NullPointerException",
+      "Die Bean wird automatisch erstellt",
+      "Das Programm kompiliert nicht"
+    ],
+    "correct": 1,
+    "explanation": "Ohne @Autowired wird das Bean-Objekt nicht injiziert und bleibt null, was zu einer NullPointerException führt, wenn darauf zugegriffen wird.",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Welche Operationen unterstützt GraphQL?",
+    "options": [
+      "SELECT, INSERT, UPDATE, DELETE",
+      "GET, POST, PUT, DELETE",
+      "Query, Mutation, Subscription",
+      "READ, WRITE, UPDATE"
+    ],
+    "correct": 2,
+    "explanation": "GraphQL unterstützt: Query (Abfragen), Mutation (Änderungen), Subscription (Echtzeit-Updates).",
+    "xp": 30,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "matching",
+    "question": "Ordne die Komponenten des MVC-Patterns ihrer Rolle zu:",
+    "pairs": [
+      {
+        "left": "Model",
+        "right": "Datenmodell und Geschäftslogik"
+      },
+      {
+        "left": "View",
+        "right": "Darstellung der Benutzeroberfläche"
+      },
+      {
+        "left": "Controller",
+        "right": "Steuerung und Vermittlung"
+      },
+      {
+        "left": "@RequestMapping",
+        "right": "Verknüpfung von URLs mit Methoden"
+      }
+    ],
+    "explanation": "MVC: Model (Daten/Logik), View (UI), Controller (Steuerung). @RequestMapping verbindet HTTP-Requests mit Handler-Methoden.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "sort",
+    "question": "Sortiere den Maven Build-Zyklus in der richtigen Reihenfolge:",
+    "items": [
+      "Installation",
+      "Validierung",
+      "Verifizierung",
+      "Kompilierung",
+      "Testen",
+      "Paketieren"
+    ],
+    "correct": [
+      "Validierung",
+      "Kompilierung",
+      "Testen",
+      "Paketieren",
+      "Verifizierung",
+      "Installation"
+    ],
+  "explanation": "Maven Build-Zyklus: Validierung → Kompilierung → Testen → Paketieren → Verifizierung → Installation (Items-Reihenfolge; Integrationstests & Verteilung sind optionale weitere Phasen).\n✅ Validierung → Kompilierung → Testen → Paketieren → Verifizierung → Installation",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Wo wird in einer Maven-basierten Spring-Boot-Anwendung die Spring Boot Version üblicherweise festgelegt?",
+    "options": [
+      "Im <dependencies>-Block der pom.xml",
+      "Im <parent>-Tag der pom.xml mit artifactId 'spring-boot-starter-parent'",
+      "In der application.properties",
+      "In der Klasse mit @SpringBootApplication"
+    ],
+    "correct": 1,
+    "explanation": "In Maven-Projekten wird die Spring Boot Version über den <parent>-Eintrag mit artifactId 'spring-boot-starter-parent' definiert. Die Version vererbt sich dann auf die Starter-Abhängigkeiten.",
+    "xp": 20,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "checkbox",
+    "question": "Welche Eigenschaften hat Spring Boot? (Mehrfachauswahl)",
+    "options": [
+      "Benötigt externe War-Dateien",
+      "Eingebettete Container (Tomcat, Jetty)",
+      "Automatische Konfiguration soweit möglich",
+      "Generierung von Code und Konfiguration",
+      "Keine externen Laufzeitabhängigkeiten"
+    ],
+    "correct": [
+      1,
+      2,
+      4
+    ],
+    "explanation": "Spring Boot: eingebettete Container, automatische Konfiguration, keine externen Laufzeitabhängigkeiten, KEINE War-Dateien nötig, KEINE Code-Generierung.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "multiple",
+    "question": "Welches Protokoll nutzt gRPC als Transportprotokoll und zu welcher OSI-Schicht gehört es?",
+    "options": [
+      "WebSocket, Schicht 6",
+      "TCP, Schicht 4",
+      "HTTP/2, Schicht 7",
+      "HTTP/1.1, Schicht 7"
+    ],
+    "correct": 2,
+    "explanation": "gRPC nutzt HTTP/2 als Transportprotokoll, welches zur OSI-Schicht 7 (Anwendungsschicht) gehört.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "text",
+    "question": "Was ist das besondere Feature von gRPC im Vergleich zu REST und GraphQL?",
+    "correct": [
+      "bidirektionales streaming",
+      "bidirectional streaming",
+      "streaming"
+    ],
+    "explanation": "gRPC unterstützt bidirektionales Streaming in verschiedenen Formen: Unary, Server-Streaming, Client-Streaming, Bidirectional-Streaming.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "fillblank",
+    "question": "Eine SPA (Single Page Application) lädt Inhalte dynamisch per _____ nach, ohne die Seite neu zu _____.",
+    "blanks": [
+      "ajax",
+      "laden"
+    ],
+    "explanation": "Bei einer SPA läuft die Anwendung auf einer HTML-Seite. Inhalte werden dynamisch per AJAX nachgeladen, ohne Seitenneuladung.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "checkbox",
+    "question": "Welche sind serverseitige Technologien? (Mehrfachauswahl)",
+    "options": [
+      "JavaScript (Client)",
+      "PHP",
+      "Java Servlets",
+      "CSS",
+      "Node.js"
+    ],
+    "correct": [
+      1,
+      2,
+      4
+    ],
+    "explanation": "Serverseitige Technologien: PHP, Java Servlets, Node.js, Python (Django), Ruby on Rails. JavaScript und CSS laufen primär clientseitig.",
+    "xp": 40,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "matching",
+    "question": "Ordne die URL-Bestandteile dem Beispiel zu: http://fb2.fra-uas.de:8080/ebis/urls.html?prof=lehmann",
+    "pairs": [
+      {
+        "left": "Scheme",
+        "right": "http://"
+      },
+      {
+        "left": "Hostname",
+        "right": "fb2.fra-uas.de"
+      },
+      {
+        "left": "Port",
+        "right": ":8080"
+      },
+      {
+        "left": "Query",
+        "right": "?prof=lehmann"
+      }
+    ],
+    "explanation": "URL-Struktur: Scheme (Protokoll) → Hostname (Domain) → Port → Path (Pfad) → Query (Parameter).",
+    "xp": 45,
+    "tags": [
+      "uebung"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "type": "multiple",
+    "question": "Wofür steht die Abkürzung PHP (rekursives Akronym)?",
+    "options": [
+      "Personal Home Page",
+      "Private Hypertext Processor",
+      "PHP: Hypertext Preprocessor",
+      "Public HTML Protocol"
+    ],
+    "correct": 2,
+    "explanation": "PHP steht für 'PHP: Hypertext Preprocessor' - ein rekursives Akronym. PHP ist eine serverseitige Skriptsprache.",
+    "xp": 40,
+    "tags": [
+      "uebung"
     ]
   },
   {
@@ -2392,257 +3104,6 @@
   {
     "difficulty": 3,
     "type": "multiple",
-    "question": "Was passiert, wenn ein @ControllerAdvice eine Exception behandelt?",
-    "options": [
-      "Die Anwendung stürzt ab",
-      "Der Benutzer sieht eine Fehlerseite",
-      "Die Exception wird stillschweigend ignoriert",
-      "Es wird eine alternative Methode im Controller aufgerufen"
-    ],
-    "correct": 1,
-    "explanation": "✅ Richtig: Der Benutzer sieht eine Fehlerseite – @ControllerAdvice kann Fehler zentral behandeln und eine View zurückgeben.",
-    "xp": 30,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 4,
-    "type": "multiple",
-    "question": "Was ist der Hauptzweck von @ResponseStatus?",
-    "options": [
-      "Setzen des HTTP-Statuscodes für eine Antwort",
-      "Definieren von Sicherheitsbeschränkungen",
-      "Dokumentation von REST-APIs",
-      "Steuern der Cache-Einstellungen"
-    ],
-    "correct": 0,
-    "explanation": "✅ Richtig: @ResponseStatus setzt den HTTP-Statuscode (z.B. 404, 500) für die Antwort einer Controller-Methode.",
-    "xp": 40,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Eine Spring-Boot-Anwendung kann eigenständig und ohne externe Laufzeitabhängigkeiten ausgeführt werden",
-    "options": [
-      "Wahr",
-      "Falsch"
-    ],
-    "correct": 0,
-    "explanation": "Spring Boot-Anwendungen sind als Fat JARs/Executable JARs lauffähig und benötigen keine externen Laufzeitabhängigkeiten.",
-    "xp": 10,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Im Beispiel wird bei einer fehlenden URL-Parameterangabe (MissingServletRequestParameterException) automatisch support.html als View zurückgegeben.",
-    "options": ["Falsch", "Wahr"],
-    "correct": 1,
-    "explanation": "Beispiel-Handler gibt bei MissingServletRequestParameterException die View support.html zurück (ModelAndView mit View-Namen).",
-    "xp": 10,
-    "tags": ["offiziell", "woche4"]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Der Controller leitet Model-Daten an die View weiter, um eine dynamische Anzeige zu generieren.",
-    "options": ["Falsch", "Wahr"],
-    "correct": 1,
-    "explanation": "Controller füllt Model → View rendert dynamisch daraus.",
-    "xp": 10,
-    "tags": ["offiziell", "woche4"]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Fehlende Parameter in HTTP-Anfragen führen immer zu einem Server-Absturz.",
-    "options": ["Falsch", "Wahr"],
-    "correct": 0,
-    "explanation": "Fehlende Pflicht-Parameter erzeugen Exceptions (z.B. MissingServletRequestParameterException), kein Absturz – Handler möglich.",
-    "xp": 10,
-    "tags": ["offiziell", "woche4"]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Was ist das Hauptziel des MVC-Entwurfsmusters?",
-    "options": [
-      "Die Beschleunigung der Web-Entwicklung",
-      "Die Integration von Datenbanken",
-      "Die Trennung von Präsentation, Logik und Daten",
-      "Die Verbesserung der Sicherheit"
-    ],
-    "correct": 2,
-    "explanation": "MVC sorgt für klare Trennung: Model (Daten/Logik), View (Darstellung), Controller (Steuerung).",
-    "xp": 15,
-    "tags": ["offiziell", "woche4"]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Das DispatcherServlet leitet Anfragen an den passenden Controller weiter.",
-    "options": ["Falsch", "Wahr"],
-    "correct": 1,
-    "explanation": "DispatcherServlet = Front Controller: empfängt Request, delegiert an passenden Handler.",
-    "xp": 10,
-    "tags": ["offiziell", "woche4"]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Thymeleaf benötigt zwingend die Annotation @ThymeleafEnabled.",
-    "options": ["Falsch", "Wahr"],
-    "correct": 0,
-    "explanation": "Es existiert keine Annotation @ThymeleafEnabled; Spring Boot autokonfiguriert Thymeleaf über Starter.",
-    "xp": 10,
-    "tags": ["offiziell", "woche4"]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Der Query String beginnt immer nach dem ersten Gleichheitszeichen in der URL.",
-    "options": ["Falsch", "Wahr"],
-    "correct": 0,
-    "explanation": "Der Query-String beginnt nach '?' und enthält key=value Paare; '=' trennt Schlüssel und Wert.",
-    "xp": 10,
-    "tags": ["offiziell", "woche4"]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Eine MissingServletRequestParameterException tritt nur dann auf, wenn alle URL-Parameter fehlen.",
-    "options": ["Falsch", "Wahr"],
-    "correct": 0,
-    "explanation": "Sie tritt auf, wenn EIN erforderlicher Parameter fehlt – nicht alle müssen fehlen.",
-    "xp": 10,
-    "tags": ["offiziell", "woche4"]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Im MVC-Pattern speichert der Controller die Anwendungsdaten.",
-    "options": ["Falsch", "Wahr"],
-    "correct": 0,
-    "explanation": "Kontroller steuert Fluss; Daten & Logik liegen im Model.",
-    "xp": 10,
-    "tags": ["offiziell", "woche4"]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Welcher Ordner enthält statische Ressourcen wie CSS- und JavaScript-Dateien in Spring Boot?",
-    "options": [
-      "/static/resources",
-      "/src/main/resources/static",
-      "/resources/views",
-      "/src/main/resources/templates"
-    ],
-    "correct": 1,
-    "explanation": "Statische Dateien liegen unter src/main/resources/static (nicht templates).",
-    "xp": 10,
-    "tags": ["offiziell", "woche4"]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "@ControllerAdvice kann mehrere unterschiedliche Exceptions behandeln, nicht nur eine einzige.",
-    "options": ["Falsch", "Wahr"],
-    "correct": 1,
-    "explanation": "@ControllerAdvice + mehrere @ExceptionHandler Methoden für verschiedene Exception-Typen.",
-    "xp": 10,
-    "tags": ["offiziell", "woche4"]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Was ist die Funktion der Annotation @Autowired?",
-    "options": [
-      "Sie gibt an, dass eine Methode als Spring Bean registriert werden soll",
-      "Sie markiert die Main-Methode des Programms",
-      "Sie erstellt eine neue Bean im Spring Container",
-      "Sie injiziert eine Bean in eine andere Klasse und stellt diese zur Verfügung"
-    ],
-    "correct": 3,
-    "explanation": "@Autowired injiziert eine Bean in eine andere Klasse und stellt sie dort zur Verfügung.",
-    "xp": 20,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "In welcher Datei werden die Abhängigkeiten bei einem Spring Boot-Projekt verwaltet (Gradle)?",
-    "options": [
-      "pom.xml",
-      "settings.gradle",
-      "build.gradle",
-      "application.properties"
-    ],
-    "correct": 2,
-    "explanation": "Bei Gradle werden Dependencies in der build.gradle gepflegt. Die pom.xml ist für Maven-Projekte.",
-    "xp": 15,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Welche Log-Level sind standardmäßig in Spring Boot aktiviert?",
-    "options": [
-      "TRACE, WARN, DEBUG",
-      "DEBUG, INFO, ERROR",
-      "ERROR, WARN, INFO",
-      "ERROR, TRACE, INFO"
-    ],
-    "correct": 2,
-    "explanation": "Standardmäßig sind ERROR, WARN und INFO in Spring Boot aktiviert. DEBUG und TRACE müssen explizit aktiviert werden.",
-    "xp": 10,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Was macht die Methode setMessage() in der Klasse MessageService?",
-    "options": [
-      "Sie gibt den Wert der Variablen message zurück",
-      "Sie initialisiert die Bean message",
-      "Sie setzt den Wert der Variablen message",
-      "Sie speichert eine Nachricht in einer Datenbank"
-    ],
-    "correct": 2,
-    "explanation": "Die Methode setMessage() setzt den Wert der Variablen message in der Klasse MessageService.",
-    "xp": 10,
-    "tags": [
-      "uebung",
-      "neue-vorlesung",
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 3,
-    "type": "multiple",
     "question": "Die Methode assertThat() wird nicht von JUnit nativ bereitgestellt.",
     "options": [
       "Wahr",
@@ -3082,467 +3543,6 @@
     "options": [
       "Konvention vor Konfiguration",
       "Bedingte Bean-Registrierung",
-      "Externe Konfigurationsdateien",
-      "Starter Dependencies",
-      "Metriken und Health-Checks"
-    ],
-    "correct": [
-      0,
-      1,
-      3
-    ],
-    "explanation": "Spring Boot's Auto-Konfiguration basiert auf mehreren Konzepten: Konventionen, bedingter Bean-Registrierung und Starter Dependencies. Externe Konfigurationsdateien und Metriken sind separate Features.",
-    "xp": 40,
-    "tags": [
-      "uebung"
-    ]
-  },
-  {
-    "difficulty": 4,
-    "type": "matching",
-    "question": "Ordne die Maven-Konzepte ihrer Bedeutung zu:",
-    "pairs": [
-      {
-        "left": "groupId",
-        "right": "Organisationsweiter, eindeutiger Identifier"
-      },
-      {
-        "left": "artifactId",
-        "right": "Name des Projekts/der Bibliothek"
-      },
-      {
-        "left": "version",
-        "right": "Spezifische Release-Kennung"
-      },
-      {
-        "left": "parent",
-        "right": "Vererbungshierarchie und gemeinsame Konfiguration"
-      }
-    ],
-    "explanation": "Maven POM-Elemente haben spezifische Rollen: groupId für Organisation, artifactId für Projektname, version für Release-Identifikation, parent für Vererbung.",
-    "xp": 40,
-    "tags": [
-      "uebung"
-    ]
-  },
-  {
-    "difficulty": 4,
-    "type": "checkbox",
-    "question": "Welche Aspekte unterscheiden Integration-Tests von Unit-Tests in Spring Boot? (Mehrfachauswahl)",
-    "options": [
-      "Vollständiger Spring Kontext wird geladen",
-      "Testen mehrerer Komponenten zusammen",
-      "Verwendung von @SpringBootTest",
-      "Längere Ausführungszeit",
-      "Externe Ressourcen können eingebunden sein"
-    ],
-    "correct": [
-      0,
-      1,
-      2,
-      3,
-      4
-    ],
-    "explanation": "Integration-Tests unterscheiden sich durch: Laden des Spring Kontexts, Testing mehrerer Komponenten, @SpringBootTest Annotation, längere Laufzeit und mögliche externe Ressourcen.",
-    "xp": 45,
-    "tags": [
-      "uebung"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Was ist GitHub?",
-    "options": [
-      "Ein Texteditor",
-      "Eine Codehosting-Plattform für Versionskontrolle",
-      "Eine Programmiersprache",
-      "Ein Betriebssystem"
-    ],
-    "correct": 1,
-    "explanation": "GitHub ist eine Codehosting-Plattform für die Versionskontrolle und Zusammenarbeit in Projekten.",
-    "xp": 10,
-    "tags": [
-      "uebung",
-      "offiziell"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Was ist eine Bean in Spring?",
-    "options": [
-      "Eine JavaScript-Bibliothek",
-      "Eine Datenbank-Tabelle",
-      "Ein verwaltetes Java-Objekt innerhalb des Spring Containers",
-      "Ein Konfigurationsfile"
-    ],
-    "correct": 2,
-    "explanation": "Eine Bean ist ein verwaltetes Java-Objekt innerhalb des Spring Containers. Die Bean wird erstellt, überwacht und gelöscht.",
-    "xp": 20,
-    "tags": [
-      "uebung"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "matching",
-    "question": "Ordne die Spring-Annotationen ihrer Funktion zu:",
-    "pairs": [
-      {
-        "left": "@SpringBootApplication",
-        "right": "Kennzeichnet die Main-Klasse"
-      },
-      {
-        "left": "@Component",
-        "right": "Macht die Klasse zu einer Bean"
-      },
-      {
-        "left": "@Autowired",
-        "right": "Injiziert ein Bean-Objekt"
-      },
-      {
-        "left": "@Bean",
-        "right": "Definiert eine Bean-Methode"
-      }
-    ],
-    "explanation": "@SpringBootApplication markiert die Main-Klasse, @Component macht Klassen zu Beans, @Autowired injiziert Dependencies, @Bean definiert Bean-Methoden.",
-    "xp": 25,
-    "tags": [
-      "uebung"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "fillblank",
-    "question": "In Spring Boot wird die Konfiguration in der Datei _____ im Ordner _____ gespeichert.",
-    "blanks": [
-      "application.properties",
-      "resources"
-    ],
-    "explanation": "Die Datei application.properties im Ordner resources enthält die Konfiguration für Spring Boot Anwendungen.",
-    "xp": 20,
-    "tags": [
-      "uebung"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "sort",
-    "question": "Sortiere die Log-Level von niedrigster zu höchster Priorität:",
-    "items": [
-      "ERROR",
-      "WARN",
-      "INFO",
-      "DEBUG",
-      "TRACE"
-    ],
-    "correct": [
-      "TRACE",
-      "DEBUG",
-      "INFO",
-      "WARN",
-      "ERROR"
-    ],
-  "explanation": "Die Log-Level von niedrigster zu höchster Priorität: TRACE (am detailliertesten) → DEBUG → INFO → WARN → ERROR (kritischste Fehler).\n✅ TRACE → DEBUG → INFO → WARN → ERROR",
-    "xp": 25,
-    "tags": [
-      "uebung"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Was ist Maven?",
-    "options": [
-      "Ein Web-Framework",
-      "Eine Datenbank",
-      "Eine Programmiersprache",
-      "Ein Build-Management-Tool für Java-Projekte"
-    ],
-    "correct": 3,
-    "explanation": "Maven ist ein Build-Management-Tool, das den Software-Erstellungszyklus verwaltet. Konfiguration erfolgt in pom.xml.",
-    "xp": 20,
-    "tags": [
-      "uebung"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "fillblank",
-    "question": "Um den Log-Level für ein Package auf DEBUG zu setzen, verwendet man in application.properties: logging.level.<Packagename>=_____",
-    "blanks": [
-      "DEBUG"
-    ],
-    "explanation": "Mit logging.level.<packagename>=DEBUG wird der Log-Level für ein Package auf DEBUG gesetzt.",
-    "xp": 20,
-    "tags": [
-      "uebung"
-    ]
-  },
-  {
-    "difficulty": 3,
-    "type": "sort",
-    "question": "Sortiere die Schichten der 3-Tier-Architektur von oben nach unten:",
-    "items": [
-      "Datenhaltungsschicht",
-      "Anwendungslogik-Schicht",
-      "Präsentationsschicht"
-    ],
-    "correct": [
-      "Präsentationsschicht",
-      "Anwendungslogik-Schicht",
-      "Datenhaltungsschicht"
-    ],
-  "explanation": "3-Tier-Architektur von oben: Präsentationsschicht (UI) → Anwendungslogik (Business Logic) → Datenhaltung (Datenbank).\n✅ Präsentationsschicht → Anwendungslogik-Schicht → Datenhaltungsschicht",
-    "xp": 30,
-    "tags": [
-      "uebung"
-    ]
-  },
-  {
-    "difficulty": 3,
-    "type": "matching",
-    "question": "Ordne die REST-Prinzipien ihrer Beschreibung zu:",
-    "pairs": [
-      {
-        "left": "Stateless",
-        "right": "Zustandslosigkeit der Anfragen"
-      },
-      {
-        "left": "Cacheability",
-        "right": "Responses können gecacht werden"
-      },
-      {
-        "left": "Uniform Interface",
-        "right": "Einheitliche Schnittstelle"
-      },
-      {
-        "left": "HATEOAS",
-        "right": "Links zu verwandten Ressourcen"
-      }
-    ],
-    "explanation": "REST-Prinzipien: Stateless (zustandslos), Cacheability (cachebar), Uniform Interface (einheitlich), HATEOAS (Hypermedia as Engine of Application State).",
-    "xp": 35,
-    "tags": [
-      "uebung"
-    ]
-  },
-  {
-    "difficulty": 3,
-    "type": "checkbox",
-    "question": "Welche HTTP-Methoden sind 'safe' (sicher)? (Mehrfachauswahl)",
-    "options": [
-      "POST",
-      "GET",
-      "PUT",
-      "HEAD",
-      "DELETE"
-    ],
-    "correct": [
-      1,
-      3
-    ],
-    "explanation": "Safe (sicher) sind nur GET und HEAD - sie ändern keine Daten auf dem Server. POST, PUT und DELETE ändern Daten.",
-    "xp": 30,
-    "tags": [
-      "uebung"
-    ]
-  },
-  {
-    "difficulty": 3,
-    "type": "fillblank",
-    "question": "Die Annotation _____ kennzeichnet Test-Methoden in JUnit, während _____ die Test-Klasse für Spring Boot markiert.",
-    "blanks": [
-      "@Test",
-      "@SpringBootTest"
-    ],
-    "explanation": "@Test markiert einzelne Test-Methoden, @SpringBootTest kennzeichnet die Test-Klasse für Spring Boot.",
-    "xp": 30,
-    "tags": [
-      "uebung"
-    ]
-  },
-  {
-    "difficulty": 3,
-    "type": "multiple",
-    "question": "Was passiert, wenn die @Autowired Annotation entfernt wird?",
-    "options": [
-      "Das Programm läuft schneller",
-      "Die Bean wird nicht injiziert und es gibt eine NullPointerException",
-      "Die Bean wird automatisch erstellt",
-      "Das Programm kompiliert nicht"
-    ],
-    "correct": 1,
-    "explanation": "Ohne @Autowired wird das Bean-Objekt nicht injiziert und bleibt null, was zu einer NullPointerException führt, wenn darauf zugegriffen wird.",
-    "xp": 30,
-    "tags": [
-      "uebung"
-    ]
-  },
-  {
-    "difficulty": 3,
-    "type": "multiple",
-    "question": "Welche Operationen unterstützt GraphQL?",
-    "options": [
-      "SELECT, INSERT, UPDATE, DELETE",
-      "GET, POST, PUT, DELETE",
-      "Query, Mutation, Subscription",
-      "READ, WRITE, UPDATE"
-    ],
-    "correct": 2,
-    "explanation": "GraphQL unterstützt: Query (Abfragen), Mutation (Änderungen), Subscription (Echtzeit-Updates).",
-    "xp": 30,
-    "tags": [
-      "uebung"
-    ]
-  },
-  {
-    "difficulty": 4,
-    "type": "matching",
-    "question": "Ordne die Komponenten des MVC-Patterns ihrer Rolle zu:",
-    "pairs": [
-      {
-        "left": "Model",
-        "right": "Datenmodell und Geschäftslogik"
-      },
-      {
-        "left": "View",
-        "right": "Darstellung der Benutzeroberfläche"
-      },
-      {
-        "left": "Controller",
-        "right": "Steuerung und Vermittlung"
-      },
-      {
-        "left": "@RequestMapping",
-        "right": "Verknüpfung von URLs mit Methoden"
-      }
-    ],
-    "explanation": "MVC: Model (Daten/Logik), View (UI), Controller (Steuerung). @RequestMapping verbindet HTTP-Requests mit Handler-Methoden.",
-    "xp": 40,
-    "tags": [
-      "uebung"
-    ]
-  },
-  {
-    "difficulty": 4,
-    "type": "sort",
-    "question": "Sortiere den Maven Build-Zyklus in der richtigen Reihenfolge:",
-    "items": [
-      "Installation",
-      "Validierung",
-      "Verifizierung",
-      "Kompilierung",
-      "Testen",
-      "Paketieren"
-    ],
-    "correct": [
-      "Validierung",
-      "Kompilierung",
-      "Testen",
-      "Paketieren",
-      "Verifizierung",
-      "Installation"
-    ],
-  "explanation": "Maven Build-Zyklus: Validierung → Kompilierung → Testen → Paketieren → Verifizierung → Installation (Items-Reihenfolge; Integrationstests & Verteilung sind optionale weitere Phasen).\n✅ Validierung → Kompilierung → Testen → Paketieren → Verifizierung → Installation",
-    "xp": 40,
-    "tags": [
-      "uebung"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Wo wird in einer Maven-basierten Spring-Boot-Anwendung die Spring Boot Version üblicherweise festgelegt?",
-    "options": [
-      "Im <dependencies>-Block der pom.xml",
-      "Im <parent>-Tag der pom.xml mit artifactId 'spring-boot-starter-parent'",
-      "In der application.properties",
-      "In der Klasse mit @SpringBootApplication"
-    ],
-    "correct": 1,
-    "explanation": "In Maven-Projekten wird die Spring Boot Version über den <parent>-Eintrag mit artifactId 'spring-boot-starter-parent' definiert. Die Version vererbt sich dann auf die Starter-Abhängigkeiten."
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Mit @Qualifier kann eine spezifische Bean-Implementierung ausgewählt werden.",
-    "options": [
-      "Wahr",
-      "Falsch"
-    ],
-    "correct": 0,
-    "explanation": "Richtig. @Qualifier grenzt bei mehreren Kandidaten die zu injizierende Bean ein.",
-    "xp": 10,
-    "tags": [
-      "offiziell",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Was ist ein Vorteil des Prototype-Scopes?",
-    "options": [
-      "Beans können verschiedene Zustände speichern",
-      "Beans können nicht injiziert werden",
-      "Beans speichern keine Zustände",
-      "Beans werden nur einmal erstellt"
-    ],
-    "correct": 0,
-    "explanation": "Prototype-Beans werden bei jeder Anforderung neu erstellt und können so je Instanz eigenen Zustand halten.",
-    "xp": 10,
-    "tags": [
-      "offiziell",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "checkbox",
-    "question": "Welche Aussagen sind korrekt bezüglich der Bean-Erstellung im IoC-Container?",
-    "options": [
-      "@Configuration-Klassen können Methoden mit @Bean annotieren",
-      "@EnableAutoConfiguration startet automatische Konfiguration",
-      "@Repository erzeugt automatisch Entities und Datenbanktabellen",
-      "@ComponentScan deaktiviert die Auto-Konfiguration",
-      "@Bean ersetzt @Component in allen Fällen"
-    ],
-    "correct": [
-      0,
-      1
-    ],
-    "explanation": "Korrekt sind @Bean-Methoden in @Configuration und die Auto-Konfiguration. Die übrigen Aussagen sind falsch: @Repository erstellt keine Entities/Tabellen, @ComponentScan deaktiviert nichts und @Bean ersetzt @Component nicht generell.",
-    "xp": 25,
-    "tags": [
-      "offiziell",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 1,
-    "type": "multiple",
-    "question": "Welche Annotation wird verwendet, um Abhängigkeiten zu injizieren?",
-    "options": [
-      "@InjectObject",
-      "@Bean",
-      "@Autowired",
-      "@Component"
-    ],
-    "correct": 2,
-    "explanation": "@Autowired markiert Punkte, an denen Spring passende Beans injiziert (Feld, Konstruktor, Setter).",
-    "xp": 10,
-    "tags": [
-      "offiziell",
-      "woche3"
-    ]
-  },
-  {
-    "difficulty": 2,
-    "type": "multiple",
-    "question": "Welche Methode ist NICHT für Dependency Injection geeignet?",
-    "options": [
       "Static Injection",
       "Field Injection",
       "Setter Injection",
