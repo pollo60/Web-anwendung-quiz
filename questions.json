@@ -3462,7 +3462,7 @@
       "In der Klasse mit @SpringBootApplication"
     ],
     "correct": 1,
-    "explanation": "In Maven-Projekten wird die Spring Boot Version über den <parent>-Eintrag mit artifactId 'spring-boot-starter-parent' definiert. Die Version vererbt sich dann auf die Starter-Abhängigkeiten.",
+    "explanation": "In Maven-Projekten wird die Spring Boot Version über den <parent>-Eintrag mit artifactId 'spring-boot-starter-parent' definiert. Die Version vererbt sich dann auf die Starter-Abhängigkeiten."
   },
   {
     "difficulty": 1,
