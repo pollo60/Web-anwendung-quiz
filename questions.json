@@ -6354,5 +6354,375 @@
     "explanation": "✅ Richtig: @SubscriptionMapping verknüpft eine Controller-Methode mit einer Subscription-Operation im Schema.",
     "xp": 12,
     "tags": ["uebung", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "GraphQL ist besonders geeignet für mobile Anwendungen mit geringer Bandbreite.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: GraphQL ermöglicht präzise Feldselektion – mobile Clients können nur notwendige Daten abrufen und so Bandbreite sparen (kein Over-Fetching).",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "In GraphQL können Clients genau die Felder abrufen, die sie benötigen.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Clients spezifizieren in der Query exakt, welche Felder sie benötigen – z. B. { id, name } statt aller User-Felder.",
+    "xp": 10,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "GraphQL erlaubt es, genau die Felder zu spezifizieren, die zurückgegeben werden sollen.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Die Feldselektion ist ein Kernmerkmal von GraphQL – der Client bestimmt die Antwortstruktur durch die Query.",
+    "xp": 10,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "In GraphQL gibt es vordefinierte HTTP-Statuscodes für jede Antwort.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: GraphQL nutzt meist 200 OK auch bei Fehlern – Fehlerdetails stehen im Response-Body unter 'errors', nicht im HTTP-Status.",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "HTTP-Methoden wie GET und POST sind in GraphQL vordefinierte Operationen.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: GraphQL nutzt Query, Mutation und Subscription als Operationen – GET/POST sind nur HTTP-Transport-Methoden, keine GraphQL-Konzepte.",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "GraphQL ist ein Datenbanksystem.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: GraphQL ist eine Abfragesprache für APIs, keine Datenbank – es sitzt zwischen Client und Datenbank/Backend-Services.",
+    "xp": 10,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Mit einer Query kann man mehrere Ressourcen in einer einzigen Anfrage abfragen.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: GraphQL ermöglicht das Abfragen mehrerer Ressourcen in einer Query – z. B. { users { ... } posts { ... } } in einem Request.",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Query ist eine Standardmethode in GraphQL zum Abfragen von Daten.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Query ist eine der drei Hauptoperationen in GraphQL (Query, Mutation, Subscription) – sie dient dem Lesen von Daten.",
+    "xp": 10,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "GraphQL unterstützt neben Queries und Mutations auch Subscriptions, um Daten in Echtzeit zu übertragen.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Subscriptions ermöglichen Echtzeit-Updates über WebSockets – der Server pusht Änderungen kontinuierlich an den Client.",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "GraphQL ist eine Abfragesprache für APIs, die es Clients erlaubt, exakt die Daten anzufragen, die sie benötigen.\n(Frage: Was ist GraphQL?)\nWählen Sie eine Antwort:",
+    "options": [
+      "a) Eine NoSQL-Datenbank",
+      "b) Ein neuer Standard für HTTP",
+      "c) Ein Framework für Webentwicklung",
+      "d) Eine Abfragesprache für APIs"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: GraphQL ist eine Abfragesprache und Laufzeitumgebung für APIs – entwickelt von Facebook, ermöglicht präzise Datenabfragen.",
+    "xp": 10,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "checkbox",
+    "question": "Welche der folgenden Aussagen trifft auf GraphQL zu?\nWählen Sie eine oder mehrere Antworten:",
+    "options": [
+      "a) GraphQL unterstützt keine Mutations",
+      "b) Clients können exakt die Daten anfragen, die sie benötigen",
+      "c) GraphQL ist nur für relationale Datenbanken geeignet",
+      "d) GraphQL ersetzt REST vollständig"
+    ],
+    "correct": [1],
+    "explanation": "✅ Richtig: Nur b) ist korrekt – GraphQL unterstützt Mutations, ist datenbankagnostisch und koexistiert oft mit REST.",
+    "xp": 15,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche GraphQL-Funktion entspricht einer HTTP-POST-Anfrage in REST?\nWählen Sie eine Antwort:",
+    "options": ["a) Subscription", "b) Resolver", "c) Mutation", "d) Query"],
+    "correct": 2,
+    "explanation": "✅ Richtig: Mutation entspricht POST/PUT/DELETE in REST – sie verändert Daten (Erstellen, Aktualisieren, Löschen).",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist der Zweck des Query-Typs in GraphQL?\nWählen Sie eine Antwort:",
+    "options": [
+      "a) Er definiert die Struktur von Datenbanktabellen",
+      "b) Er erlaubt das Abrufen von Daten",
+      "c) Er definiert API-Endpunkte",
+      "d) Er wird für Datentransaktionen verwendet"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: type Query definiert alle verfügbaren Lese-Operationen – z. B. allUsers, user(id: ID!): User.",
+    "xp": 10,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist eine GraphQL Subscription?\nWählen Sie eine Antwort:",
+    "options": [
+      "a) Eine Möglichkeit, wiederkehrende Zahlungen zu verwalten",
+      "b) Eine spezielle Art von Mutation",
+      "c) Eine Echtzeit-Datenverbindung zwischen Client und Server",
+      "d) Ein Feature zur API-Dokumentation"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: Subscriptions etablieren eine persistente Verbindung (meist WebSocket), über die der Server Echtzeit-Updates sendet.",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Bei Start der Subscription im GraphQL-Interface werden die Daten sofort als einmalige Antwort gesendet und nicht kontinuierlich aktualisiert.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Subscriptions senden Updates kontinuierlich – z. B. bei jeder Änderung eines Aktienkurses wird ein neues Event gepusht.",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "GraphQL Subscriptions können vollständig über einfache HTTP-GET-Anfragen realisiert werden.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Subscriptions benötigen persistente Verbindungen – typischerweise WebSockets, nicht stateless HTTP-GET.",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Subscription erlaubt in GraphQL das Empfangen von Echtzeit-Updates.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Subscriptions sind für Echtzeit-Szenarien gedacht – z. B. Live-Chats, Börsenticker, Benachrichtigungen.",
+    "xp": 10,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Eine Mutation wird für das Erstellen, Aktualisieren oder Löschen von Daten verwendet.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Mutations sind Schreib-Operationen – createUser, updateUser, deleteUser sind typische Mutation-Namen.",
+    "xp": 10,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "HTTP/1.1 unterstützt von Haus aus die fortlaufende Übertragung von Daten an den Client ohne Zusatztechnologien.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: HTTP/1.1 ist request-response-basiert – für Echtzeit-Streams werden Technologien wie WebSockets oder Server-Sent Events benötigt.",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "WebSocket ist ein Protokoll, das auf HTTP/3 basiert.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: WebSocket basiert auf HTTP/1.1 (Upgrade-Handshake) – es ist unabhängig von HTTP/2 oder HTTP/3.",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Eine GraphQL Subscription wird über HTTP 1.1 abgewickelt.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Subscriptions nutzen WebSockets (Upgrade über HTTP/1.1) – nicht reines HTTP/1.1, sondern eine persistente Verbindung.",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "WebSocket ist eine Technologie, die eine dauerhafte, bidirektionale Kommunikation zwischen Client und Server ermöglicht.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: WebSocket etabliert eine persistente Verbindung – beide Seiten können jederzeit Nachrichten senden (Full-Duplex).",
+    "xp": 10,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Datei enthält in einer Spring-GraphQL-Anwendung das Schema?\nWählen Sie eine Antwort:",
+    "options": [
+      "a) database.xml",
+      "b) schema.graphql",
+      "c) graphql-config.yml",
+      "d) application.properties"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Das GraphQL-Schema wird in schema.graphql (oder .graphqls) definiert – typischerweise in src/main/resources/graphql/.",
+    "xp": 10,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "In der pom.xml muss für WebSockets das Dependency spring-boot-starter-websocket eingebunden werden.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: spring-boot-starter-websocket bringt die WebSocket-Infrastruktur für Subscriptions – ohne diese Dependency funktionieren Subscriptions nicht.",
+    "xp": 10,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Die Abhängigkeit spring-boot-starter-websocket ist notwendig, um WebSocket-Funktionalitäten in einer Spring Boot-Anwendung zu nutzen.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Diese Dependency stellt WebSocket-Support bereit – essentiell für GraphQL-Subscriptions und andere Echtzeit-Features.",
+    "xp": 10,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Der WebSocket-Endpunkt in der application.properties wird über den Schlüssel spring.graphql.websocket.path konfiguriert.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: spring.graphql.websocket.path=/graphqlws definiert den WebSocket-Pfad für Subscriptions – z. B. ws://localhost:8080/graphqlws.",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Die Annotation @MutationMapping wird in Spring Boot für eine Mutation verwendet.\nWählen Sie eine Antwort:",
+    "options": [
+      "a) @MutationMapping",
+      "b) @GraphQlRequest",
+      "c) @SubscriptionMapping",
+      "d) @QueryMapping"
+    ],
+    "correct": 0,
+    "explanation": "✅ Richtig: @MutationMapping bindet eine Controller-Methode an eine Mutation im GraphQL-Schema – z. B. createUser, deleteUser.",
+    "xp": 10,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Die Annotation @SubscriptionMapping in Spring Boot kennzeichnet eine Methode als Subscription-Handler.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: @SubscriptionMapping verknüpft eine Methode mit einer Subscription-Operation – die Methode gibt typischerweise einen Flux zurück.",
+    "xp": 10,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Die Annotation @SubscriptionMapping kennzeichnet eine Methode als Subscription-Endpunkt in Spring GraphQL.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: @SubscriptionMapping ist die Spring-Annotation für Subscription-Resolver – ermöglicht reaktive Datenströme (z. B. Flux<T>).",
+    "xp": 10,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "@RestController kann in einer Spring-GraphQL-Anwendung verwendet werden.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: GraphQL-Controller nutzen @Controller, nicht @RestController – GraphQL-Handler verwenden @QueryMapping/@MutationMapping statt @GetMapping/@PostMapping.",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Im Beispiel wird flux.interval(Duration.ofSeconds(1)) verwendet, um jede Sekunde neue Daten zu erzeugen.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Flux.interval(Duration.ofSeconds(1)) erstellt einen reaktiven Stream, der jede Sekunde ein Event emittiert – ideal für Subscriptions.",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Weisen Sie den GraphQL-Anfragen die entsprechenden User Stories korrekt zu.",
+    "pairs": [
+      {
+        "left": "query { users { id name email } }",
+        "right": "Als Nutzer möchte ich eine Liste aller vorhandenen User abfragen, damit ich eine Übersicht habe."
+      },
+      {
+        "left": "mutation { createUser(input: { name: \"Max\", email: \"max@x\" }) { id name } }",
+        "right": "Als Nutzer möchte ich einen neuen User anlegen, damit ich einen neuen User erstelle."
+      },
+      {
+        "left": "mutation { updateUser(id: \"123\", input: { name: \"Max neu\" }) { id name } }",
+        "right": "Als Nutzer möchte ich die Daten eines bestehenden Users ändern, damit die Änderungen gespeichert werden."
+      },
+      {
+        "left": "query { user(id: \"123\") { id name email } }",
+        "right": "Als Nutzer möchte ich einen bestimmten User über seine ID abrufen, damit ich dessen Daten sehen kann."
+      },
+      {
+        "left": "mutation { deleteUser(id: \"123\") { success } }",
+        "right": "Als Nutzer möchte ich einen User löschen, damit der entfernte User nicht mehr existiert."
+      }
+    ],
+    "explanation": "✅ Richtig: 1=Liste abrufen (Query users), 2=Erstellen (Mutation createUser), 3=Ändern (Mutation updateUser), 4=Einzelner User (Query user), 5=Löschen (Mutation deleteUser).",
+    "xp": 25,
+    "tags": ["offiziell", "woche6"]
   }
 ]
