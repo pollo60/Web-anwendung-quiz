@@ -6448,7 +6448,7 @@
   {
     "difficulty": 1,
     "type": "multiple",
-    "question": "GraphQL ist eine Abfragesprache für APIs, die es Clients erlaubt, exakt die Daten anzufragen, die sie benötigen.\n(Frage: Was ist GraphQL?)\nWählen Sie eine Antwort:",
+    "question": "Was ist GraphQL? \nWählen Sie eine Antwort:",
     "options": [
       "a) Eine NoSQL-Datenbank",
       "b) Ein neuer Standard für HTTP",
@@ -6868,6 +6868,21 @@
     "correct": 1,
     "explanation": "✅ Richtig: WebSocket-Pfade können in application.properties konfiguriert werden – z. B. spring.graphql.websocket.path=/graphqlws.",
     "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+    {
+    "difficulty": 1,
+    "type": "checkbox",
+    "question": "Welche Technologie wird für GraphQL-Subscriptions typischerweise verwendet? \nWählen Sie eine oder mehrere Antworten:",
+    "options": [
+      "a) Long Polling",
+      "b) RESTful Requests",
+      "c) WebSockets",
+      "d) AJAX"
+    ],
+    "correct": [2],
+    "explanation": "✅ Richtig: Nur c) ist korrekt.",
+    "xp": 15,
     "tags": ["offiziell", "woche6"]
   }
 ]
