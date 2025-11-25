@@ -6643,7 +6643,7 @@
   {
     "difficulty": 1,
     "type": "multiple",
-    "question": "Die Annotation @MutationMapping wird in Spring Boot für eine Mutation verwendet.\nWählen Sie eine Antwort:",
+    "question": "Welche Annotation wird in Spring Boot für eine Mutation verwendet? \nWählen Sie eine Antwort:",
     "options": [
       "a) @MutationMapping",
       "b) @GraphQlRequest",
@@ -6723,6 +6723,151 @@
     ],
     "explanation": "✅ Richtig: 1=Liste abrufen (Query users), 2=Erstellen (Mutation createUser), 3=Ändern (Mutation updateUser), 4=Einzelner User (Query user), 5=Löschen (Mutation deleteUser).",
     "xp": 25,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "GraphQL wurde von Google entwickelt.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: GraphQL wurde 2012 von Facebook entwickelt und 2015 als Open Source veröffentlicht, nicht von Google.",
+    "xp": 10,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "GraphQL kann nur mit SQL-Datenbanken verwendet werden.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: GraphQL ist datenbankagnostisch – es funktioniert mit SQL-Datenbanken, NoSQL, REST-APIs, Microservices oder anderen Datenquellen.",
+    "xp": 10,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "GraphQL Queries liefern immer alle Felder eines Objekts, unabhängig davon, was der Client anfragt.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: GraphQL liefert nur die vom Client explizit angefragten Felder – keine Über- oder Unterversorgung mit Daten.",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "GraphQL ersetzt REST komplett und verwendet keine HTTP-Methoden mehr.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: GraphQL nutzt HTTP (meist POST) als Transportschicht – es ersetzt REST nicht komplett, sondern ergänzt oder bietet Alternativen.",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was passiert, wenn ein GraphQL-Feld mit ! markiert ist?\nWählen Sie eine Antwort:",
+    "options": [
+      "a) Es darf nicht null sein",
+      "b) Es bedeutet, dass das Feld optional ist",
+      "c) Es wird in der Datenbank gespeichert",
+      "d) Es kann nur leere Werte enthalten"
+    ],
+    "correct": 0,
+    "explanation": "✅ Richtig: Das Ausrufezeichen (!) markiert ein Feld als Non-Nullable – es muss immer einen Wert haben (z. B. name: String!).",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Subscriptions in GraphQL erlauben dem Client, fortlaufend Updates vom Server zu erhalten, ohne ständig neue Anfragen zu stellen.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Subscriptions etablieren eine persistente Verbindung – der Server pushed Updates automatisch bei Änderungen (Push-Modell statt Polling).",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Ohne WebSocket-Technologie wäre es im Beispiel trotzdem möglich, eine echte GraphQL-Subscription umzusetzen.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Echte Subscriptions benötigen persistente Verbindungen – ohne WebSocket müsste man auf Polling zurückgreifen, was keine echte Subscription ist.",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Für GraphQL-Subscriptions in Spring Boot muss immer eine Datenbank angebunden sein.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Subscriptions können auch ohne Datenbank funktionieren – z. B. mit In-Memory-Daten, externen APIs oder reaktiven Streams (Flux.interval).",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Die GraphQL-Subscription wird in der schema.graphqls-Datei durch den Typ Subscription definiert.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: type Subscription { ... } definiert alle verfügbaren Subscription-Operationen im Schema – analog zu type Query und type Mutation.",
+    "xp": 10,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Reactive Programming, z.B. mit Flux von Spring Webflux, wird oft verwendet, um asynchrone Datenströme in Subscriptions zu handhaben.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Flux<T> (aus Project Reactor) ermöglicht reaktive Streams – ideal für Subscriptions, die kontinuierlich Daten emittieren (z. B. Flux.interval).",
+    "xp": 15,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "HTTP/1.1 eignet sich standardmäßig gut für WebSocket-Verbindungen, die für Subscriptions benötigt werden.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: HTTP/1.1 ist request-response-basiert – WebSocket nutzt HTTP/1.1 nur für den initialen Upgrade-Handshake, danach ist es ein eigenes Protokoll.",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Im Browser kann man die WebSocket-Kommunikation über die Entwicklertools im Netzwerk-Tab überwachen.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Browser-DevTools zeigen WebSocket-Verbindungen im Netzwerk-Tab an – man kann Frames (Nachrichten) inspizieren und Verbindungsstatus prüfen.",
+    "xp": 10,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Ein Header wie Sec-WebSocket-Key zeigt an, dass eine WebSocket-Verbindung aufgebaut wird.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Sec-WebSocket-Key ist Teil des WebSocket-Upgrade-Handshakes – er authentifiziert die Verbindung zwischen Client und Server.",
+    "xp": 12,
+    "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Die Konfiguration von WebSocket-Endpunkten erfolgt ausschließlich im Controller, nicht in der application.properties.",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: WebSocket-Pfade können in application.properties konfiguriert werden – z. B. spring.graphql.websocket.path=/graphqlws.",
+    "xp": 12,
     "tags": ["offiziell", "woche6"]
   }
 ]
