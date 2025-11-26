@@ -257,17 +257,43 @@
     };
   }
 
-  // Periodisches Sync (alle 30 Sekunden)
+  // Sync bei XP-Änderung — beobachte Custom State-Change Events
+  function setupXpWatcher() {
+    // Höre auf Custom 'stateChanged' Events (falls von index.html gesendet)
+    document.addEventListener('stateChanged', () => {
+      const nameInput = document.getElementById('playerName');
+      if (nameInput && nameInput.value.trim() && window.STATE) {
+        log('State geändert, synce Fortschritt...');
+        syncProgress(nameInput.value.trim());
+      }
+    });
+
+    // Fallback: Beobachte XP-Display falls vorhanden
+    const xpDisplay = document.getElementById('xpDisplay');
+    if (xpDisplay) {
+      const observer = new MutationObserver(() => {
+        const nameInput = document.getElementById('playerName');
+        if (nameInput && nameInput.value.trim() && window.STATE) {
+          log('XP-Display geändert, synce Fortschritt...');
+          syncProgress(nameInput.value.trim());
+        }
+      });
+      observer.observe(xpDisplay, { childList: true, subtree: true, characterData: true });
+    }
+  }
+
+  // Periodisches Sync (alle 60 Sekunden als Fallback)
   setInterval(() => {
     const nameInput = document.getElementById('playerName');
     if (nameInput && nameInput.value.trim() && window.STATE) {
       syncProgress(nameInput.value.trim());
     }
-  }, 30000);
+  }, 60000);
 
   // Init bei Seitenstart
   document.addEventListener('DOMContentLoaded', () => {
     hookShowResults();
+    setupXpWatcher();
 
     const checkAndInit = () => {
       if (!window.STATE) {
@@ -283,9 +309,22 @@
 
       // Bei Namenseingabe (blur)
       if (nameInput) {
-        nameInput.addEventListener('blur', () => {
-          if (nameInput.value.trim()) {
-            initForUser(nameInput.value.trim());
+        nameInput.addEventListener('blur', async () => {
+          const name = nameInput.value.trim();
+          if (name) {
+            // Zuerst laden (falls Eintrag existiert)
+            await initForUser(name);
+            // Dann einen initialen Eintrag erstellen (falls noch nicht vorhanden)
+            // Das stellt sicher, dass der Name im Gist registriert ist
+            const existing = await loadProgress(name);
+            if (!existing && window.STATE) {
+              log('Neuer Benutzer, erstelle initialen Eintrag...');
+              await saveProgress(name, {
+                xp: window.STATE.xp || 0,
+                level: window.STATE.level || 1,
+                lifetimeXP: window.STATE.lifetimeXP || 0
+              });
+            }
           }
         });
       }
