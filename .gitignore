@@ -1,0 +1,11 @@
+# Ignore local gist token file
+gist-storage.js
+
+# Node artifacts (if any)
+node_modules/
+
+# VSCode
+.vscode/
+
+# macOS
+.DS_Store

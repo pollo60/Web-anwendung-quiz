@@ -35,15 +35,21 @@
     if (!progress || !window.STATE) return;
     // Server führt xp/level/lifetimeXP unter stats
     if (progress.stats) {
-      // Monotone lifetimeXP sicherstellen
-      if (typeof progress.stats.lifetimeXP === 'number') {
-        window.STATE.lifetimeXP = Math.max(window.STATE.lifetimeXP || 0, progress.stats.lifetimeXP);
-      }
-      if (typeof progress.stats.xp === 'number') window.STATE.xp = progress.stats.xp;
-      if (typeof progress.stats.level === 'number') window.STATE.level = progress.stats.level;
+      // Remote-Werte haben Vorrang, wenn höher (lifetimeXP) oder direkt überschreiben
+      const remoteXP = progress.stats.xp || 0;
+      const remoteLevel = progress.stats.level || 1;
+      const remoteLifetimeXP = progress.stats.lifetimeXP || 0;
+      
+      // Nutze den höheren Wert
+      window.STATE.xp = Math.max(window.STATE.xp || 0, remoteXP);
+      window.STATE.level = Math.max(window.STATE.level || 1, remoteLevel);
+      window.STATE.lifetimeXP = Math.max(window.STATE.lifetimeXP || 0, remoteLifetimeXP);
+      
       if (typeof window.updateXPDisplay === 'function') window.updateXPDisplay();
+      if (typeof window.saveProgress === 'function') window.saveProgress();
+      
+      log('Fortschritt gemergt: Level', window.STATE.level, 'XP', window.STATE.xp, 'Lifetime', window.STATE.lifetimeXP);
     }
-    // Keine visuelle Änderung nötig – stilles Mergen
   }
 
   function collectSnapshot() {
@@ -179,10 +185,22 @@
   document.addEventListener('DOMContentLoaded', () => {
     attachNameListener();
     hookShowResults();
-    // Falls Name schon vorausgefüllt ist
-    const existing = document.getElementById('playerName');
-    if (existing && existing.value.trim()) {
-      initRemoteProfile(existing.value.trim());
-    }
+    
+    // Warte bis STATE initialisiert ist, dann lade Remote-Fortschritt
+    const checkStateAndInit = () => {
+      if (!window.STATE) {
+        setTimeout(checkStateAndInit, 100);
+        return;
+      }
+      
+      // Falls Name schon vorausgefüllt ist (aus localStorage), lade Fortschritt vom Server
+      const existing = document.getElementById('playerName');
+      if (existing && existing.value.trim()) {
+        log('Gespeicherter Name gefunden, lade Fortschritt vom Server...');
+        initRemoteProfile(existing.value.trim());
+      }
+    };
+    
+    checkStateAndInit();
   });
 })();
