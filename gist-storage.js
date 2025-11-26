@@ -315,12 +315,16 @@
       if (nameInput) {
         nameInput.addEventListener('blur', async () => {
           const name = nameInput.value.trim();
+          log('blur Event getriggert, Name:', name, 'STATE existiert:', !!window.STATE);
+          
           if (name) {
             // Zuerst laden (falls Eintrag existiert)
             await initForUser(name);
             // Dann einen initialen Eintrag erstellen (falls noch nicht vorhanden)
             // Das stellt sicher, dass der Name im Gist registriert ist
             const existing = await loadProgress(name);
+            log('Existierender Eintrag für', name, ':', !!existing);
+            
             if (!existing && window.STATE) {
               log('Neuer Benutzer, erstelle initialen Eintrag...');
               await saveProgress(name, {
