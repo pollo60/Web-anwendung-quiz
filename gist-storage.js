@@ -325,13 +325,15 @@
             const existing = await loadProgress(name);
             log('Existierender Eintrag für', name, ':', !!existing);
             
-            if (!existing && window.STATE) {
+            if (!existing) {
               log('Neuer Benutzer, erstelle initialen Eintrag...');
-              await saveProgress(name, {
-                xp: window.STATE.xp || 0,
-                level: window.STATE.level || 1,
-                lifetimeXP: window.STATE.lifetimeXP || 0
-              });
+              const payload = {
+                xp: (window.STATE && typeof window.STATE.xp === 'number') ? window.STATE.xp : 0,
+                level: (window.STATE && typeof window.STATE.level === 'number') ? window.STATE.level : 1,
+                lifetimeXP: (window.STATE && typeof window.STATE.lifetimeXP === 'number') ? window.STATE.lifetimeXP : 0
+              };
+              log('Initial payload:', payload);
+              await saveProgress(name, payload);
             }
           }
         });
