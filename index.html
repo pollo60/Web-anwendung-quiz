@@ -54,10 +54,8 @@
                     <input id="playerName" class="name-input" type="text" placeholder="z.B. Luca, Marie">
                     
                     <div style="margin-top: 10px; text-align: center;">
-                        <label style="display: inline-flex; align-items: center; cursor: pointer; justify-content: center; margin-bottom: 8px;">
-                            <input type="checkbox" id="saveNameCheckbox" style="margin-right: 5px;">
-                            <span style="font-size: 11px; color: #fff;">Name speichern</span>
-                        </label>
+                        <button id="nameActionBtn" class="btn btn-secondary" style="font-size: 12px; padding: 8px 12px;">Aktion</button>
+                        <span id="nameActionLabel" style="margin-left:8px; font-size:11px; color:#fff;">Name speichern / Name laden</span>
                     </div>
                     <div id="nameDisclaimer" style="padding: 10px; background: rgba(52, 152, 219, 0.2); border-radius: 8px; font-size: 11px; color: #fff; text-align: left; display: none;">
                         💾 Name und XP-Wert werden auf einem privaten GitHub-Server gespeichert. Alle Einträge werden automatisch im Frühling (22. April) gelöscht.
@@ -1372,11 +1370,7 @@
             const nameInput = document.getElementById('playerName');
             STATE.playerName = (nameInput?.value || 'Spieler/in').trim();
             
-            // Save name if checkbox is checked
-            const saveCheckbox = document.getElementById('saveNameCheckbox');
-            if (saveCheckbox?.checked && STATE.playerName) {
-                savePlayerName(STATE.playerName);
-            }
+            // Note: name saving/loading handled by the Name-Aktion-Button
             
             // Select questions
             STATE.currentQuestions = selectQuestions(
@@ -1529,16 +1523,21 @@
                 });
             }
             
-            // Save name checkbox
-            const saveCheckbox = document.getElementById('saveNameCheckbox');
-            if (saveCheckbox) {
-                saveCheckbox.addEventListener('change', function() {
-                    if (this.checked && STATE.playerName) {
-                        savePlayerName(STATE.playerName);
-                    } else {
-                        localStorage.removeItem('playerName');
+            // Name action button (save/load to/from Gist)
+            const nameActionBtn = document.getElementById('nameActionBtn');
+            if (nameActionBtn) {
+                nameActionBtn.addEventListener('click', async function() {
+                    const name = STATE.playerName;
+                    if (!name) {
+                        alert('Bitte zuerst einen Namen eingeben.');
+                        return;
                     }
-                    updateNameUI();
+                    if (typeof window.nameActionClick === 'function') {
+                        await window.nameActionClick();
+                        updateNameUI();
+                    } else {
+                        alert('Speicher-Funktion noch nicht verfügbar.');
+                    }
                 });
             }
             

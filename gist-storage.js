@@ -311,30 +311,40 @@
         initForUser(nameInput.value.trim());
       }
 
-      // Bei Namenseingabe (blur)
+      // Bei Namenseingabe: handler kapseln und für mehrere Events registrieren
       if (nameInput) {
-        nameInput.addEventListener('blur', async () => {
+        const handleNameEntry = async () => {
           const name = nameInput.value.trim();
-          log('blur Event getriggert, Name:', name, 'STATE existiert:', !!window.STATE);
-          
-          if (name) {
-            // Zuerst laden (falls Eintrag existiert)
-            await initForUser(name);
-            // Dann einen initialen Eintrag erstellen (falls noch nicht vorhanden)
-            // Das stellt sicher, dass der Name im Gist registriert ist
-            const existing = await loadProgress(name);
-            log('Existierender Eintrag für', name, ':', !!existing);
-            
-            if (!existing) {
-              log('Neuer Benutzer, erstelle initialen Eintrag...');
-              const payload = {
-                xp: (window.STATE && typeof window.STATE.xp === 'number') ? window.STATE.xp : 0,
-                level: (window.STATE && typeof window.STATE.level === 'number') ? window.STATE.level : 1,
-                lifetimeXP: (window.STATE && typeof window.STATE.lifetimeXP === 'number') ? window.STATE.lifetimeXP : 0
-              };
-              log('Initial payload:', payload);
-              await saveProgress(name, payload);
-            }
+          log('Name-Handler getriggert, Name:', name, 'STATE existiert:', !!window.STATE);
+          if (!name) return;
+
+          // Zuerst laden (falls Eintrag existiert)
+          await initForUser(name);
+
+          // Dann einen initialen Eintrag erstellen (falls noch nicht vorhanden)
+          const existing = await loadProgress(name);
+          log('Existierender Eintrag für', name, ':', !!existing);
+
+          if (!existing) {
+            log('Neuer Benutzer, erstelle initialen Eintrag...');
+            const payload = {
+              xp: (window.STATE && typeof window.STATE.xp === 'number') ? window.STATE.xp : 0,
+              level: (window.STATE && typeof window.STATE.level === 'number') ? window.STATE.level : 1,
+              lifetimeXP: (window.STATE && typeof window.STATE.lifetimeXP === 'number') ? window.STATE.lifetimeXP : 0
+            };
+            log('Initial payload:', payload);
+            await saveProgress(name, payload);
+          }
+        };
+
+        // blur, Enter key and explicit change should all trigger the handler
+        nameInput.addEventListener('blur', handleNameEntry);
+        nameInput.addEventListener('change', handleNameEntry);
+        nameInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            handleNameEntry();
+            nameInput.blur();
           }
         });
       }
@@ -387,8 +397,71 @@
     return ok;
   };
 
+  // Name action: if name exists in Gist -> load it; otherwise save current progress under that name
+  window.nameActionClick = async function() {
+    try {
+      const nameInput = document.getElementById('playerName');
+      const name = nameInput && nameInput.value.trim();
+      if (!name) { alert('Bitte zuerst einen Namen eingeben.'); return false; }
+
+      log('[gist] nameActionClick für', name);
+      const existing = await loadProgress(name);
+      if (existing) {
+        // Merge loaded progress into STATE
+        window.STATE.xp = Math.max(window.STATE.xp || 0, existing.xp || 0);
+        window.STATE.level = Math.max(window.STATE.level || 1, existing.level || 1);
+        window.STATE.lifetimeXP = Math.max(window.STATE.lifetimeXP || 0, existing.lifetimeXP || 0);
+        if (typeof window.updateXPDisplay === 'function') window.updateXPDisplay();
+        log('[gist] Name gefunden, Fortschritt geladen für:', name);
+        return true;
+      }
+
+      // Not existing -> save current progress under this name
+      const payload = {
+        xp: window.STATE?.xp || 0,
+        level: window.STATE?.level || 1,
+        lifetimeXP: window.STATE?.lifetimeXP || 0
+      };
+      const ok = await saveProgress(name, payload);
+      if (ok) log('[gist] Name nicht vorhanden — initialer Fortschritt gespeichert für:', name);
+      else log('[gist] Fehler beim Speichern initialen Fortschritts für:', name);
+      return ok;
+    } catch (e) {
+      console.error('[gist] nameActionClick Fehler:', e);
+      return false;
+    }
+  };
+
   window.clearSharedGistCache = function() {
     try { localStorage.removeItem('sharedGistId'); sharedGistId = null; console.log('[gist] sharedGistId cache gelöscht'); } catch (e) { console.warn(e); }
+  };
+
+  // Aktualisiert den Button-Text: 'Laden' wenn Name existiert, sonst 'Speichern'
+  window.updateNameActionButton = async function() {
+    try {
+      const btn = document.getElementById('nameActionBtn');
+      const label = document.getElementById('nameActionLabel');
+      const nameInput = document.getElementById('playerName');
+      const name = nameInput && nameInput.value.trim();
+      if (!btn) return;
+      if (!name) {
+        btn.textContent = 'Aktion';
+        if (label) label.textContent = 'Name speichern / Name laden';
+        return;
+      }
+
+      // Prüfe ob Eintrag existiert (ohne Erstellen eines neuen Gists wenn möglich)
+      const existing = await loadProgress(name);
+      if (existing) {
+        btn.textContent = 'Laden';
+        if (label) label.textContent = 'Profil laden';
+      } else {
+        btn.textContent = 'Speichern';
+        if (label) label.textContent = 'Profil speichern';
+      }
+    } catch (e) {
+      console.warn('[gist] updateNameActionButton Fehler:', e);
+    }
   };
 
 })();
