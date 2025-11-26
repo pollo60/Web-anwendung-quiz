@@ -339,6 +339,12 @@
     hookShowResults();
     setupXpWatcher();
 
+    // Disable action button until the main app STATE is initialized
+    try {
+      const startBtn = document.getElementById('nameActionBtn');
+      if (startBtn) startBtn.disabled = true;
+    } catch (e) {}
+
     const checkAndInit = () => {
       if (!window.STATE) {
         setTimeout(checkAndInit, 100);
@@ -346,6 +352,14 @@
       }
 
       const nameInput = document.getElementById('playerName');
+      // Enable the action button now that window.STATE is available
+      try {
+        const startBtn = document.getElementById('nameActionBtn');
+        if (startBtn) {
+          startBtn.disabled = false;
+          if (typeof window.updateNameActionButton === 'function') window.updateNameActionButton();
+        }
+      } catch (e) {}
       if (nameInput && nameInput.value.trim()) {
         log('Gespeicherter Name gefunden, lade Fortschritt...');
         initForUser(nameInput.value.trim());
@@ -458,7 +472,7 @@
 
       // Warte, bis die Haupt-STATE-Variable verfügbar ist (sie wird vom Hauptskript gesetzt)
       let waitCount = 0;
-      while (typeof window.STATE === 'undefined' && waitCount < 50) {
+      while (typeof window.STATE === 'undefined' && waitCount < 100) {
         await new Promise(r => setTimeout(r, 100));
         waitCount++;
       }
@@ -515,7 +529,7 @@
           const name = nameInput && nameInput.value.trim();
           if (!btn) return;
           if (!name) {
-            btn.textContent = 'Aktion';
+            btn.textContent = 'Speichern';
             return;
           }
 
