@@ -225,10 +225,14 @@
       window.STATE.level = Math.max(window.STATE.level || 1, remoteProgress.level || 1);
       window.STATE.lifetimeXP = Math.max(window.STATE.lifetimeXP || 0, remoteProgress.lifetimeXP || 0);
       
-      if (typeof window.updateXPDisplay === 'function') window.updateXPDisplay();
-      if (typeof window.saveProgress === 'function') window.saveProgress();
-      
       log('Fortschritt gemergt: Level', window.STATE.level, 'XP', window.STATE.xp, 'Lifetime', window.STATE.lifetimeXP);
+      
+      // Versuche, das UI zu aktualisieren
+      if (typeof window.updateXPDisplay === 'function') {
+        window.updateXPDisplay();
+      } else if (typeof window.saveProgress === 'function') {
+        window.saveProgress();
+      }
     }
   }
 
