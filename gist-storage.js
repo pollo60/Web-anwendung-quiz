@@ -14,10 +14,10 @@
   function getGithubToken() {
     // Teile des Tokens (Base64-kodiert und leicht verschoben)
     const parts = [
-      'Z2hwX292N0dBVVc3',
-      'N0VpR21VTDBnM20',
-      'sdlZRa2hEUjljMXpl',
-      'bTk='
+      'Z2hwXzdCMXQ3aQ==',
+      'RG1kT2dEUXViUQ==',
+      'bDl7d3xjdXFNRQ==',
+      'WGxXMDBYN0FnYg=='
     ];
 
     // Kleine Decodier- + De-Obfuskationsroutine
