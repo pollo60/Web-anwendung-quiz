@@ -191,7 +191,7 @@
   ,
   {
     "difficulty": 1,
-    "type": "boolean",
+    "type": "multiple",
     "question": "gRPC verwendet standardmäßig HTTP/1.1 zur Kommunikation",
     "options": ["Wahr", "Falsch"],
     "correct": 1,
@@ -201,7 +201,7 @@
   },
   {
     "difficulty": 2,
-    "type": "boolean",
+    "type": "multiple",
     "question": ".proto-Dateien sind zwingend erforderlich, um gRPC-Schnittstellen zu definieren",
     "options": ["Wahr", "Falsch"],
     "correct": 0,
@@ -256,7 +256,7 @@
   },
   {
     "difficulty": 1,
-    "type": "boolean",
+    "type": "multiple",
     "question": "@GrpcService kennzeichnet eine Server-Implementierung für gRPC in Spring Boot",
     "options": ["Wahr", "Falsch"],
     "correct": 0,
@@ -266,7 +266,7 @@
   },
   {
     "difficulty": 1,
-    "type": "boolean",
+    "type": "multiple",
     "question": "gRPC-Streaming ermöglicht das Senden und Empfangen von Datenströmen über HTTP/2",
     "options": ["Wahr", "Falsch"],
     "correct": 0,
@@ -325,7 +325,7 @@
   },
   {
     "difficulty": 1,
-    "type": "boolean",
+    "type": "multiple",
     "question": "Wireshark kann verwendet werden, um gRPC-Datenpakete in HTTP/2 zu analysieren",
     "options": ["Wahr", "Falsch"],
     "correct": 0,
