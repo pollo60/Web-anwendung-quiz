@@ -7330,5 +7330,274 @@
     "explanation": "✅ Richtig: Dependencies → .proto hinzufügen → compile → Config → @GrpcClient nutzen.",
     "xp": 18,
     "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welcher Vorteil von gRPC ist besonders für Microservices-Architekturen relevant?",
+    "options": [
+      "Es verwendet ausschließlich JSON als Datenformat",
+      "Es bietet native Browser-Unterstützung ohne Proxies",
+      "Es ermöglicht effiziente Binärkommunikation mit geringem Overhead",
+      "Es ersetzt komplett die Notwendigkeit für Service Discovery"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: gRPC nutzt binäres Protobuf-Format, das deutlich kompakter und schneller ist als JSON – ideal für Service-zu-Service-Kommunikation.",
+    "xp": 15,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist der Hauptunterschied zwischen gRPC und REST?",
+    "options": [
+      "gRPC nutzt HTTP/2 und binäres Protobuf, REST nutzt HTTP/1.1 und meist JSON",
+      "gRPC kann nur GET-Requests verarbeiten",
+      "REST unterstützt kein Streaming",
+      "gRPC funktioniert nur mit Java"
+    ],
+    "correct": 0,
+    "explanation": "✅ Richtig: gRPC basiert auf HTTP/2 mit binärer Protobuf-Serialisierung, während REST typischerweise HTTP/1.1 mit JSON nutzt.",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Warum ist Server-Streaming in gRPC effizienter als mehrere einzelne REST-Calls?",
+    "options": [
+      "Weil Server-Streaming keine Authentifizierung benötigt",
+      "Weil eine einzige HTTP/2-Verbindung wiederverwendet wird statt mehrerer neuer Verbindungen",
+      "Weil Streaming automatisch Daten komprimiert",
+      "Weil Server-Streaming nur UDP nutzt"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: HTTP/2 ermöglicht Multiplexing – eine Verbindung kann mehrere Streams parallel übertragen, ohne neue Verbindungen aufzubauen (reduziert Latenz und Overhead).",
+    "xp": 18,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was beschreibt bidirektionales Streaming in gRPC?",
+    "options": [
+      "Client und Server können gleichzeitig unabhängig voneinander Nachrichten senden und empfangen",
+      "Server sendet mehrere Antworten, Client wartet passiv",
+      "Client sendet mehrere Requests nacheinander",
+      "Nur für Datei-Uploads geeignet"
+    ],
+    "correct": 0,
+    "explanation": "✅ Richtig: Bidirektionales Streaming erlaubt vollständige Duplex-Kommunikation – beide Seiten können asynchron senden/empfangen (z.B. für Chat-Anwendungen).",
+    "xp": 15,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "fillblank",
+    "question": "In Protobuf wird die Versionierung von Feldern über _____ gesteuert, die jedem Feld zugewiesen werden.",
+    "blanks": ["Feldnummern", "Field Numbers"],
+    "explanation": "✅ Richtig: Jedes Feld bekommt eine eindeutige Nummer (z.B. 'string name = 1;') – diese dürfen nicht geändert werden, um Abwärtskompatibilität zu gewährleisten.",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Rolle spielt die .proto-Datei im gRPC-Entwicklungsprozess?",
+    "options": [
+      "Sie dient nur zur Dokumentation und wird nicht im Build-Prozess verwendet",
+      "Sie definiert den Contract (Messages und Services) und daraus wird Code generiert",
+      "Sie ersetzt die application.properties",
+      "Sie enthält die kompilierte Business-Logik"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Die .proto-Datei ist die zentrale IDL (Interface Definition Language) – sie definiert Messages und Services, aus denen dann automatisch Client- und Server-Code generiert wird.",
+    "xp": 15,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Was passiert, wenn ein Client eine neuere .proto-Version nutzt, die neue optionale Felder enthält, der Server aber die alte Version?",
+    "options": [
+      "Der Server wirft eine Exception und lehnt die Anfrage ab",
+      "Die Kommunikation schlägt komplett fehl",
+      "Der Server ignoriert die unbekannten Felder – Abwärtskompatibilität bleibt erhalten",
+      "Alle Felder werden auf null gesetzt"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: Protobuf ist abwärtskompatibel – unbekannte Felder werden ignoriert. Deshalb dürfen Feldnummern nie wiederverwendet werden.",
+    "xp": 18,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiselect",
+    "question": "Welche Streaming-Modi bietet gRPC? (Mehrere richtig)",
+    "options": [
+      "Server-Streaming (Server sendet mehrere Antworten)",
+      "Client-Streaming (Client sendet mehrere Requests)",
+      "Bidirektionales Streaming (beide Seiten streamen)",
+      "Multicast-Streaming (an mehrere Clients gleichzeitig)"
+    ],
+    "correct": [0, 1, 2],
+    "explanation": "✅ Richtig: gRPC unterstützt Server-, Client- und bidirektionales Streaming. Multicast ist kein nativer gRPC-Modus.",
+    "xp": 15,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wie wird in gRPC ein RPC-Service-Aufruf typischerweise genannt?",
+    "options": [
+      "REST-Endpoint",
+      "Method Call oder RPC",
+      "GraphQL-Query",
+      "SOAP-Operation"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: In gRPC spricht man von RPC (Remote Procedure Call) oder einfach Method Call – nicht von Endpoints wie in REST.",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "fillblank",
+    "question": "Der gRPC-Server in der Übung lauscht standardmäßig auf Port _____, während ein klassischer Spring Boot REST-Server auf Port 8080 laufen würde.",
+    "blanks": ["9000"],
+    "explanation": "✅ Richtig: In der Übung ist 'grpc.server.port=9000' konfiguriert, um Konflikte mit dem Standard-HTTP-Port 8080 zu vermeiden.",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Warum kann HTTP/2, das von gRPC genutzt wird, mehrere Requests parallel über eine TCP-Verbindung senden?",
+    "options": [
+      "Weil HTTP/2 UDP statt TCP nutzt",
+      "Wegen Multiplexing – Streams werden in Frames aufgeteilt und vermischt übertragen",
+      "Weil jede Anfrage eine separate Socket-Verbindung öffnet",
+      "Weil HTTP/2 nur synchrone Kommunikation erlaubt"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: HTTP/2 Multiplexing erlaubt es, mehrere logische Streams über eine physische TCP-Verbindung zu senden, indem Daten in Frames aufgeteilt werden.",
+    "xp": 18,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welches Tool wurde in der Übung verwendet, um gRPC-Services im Browser zu testen?",
+    "options": [
+      "Postman",
+      "grpcui",
+      "Swagger UI",
+      "cURL"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: grpcui bietet eine interaktive Weboberfläche zum Testen von gRPC-Services – ähnlich wie Swagger für REST.",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiselect",
+    "question": "Welche Vorteile bietet Protocol Buffers gegenüber JSON? (Mehrere richtig)",
+    "options": [
+      "Kompaktere binäre Darstellung (kleinere Payload)",
+      "Schnellere Serialisierung/Deserialisierung",
+      "Lesbar für Menschen ohne Tools",
+      "Strenge Schema-Validierung zur Compile-Zeit"
+    ],
+    "correct": [0, 1, 3],
+    "explanation": "✅ Richtig: Protobuf ist binär (kompakt & schnell) und erzwingt ein Schema. JSON ist menschenlesbar, aber größer und langsamer.",
+    "xp": 15,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 3,
+    "type": "fillblank",
+    "question": "In der Übung wird für die Kommunikation zwischen gRPC-Client und -Server die Einstellung negotiation-type=_____ verwendet, um TLS zu deaktivieren.",
+    "blanks": ["plaintext", "PLAINTEXT"],
+    "explanation": "✅ Richtig: 'plaintext' deaktiviert TLS-Verschlüsselung (nur für Entwicklung/Tests geeignet – in Produktion sollte TLS aktiviert sein).",
+    "xp": 15,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne die gRPC-Konzepte ihren Beschreibungen zu:",
+    "pairs": [
+      { "left": "Stub", "right": "Generierter Client-Code zum Aufrufen von RPC-Methoden" },
+      { "left": "Service", "right": "Server-seitige Implementierung der RPC-Logik" },
+      { "left": "Channel", "right": "Verbindung zwischen Client und Server" },
+      { "left": "Message", "right": "Datenstruktur für Request/Response (in .proto definiert)" }
+    ],
+    "explanation": "✅ Richtig: Stub = Client-API, Service = Server-Impl., Channel = Verbindung, Message = Datentyp.",
+    "xp": 18,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 3,
+    "type": "order",
+    "question": "Sortiere die Schritte, die beim gRPC-Request/Response-Ablauf (Unary) passieren:",
+    "items": [
+      "Client erstellt Request-Message (z.B. UsersRequest)",
+      "Stub serialisiert Message zu Protobuf-Binärformat",
+      "HTTP/2-Frame wird über TCP zum Server gesendet",
+      "Server deserialisiert Protobuf zu Java-Objekt",
+      "Service-Methode wird aufgerufen und verarbeitet Request",
+      "Response wird serialisiert und als HTTP/2-Frame zurückgesendet",
+      "Client deserialisiert Response und gibt Objekt zurück"
+    ],
+    "correctOrder": [0, 1, 2, 3, 4, 5, 6],
+    "explanation": "✅ Richtig: Request erstellen → Client-Serialisierung → Übertragung → Server-Deserialisierung → Business-Logik → Response-Serialisierung → Client-Deserialisierung.",
+    "xp": 20,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist der Hauptzweck der Klasse UsersServiceGrpc (generiert aus der .proto-Datei)?",
+    "options": [
+      "Sie enthält die Business-Logik für User-Operationen",
+      "Sie stellt Basis-Klassen und Stubs für Client und Server bereit",
+      "Sie managed die Datenbankverbindungen",
+      "Sie konvertiert zwischen JSON und Protobuf"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: UsersServiceGrpc ist vom Protobuf-Compiler generiert und enthält abstrakte Basisklassen (ImplBase) sowie Client-Stubs – die eigentliche Logik implementierst du durch Ableitung.",
+    "xp": 15,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiselect",
+    "question": "Welche Dateien/Komponenten gehören typischerweise zu einem gRPC-Spring-Boot-Projekt? (Mehrere richtig)",
+    "options": [
+      "Eine .proto-Datei im src/main/proto-Verzeichnis",
+      "application.properties mit gRPC-Konfiguration",
+      "Generierte *Grpc.java-Dateien",
+      "Ein REST-Controller mit @GetMapping"
+    ],
+    "correct": [0, 1, 2],
+    "explanation": "✅ Richtig: .proto-Datei, Config und generierte Klassen sind typisch. REST-Controller sind nicht Teil eines reinen gRPC-Projekts.",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Welche Herausforderung ergibt sich beim Debugging von gRPC-Kommunikation im Vergleich zu REST?",
+    "options": [
+      "gRPC-Nachrichten sind binär und nicht direkt lesbar (Tools wie Wireshark zeigen nur Bytes)",
+      "gRPC-Server loggen prinzipiell keine Requests",
+      "HTTP/2 kann nicht in Wireshark analysiert werden",
+      "gRPC funktioniert nur über verschlüsselte Verbindungen"
+    ],
+    "correct": 0,
+    "explanation": "✅ Richtig: Protobuf ist binär – ohne Decodierung (z.B. mit grpcui, spezielle Wireshark-Decoder) sind die Daten nicht menschenlesbar, anders als JSON in REST.",
+    "xp": 18,
+    "tags": ["uebung", "woche7"]
   }
 ]

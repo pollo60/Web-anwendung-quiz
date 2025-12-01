@@ -39,6 +39,7 @@
   
   let sharedGistId = GIST_ID;
   let syncInProgress = false;
+  let justLoadedRemote = false; // Flag um Save direkt nach Load zu verhindern
 
   // In-memory debug log for easy copy/paste from console
   window.__gistLogs = window.__gistLogs || [];
@@ -267,17 +268,19 @@
       
       log('Fortschritt gemergt: Level', window.STATE.level, 'XP', window.STATE.xp, 'Lifetime', window.STATE.lifetimeXP);
       
-      // Versuche, das UI zu aktualisieren
+      // Versuche, das UI zu aktualisieren (setze Flag um unnötiges Save zu verhindern)
+      justLoadedRemote = true;
       if (typeof window.updateXPDisplay === 'function') {
         window.updateXPDisplay();
       } else if (typeof window.saveProgress === 'function') {
         window.saveProgress();
       }
+      setTimeout(() => { justLoadedRemote = false; }, 500);
     }
   }
 
   async function syncProgress(name) {
-    if (!name || !window.STATE) return;
+    if (!name || !window.STATE || syncInProgress) return;
 
     const progress = {
       xp: window.STATE.xp || 0,
@@ -306,7 +309,7 @@
     // Höre auf Custom 'stateChanged' Events (falls von index.html gesendet)
     document.addEventListener('stateChanged', () => {
       const nameInput = document.getElementById('playerName');
-      if (nameInput && nameInput.value.trim() && window.STATE) {
+      if (nameInput && nameInput.value.trim() && window.STATE && !justLoadedRemote) {
         log('State geändert, synce Fortschritt...');
         syncProgress(nameInput.value.trim());
       }
@@ -317,7 +320,7 @@
     if (xpDisplay) {
       const observer = new MutationObserver(() => {
         const nameInput = document.getElementById('playerName');
-        if (nameInput && nameInput.value.trim() && window.STATE) {
+        if (nameInput && nameInput.value.trim() && window.STATE && !justLoadedRemote) {
           log('XP-Display geändert, synce Fortschritt...');
           syncProgress(nameInput.value.trim());
         }
@@ -361,12 +364,17 @@
         initForUser(nameInput.value.trim());
       }
 
-      // Bei Namenseingabe: handler kapseln und für mehrere Events registrieren
+      // Bei Namenseingabe: Debounced Auto-Load/Save beim Tippen
       if (nameInput) {
+        let nameEntryInProgress = false;
+        let nameEntryTimer = null;
+        
         const handleNameEntry = async () => {
           const name = nameInput.value.trim();
+          if (!name || nameEntryInProgress) return;
+          nameEntryInProgress = true;
+          
           log('Name-Handler getriggert, Name:', name, 'STATE existiert:', !!window.STATE);
-          if (!name) return;
 
           // Zuerst laden (falls Eintrag existiert)
           await initForUser(name);
@@ -385,21 +393,30 @@
             log('Initial payload:', payload);
             await saveProgress(name, payload);
           }
+          nameEntryInProgress = false;
         };
 
-        // blur, Enter key and explicit change should all trigger the handler
-        nameInput.addEventListener('blur', handleNameEntry);
-        nameInput.addEventListener('change', handleNameEntry);
+        // Debounced input: 800ms nach letzter Eingabe
+        nameInput.addEventListener('input', () => {
+          // Button-Text sofort aktualisieren
+          if (typeof window.updateNameActionButton === 'function') window.updateNameActionButton();
+          
+          // Timer zurücksetzen bei jeder Eingabe
+          if (nameEntryTimer) clearTimeout(nameEntryTimer);
+          
+          // Nach 800ms Pause → Load/Save ausführen
+          nameEntryTimer = setTimeout(() => {
+            handleNameEntry();
+          }, 800);
+        });
+        
+        // Enter als Sofort-Trigger (ohne Verzögerung)
         nameInput.addEventListener('keydown', (e) => {
           if (e.key === 'Enter') {
             e.preventDefault();
+            if (nameEntryTimer) clearTimeout(nameEntryTimer);
             handleNameEntry();
-            nameInput.blur();
           }
-        });
-        // Live aktualisieren des Button-Textes beim Tippen
-        nameInput.addEventListener('input', () => {
-          if (typeof window.updateNameActionButton === 'function') window.updateNameActionButton();
         });
       }
     };
