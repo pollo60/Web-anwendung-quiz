@@ -339,11 +339,7 @@
     hookShowResults();
     setupXpWatcher();
 
-    // Disable action button until the main app STATE is initialized
-    try {
-      const startBtn = document.getElementById('nameActionBtn');
-      if (startBtn) startBtn.disabled = true;
-    } catch (e) {}
+    // Button bleibt aktiv – nameActionClick wartet intern auf window.STATE
 
     const checkAndInit = () => {
       if (!window.STATE) {
