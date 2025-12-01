@@ -6884,5 +6884,451 @@
     "explanation": "✅ Richtig: Nur c) ist korrekt.",
     "xp": 15,
     "tags": ["offiziell", "woche6"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Aufgabe hat das protobuf-maven-plugin im gRPC-Projekt?",
+    "options": [
+      "Es startet automatisch den gRPC-Server",
+      "Es generiert Java-Klassen aus den .proto-Dateien",
+      "Es ersetzt die Spring-Boot-Configuration",
+      "Es übersetzt REST-Endpunkte in gRPC"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Das protobuf-maven-plugin generiert Java-Klassen aus den .proto-Dateien während des Build-Prozesses.",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welches Feld in UsersResponse erlaubt es, mehrere User zurückzugeben?",
+    "options": [
+      "optional UserProto user = 1;",
+      "map<int64, UserProto> users = 1;",
+      "repeated UserProto users = 1;",
+      "list<UserProto> users = 1;"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: Das Schlüsselwort 'repeated' in Protobuf definiert ein Array/Liste von Elementen.",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wofür steht das Schlüsselwort repeated in einer Protocol-Buffer-Definition?",
+    "options": [
+      "Feld darf nur einmal vorkommen",
+      "Feld ist verpflichtend",
+      "Feld kann null- oder mehrfach vorkommen",
+      "Feld ist nur im Streaming-Modus erlaubt"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: 'repeated' bedeutet, dass das Feld 0 oder mehrere Werte enthalten kann (wie eine Liste/Array).",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welcher Service-Methodentyp wird in der Übung für listUsers verwendet?",
+    "options": [
+      "Client-Streaming",
+      "Server-Streaming",
+      "Bidirektionales Streaming",
+      "Unary Request/Response"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: listUsers verwendet den einfachsten Typ: Unary Request/Response (eine Anfrage → eine Antwort).",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche gRPC-bezogene Dependency macht den Server in Spring Boot lauffähig?",
+    "options": [
+      "grpc-client-spring-boot-starter",
+      "grpc-server-spring-boot-starter",
+      "spring-boot-starter-web",
+      "spring-boot-starter-data-jpa"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Die Dependency 'grpc-server-spring-boot-starter' stellt die Server-Funktionalität für gRPC bereit.",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Warum existiert in der gRPC-Variante der Anwendung kein REST-Controller?",
+    "options": [
+      "Weil Spring Boot mit gRPC nicht kompatibel ist",
+      "Weil gRPC direkt über generierte Stubs und Services arbeitet",
+      "Weil Controller nur bei GraphQL nötig sind",
+      "Weil Maven-Plugins die Controller automatisch entfernen"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: gRPC nutzt generierte Stubs und Service-Implementierungen statt REST-Controller – die Kommunikation läuft über binäre Protobuf-Messages.",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wozu dient die Klasse GrpcUsersMapper?",
+    "options": [
+      "Sie verwaltet die Datenbankverbindungen",
+      "Sie mappt zwischen UserProto und der Java-Entität User",
+      "Sie startet den gRPC-Server",
+      "Sie verarbeitet HTTP/2-Frames"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: GrpcUsersMapper konvertiert zwischen Protobuf-Messages (UserProto) und Domain-Objekten (User-Entität).",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Annotation markiert eine gRPC-Service-Implementierung in Spring Boot?",
+    "options": [
+      "@RestController",
+      "@GrpcClient",
+      "@GrpcService",
+      "@Service"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: @GrpcService registriert die Klasse als gRPC-Service-Implementierung im Spring-Boot-Kontext.",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Konfiguration stellt im Server sicher, dass gRPC auf Port 9000 lauscht?",
+    "options": [
+      "server.port=9000",
+      "grpc.port=9000",
+      "grpc.server.port=9000",
+      "grpc.http2.port=9000"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: Die Property 'grpc.server.port=9000' konfiguriert den Port für den gRPC-Server.",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Warum wird google.protobuf.Int64Value in der proto-Datei verwendet?",
+    "options": [
+      "Um Strings zu kapseln",
+      "Um boolesche Werte darzustellen",
+      "Um optionale 64-Bit-Ganzzahlen zu kapseln",
+      "Um Listen von IDs abzubilden"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: google.protobuf.Int64Value ist ein Wrapper-Typ, der optionale 64-Bit-Ganzzahlen darstellt (kann null sein).",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Warum kann der Browser nicht direkt mit gRPC sprechen?",
+    "options": [
+      "Weil gRPC nur über UDP funktioniert",
+      "Weil Browser nur HTTP/1.0 sprechen",
+      "Weil gRPC binäres HTTP/2 mit Protobuf nutzt und keine native Browser-API existiert",
+      "Weil gRPC TLS erzwingt"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: Browser haben keine native Unterstützung für binäres HTTP/2 mit Protobuf – gRPC-Web oder Proxies sind nötig.",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wozu dient das Tool grpcui in der Übung?",
+    "options": [
+      "Zum Generieren von Protobuf-Dateien",
+      "Zum Starten des gRPC-Servers",
+      "Zum Testen der gRPC-Methoden über eine Weboberfläche",
+      "Zum Monitoring von HTTP/2-Traffic"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: grpcui bietet eine interaktive Weboberfläche zum Testen von gRPC-Services.",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Adresse wird im Client für die Verbindung zum gRPC-Server konfiguriert?",
+    "options": [
+      "http://localhost:8080",
+      "static://localhost:9000",
+      "tcp://localhost:9000",
+      "grpc://localhost:9000"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Der Spring-Boot-gRPC-Client nutzt 'static://localhost:9000' als Adresse.",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Einstellung beschreibt im Client, dass keine TLS-Verschlüsselung verwendet wird?",
+    "options": [
+      "grpc.client.mode=plain",
+      "grpc.client.users-service-server.security=none",
+      "grpc.client.users-service-server.negotiation-type=plaintext",
+      "grpc.client.tls.enabled=false"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: 'negotiation-type=plaintext' deaktiviert TLS für die Verbindung.",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "In welcher Datei wird die gRPC-Schnittstelle (Messages und Service) definiert?",
+    "options": [
+      "application.properties",
+      "UserService.proto",
+      "UsersServiceGrpc.java",
+      "pom.xml"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: .proto-Dateien (z.B. UserService.proto) definieren Messages und Services für gRPC.",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Maven-Extension sorgt für OS-abhängige Builds des Protobuf-Compilers?",
+    "options": [
+      "protobuf-maven-plugin",
+      "os-maven-plugin",
+      "spring-boot-maven-plugin",
+      "grpc-java-maven-plugin"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Das os-maven-plugin erkennt das Betriebssystem und wählt die passende Protobuf-Compiler-Version.",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welches Transportprotokoll wird für gRPC in der Übung letztlich genutzt?",
+    "options": [
+      "HTTP/1.1",
+      "HTTP/2",
+      "WebSocket",
+      "QUIC"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: gRPC nutzt HTTP/2 als Transportprotokoll – mit Multiplexing, Streaming und binärer Kodierung.",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Aussage zu den User Stories des Dienstes ist korrekt?",
+    "options": [
+      "Es gibt nur eine Story zum Lesen aller Nutzer",
+      "Es gibt nur Create und Read",
+      "Es gibt Stories für Erstellen, Bearbeiten, Löschen, Suchen und Auflisten von Nutzern",
+      "Es gibt ausschließlich Schreiboperationen"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: Der Service deckt CRUD-Operationen ab: Create, Read (list/find), Update, Delete.",
+    "xp": 12,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiselect",
+    "question": "Welche Maven-Dependencies sind direkt für gRPC und Protobuf relevant? (Mehrere richtig)",
+    "options": [
+      "io.grpc:grpc-stub",
+      "io.grpc:grpc-protobuf",
+      "io.grpc:grpc-netty-shaded",
+      "org.springframework.boot:spring-boot-starter-thymeleaf"
+    ],
+    "correct": [0, 1, 2],
+    "explanation": "✅ Richtig: grpc-stub, grpc-protobuf und grpc-netty-shaded sind essentiell für gRPC-Projekte. Thymeleaf ist für Web-Templates.",
+    "xp": 15,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiselect",
+    "question": "Welche Message-Typen sind in der Datei UserService.proto definiert? (Mehrere richtig)",
+    "options": [
+      "UsersRequest",
+      "UserProto",
+      "UsersResponse",
+      "UserLoginRequest"
+    ],
+    "correct": [0, 1, 2],
+    "explanation": "✅ Richtig: UsersRequest, UserProto und UsersResponse sind in der proto-Datei definiert. UserLoginRequest nicht.",
+    "xp": 15,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiselect",
+    "question": "Welche Fragen sollen Sie laut Übung in Bezug auf gRPC-Streaming beantworten? (Mehrere richtig)",
+    "options": [
+      "Warum können hier Nutzdaten in Streams ausgetauscht werden?",
+      "Welches Protokoll dient bei gRPC zum Transport?",
+      "Werden die Daten in Echtzeit ausgetauscht?",
+      "Wie hoch ist die CPU-Auslastung des Servers in Prozent?"
+    ],
+    "correct": [0, 1, 2],
+    "explanation": "✅ Richtig: Die ersten drei Fragen beziehen sich auf Streaming-Konzepte und Protokolle. CPU-Auslastung ist kein Thema der Übung.",
+    "xp": 15,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiselect",
+    "question": "Welche Tools oder Komponenten kommen in der HTTP/2-/Wireshark-Zusatzübung vor? (Mehrere richtig)",
+    "options": [
+      "Wireshark",
+      "Anzeigefilter http2",
+      "curl mit HTTP/1.0-only",
+      "gRPC-Server und -Client"
+    ],
+    "correct": [0, 1, 3],
+    "explanation": "✅ Richtig: Wireshark mit http2-Filter und gRPC Server/Client werden genutzt. curl HTTP/1.0 ist nicht Teil der Übung.",
+    "xp": 15,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne Protobuf-Typen den passenden Bedeutungen zu:",
+    "pairs": [
+      { "left": "int64", "right": "64-Bit-Ganzzahl" },
+      { "left": "string", "right": "Zeichenkette" },
+      { "left": "google.protobuf.BoolValue", "right": "Kapselt boolesche Werte" },
+      { "left": "google.protobuf.Int64Value", "right": "Kapselt 64-Bit-Ganzzahlen (z.B. IDs)" }
+    ],
+    "explanation": "✅ Richtig: int64 = primitive Ganzzahl, string = Text, BoolValue = optionaler Boolean, Int64Value = optionale Ganzzahl.",
+    "xp": 18,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne gRPC-Service-Methoden ihren Aufgaben zu (aus UsersService):",
+    "pairs": [
+      { "left": "listUsers", "right": "Alle Nutzer auflisten" },
+      { "left": "findUserById", "right": "Nutzer anhand der ID finden" },
+      { "left": "createUser", "right": "Neuen Nutzer anlegen" },
+      { "left": "updateUser", "right": "Vorhandenen Nutzer bearbeiten" },
+      { "left": "deleteUser", "right": "Nutzer löschen" }
+    ],
+    "explanation": "✅ Richtig: Jede Methode entspricht einer CRUD-Operation: Create, Read (list/find), Update, Delete.",
+    "xp": 18,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne Konfigurationsschlüssel ihrer Bedeutung zu (Client-Konfiguration):",
+    "pairs": [
+      { "left": "grpc.client.users-service-server.address", "right": "Definiert, unter welcher Adresse der gRPC-Server erreichbar ist" },
+      { "left": "grpc.client.users-service-server.negotiation-type", "right": "Legt fest, wie die Verbindung ausgehandelt wird (z.B. PLAINTEXT/TLS)" }
+    ],
+    "explanation": "✅ Richtig: 'address' gibt die Server-Adresse an, 'negotiation-type' steuert TLS/Plaintext.",
+    "xp": 18,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne Bausteine dem Ort im Projekt zu:",
+    "pairs": [
+      { "left": "Schnittstellendefinition von Messages und Services", "right": "src/main/proto" },
+      { "left": "Generierte gRPC-Stubs", "right": "src/main/java/edu/fra/uas/grpc" },
+      { "left": "Java-Service-Implementierung mit Business-Logik", "right": "src/main/java/edu/fra/uas/service/grpc/UsersServiceGrpc" },
+      { "left": "Mapping von Protobuf-Typ zu Domain-Typ", "right": "src/main/java/edu/fra/uas/service/grpc/GrpcUsersMapper" }
+    ],
+    "explanation": "✅ Richtig: .proto-Dateien in src/main/proto, Stubs generiert in grpc-Package, Service-Implementierung in UsersServiceGrpc, Mapper in GrpcUsersMapper.",
+    "xp": 18,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "order",
+    "question": "Bringe die Schritte zum Starten des gRPC-Servers mit Test über grpcui in die richtige Reihenfolge:",
+    "items": [
+      "Maven-Lifecycle compile ausführen, damit Stubs generiert werden",
+      "gRPC-Anwendung starten",
+      "grpcui.exe -plaintext 127.0.0.1:9000 im Terminal aufrufen",
+      "Browser-Fenster von grpcui öffnen und Invoke klicken"
+    ],
+    "correctOrder": [0, 1, 2, 3],
+    "explanation": "✅ Richtig: Erst compile (Stubs generieren) → Server starten → grpcui starten → UI nutzen.",
+    "xp": 18,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "order",
+    "question": "Sortiere die Schritte zur Nutzung von Wireshark in der HTTP/2-Zusatzübung:",
+    "items": [
+      "Wireshark installieren und starten",
+      "Lokale Schnittstelle in Wireshark auswählen und Capture starten",
+      "gRPC-Server und -Client starten",
+      "Filter http2 in Wireshark setzen"
+    ],
+    "correctOrder": [0, 1, 2, 3],
+    "explanation": "✅ Richtig: Installation → Capture starten → Anwendung starten → Filter setzen.",
+    "xp": 18,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "order",
+    "question": "Sortiere konzeptionell den Weg von der API-Idee bis zur laufenden gRPC-Anwendung (am Beispiel der Übung & Hausaufgabe):",
+    "items": [
+      "Entwurf der API in einer .proto-Datei",
+      "Generierung der Stubs mit Maven/Protobuf-Plugin",
+      "Implementierung der Service-Klasse in Java",
+      "Starten von Server und (optional) Client-Anwendungen"
+    ],
+    "correctOrder": [0, 1, 2, 3],
+    "explanation": "✅ Richtig: API-Design (.proto) → Code-Generierung → Implementierung → Deployment.",
+    "xp": 18,
+    "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "order",
+    "question": "Sortiere die Schritte, um einen gRPC-Client in Spring Boot mit dem Server zu verbinden:",
+    "items": [
+      "Client-spezifische gRPC-Dependencies in pom.xml ergänzen",
+      "Proto-Datei dem Client-Projekt hinzufügen",
+      "Codegenerierung (Maven compile) ausführen",
+      "Client-Konfiguration in application.properties setzen (address, negotiation-type)",
+      "@GrpcClient(users-service-server) im UserService verwenden"
+    ],
+    "correctOrder": [0, 1, 2, 3, 4],
+    "explanation": "✅ Richtig: Dependencies → .proto hinzufügen → compile → Config → @GrpcClient nutzen.",
+    "xp": 18,
+    "tags": ["uebung", "woche7"]
   }
 ]
