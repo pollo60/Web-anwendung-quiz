@@ -17,6 +17,179 @@
     ]
   },
   {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Annotation kennzeichnet einen gRPC-Dienst in Spring Boot?",
+    "options": ["@Service", "@RestController", "@GrpcService", "@RpcController"],
+    "correct": 2,
+    "explanation": "✅ Richtig: @GrpcService markiert gRPC-Server-Implementierungen in Spring-Umgebungen.",
+    "xp": 15,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Datei enthält die Definition der gRPC-Dienste?",
+    "options": ["UserService.proto", "grpc-config.yaml", "service.grpc", "application.properties"],
+    "correct": 0,
+    "explanation": "✅ Richtig: .proto-Dateien (z.B. UserService.proto) definieren Messages und Services.",
+    "xp": 12,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "boolean",
+    "question": "Mit dem Schlüssel grpc.server.port in application.properties wird der gRPC-Server-Port festgelegt",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Wahr: Der Schlüssel konfiguriert den Port, an dem der gRPC-Server lauscht.",
+    "xp": 12,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "boolean",
+    "question": "gRPC erfordert immer eine explizite Sitzungsverwaltung durch den Client",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "❌ Falsch: gRPC nutzt Verbindungen/Streams; eine separate Sitzungsverwaltung ist nicht zwingend.",
+    "xp": 12,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist ein Stub in gRPC?",
+    "options": [
+      "Automatisch generierte Client-/Server-Klasse für Remote-Aufrufe",
+      "Ein Server-Dienst für Load-Balancing",
+      "Eine Datei mit HTML-Templates für API-Requests",
+      "Eine zentrale Datenbankverbindung"
+    ],
+    "correct": 0,
+    "explanation": "✅ Richtig: Stubs sind generierte Klassen, die die RPC-Aufrufe kapseln.",
+    "xp": 15,
+    "tags": ["offiziell", "woche7"]
+  }
+  ,
+  {
+    "difficulty": 1,
+    "type": "boolean",
+    "question": "gRPC wird im Browser standardmäßig ohne zusätzliche Tools unterstützt",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "❌ Falsch: Browser unterstützen gRPC nicht nativ; gRPC-Web oder Proxies sind nötig.",
+    "xp": 10,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Transportmethode wird für gRPC-Streaming verwendet?",
+    "options": [
+      "Long Polling",
+      "MQTT",
+      "WebSockets",
+      "Bidirektionales HTTP/2-Streaming"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: gRPC nutzt HTTP/2-Streams, die bidirektionales Streaming ermöglichen.",
+    "xp": 15,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wofür steht RPC in gRPC?",
+    "options": [
+      "Remote Processor Call",
+      "Remote Process Call",
+      "Rapid Process Call",
+      "Remote Procedure Call",
+      "Redundant Procedure Call"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: RPC steht für Remote Procedure Call.",
+    "xp": 12,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "boolean",
+    "question": "In einer .proto-Datei müssen Felder mit Zahlenindizes versehen werden",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Wahr: Jedes Feld bekommt eine eindeutige Feldnummer (z.B. name = 1).",
+    "xp": 12,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Du willst eine öffentliche API anbieten, leicht testbar ohne Spezialtools, gelegentliche Abrufe. Welche Technologie?",
+    "options": ["REST", "gRPC", "GraphQL"],
+    "correct": 0,
+    "explanation": "✅ Richtig: REST ist breit unterstützt (Browser/Tools), gut für gelegentliche Abrufe.",
+    "xp": 10,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "boolean",
+    "question": "In gRPC sind alle Rückgaben JSON-formatiert, genau wie bei REST",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "❌ Falsch: gRPC nutzt binäres Protobuf, nicht JSON (außer spezielle Fälle).",
+    "xp": 10,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiselect",
+    "question": "Was ist gemäß §202c StGB beim Netzwerksniffen rechtlich zulässig? (Mehrere richtig)",
+    "options": [
+      "Nur eigenen localhost-/autorisierten Verkehr aufzeichnen",
+      "Den Promiscuous Mode deaktivieren reicht aus",
+      "Öffentlichen Streaming-Verkehr mitschneiden ist immer erlaubt",
+      "Nachbarn um Erlaubnis bitten, Passwörter zu loggen"
+    ],
+    "correct": [0],
+    "explanation": "✅ Richtig: Nur autorisierte/ eigene Daten aufzeichnen. Alles andere kann strafbar sein.",
+    "xp": 18,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Sprache wird zur Definition der gRPC-Schnittstellen verwendet?",
+    "options": ["Protocol Buffers", "XML", "JSON", "YAML"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Protocol Buffers (IDL) definieren Messages und Services.",
+    "xp": 12,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiselect",
+    "question": "Welche Abhängigkeiten sind nötig, um gRPC in Spring Boot lauffähig zu machen? (Mehrere richtig)",
+    "options": ["grpc-netty-shaded", "grpc-stub", "spring-web", "grpc-protobuf"],
+    "correct": [0, 1, 3],
+    "explanation": "✅ Richtig: Transport (netty-shaded), Stubs (grpc-stub), Serialisierung (grpc-protobuf).",
+    "xp": 15,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "boolean",
+    "question": "gRPC-Streaming ermöglicht das Senden und Empfangen von Datenströmen über HTTP/2",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Wahr: Streaming ist Teil von gRPC (Client-/Server-/bidirektional).",
+    "xp": 12,
+    "tags": ["offiziell", "woche7"]
+  }
+  ,
+  {
     "difficulty": 1,
     "type": "boolean",
     "question": "gRPC verwendet standardmäßig HTTP/1.1 zur Kommunikation",
