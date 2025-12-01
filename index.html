@@ -278,49 +278,6 @@
         const STATE = window.STATE; // lokaler Alias für bequemeren Zugriff
 
         // ============================================================================
-        // GLOBAL STATE - Single source of truth
-        // ============================================================================
-        const STATE = {
-            // Data
-            questionDatabase: [],
-            questionsLoaded: false,
-            wrongAnsweredQuestions: [],
-            
-            // Quiz configuration
-            selectedLevel: 'gemischt',
-            selectedDifficulty: 'all',
-            activeModifiers: ['normal'],
-            
-            // Quiz runtime
-            currentQuestions: [],
-            currentQuestionIndex: 0,
-            userAnswers: [],
-            score: 0,
-            correctCount: 0,
-            wrongCount: 0,
-            questionAnswered: false,
-            
-            // Player
-            playerName: '',
-            xp: 0,
-            level: 1,
-            lifetimeXP: 0,  // Total XP earned across all sessions (never reset)
-            
-            // Timer
-            timerInterval: null,
-            startTime: 0,
-            currentTime: 0,
-            
-            // Leaderboard
-            leaderboard: {
-                uebung: [],
-                'vorlesung-offiziell': [],
-                gemischt: [],
-                offiziell: []
-            }
-        };
-
-        // ============================================================================
         // UTILITY FUNCTIONS
         // ============================================================================
         

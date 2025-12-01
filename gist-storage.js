@@ -397,6 +397,10 @@
             nameInput.blur();
           }
         });
+        // Live aktualisieren des Button-Textes beim Tippen
+        nameInput.addEventListener('input', () => {
+          if (typeof window.updateNameActionButton === 'function') window.updateNameActionButton();
+        });
       }
     };
 
@@ -463,6 +467,7 @@
   window.nameActionClick = async function() {
     try {
       const nameInput = document.getElementById('playerName');
+      const btn = document.getElementById('nameActionBtn');
       const name = nameInput && nameInput.value.trim();
       if (!name) { alert('Bitte zuerst einen Namen eingeben.'); return false; }
 
@@ -477,6 +482,23 @@
         alert('Interner Fehler: App noch nicht bereit. Bitte kurz warten und erneut versuchen.');
         return false;
       }
+
+      const setTransientSuccess = (text, duration) => {
+        if (!btn) return;
+        btn.textContent = text;
+        btn.disabled = true;
+        btn.dataset.status = 'success';
+        btn.dataset.lastName = name;
+        setTimeout(() => {
+          // Re-enable nur wenn der Name noch derselbe ist
+            if (btn.dataset.lastName === name) {
+              btn.disabled = false;
+              btn.dataset.status = '';
+              // Nach Erfolg neu prüfen (führt zu 'Laden' bei existierendem Profil)
+              if (typeof window.updateNameActionButton === 'function') window.updateNameActionButton();
+            }
+        }, duration);
+      };
 
       log('[gist] nameActionClick für', name);
       const existing = await loadProgress(name);
@@ -498,6 +520,7 @@
         }
         if (typeof window.updateXPDisplay === 'function') window.updateXPDisplay();
         log('[gist] Name gefunden, Fortschritt geladen für:', name);
+        setTransientSuccess('Geladen ✓', 1200);
         return true;
       }
 
@@ -508,8 +531,12 @@
         lifetimeXP: window.STATE?.lifetimeXP || 0
       };
       const ok = await saveProgress(name, payload);
-      if (ok) log('[gist] Name nicht vorhanden — initialer Fortschritt gespeichert für:', name);
-      else log('[gist] Fehler beim Speichern initialen Fortschritts für:', name);
+      if (ok) {
+        log('[gist] Name nicht vorhanden — initialer Fortschritt gespeichert für:', name);
+        setTransientSuccess('Gespeichert ✓', 1500);
+      } else {
+        log('[gist] Fehler beim Speichern initialen Fortschritts für:', name);
+      }
       return ok;
     } catch (e) {
       console.error('[gist] nameActionClick Fehler:', e);
@@ -522,35 +549,39 @@
   };
 
   // Aktualisiert den Button-Text: 'Laden' wenn Name existiert, sonst 'Speichern'
-  // Debounced check und Update des Button-Textes: 'Laden' wenn Name existiert, sonst 'Speichern'
+  // Respektiert einen transienten Erfolgsstatus (dataset.status === 'success')
   let _nameCheckTimer = null;
   window.updateNameActionButton = function() {
     try {
-      // Cancel previous timer
       if (_nameCheckTimer) clearTimeout(_nameCheckTimer);
-
       _nameCheckTimer = setTimeout(async () => {
         try {
           const btn = document.getElementById('nameActionBtn');
           const nameInput = document.getElementById('playerName');
           const name = nameInput && nameInput.value.trim();
           if (!btn) return;
+
+          // Wenn gerade ein Erfolgsstatus angezeigt wird und der Name unverändert ist -> nichts ändern
+          if (btn.dataset.status === 'success' && btn.dataset.lastName === name) {
+            return; // Erfolgsanzeige nicht überschreiben
+          }
+          // Wenn Name geändert wurde während success aktiv war -> Status zurücksetzen
+          if (btn.dataset.status === 'success' && btn.dataset.lastName !== name) {
+            btn.dataset.status = '';
+            btn.disabled = false;
+          }
+
           if (!name) {
             btn.textContent = 'Speichern';
             return;
           }
 
-          // Prüfe ob Eintrag existiert
           const existing = await loadProgress(name);
-          if (existing) {
-            btn.textContent = 'Laden';
-          } else {
-            btn.textContent = 'Speichern';
-          }
+          btn.textContent = existing ? 'Laden' : 'Speichern';
         } catch (e) {
           console.warn('[gist] updateNameActionButton (inner) Fehler:', e);
         }
-      }, 300); // 300ms Debounce
+      }, 300);
     } catch (e) {
       console.warn('[gist] updateNameActionButton Fehler:', e);
     }
