@@ -18,6 +18,170 @@
   },
   {
     "difficulty": 1,
+    "type": "boolean",
+    "question": "gRPC verwendet standardmäßig HTTP/1.1 zur Kommunikation",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "❌ Falsch: gRPC nutzt standardmäßig HTTP/2 als Transportprotokoll.",
+    "xp": 10,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "boolean",
+    "question": ".proto-Dateien sind zwingend erforderlich, um gRPC-Schnittstellen zu definieren",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "❌ Falsch: In der Praxis wird meist Protobuf (.proto) genutzt, theoretisch sind andere IDLs möglich.",
+    "xp": 12,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Technologie wählst du für eine API, bei der Clients exakt Felder wählen und verschiedene Typen in einem Request abrufen können?",
+    "options": ["GraphQL", "gRPC", "REST"],
+    "correct": 2,
+    "explanation": "✅ Richtig: REST ist hier korrekt gewählt laut Aufgabenstellung (PDF).",
+    "xp": 12,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Live-Updates im Browser, überschaubare Datenmenge, Nutzer wählt Messwerte – welche Technologie?",
+    "options": ["GraphQL", "REST", "gRPC"],
+    "correct": 1,
+    "explanation": "✅ Richtig: REST laut Aufgabenstellung.",
+    "xp": 10,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Welche Aussage trifft auf gRPC im Vergleich zu REST zu?",
+    "options": [
+      "REST ist schneller als gRPC",
+      "gRPC unterstützt keine Authentifizierung",
+      "gRPC kann mehrere Anfragen parallel in einem Kanal senden",
+      "REST ist auf JSON als Datenformat beschränkt"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: gRPC profitiert von HTTP/2-Multiplexing und kann mehrere Requests parallel über eine Verbindung senden.",
+    "xp": 18,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Annotation wird in Spring Boot für einen gRPC-Client verwendet?",
+    "options": ["@GrpcService", "@Service", "@RpcController", "@RestController"],
+    "correct": 0,
+    "explanation": "ℹ️ Hinweis: Die korrekte Client-Annotation ist @GrpcClient – die hier gezeigte Auswahl stammt 1:1 aus der PDF und ist fachlich irreführend.",
+    "xp": 10,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "boolean",
+    "question": "@GrpcService kennzeichnet eine Server-Implementierung für gRPC in Spring Boot",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Wahr: @GrpcService markiert die Server-seitige gRPC-Implementierung.",
+    "xp": 10,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "boolean",
+    "question": "gRPC-Streaming ermöglicht das Senden und Empfangen von Datenströmen über HTTP/2",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Wahr: gRPC unterstützt Client-, Server- und bidirektionales Streaming über HTTP/2.",
+    "xp": 12,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Methode in gRPC entspricht einem RESTful POST?",
+    "options": ["rpc GetUsers", "rpc deleteUser", "rpc findUserById", "rpc createUser"],
+    "correct": 3,
+    "explanation": "✅ Richtig: 'rpc createUser' entspricht konzeptionell einem REST-POST.",
+    "xp": 12,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Stabile Verbindung, viele kleine Nachrichten, geringer Overhead – welche Technologie?",
+    "options": ["REST", "GraphQL", "gRPC"],
+    "correct": 2,
+    "explanation": "✅ Richtig: gRPC ist hier passend (HTTP/2, binär, Streaming).",
+    "xp": 12,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiselect",
+    "question": "Welche Abhängigkeiten sind nötig, um gRPC in Spring Boot lauffähig zu machen? (Mehrere richtig)",
+    "options": ["grpc-netty-shaded", "grpc-protobuf", "grpc-stub", "spring-web"],
+    "correct": [0, 1, 2],
+    "explanation": "✅ Richtig: grpc-netty-shaded (Transport), grpc-protobuf (Serialisierung), grpc-stub (Client/Server Stubs).",
+    "xp": 15,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welches Protokoll verwendet gRPC für die Kommunikation?",
+    "options": ["WebSockets", "MQTT", "HTTP/1.1", "HTTP/2"],
+    "correct": 3,
+    "explanation": "✅ Richtig: gRPC basiert auf HTTP/2.",
+    "xp": 10,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "fillblank",
+    "question": "gRPC nutzt ____ als Transportprotokoll und ____ als Schnittstellenbeschreibungssprache",
+    "blanks": ["HTTP/2", "Protocol Buffers"],
+    "explanation": "✅ Richtig: Transport = HTTP/2, IDL = Protocol Buffers.",
+    "xp": 15,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "boolean",
+    "question": "Wireshark kann verwendet werden, um gRPC-Datenpakete in HTTP/2 zu analysieren",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Wahr: Mit passenden Filtern/Decodern kann HTTP/2/gRPC analysiert werden.",
+    "xp": 10,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Annotation wird in Spring Boot für einen gRPC-Dienst verwendet?",
+    "options": ["@Service", "@RestController", "@RpcController", "@GrpcService"],
+    "correct": 3,
+    "explanation": "✅ Richtig: @GrpcService kennzeichnet den gRPC-Serverdienst.",
+    "xp": 10,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Datei enthält die Definition der gRPC-Dienste?",
+    "options": ["service.grpc", "application.properties", "grpc-config.yml", "UserService.proto"],
+    "correct": 3,
+    "explanation": "✅ Richtig: .proto-Dateien (z.B. UserService.proto) enthalten die Service- und Message-Definitionen.",
+    "xp": 12,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
     "type": "multiple",
     "question": "Im Beispiel wird bei einer fehlenden URL-Parameterangabe (MissingServletRequestParameterException) automatisch support.html als View zurückgegeben.",
     "options": ["Falsch", "Wahr"],
