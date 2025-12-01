@@ -38,7 +38,7 @@
   },
   {
     "difficulty": 1,
-    "type": "boolean",
+    "type": "multiple",
     "question": "Mit dem Schlüssel grpc.server.port in application.properties wird der gRPC-Server-Port festgelegt",
     "options": ["Wahr", "Falsch"],
     "correct": 0,
@@ -48,7 +48,7 @@
   },
   {
     "difficulty": 2,
-    "type": "boolean",
+    "type": "multiple",
     "question": "gRPC erfordert immer eine explizite Sitzungsverwaltung durch den Client",
     "options": ["Wahr", "Falsch"],
     "correct": 1,
@@ -74,7 +74,7 @@
   ,
   {
     "difficulty": 1,
-    "type": "boolean",
+    "type": "multiple",
     "question": "gRPC wird im Browser standardmäßig ohne zusätzliche Tools unterstützt",
     "options": ["Wahr", "Falsch"],
     "correct": 1,
@@ -115,7 +115,7 @@
   },
   {
     "difficulty": 2,
-    "type": "boolean",
+    "type": "multiple",
     "question": "In einer .proto-Datei müssen Felder mit Zahlenindizes versehen werden",
     "options": ["Wahr", "Falsch"],
     "correct": 0,
@@ -135,7 +135,7 @@
   },
   {
     "difficulty": 1,
-    "type": "boolean",
+    "type": "multiple",
     "question": "In gRPC sind alle Rückgaben JSON-formatiert, genau wie bei REST",
     "options": ["Wahr", "Falsch"],
     "correct": 1,
@@ -180,7 +180,7 @@
   },
   {
     "difficulty": 1,
-    "type": "boolean",
+    "type": "multiple",
     "question": "gRPC-Streaming ermöglicht das Senden und Empfangen von Datenströmen über HTTP/2",
     "options": ["Wahr", "Falsch"],
     "correct": 0,
@@ -204,8 +204,8 @@
     "type": "boolean",
     "question": ".proto-Dateien sind zwingend erforderlich, um gRPC-Schnittstellen zu definieren",
     "options": ["Wahr", "Falsch"],
-    "correct": 1,
-    "explanation": "❌ Falsch: In der Praxis wird meist Protobuf (.proto) genutzt, theoretisch sind andere IDLs möglich.",
+    "correct": 0,
+    "explanation": "✅ Wahr: gRPC setzt praktisch auf Protobuf-Definitionen (.proto) für Services und Messages.",
     "xp": 12,
     "tags": ["offiziell", "woche7"]
   },
