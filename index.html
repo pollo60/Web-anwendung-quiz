@@ -1368,6 +1368,25 @@
             // Get player name
             const nameInput = document.getElementById('playerName');
             STATE.playerName = (nameInput?.value || 'Spieler/in').trim();
+
+            // Falls ein Spielername gesetzt ist: Remote Fortschritt laden & initialen Eintrag anlegen wenn noch nicht vorhanden
+            if (STATE.playerName && STATE.playerName !== 'Spieler/in') {
+                try {
+                    const existing = await window.gistLoadFor?.(STATE.playerName);
+                    if (!existing) {
+                        // Initialer Persistenz-Snapshots vor Spielstart (damit bei Abbruch nicht alles verloren ist)
+                        await window.gistSaveFor?.(STATE.playerName);
+                    } else {
+                        // Leaderboard aus Remote übernehmen falls vorhanden und noch keine lokale Einträge (Heuristik)
+                        if (existing.leaderboard && Object.keys(STATE.leaderboard || {}).length === 0) {
+                            STATE.leaderboard = existing.leaderboard;
+                            if (typeof displayStartLeaderboard === 'function') displayStartLeaderboard();
+                        }
+                    }
+                } catch (e) {
+                    console.warn('[startQuiz] Persistenz-Preload Fehler:', e);
+                }
+            }
             
             // Note: name saving/loading handled by the Name-Aktion-Button
             

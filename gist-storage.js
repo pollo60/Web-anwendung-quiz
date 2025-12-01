@@ -485,6 +485,17 @@
         window.STATE.xp = Math.max(window.STATE.xp || 0, existing.xp || 0);
         window.STATE.level = Math.max(window.STATE.level || 1, existing.level || 1);
         window.STATE.lifetimeXP = Math.max(window.STATE.lifetimeXP || 0, existing.lifetimeXP || 0);
+        // Merge/replace leaderboard if present
+        if (existing.leaderboard && typeof existing.leaderboard === 'object') {
+          try {
+            window.STATE.leaderboard = existing.leaderboard;
+            if (typeof window.displayStartLeaderboard === 'function') {
+              window.displayStartLeaderboard();
+            }
+          } catch (e) {
+            logWarn('nameActionClick: Konnte Remote-Leaderboard nicht setzen', e && e.message);
+          }
+        }
         if (typeof window.updateXPDisplay === 'function') window.updateXPDisplay();
         log('[gist] Name gefunden, Fortschritt geladen für:', name);
         return true;
