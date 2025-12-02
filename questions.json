@@ -145,7 +145,7 @@
   },
   {
     "difficulty": 3,
-    "type": "multiselect",
+    "type": "checkbox",
     "question": "Was ist gemäß §202c StGB beim Netzwerksniffen rechtlich zulässig? (Mehrere richtig)",
     "options": [
       "Nur eigenen localhost-/autorisierten Verkehr aufzeichnen",
@@ -170,7 +170,7 @@
   },
   {
     "difficulty": 1,
-    "type": "multiselect",
+    "type": "checkbox",
     "question": "Welche Abhängigkeiten sind nötig, um gRPC in Spring Boot lauffähig zu machen? (Mehrere richtig)",
     "options": ["grpc-netty-shaded", "grpc-stub", "spring-web", "grpc-protobuf"],
     "correct": [0, 1, 3],
@@ -296,7 +296,7 @@
   },
   {
     "difficulty": 1,
-    "type": "multiselect",
+    "type": "checkbox",
     "question": "Welche Abhängigkeiten sind nötig, um gRPC in Spring Boot lauffähig zu machen? (Mehrere richtig)",
     "options": ["grpc-netty-shaded", "grpc-protobuf", "grpc-stub", "spring-web"],
     "correct": [0, 1, 2],
@@ -316,9 +316,10 @@
   },
   {
     "difficulty": 2,
-    "type": "fillblank",
-    "question": "gRPC nutzt ____ als Transportprotokoll und ____ als Schnittstellenbeschreibungssprache",
-    "blanks": ["HTTP/2", "Protocol Buffers"],
+    "type": "multiple",
+    "question": "gRPC nutzt welches Transportprotokoll und welche Schnittstellenbeschreibungssprache?",
+    "options": ["HTTP/1.1 und XML", "HTTP/2 und Protocol Buffers", "WebSockets und JSON", "HTTP/2 und JSON"],
+    "correct": 1,
     "explanation": "✅ Richtig: Transport = HTTP/2, IDL = Protocol Buffers.",
     "xp": 15,
     "tags": ["offiziell", "woche7"]
@@ -7494,7 +7495,7 @@
   },
   {
     "difficulty": 2,
-    "type": "multiselect",
+    "type": "checkbox",
     "question": "Welche Maven-Dependencies sind direkt für gRPC und Protobuf relevant? (Mehrere richtig)",
     "options": [
       "io.grpc:grpc-stub",
@@ -7509,7 +7510,7 @@
   },
   {
     "difficulty": 2,
-    "type": "multiselect",
+    "type": "checkbox",
     "question": "Welche Message-Typen sind in der Datei UserService.proto definiert? (Mehrere richtig)",
     "options": [
       "UsersRequest",
@@ -7524,7 +7525,7 @@
   },
   {
     "difficulty": 2,
-    "type": "multiselect",
+    "type": "checkbox",
     "question": "Welche Fragen sollen Sie laut Übung in Bezug auf gRPC-Streaming beantworten? (Mehrere richtig)",
     "options": [
       "Warum können hier Nutzdaten in Streams ausgetauscht werden?",
@@ -7539,7 +7540,7 @@
   },
   {
     "difficulty": 2,
-    "type": "multiselect",
+    "type": "checkbox",
     "question": "Welche Tools oder Komponenten kommen in der HTTP/2-/Wireshark-Zusatzübung vor? (Mehrere richtig)",
     "options": [
       "Wireshark",
@@ -7769,7 +7770,7 @@
   },
   {
     "difficulty": 2,
-    "type": "multiselect",
+    "type": "checkbox",
     "question": "Welche Streaming-Modi bietet gRPC? (Mehrere richtig)",
     "options": [
       "Server-Streaming (Server sendet mehrere Antworten)",
@@ -7838,7 +7839,7 @@
   },
   {
     "difficulty": 2,
-    "type": "multiselect",
+    "type": "checkbox",
     "question": "Welche Vorteile bietet Protocol Buffers gegenüber JSON? (Mehrere richtig)",
     "options": [
       "Kompaktere binäre Darstellung (kleinere Payload)",
@@ -7909,7 +7910,7 @@
   },
   {
     "difficulty": 1,
-    "type": "multiselect",
+    "type": "checkbox",
     "question": "Welche Dateien/Komponenten gehören typischerweise zu einem gRPC-Spring-Boot-Projekt? (Mehrere richtig)",
     "options": [
       "Eine .proto-Datei im src/main/proto-Verzeichnis",
@@ -7936,5 +7937,59 @@
     "explanation": "✅ Richtig: Protobuf ist binär – ohne Decodierung (z.B. mit grpcui, spezielle Wireshark-Decoder) sind die Daten nicht menschenlesbar, anders als JSON in REST.",
     "xp": 18,
     "tags": ["uebung", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Ein Börsenticker soll jede Sekunde aktuelle Kursdaten an den Client liefern. Die Clients sollen gezielt nur die Felder erhalten, die sie wirklich brauchen, um Bandbreite zu sparen. Welche Technologie wählst du?",
+    "options": ["REST", "GraphQL", "gRPC"],
+    "correct": 0,
+    "explanation": "✅ Richtig: REST ist hier laut Aufgabenstellung die passende Wahl für feldspezifische Abrufe.",
+    "xp": 15,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "gRPC unterstützt synchrone und asynchrone Kommunikation",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Wahr: gRPC bietet sowohl synchrone (blockierende) als auch asynchrone (non-blocking) APIs.",
+    "xp": 12,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist gRPC?",
+    "options": [
+      "Eine Alternative zu REST für Webbrowser",
+      "Ein Messaging-Protokoll für Echtzeitkommunikation",
+      "Eine NoSQL-Datenbanktechnologie",
+      "Ein Framework zur Realisierung von Interprozesskommunikation"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: gRPC ist ein Framework für Remote Procedure Calls zur Interprozesskommunikation (RPC-Framework).",
+    "xp": 15,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "text",
+    "question": "In der pom.xml sorgt das Plugin ____ dafür, dass Java-Code aus .proto-Dateien erzeugt wird.",
+    "correct": "protobuf-maven-plugin",
+    "explanation": "✅ Richtig: protobuf-maven-plugin generiert die Java-Klassen aus .proto-Definitionen.",
+    "xp": 15,
+    "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Ein Dashboard zeigt dem Benutzer Live-Updates zu Wetterdaten. Die Datenmenge ist überschaubar, der Benutzer möchte bestimmen, welche Messwerte er sehen will. Die Verbindung läuft über den Browser. Welche Technologie wählst du?",
+    "options": ["REST", "gRPC", "GraphQL"],
+    "correct": 2,
+    "explanation": "✅ Richtig: GraphQL ermöglicht flexible Feldauswahl und ist browserkompatibel.",
+    "xp": 15,
+    "tags": ["offiziell", "woche7"]
   }
 ]
