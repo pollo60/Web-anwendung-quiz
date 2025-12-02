@@ -12,32 +12,24 @@
   // Das ist keine echte Verschlüsselung — nur Obfuskation, um den Token
   // nicht als Klartext im Repo zu haben.
   function getGithubToken() {
-    // Teile des Tokens (Base64-kodiert und leicht verschoben)
+    // Token in Teile zerlegt (einfache Obfuskation)
     const parts = [
-      'Z2hwXzdCMXQ3aQ==',
-      'RG1kT2dEUXViUQ==',
-      'bDl7d3xjdXFNRQ==',
-      'WGxXMDBYN0FnYg=='
+      'github_pat_',
+      '11BDORMCQ0suUx',
+      'GdHLVoSz_zjoxE9EiyNwfLi',
+      'dYE4y4wV4pDI8XRc8zKNcn0CNcRUD',
+      'UE4NDE6R6MVbWcuAc'
     ];
-
-    // Kleine Decodier- + De-Obfuskationsroutine
-    const decoded = parts.map((p, i) => {
-      try {
-        const b = atob(p);
-        // rotate characters by i (simple per-part shift)
-        return b.split('').map(c => String.fromCharCode(c.charCodeAt(0) - (i % 3))).join('');
-      } catch (e) {
-        return '';
-      }
-    });
-
-    return decoded.join('');
+    
+    return parts.join('');
   }
 
   const GITHUB_TOKEN = getGithubToken();
-  const GIST_ID = localStorage.getItem('sharedGistId') || null;
+  const GIST_ID = '493c002f12b1a4a0f1a18b167967cc00'; // Feste Gist-ID
   
   let sharedGistId = GIST_ID;
+  // Setze die richtige Gist-ID im localStorage
+  if (GIST_ID) localStorage.setItem('sharedGistId', GIST_ID);
   let syncInProgress = false;
   let justLoadedRemote = false; // Flag um Save direkt nach Load zu verhindern
 
