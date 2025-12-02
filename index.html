@@ -657,7 +657,9 @@
             const titleIndex = Math.floor(lifetimeDerived.level / 10);
             console.log(`📊 Title calculation: lifetimeXP=${STATE.lifetimeXP} → derived level=${lifetimeDerived.level} → titleIndex=${titleIndex} → title="${titleText}"`);
             document.getElementById('titlePlaque').textContent = titleText;
-            saveProgress();
+            // Statt direktem saveProgress() (nicht global definiert) feuern wir ein Event,
+            // das von gist-storage.js aufgegriffen wird und ein Sync auslöst.
+            document.dispatchEvent(new Event('stateChanged'));
         }
 
         function checkLevelUp() {
