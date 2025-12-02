@@ -7943,8 +7943,8 @@
     "type": "multiple",
     "question": "Ein Börsenticker soll jede Sekunde aktuelle Kursdaten an den Client liefern. Die Clients sollen gezielt nur die Felder erhalten, die sie wirklich brauchen, um Bandbreite zu sparen. Welche Technologie wählst du?",
     "options": ["REST", "GraphQL", "gRPC"],
-    "correct": 0,
-    "explanation": "✅ Richtig: REST ist hier laut Aufgabenstellung die passende Wahl für feldspezifische Abrufe.",
+    "correct": 2,
+    "explanation": "✅ Richtig: gRPC ist hier laut Aufgabenstellung die passende Wahl für feldspezifische Abrufe.",
     "xp": 15,
     "tags": ["offiziell", "woche7"]
   },

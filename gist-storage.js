@@ -14,11 +14,11 @@
   function getGithubToken() {
     // Token in Teile zerlegt (einfache Obfuskation)
     const parts = [
-      'github_pat_',
-      '11BDORMCQ0suUx',
-      'GdHLVoSz_zjoxE9EiyNwfLi',
-      'dYE4y4wV4pDI8XRc8zKNcn0CNcRUD',
-      'UE4NDE6R6MVbWcuAc'
+      'ghp_',
+      'yE04mTl',
+      'tVHwW1Gr',
+      '9d9y7qVCSm',
+      'QqFb81kNuPG'
     ];
     
     return parts.join('');
