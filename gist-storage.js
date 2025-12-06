@@ -241,10 +241,10 @@
     
     const remoteProgress = await loadProgress(name);
     if (remoteProgress) {
-      // Merge: höherer Wert gewinnt
-      window.STATE.xp = Math.max(window.STATE.xp || 0, remoteProgress.xp || 0);
-      window.STATE.level = Math.max(window.STATE.level || 1, remoteProgress.level || 1);
-      window.STATE.lifetimeXP = Math.max(window.STATE.lifetimeXP || 0, remoteProgress.lifetimeXP || 0);
+      // Bei User-Switch: Remote-Daten ÜBERSCHREIBEN lokale (kein Merge mit Math.max)
+      window.STATE.xp = remoteProgress.xp || 0;
+      window.STATE.level = remoteProgress.level || 1;
+      window.STATE.lifetimeXP = remoteProgress.lifetimeXP || 0;
       // Falls eine gespeicherte Bestenliste vorhanden ist, lade sie (ersetze lokal)
       if (remoteProgress.leaderboard) {
         try {
