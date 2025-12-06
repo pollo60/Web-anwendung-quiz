@@ -784,6 +784,15 @@
             return answers.map(a => (a || '').toString());
         }
 
+        function normalizeAnswer(str) {
+            return (str || '')
+                .toString()
+                .toLowerCase()
+                .trim()
+                .replace(/[^a-z0-9äöüß\s]/gi, '')
+                .replace(/\s+/g, ' ');
+        }
+
         function getBlanks(question) {
             if (Array.isArray(question.blanks) && question.blanks.length) return question.blanks;
             if (question.correctAnswer) return Array.isArray(question.correctAnswer) ? question.correctAnswer : [question.correctAnswer];
@@ -1111,14 +1120,15 @@
                 checkboxes.forEach(cb => cb.disabled = true);
                 
             } else if (question.type === 'text') {
-                const answer = document.getElementById('textAnswer').value.trim().toLowerCase();
-                if (!answer) {
+                const rawAnswer = document.getElementById('textAnswer').value.trim();
+                if (!rawAnswer) {
                     showWarning('Bitte gib eine Antwort ein!');
                     return;
                 }
                 
-                const correctAnswers = getTextAnswers(question);
-                isCorrect = correctAnswers.some(c => answer.includes(c.toLowerCase()));
+                const user = normalizeAnswer(rawAnswer);
+                const correctAnswers = getTextAnswers(question).map(normalizeAnswer);
+                isCorrect = correctAnswers.some(c => user.includes(c) || c.includes(user));
                 
                 const input = document.getElementById('textAnswer');
                 input.style.borderColor = isCorrect ? '#48bb78' : '#f56565';
@@ -1136,7 +1146,7 @@
                     return;
                 }
                 
-                isCorrect = answers.every((ans, i) => ans.toLowerCase() === blanks[i].toLowerCase());
+                isCorrect = answers.every((ans, i) => normalizeAnswer(ans) === normalizeAnswer(blanks[i]));
                 
                 answers.forEach((_, i) => {
                     const input = document.getElementById(`blank${i}`);
