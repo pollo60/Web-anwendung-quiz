@@ -777,6 +777,20 @@
             attachQuestionListeners(question);
         }
 
+        function getTextAnswers(question) {
+            const answers = (Array.isArray(question.correctAnswers) && question.correctAnswers.length)
+                ? question.correctAnswers
+                : (Array.isArray(question.correct) ? question.correct : (question.correct ? [question.correct] : []));
+            return answers.map(a => (a || '').toString());
+        }
+
+        function getBlanks(question) {
+            if (Array.isArray(question.blanks) && question.blanks.length) return question.blanks;
+            if (question.correctAnswer) return Array.isArray(question.correctAnswer) ? question.correctAnswer : [question.correctAnswer];
+            if (Array.isArray(question.correctAnswers) && question.correctAnswers.length) return question.correctAnswers;
+            return [];
+        }
+
         function renderQuestionOptions(question) {
             const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
             
@@ -804,7 +818,8 @@
                 
             } else if (question.type === 'fillblank') {
                 let text = question.question;
-                (question.blanks || []).forEach((_, i) => {
+                const blanks = getBlanks(question);
+                blanks.forEach((_, i) => {
                     text = text.replace('_____', `<input type="text" class="blank-input" id="blank${i}" placeholder="...">`);
                 });
                 return `<div style="font-size:18px; line-height:2;">${text}</div>`;
@@ -893,7 +908,7 @@
         }
 
         function setupFillblankListeners(checkBtn, question) {
-            const blanks = (question.blanks || []).map((_, i) => document.getElementById(`blank${i}`));
+            const blanks = getBlanks(question).map((_, i) => document.getElementById(`blank${i}`));
             const updateBtn = () => {
                 const allFilled = blanks.every(b => b && b.value.trim());
                 if (checkBtn) checkBtn.disabled = !allFilled || STATE.questionAnswered;
@@ -1102,7 +1117,7 @@
                     return;
                 }
                 
-                const correctAnswers = Array.isArray(question.correct) ? question.correct : [question.correct];
+                const correctAnswers = getTextAnswers(question);
                 isCorrect = correctAnswers.some(c => answer.includes(c.toLowerCase()));
                 
                 const input = document.getElementById('textAnswer');
@@ -1110,7 +1125,7 @@
                 input.disabled = true;
                 
             } else if (question.type === 'fillblank') {
-                const blanks = question.blanks || [];
+                const blanks = getBlanks(question);
                 const answers = blanks.map((_, i) => {
                     const input = document.getElementById(`blank${i}`);
                     return input ? input.value.trim() : '';
