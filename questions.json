@@ -8052,5 +8052,482 @@
     "explanation": "✅ Richtig: gRPC nutzt binäres protobuf (schneller), bidirektionales Streaming und .proto-Definitionen. WebSockets werden nicht verwendet.",
     "xp": 20,
     "tags": ["offiziell", "woche7"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche HTTP-Methode wird laut Endpoint-Tabelle verwendet, um alle Chat-Räume abzurufen?",
+    "options": ["POST", "GET", "PATCH", "DELETE"],
+    "correct": 1,
+    "explanation": "✅ Richtig: GET wird verwendet, um Daten abzurufen.",
+    "xp": 10,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welcher Statuscode wird zurückgegeben, wenn beim Abruf der Chat-Räume keine Räume vorhanden sind?",
+    "options": ["200 OK", "404 Not Found", "204 No Content", "500 Internal Server Error"],
+    "correct": 2,
+    "explanation": "✅ Richtig: 204 No Content signalisiert erfolgreiche Anfrage ohne Inhalt.",
+    "xp": 10,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche der folgenden Klassen ist nicht Teil der ChatService-Domainmodelle?",
+    "options": ["Room", "Message", "ChatUser", "ChatMessageHandler"],
+    "correct": 3,
+    "explanation": "✅ Richtig: ChatMessageHandler ist ein Controller/Handler, kein Domainmodell.",
+    "xp": 10,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Funktion erfüllt SecurityContextHolder?",
+    "options": [
+      "Persistiert Passwörter in der Datenbank",
+      "Hält den SecurityContext als ThreadLocal",
+      "Initialisiert WebSecurity automatisch",
+      "Serialisiert JSON-Objekte"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: SecurityContextHolder speichert den SecurityContext pro Thread (ThreadLocal).",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was wird bei Basic Authentication im HTTP-Header übertragen?",
+    "options": ["Bearer Token", "API Key", "Base64-codierte Credentials", "Session-ID"],
+    "correct": 2,
+    "explanation": "✅ Richtig: Basic Authentication überträgt Base64-codierte Benutzername:Passwort-Kombination.",
+    "xp": 10,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Methode deaktiviert CSRF in der SecurityConfig?",
+    "options": [
+      "http.disableCSRF()",
+      "csrf.disable()",
+      "http.csrf(csrf → csrf.disable())",
+      "http.csrf().off()"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: Die Lambda-Syntax http.csrf(csrf → csrf.disable()) deaktiviert CSRF.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was erzeugt RestTemplate.exchange()?",
+    "options": ["Nur HTTP Body", "ResponseEntity", "HttpHeader-Objekt", "SecurityContext"],
+    "correct": 1,
+    "explanation": "✅ Richtig: RestTemplate.exchange() gibt ein ResponseEntity-Objekt zurück.",
+    "xp": 10,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wozu dient Base64 im Authentication-Header?",
+    "options": [
+      "Verschlüsselung des Passworts",
+      "Kodierung beliebiger 8-Bit-Daten",
+      "Hashing von Credentials",
+      "Tokenisierung von Nutzdaten"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Base64 kodiert binäre Daten in ASCII-Text, verschlüsselt aber nicht.",
+    "xp": 10,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Warum muss bei PATCH ein spezielles HttpClient-Factory-Objekt verwendet werden?",
+    "options": [
+      "Wegen Sicherheitsrichtlinien",
+      "Wegen eines Bugs in Spring Boot",
+      "Wegen JSON Parsing",
+      "Weil PATCH nicht erlaubt ist"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Ein bekannter Bug in Spring Boot erfordert eine spezielle Factory für PATCH-Requests.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Warum wird beim UserService keine Login-Abfrage angezeigt?",
+    "options": [
+      "Browsercache",
+      "UserService nutzt interne Credentials für ChatService",
+      "Security ist deaktiviert",
+      "Session-Cookies ersparen Authentifizierung"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Der UserService authentifiziert sich automatisch beim ChatService mit internen Credentials.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Aspekte gehören laut PDF zu Web-Sicherheit?",
+    "options": ["Authentifizierung", "Rollen", "Verschlüsselung", "Schutz vor Angriffen"],
+    "correct": [0, 1, 2, 3],
+    "explanation": "✅ Richtig: Alle vier Aspekte sind Teil von Web-Sicherheit.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "checkbox",
+    "question": "Welche Parameter werden beim Anlegen eines Chat-Raums benötigt?",
+    "options": ["UserID", "Raumname", "Passwort", "Zeitstempel"],
+    "correct": [1],
+    "explanation": "✅ Richtig: Nur der Raumname wird benötigt.",
+    "xp": 12,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche HTTP-Methoden verwendet der ChatService?",
+    "options": ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    "correct": [0, 1, 2, 3, 4],
+    "explanation": "✅ Richtig: Der ChatService verwendet alle genannten HTTP-Methoden.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Klassen werden in der Integration zum UserService neu hinzugefügt?",
+    "options": ["ApiError", "ChatUser", "ChatService", "ChatRoomRepository"],
+    "correct": [0, 1, 2],
+    "explanation": "✅ Richtig: ApiError, ChatUser und ChatService sind neue Integrationsklassen. ChatRoomRepository gehört zur Datenschicht.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Eigenschaften besitzt ein Authentication-Objekt?",
+    "options": ["Principal", "Credentials", "GrantedAuthorities", "HttpSession"],
+    "correct": [0, 1, 2],
+    "explanation": "✅ Richtig: Authentication enthält Principal, Credentials und GrantedAuthorities. HttpSession ist separat.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Eigenschaften treffen auf Base64 zu?",
+    "options": [
+      "Dient zur Kodierung",
+      "Vergrößert Daten um ca. 33 %",
+      "Ist ein sicheres Verschlüsselungsverfahren",
+      "Wird nur in E-Mail-Protokollen genutzt"
+    ],
+    "correct": [0, 1],
+    "explanation": "✅ Richtig: Base64 kodiert Daten und vergrößert sie um ~33%. Es verschlüsselt nicht und wird in vielen Protokollen verwendet.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Schritte sind nötig, um Basic Auth Header zu erzeugen?",
+    "options": [
+      "String in Bytes konvertieren",
+      "Base64 codieren",
+      "Authorization: Basic ... setzen",
+      "SHA256 Hash erzeugen"
+    ],
+    "correct": [0, 1, 2],
+    "explanation": "✅ Richtig: Bytes konvertieren, Base64 codieren und Authorization-Header setzen. SHA256 wird nicht verwendet.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Nachteile hat Basic Authentication laut PDF?",
+    "options": [
+      "Kein sicheres Verfahren (Base64 ≠ Verschlüsselung)",
+      "Passwort kann im Netzwerk sichtbar sein",
+      "Erzeugt keine Sessions",
+      "Nur mit HTTPS kompatibel"
+    ],
+    "correct": [0, 1],
+    "explanation": "✅ Richtig: Base64 ist keine Verschlüsselung und Passwörter können abgefangen werden. Basic Auth funktioniert auch ohne HTTPS (unsicher!) und Sessions sind unabhängig.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Wofür wird HttpEntity im ChatService verwendet?",
+    "options": [
+      "Kombiniert Body + Header",
+      "Serialisiert JSON-Objekte",
+      "Wird an RestTemplate übergeben",
+      "Hält SecurityContext"
+    ],
+    "correct": [0, 2],
+    "explanation": "✅ Richtig: HttpEntity kombiniert Body und Header und wird an RestTemplate übergeben. JSON-Serialisierung erfolgt automatisch, SecurityContext ist separat.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Änderungen deaktivieren automatische Spring-Security-Konfiguration?",
+    "options": [
+      "exclude = {SecurityAutoConfiguration.class}",
+      "exclude = {UserDetailsServiceAutoConfiguration.class}",
+      "@EnableAutoSecurity",
+      "@DisableSecurity"
+    ],
+    "correct": [0, 1],
+    "explanation": "✅ Richtig: Die beiden exclude-Klauseln deaktivieren die Auto-Konfiguration. Die anderen Annotationen existieren nicht.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "text",
+    "question": "Was beschreibt eine User Story im ChatService-Kontext?",
+    "correctAnswers": ["Eine kurze Anforderung, was ein Nutzer mit dem Chat-System tun möchte und warum"],
+    "explanation": "✅ Richtig: User Stories beschreiben Anforderungen aus Nutzersicht.",
+    "xp": 12,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "text",
+    "question": "Was macht der SecurityContextHolder?",
+    "correctAnswers": ["Hält Authentication-Objekte pro Thread, sodass jeder Request seinen eigenen Kontext hat"],
+    "explanation": "✅ Richtig: SecurityContextHolder nutzt ThreadLocal für Thread-sichere Authentifizierung.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "text",
+    "question": "Warum werden Passwörter als Hashwerte gespeichert?",
+    "correctAnswers": ["Damit der Serverbetreiber die Passwörter nicht einsehen oder zurückrechnen kann"],
+    "explanation": "✅ Richtig: Hashing schützt Passwörter vor unbefugtem Zugriff, auch durch Administratoren.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "text",
+    "question": "Warum ist Base64 kein Sicherheitsmechanismus?",
+    "correctAnswers": ["Weil es nur kodiert, aber nicht verschlüsselt – die Daten bleiben ohne Schlüssel lesbar"],
+    "explanation": "✅ Richtig: Base64 ist eine Kodierung, keine Verschlüsselung.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "text",
+    "question": "Was ist ein Principal?",
+    "correctAnswers": ["Der Name des aktuell authentifizierten Nutzers im Security-Kontext"],
+    "explanation": "✅ Richtig: Principal identifiziert den angemeldeten Benutzer.",
+    "xp": 12,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "text",
+    "question": "Was ist die Aufgabe des AuthenticationFilters im API-Key-Modus?",
+    "correctAnswers": ["Herauslesen des API Keys, Validierung, Setzen des Authentication-Objekts oder Rückgabe 401"],
+    "explanation": "✅ Richtig: Der Filter validiert API Keys und setzt die Authentifizierung.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "text",
+    "question": "Warum ist die Sitzungsrichtlinie bei REST auf STATELESS gesetzt?",
+    "correctAnswers": ["Weil REST zustandslos ist und keine serverseitigen Sessions nutzen soll"],
+    "explanation": "✅ Richtig: REST-APIs sollten zustandslos sein (stateless).",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "fillblank",
+    "question": "Die HTTP-Methode zum Löschen eines Chat-Raums lautet: _____.",
+    "correctAnswer": "DELETE",
+    "explanation": "✅ Richtig: DELETE wird zum Löschen von Ressourcen verwendet.",
+    "xp": 10,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "fillblank",
+    "question": "Die Authentifizierung im ChatService verwendet den Header _____.",
+    "correctAnswer": "Authorization",
+    "explanation": "✅ Richtig: Der Authorization-Header enthält Authentifizierungsinformationen.",
+    "xp": 10,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "fillblank",
+    "question": "Der erzeugte Base64-String wird im Header als _____ übertragen.",
+    "correctAnswer": "Basic",
+    "explanation": "✅ Richtig: Basic Authentication verwendet das Präfix 'Basic' im Authorization-Header.",
+    "xp": 10,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "fillblank",
+    "question": "Die API-URL im UserService steht in der Datei _____.",
+    "correctAnswer": "application.properties",
+    "explanation": "✅ Richtig: application.properties enthält Konfigurationsparameter wie API-URLs.",
+    "xp": 10,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "fillblank",
+    "question": "Das Security-Framework speichert die aktuelle Authentifizierung im _____.",
+    "correctAnswer": "SecurityContext",
+    "explanation": "✅ Richtig: SecurityContext hält das Authentication-Objekt.",
+    "xp": 10,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "sort",
+    "question": "Sortiere die Schritte der Basic Authentication in korrekte Reihenfolge:",
+    "options": [
+      "Benutzername:Passwort zusammenfügen",
+      "In Bytes umwandeln",
+      "Base64 codieren",
+      "Authorization Header setzen"
+    ],
+    "correctOrder": [0, 1, 2, 3],
+    "explanation": "✅ Richtig: Zuerst zusammenfügen, dann in Bytes wandeln, Base64 codieren und schließlich Header setzen.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "sort",
+    "question": "Sortiere die Teile eines HTTP Requests beim Raum-Erstellen:",
+    "options": [
+      "URL definieren",
+      "Header erzeugen",
+      "Body definieren (Raumname)",
+      "HttpEntity erstellen",
+      "RestTemplate.exchange() ausführen"
+    ],
+    "correctOrder": [0, 1, 2, 3, 4],
+    "explanation": "✅ Richtig: URL → Header → Body → HttpEntity → exchange() ausführen.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "sort",
+    "question": "Sortiere die Verarbeitung im AuthenticationFilter:",
+    "options": [
+      "API Key aus Header lesen",
+      "Validierung",
+      "Authentication erstellen",
+      "In SecurityContext setzen",
+      "Weitergabe an FilterChain"
+    ],
+    "correctOrder": [0, 1, 2, 3, 4],
+    "explanation": "✅ Richtig: Key lesen → validieren → Authentication erstellen → in Context setzen → weitergeben.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "sort",
+    "question": "Sortiere die Prozessschritte eines REST-Aufrufs via RestTemplate:",
+    "options": [
+      "RestTemplate erzeugen",
+      "HttpEntity erzeugen",
+      "exchange() ausführen",
+      "ResponseEntity erhalten"
+    ],
+    "correctOrder": [0, 1, 2, 3],
+    "explanation": "✅ Richtig: RestTemplate → HttpEntity → exchange() → ResponseEntity.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne HTTP-Methode → Zweck zu:",
+    "pairs": [
+      {"left": "GET", "right": "Abrufen"},
+      {"left": "POST", "right": "Erstellen"},
+      {"left": "PUT", "right": "Beitreten"},
+      {"left": "PATCH", "right": "Verlassen"},
+      {"left": "DELETE", "right": "Löschen"}
+    ],
+    "explanation": "✅ Richtig: GET für Abrufen, POST für Erstellen, PUT für Beitreten, PATCH für Verlassen, DELETE für Löschen.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne Begriffe → Beschreibung zu:",
+    "pairs": [
+      {"left": "Principal", "right": "eingeloggter Nutzer"},
+      {"left": "Credentials", "right": "Login-Daten"},
+      {"left": "GrantedAuthority", "right": "Berechtigungen"},
+      {"left": "SecurityContext", "right": "hält Authentication"}
+    ],
+    "explanation": "✅ Richtig: Principal = Nutzer, Credentials = Login-Daten, GrantedAuthority = Rechte, SecurityContext = Container.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne Klassen → Rolle zu:",
+    "pairs": [
+      {"left": "RoomController", "right": "API-Endpunkte"},
+      {"left": "RestTemplate", "right": "HTTP-Client"},
+      {"left": "HttpHeaders", "right": "Metadaten"},
+      {"left": "ResponseEntity", "right": "Antwortcontainer"}
+    ],
+    "explanation": "✅ Richtig: RoomController = Endpoints, RestTemplate = Client, HttpHeaders = Metadaten, ResponseEntity = Antwort.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne Sicherheitsmechanismus → Zweck zu:",
+    "pairs": [
+      {"left": "CSRF-Schutz", "right": "Verhindert Request-Fälschungen"},
+      {"left": "Basic Auth", "right": "Übertragung von Credentials"},
+      {"left": "HTTPS", "right": "Verschlüsselung der Verbindung"},
+      {"left": "Roles/Authorities", "right": "Zugriffsbeschränkung"}
+    ],
+    "explanation": "✅ Richtig: CSRF = Anti-Fälschung, Basic Auth = Credentials, HTTPS = Verschlüsselung, Roles = Zugriff.",
+    "xp": 15,
+    "tags": ["woche8", "uebung"]
   }
 ]
