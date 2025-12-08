@@ -9089,5 +9089,45 @@
     "explanation": "✅ Richtig: Ein Proxy kann CORS-Probleme umgehen, indem er als Vermittler fungiert.",
     "xp": 15,
     "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Ist REST-Kommunikation in jedem Fall zustandslos (stateless)?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: REST ist konzeptuell stateless, aber Implementierungen können Zustände halten (z.B. Sessions), daher nicht in jedem Fall.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Handelt es sich bei /conversations/{to} um eine Einzelressource?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Der Pfad beschreibt eine Sammlung mit Parameter, keine dedizierte Einzelressource im Sinne eines konkreten Ressourcenobjekts.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Darf eine Ressource mehrere Repräsentationen besitzen (JSON/XML)?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Content Negotiation erlaubt mehrere Repräsentationen einer Ressource.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Darf DELETE /users{id} bei Erfolg einen Body senden?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Erfolgreiche DELETE-Responses (z.B. 204) sollten keinen Body enthalten.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
   }
 ]
