@@ -4947,8 +4947,8 @@
     "difficulty": 2,
     "type": "sort",
     "question": "In welcher Reihenfolge erfolgt die Verarbeitung eines HTTP-Requests im MVC-Framework?",
-    "items": ["Client", "DispatcherServlet", "Controller", "Model", "ViewResolver", "View", "Client"],
-    "correct": ["Client", "DispatcherServlet", "Controller", "Model", "ViewResolver", "View", "Client"],
+    "options": ["Client", "DispatcherServlet", "Controller", "Model", "ViewResolver", "View", "Client"],
+    "correctOrder": [0, 1, 2, 3, 4, 5, 6],
     "explanation": "Standardfluss einer Anfrage.\n✅ Client → DispatcherServlet → Controller → Model → ViewResolver → View → Client",
     "xp": 15,
     "tags": ["offiziell", "woche4"]
@@ -5210,8 +5210,8 @@
     "difficulty": 2,
     "type": "sort",
     "question": "Sortiere die Bestandteile einer vollständigen URI in der Reihenfolge, wie sie in der Adresse erscheinen:",
-    "items": ["query", "host", "scheme", "path", "port"],
-    "correct": ["scheme", "host", "port", "path", "query"],
+    "options": ["query", "host", "scheme", "path", "port"],
+    "correctOrder": [2, 1, 4, 3, 0],
     "explanation": "✅ Richtig: scheme://host:port/path?query – erst das Schema, dann Host, optional der Port, anschließend der Pfad und zuletzt der Query-Teil.",
     "xp": 18,
     "tags": ["uebung", "woche5"]
@@ -6582,18 +6582,13 @@
     "difficulty": 1,
     "type": "sort",
     "question": "Sortieren Sie die Schritte einer GraphQL-Query in die richtige Reihenfolge:",
-    "items": [
+    "options": [
       "Client sendet Query an /graphql",
       "Server validiert Query gegen Schema",
       "Server führt Resolver-Funktionen aus",
       "Server gibt JSON-Response mit selektierten Feldern zurück"
     ],
-    "correct": [
-      "Client sendet Query an /graphql",
-      "Server validiert Query gegen Schema",
-      "Server führt Resolver-Funktionen aus",
-      "Server gibt JSON-Response mit selektierten Feldern zurück"
-    ],
+    "correctOrder": [0, 1, 2, 3],
     "explanation": "✅ Richtig: 1) Client-Query → 2) Schema-Validierung → 3) Resolver-Ausführung → 4) JSON-Response mit exakten Feldern.",
     "xp": 18,
     "tags": ["uebung", "woche6"]
@@ -7977,7 +7972,7 @@
     "difficulty": 2,
     "type": "text",
     "question": "In der pom.xml sorgt das Plugin ____ dafür, dass Java-Code aus .proto-Dateien erzeugt wird.",
-    "correct": "protobuf-maven-plugin",
+    "correctAnswers": ["protobuf-maven-plugin"],
     "explanation": "✅ Richtig: protobuf-maven-plugin generiert die Java-Klassen aus .proto-Definitionen.",
     "xp": 15,
     "tags": ["offiziell", "woche7"]
@@ -8789,5 +8784,150 @@
     "explanation": "✅ Richtig: API-Keys können gespeichert werden, das Passwort muss nicht ständig übertragen werden.",
     "xp": 15,
     "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was bedeutet 422 Unprocessable Entity?",
+    "options": ["Nicht autorisiert", "Serverfehler", "Logisch falsch", "Syntaxfehler"],
+    "correct": 2,
+    "explanation": "✅ Richtig: 422 bedeutet, dass die Anfrage syntaktisch korrekt ist, aber logisch nicht verarbeitet werden kann.",
+    "xp": 15,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Warum wird ein Proxy genutzt?",
+    "options": [
+      "Zum Aufräumen des Servers",
+      "Um CORS-Probleme zu vermeiden",
+      "Um CSS schneller zu laden",
+      "Für Sicherheitslagen"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Ein Proxy kann CORS-Probleme umgehen, indem er als Vermittler fungiert.",
+    "xp": 15,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist ein API Key?",
+    "options": [
+      "Ein Zertifikat",
+      "Hardwaretoken",
+      "Ein CSS-Framework",
+      "Ein geheimer Schlüssel in einem HTTP-Header"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: Ein API-Key ist ein geheimer Schlüssel, der im Header übertragen wird.",
+    "xp": 15,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was bedeutet csrf.disable()?",
+    "options": ["Login an", "Nur Admin", "CSRF aus", "CSRF an"],
+    "correct": 2,
+    "explanation": "✅ Richtig: csrf.disable() deaktiviert den CSRF-Schutz.",
+    "xp": 15,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Header-Angabe gehört zu BasicAuth?",
+    "options": ["_user", "Token", "Authorization: Basic", "Auth-Token"],
+    "correct": 2,
+    "explanation": "✅ Richtig: Basic Authentication nutzt den Authorization-Header mit dem Präfix 'Basic'.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Muss PUT /users/{id} einen Location-Header zurückgeben?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: PUT-Requests benötigen keinen Location-Header, da die Ressource bereits bekannt ist.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Warum wird ein Middleware Service wie UserService eingesetzt?",
+    "options": [
+      "Um Angular zu ersetzen",
+      "Um CSS schneller zu laden",
+      "Um Sicherheitsfunktionen zu bündeln",
+      "Um den Browser zu beschleunigen"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: Ein Middleware Service bündelt Sicherheitsfunktionen und fungiert als Vermittler.",
+    "xp": 15,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Elemente hat eine User Story?",
+    "options": [
+      "if..else switch",
+      "SQL – Tabellenname",
+      "IP-Adresse – Port",
+      "Als… möchte ich… sodass…"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: User Stories folgen dem Format 'Als [Rolle] möchte ich [Funktion], sodass [Nutzen]'.",
+    "xp": 15,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welcher Statuscode bei fehlendem API-Key?",
+    "options": ["401", "200", "302", "404"],
+    "correct": 0,
+    "explanation": "✅ Richtig: 401 Unauthorized wird zurückgegeben, wenn Auth-Daten fehlen.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Muss jede Ressource mindestens einen self-Link enthalten?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Self-Links sind optional und nicht zwingend erforderlich.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Muss 4xx / 5xx zwingend einen Body liefern?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Fehlerresponses müssen nicht zwingend einen Body enthalten.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist ein Hauptproblem von Basic Auth?",
+    "options": [
+      "Nur für POST geeignet",
+      "Credentials werden nur Base64 codiert",
+      "Funktioniert nicht mit JSON",
+      "Nur auf Linux verfügbar"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Base64 ist keine Verschlüsselung – das ist das Hauptproblem von Basic Auth.",
+    "xp": 15,
+    "tags": ["woche9", "offiziell"]
   }
 ]
