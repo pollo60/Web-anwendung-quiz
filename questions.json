@@ -8529,5 +8529,265 @@
     "explanation": "✅ Richtig: CSRF = Anti-Fälschung, Basic Auth = Credentials, HTTPS = Verschlüsselung, Roles = Zugriff.",
     "xp": 15,
     "tags": ["woche8", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was prüft der UserService vor dem Room-Laden?",
+    "options": ["PATCH", "Serverstatus", "User existiert", "Passwort"],
+    "correct": 2,
+    "explanation": "✅ Richtig: Der UserService prüft, ob der User existiert.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist ein Hauptproblem von Basic Auth?",
+    "options": [
+      "Nur für POST geeignet",
+      "Credentials werden nur Base64 codiert",
+      "Funktioniert nicht mit JSON",
+      "Nur auf Linux verfügbar"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Base64 ist keine Verschlüsselung – das ist das Hauptproblem von Basic Auth.",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welcher Statuscode bei fehlendem API-Key?",
+    "options": ["200", "401", "302", "404"],
+    "correct": 1,
+    "explanation": "✅ Richtig: 401 Unauthorized wird zurückgegeben, wenn Auth-Daten fehlen.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Enthält ein 4xx-Fehler im RESTfulController immer einen JSON-Body?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Nicht alle 4xx-Fehler müssen einen JSON-Body enthalten.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist CORS?",
+    "options": [
+      "Datenbankssprache",
+      "Grafik-Renderer",
+      "CSS-Parser",
+      "Sicherheitsmechanismus für domainsübergreifende HTTP-Anfragen"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: CORS (Cross-Origin Resource Sharing) regelt Zugriffe über Domains hinweg.",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wofür steht Basic Authentication?",
+    "options": [
+      "Token-basierte Sicherheit",
+      "OAuth 2.0",
+      "Zertifikatsbasierte Authentifizierung",
+      "Einfache Übertragung von Benutzername/Passwort"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: Basic Auth ist die einfache Methode, Credentials zu übertragen.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Warum muss der Client bei jedem Request Basic-Auth senden?",
+    "options": [
+      "Wegen CORS",
+      "Browser verhindert Cookies",
+      "Server speichert Passwörter nicht",
+      "REST ist stateless"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: REST APIs sind zustandslos, daher muss Auth-Info mit jedem Request mitgesendet werden.",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Darf eine Sammlerressource vollständige Detailinformationen enthalten?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Sammlerressourcen enthalten normalerweise nur Zusammenfassungen, nicht alle Details.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Warum akzeptiert ChatService nur Header-Auth?",
+    "options": [
+      "REST-Standard",
+      "Browser",
+      "Body unsicher",
+      "Swagger"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: Credentials im Body sind unsicher, Header ist der sichere Ort.",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wozu wird der Authorization-Header verwendet?",
+    "options": ["BasicAuth senden", "CORS", "Cookies", "IRC"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Der Authorization-Header überträgt Auth-Daten wie Basic Auth.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist ein API-Key?",
+    "options": [
+      "Ein Zertifikat",
+      "Ein geheimer Schlüssel in einem HTTP-Header",
+      "Hardwaretoken",
+      "Ein CSS-Framework"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Ein API-Key ist ein geheimer Schlüssel, der im Header übertragen wird.",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Warum wird ein Middleware Service wie UserService eingesetzt?",
+    "options": [
+      "Um Sicherheitsfunktionen zu bündeln",
+      "Um Angular zu ersetzen",
+      "Um CSS schneller zu laden",
+      "Um den Browser zu beschleunigen"
+    ],
+    "correct": 0,
+    "explanation": "✅ Richtig: Ein Middleware Service bündelt Sicherheitsfunktionen und fungiert als Vermittler.",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Ist /conversations eine Endressource?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: /conversations ist eine Sammlerressource, keine Endressource.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was beschreibt eine User Story?",
+    "options": [
+      "CSS-Layout",
+      "Datenbankschema",
+      "Interne Serverlogs",
+      "Funktion aus Sicht des Nutzers"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: Eine User Story beschreibt eine Anforderung aus Benutzersicht.",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Muss jede REST-API zwingend HATEOAS verwenden?",
+    "options": ["True", "False"],
+    "correct": 1,
+    "explanation": "✅ Richtig: HATEOAS ist optional und nicht zwingend erforderlich.",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was bedeutet csrf.disable()?",
+    "options": ["CSRF aus", "Nur Admin", "CSRF an", "Nur Login"],
+    "correct": 1,
+    "explanation": "✅ Richtig: csrf.disable() deaktiviert den CSRF-Schutz (in diesem Fall nur für Admin/Testing).",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Muss jede Ressource mindestens einen self-Link enthalten?",
+    "options": ["True", "False"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Self-Links sind optional und nicht zwingend erforderlich.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wozu dient Base64?",
+    "options": ["Verschlüsselung", "JSON", "Kodierung", "Kompression"],
+    "correct": 2,
+    "explanation": "✅ Richtig: Base64 ist eine Kodierung, keine Verschlüsselung.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was beschreibt ein \"vorgelagerter Service\"?",
+    "options": [
+      "Ein Frontend",
+      "Ein Logging-Dienst",
+      "Ein CSS-Renderer",
+      "Ein Service, der als Zwischenschicht vor einem anderen Service steht"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: Ein vorgelagerter Service fungiert als Zwischenschicht oder Middleware.",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was macht AuthenticationFilter?",
+    "options": ["Cookies", "JSON", "HTML", "API-Key prüfen"],
+    "correct": 3,
+    "explanation": "✅ Richtig: Der AuthenticationFilter validiert die Authentifizierung (z.B. API-Key).",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist ein Vorteil eines API-Keys gegenüber Basic Auth?",
+    "options": [
+      "Er ist ausführbarer Code",
+      "Passwort muss nicht bei jedem Request gesendet werden",
+      "Er deaktiviert CORS",
+      "Er wird in der URL-Query gespeichert"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: API-Keys können gespeichert werden, das Passwort muss nicht ständig übertragen werden.",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
   }
 ]
