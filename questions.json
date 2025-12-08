@@ -8720,8 +8720,8 @@
     "type": "multiple",
     "question": "Was bedeutet csrf.disable()?",
     "options": ["CSRF aus", "Nur Admin", "CSRF an", "Nur Login"],
-    "correct": 1,
-    "explanation": "✅ Richtig: csrf.disable() deaktiviert den CSRF-Schutz (in diesem Fall nur für Admin/Testing).",
+    "correct": 0,
+    "explanation": "✅ Richtig: csrf.disable() deaktiviert den CSRF-Schutz.",
     "xp": 15,
     "tags": ["woche8", "offiziell"]
   },
@@ -8730,8 +8730,8 @@
     "type": "multiple",
     "question": "Muss jede Ressource mindestens einen self-Link enthalten?",
     "options": ["True", "False"],
-    "correct": 1,
-    "explanation": "✅ Richtig: Self-Links sind optional und nicht zwingend erforderlich.",
+    "correct": 0,
+    "explanation": "✅ Richtig: Nach REST/HATEOAS-Best-Practices sollte jede Ressource einen self-Link haben.",
     "xp": 10,
     "tags": ["woche8", "offiziell"]
   },
@@ -8793,7 +8793,7 @@
     "correct": 2,
     "explanation": "✅ Richtig: 422 bedeutet, dass die Anfrage syntaktisch korrekt ist, aber logisch nicht verarbeitet werden kann.",
     "xp": 15,
-    "tags": ["woche9", "offiziell"]
+    "tags": ["woche8", "offiziell"]
   },
   {
     "difficulty": 2,
@@ -8808,7 +8808,7 @@
     "correct": 1,
     "explanation": "✅ Richtig: Ein Proxy kann CORS-Probleme umgehen, indem er als Vermittler fungiert.",
     "xp": 15,
-    "tags": ["woche9", "offiziell"]
+    "tags": ["woche8", "offiziell"]
   },
   {
     "difficulty": 2,
@@ -8823,7 +8823,7 @@
     "correct": 3,
     "explanation": "✅ Richtig: Ein API-Key ist ein geheimer Schlüssel, der im Header übertragen wird.",
     "xp": 15,
-    "tags": ["woche9", "offiziell"]
+    "tags": ["woche8", "offiziell"]
   },
   {
     "difficulty": 2,
@@ -8833,7 +8833,7 @@
     "correct": 2,
     "explanation": "✅ Richtig: csrf.disable() deaktiviert den CSRF-Schutz.",
     "xp": 15,
-    "tags": ["woche9", "offiziell"]
+    "tags": ["woche8", "offiziell"]
   },
   {
     "difficulty": 1,
@@ -8843,7 +8843,7 @@
     "correct": 2,
     "explanation": "✅ Richtig: Basic Authentication nutzt den Authorization-Header mit dem Präfix 'Basic'.",
     "xp": 10,
-    "tags": ["woche9", "offiziell"]
+    "tags": ["woche8", "offiziell"]
   },
   {
     "difficulty": 1,
@@ -8853,7 +8853,7 @@
     "correct": 1,
     "explanation": "✅ Richtig: PUT-Requests benötigen keinen Location-Header, da die Ressource bereits bekannt ist.",
     "xp": 10,
-    "tags": ["woche9", "offiziell"]
+    "tags": ["woche8", "offiziell"]
   },
   {
     "difficulty": 2,
@@ -8868,7 +8868,7 @@
     "correct": 2,
     "explanation": "✅ Richtig: Ein Middleware Service bündelt Sicherheitsfunktionen und fungiert als Vermittler.",
     "xp": 15,
-    "tags": ["woche9", "offiziell"]
+    "tags": ["woche8", "offiziell"]
   },
   {
     "difficulty": 2,
@@ -8883,7 +8883,7 @@
     "correct": 3,
     "explanation": "✅ Richtig: User Stories folgen dem Format 'Als [Rolle] möchte ich [Funktion], sodass [Nutzen]'.",
     "xp": 15,
-    "tags": ["woche9", "offiziell"]
+    "tags": ["woche8", "offiziell"]
   },
   {
     "difficulty": 1,
@@ -8893,17 +8893,17 @@
     "correct": 0,
     "explanation": "✅ Richtig: 401 Unauthorized wird zurückgegeben, wenn Auth-Daten fehlen.",
     "xp": 10,
-    "tags": ["woche9", "offiziell"]
+    "tags": ["woche8", "offiziell"]
   },
   {
     "difficulty": 1,
     "type": "multiple",
     "question": "Muss jede Ressource mindestens einen self-Link enthalten?",
     "options": ["Wahr", "Falsch"],
-    "correct": 1,
-    "explanation": "✅ Richtig: Self-Links sind optional und nicht zwingend erforderlich.",
+    "correct": 0,
+    "explanation": "✅ Richtig: Nach REST/HATEOAS-Best-Practices sollte jede Ressource einen self-Link haben.",
     "xp": 10,
-    "tags": ["woche9", "offiziell"]
+    "tags": ["woche8", "offiziell"]
   },
   {
     "difficulty": 1,
@@ -8913,7 +8913,7 @@
     "correct": 1,
     "explanation": "✅ Richtig: Fehlerresponses müssen nicht zwingend einen Body enthalten.",
     "xp": 10,
-    "tags": ["woche9", "offiziell"]
+    "tags": ["woche8", "offiziell"]
   },
   {
     "difficulty": 2,
@@ -8928,6 +8928,6 @@
     "correct": 1,
     "explanation": "✅ Richtig: Base64 ist keine Verschlüsselung – das ist das Hauptproblem von Basic Auth.",
     "xp": 15,
-    "tags": ["woche9", "offiziell"]
+    "tags": ["woche8", "offiziell"]
   }
 ]
