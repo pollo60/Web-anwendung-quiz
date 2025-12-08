@@ -8929,5 +8929,165 @@
     "explanation": "✅ Richtig: Base64 ist keine Verschlüsselung – das ist das Hauptproblem von Basic Auth.",
     "xp": 15,
     "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wofür steht Basic Authentication?",
+    "options": [
+      "OAuth 2.0",
+      "Zertifikatsbasierte Authentifizierung",
+      "Token-basierte Sicherheit",
+      "Einfache Übertragung von Benutzername/Passwort"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: Basic Authentication ist die einfache Methode, Credentials zu übertragen.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Ist es sinnvoll, Nutzdaten im Body statt in der URL zu senden?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Body ist für Nutzdaten besser geeignet als die URL.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welcher Statuscode bei fehlendem API-Key?",
+    "options": ["200", "401", "302", "404"],
+    "correct": 1,
+    "explanation": "✅ Richtig: 401 Unauthorized wird zurückgegeben, wenn Auth-Daten fehlen.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Klasse ruft den ChatService auf?",
+    "options": ["RestTemplate", "HttpServer", "HttpClient", "WebClient"],
+    "correct": 1,
+    "explanation": "✅ Richtig: HttpServer ist die Klasse, die den ChatService aufruft.",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Methode aktiviert BasicAuth?",
+    "options": ["formLogin", "httpBasic", "oauth2", "saml2"],
+    "correct": 1,
+    "explanation": "✅ Richtig: httpBasic() aktiviert die Basic Authentication in Spring Security.",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was bedeutet sessionCreationPolicy(STATELESS)?",
+    "options": ["Tokens generieren", "Cookies nutzen", "Sessions bei Bedarf", "Keine Sessions"],
+    "correct": 3,
+    "explanation": "✅ Richtig: STATELESS bedeutet, dass keine Sessions erstellt werden.",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche HTTP-Methode wird genutzt, um einen neuen Chat-Raum zu erstellen?",
+    "options": ["DELETE", "PUT", "GET", "POST"],
+    "correct": 3,
+    "explanation": "✅ Richtig: POST wird verwendet, um neue Ressourcen zu erstellen.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Sind Nachrichten (/messages) eine sekundäre Sammlung?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: /messages ist eine sekundäre Sammlung unterhalb einer übergeordneten Ressource.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Löst ein leerer Parameter bei POST /users einen 422 aus?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: 422 Unprocessable Entity wird zurückgegeben, wenn Parameter logisch falsch sind.",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Darf ein GET-Request den Zustand auf dem Server verändern?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: GET-Requests sollten idempotent sein und keine Änderungen verursachen.",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was macht der AuthenticationFilter?",
+    "options": ["JSON", "API-Key prüfen", "Cookies generieren", "HTML"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Der AuthenticationFilter validiert die Authentifizierung (z.B. API-Key).",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Darf GET /users den Status 204 liefern, wenn keine User existieren?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: GET sollte 200 mit leerem Array oder 404 zurückgeben, nicht 204.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Darf eine Sammlerressource vollständige Detailinformationen enthalten?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Sammlerressourcen enthalten normalerweise nur Zusammenfassungen, nicht alle Details.",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Muss jede REST-API zwingend HATEOAS verwenden?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Richtig: HATEOAS ist optional und nicht zwingend erforderlich.",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Warum wird ein Proxy genutzt?",
+    "options": [
+      "Um CSS schneller zu laden",
+      "Für Sicherheitslagen",
+      "Zum Aufräumen des Servers",
+      "Um CORS-Probleme zu vermeiden"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: Ein Proxy kann CORS-Probleme umgehen, indem er als Vermittler fungiert.",
+    "xp": 15,
+    "tags": ["woche8", "offiziell"]
   }
 ]
