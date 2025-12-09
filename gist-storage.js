@@ -241,10 +241,34 @@
     
     const remoteProgress = await loadProgress(name);
     if (remoteProgress) {
-      // Bei User-Switch: Remote-Daten ÜBERSCHREIBEN lokale (kein Merge mit Math.max)
-      window.STATE.xp = remoteProgress.xp || 0;
-      window.STATE.level = remoteProgress.level || 1;
-      window.STATE.lifetimeXP = remoteProgress.lifetimeXP || 0;
+      const localProgress = {
+        xp: Number(window.STATE.xp) || 0,
+        level: Number(window.STATE.level) || 1,
+        lifetimeXP: Number(window.STATE.lifetimeXP) || 0
+      };
+      const mergedProgress = {
+        xp: Math.max(localProgress.xp, Number(remoteProgress.xp) || 0),
+        level: Math.max(localProgress.level, Number(remoteProgress.level) || 1),
+        lifetimeXP: Math.max(localProgress.lifetimeXP, Number(remoteProgress.lifetimeXP) || 0)
+      };
+
+      // Avoid regressions when the remote entry is stale
+      log('initForUser: merge local/remote', JSON.stringify({ local: localProgress, remote: remoteProgress, merged: mergedProgress }));
+
+      const needsPush = (
+        mergedProgress.xp > (Number(remoteProgress.xp) || 0) ||
+        mergedProgress.level > (Number(remoteProgress.level) || 1) ||
+        mergedProgress.lifetimeXP > (Number(remoteProgress.lifetimeXP) || 0)
+      );
+
+      justLoadedRemote = true;
+      window.STATE.xp = mergedProgress.xp;
+      window.STATE.level = mergedProgress.level;
+      window.STATE.lifetimeXP = mergedProgress.lifetimeXP;
+      setTimeout(() => {
+        justLoadedRemote = false;
+        if (needsPush) syncProgress(name); // push newer local data back up
+      }, 250);
       // Falls eine gespeicherte Bestenliste vorhanden ist, lade sie (ersetze lokal)
       if (remoteProgress.leaderboard) {
         try {

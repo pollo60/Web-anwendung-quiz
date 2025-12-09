@@ -594,8 +594,37 @@
                 );
             }
             
-            // Shuffle and take count
-            return shuffleArray(questions).slice(0, Math.min(count, questions.length));
+            // Shuffle and select: use rotation for fair distribution across all quizzes
+            // Initialize rotation state if not present
+            if (!STATE.questionRotation) {
+                STATE.questionRotation = {};
+            }
+            
+            const rotationKey = [level, difficulty, weekFilters.join(','), modifiers.join(',')].join('|');
+            if (!STATE.questionRotation[rotationKey]) {
+                STATE.questionRotation[rotationKey] = 0;
+            }
+            
+            // For "all questions" mode or large count: use rotation to ensure fair distribution
+            // Otherwise: simple shuffle
+            if (count >= questions.length || count > 50) {
+                // Rotation mode: cycle through all questions evenly
+                const result = [];
+                const totalNeeded = Math.min(count, questions.length);
+                
+                for (let i = 0; i < totalNeeded; i++) {
+                    const idx = (STATE.questionRotation[rotationKey] + i) % questions.length;
+                    result.push(questions[idx]);
+                }
+                
+                // Update rotation pointer for next time
+                STATE.questionRotation[rotationKey] = (STATE.questionRotation[rotationKey] + totalNeeded) % questions.length;
+                
+                return result;
+            } else {
+                // Standard mode: shuffle randomly
+                return shuffleArray(questions).slice(0, Math.min(count, questions.length));
+            }
         }
 
         // ============================================================================
