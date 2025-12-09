@@ -9129,5 +9129,15 @@
     "explanation": "✅ Richtig: Erfolgreiche DELETE-Responses (z.B. 204) sollten keinen Body enthalten.",
     "xp": 10,
     "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Klasse gehört zum Datenmodell?",
+    "options": ["HttpHeaders", "Controller", "Message", "RequestMapping"],
+    "correct": 2,
+    "explanation": "✅ Richtig: Message ist eine Domainmodell-Klasse, die Daten repräsentiert.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
   }
 ]
