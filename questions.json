@@ -9139,5 +9139,25 @@
     "explanation": "✅ Richtig: Message ist eine Domainmodell-Klasse, die Daten repräsentiert.",
     "xp": 10,
     "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Können Sammlungen per Paging (?page=1) abgefragt werden?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Paging-Parameter ermöglichen das Abrufen von Sammlungen in Seiten.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Werden Ressourcen in REST immer mit Substantiven bezeichnet?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: REST-Ressourcen sollten mit Substantiven (Nouns) bezeichnet werden, nicht mit Verben.",
+    "xp": 10,
+    "tags": ["woche8", "offiziell"]
   }
 ]
