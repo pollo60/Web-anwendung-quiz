@@ -9159,5 +9159,318 @@
     "explanation": "✅ Richtig: REST-Ressourcen sollten mit Substantiven (Nouns) bezeichnet werden, nicht mit Verben.",
     "xp": 10,
     "tags": ["woche8", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Angular ist ein Framework für die Entwicklung von Single-Page-Applikationen (SPA)",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Angular ist eines der populärsten Frameworks für SPAs und wird weltweit eingesetzt.",
+    "xp": 10,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Programmiersprache nutzt Angular?",
+    "options": ["JavaScript", "TypeScript", "Java", "Python"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Angular nutzt TypeScript als Programmiersprache.",
+    "xp": 10,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Angular 2 war ursprünglich eine Weiterentwicklung von AngularJS",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Falsch: Angular 2 war kein Update, sondern ein eigenständiges Framework mit klarer Unterscheidung von AngularJS.",
+    "xp": 15,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist die Angular CLI?",
+    "options": [
+      "Ein Code-Editor",
+      "Ein Commandline Interface zum Generieren und Verwalten von Angular-Projekten",
+      "Eine Datenbank",
+      "Ein Testing-Framework"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Die Angular CLI generiert Projektstrukturen, Komponenten und konfiguriert Build-Tools.",
+    "xp": 12,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "fillblank",
+    "question": "Der Befehl ___ erstellt eine neue Angular-Anwendung.",
+    "correct": "ng new",
+    "explanation": "✅ Richtig: 'ng new <App-Name>' generiert die Grundstruktur einer Angular-Anwendung.",
+    "xp": 15,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welcher Schalter deaktiviert das Routing beim Erstellen einer Angular-App?",
+    "options": ["--no-routing", "--routing=false", "--skip-routing", "--disable-routing"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Der Schalter --routing=false deaktiviert das Routing beim Projektsetup.",
+    "xp": 12,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Der Befehl 'ng serve' startet die Anwendung standardmäßig auf welchem Port?",
+    "options": ["3000", "8080", "4200", "5000"],
+    "correct": 2,
+    "explanation": "✅ Richtig: Angular-Anwendungen laufen standardmäßig auf Port 4200.",
+    "xp": 15,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "fillblank",
+    "question": "Der Ordner ___ enthält alle Quellcodedateien einer Angular-Anwendung.",
+    "correct": "src",
+    "explanation": "✅ Richtig: Der 'src/'-Ordner beinhaltet TypeScript-, HTML- und CSS-Dateien.",
+    "xp": 10,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Datei ist der Einstiegspunkt einer Angular-Anwendung?",
+    "options": ["index.html", "app.component.ts", "main.ts", "angular.json"],
+    "correct": 2,
+    "explanation": "✅ Richtig: main.ts wird beim Programmstart zuerst ausgeführt und bootstrapped die Anwendung.",
+    "xp": 15,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Der Befehl 'npm install' installiert alle Abhängigkeiten aus welcher Datei?",
+    "options": ["angular.json", "tsconfig.json", "package.json", "index.html"],
+    "correct": 2,
+    "explanation": "✅ Richtig: package.json referenziert alle benötigten Bibliotheken und deren Versionen.",
+    "xp": 12,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was kennzeichnet der @Component-Dekorator in Angular?",
+    "options": [
+      "Eine Service-Klasse",
+      "Ein Angular-Modul",
+      "Eine Komponente mit Metadaten (selector, template, styles)",
+      "Eine Routing-Konfiguration"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: @Component definiert Metadaten wie Selektor, Template und Styles für eine Komponente.",
+    "xp": 15,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "fillblank",
+    "question": "Die doppelten geschweiften Klammern {{ }} definieren eine ___.",
+    "correct": "Datenbindung",
+    "explanation": "✅ Richtig: {{ }} binden Eigenschaften aus der Komponente an das Template (Interpolation).",
+    "xp": 12,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welches Interface gibt die Methode ngOnInit() vor?",
+    "options": ["OnDestroy", "OnInit", "AfterViewInit", "OnChanges"],
+    "correct": 1,
+    "explanation": "✅ Richtig: Das OnInit-Interface definiert ngOnInit(), die nach der Initialisierung aufgerufen wird.",
+    "xp": 15,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Der Befehl 'ng generate component <name>' erstellt eine neue Komponente",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Wahr: 'ng generate component' (oder 'ng g c') generiert eine neue Komponente mit allen Dateien.",
+    "xp": 10,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Klasse ermöglicht HTTP-Zugriffe in Angular?",
+    "options": ["HttpService", "RestClient", "HttpClient", "ApiService"],
+    "correct": 2,
+    "explanation": "✅ Richtig: HttpClient stellt Methoden für GET, POST, PUT, DELETE etc. bereit.",
+    "xp": 15,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "fillblank",
+    "question": "Um HttpClient zu nutzen, muss ___ in das Modul importiert werden.",
+    "correct": "provideHttpClient",
+    "explanation": "✅ Richtig: provideHttpClient() muss in den providers des AppModules registriert werden.",
+    "xp": 15,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "HTTP-Aufrufe in Angular sind asynchron",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Wahr: HTTP-Aufrufe laufen im Hintergrund; Callbacks (next, error) werden bei Abschluss ausgeführt.",
+    "xp": 12,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Direktive ermöglicht Two-Way-Binding in Angular?",
+    "options": ["ngModel", "ngBind", "ngTwoWay", "ngSync"],
+    "correct": 0,
+    "explanation": "✅ Richtig: ngModel synchronisiert Eingabefelder mit Komponenteneigenschaften (benötigt FormsModule).",
+    "xp": 15,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "fillblank",
+    "question": "Die Direktive ___ zeigt HTML-Elemente bedingt an oder aus.",
+    "correct": "ngIf",
+    "explanation": "✅ Richtig: *ngIf ist eine strukturale Direktive zum dynamischen Ein-/Ausblenden von Elementen.",
+    "xp": 12,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Direktive wird für das Durchlaufen von Arrays verwendet?",
+    "options": ["ngRepeat", "ngLoop", "ngFor", "ngIterate"],
+    "correct": 2,
+    "explanation": "✅ Richtig: *ngFor erzeugt wiederholte Darstellungen für jedes Element einer Liste.",
+    "xp": 15,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Event-Bindings in Angular nutzen runde Klammern, z.B. (click)",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Wahr: (click)='method()' bindet ein Event an eine Komponentenmethode.",
+    "xp": 12,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Property-Binding in Angular nutzt welche Syntax?",
+    "options": ["(property)", "[property]", "{{property}}", "{property}"],
+    "correct": 1,
+    "explanation": "✅ Richtig: [property]='value' bindet Komponentendaten an DOM-Eigenschaften.",
+    "xp": 15,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Bootstrap kann in Angular über npm installiert werden",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Wahr: 'npm install bootstrap' fügt Bootstrap dem Projekt hinzu; Konfiguration erfolgt in angular.json.",
+    "xp": 10,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "fillblank",
+    "question": "Die Datei ___ konfiguriert das Verhalten der Angular CLI und referenziert globale Styles/Skripte.",
+    "correct": "angular.json",
+    "explanation": "✅ Richtig: angular.json steuert Build-Optionen, Assets, Styles und Scripts.",
+    "xp": 15,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Der Befehl 'ng build --configuration production' erstellt Bundles für welchen Einsatz?",
+    "options": ["Entwicklung", "Testing", "Produktiveinsatz", "Debugging"],
+    "correct": 2,
+    "explanation": "✅ Richtig: Production-Builds erzeugen optimierte Bundles im dist/-Ordner für den Produktivserver.",
+    "xp": 15,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Angular Module gruppieren zusammengehörige Komponenten und Services",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Wahr: Module (z.B. AppModule) strukturieren die Anwendung durch Gruppierung von Bausteinen.",
+    "xp": 10,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Eigenschaft im @NgModule-Dekorator verweist auf Startkomponenten?",
+    "options": ["declarations", "imports", "bootstrap", "providers"],
+    "correct": 2,
+    "explanation": "✅ Richtig: 'bootstrap' definiert die Root-Component(s), die beim Start erstellt werden.",
+    "xp": 15,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "text",
+    "question": "Was ist CORS und warum ist es bei der Entwicklung von Angular-Anwendungen relevant?",
+    "correct": "Cross Origin Resource Sharing",
+    "explanation": "✅ Richtig: CORS verhindert das Laden von Ressourcen aus anderen Quellen; ein Proxy (proxy.conf.json) umgeht dies in der Entwicklung.",
+    "xp": 20,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Die Datei proxy.conf.json wird genutzt, um CORS-Probleme während der Entwicklung zu umgehen",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Wahr: proxy.conf.json leitet API-Anfragen an ein Backend weiter und vermeidet CORS-Fehler.",
+    "xp": 12,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welches Modul muss importiert werden, um ngModel zu verwenden?",
+    "options": ["HttpClientModule", "FormsModule", "CommonModule", "RouterModule"],
+    "correct": 1,
+    "explanation": "✅ Richtig: FormsModule stellt ngModel und andere formularspezifische Direktiven bereit.",
+    "xp": 15,
+    "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Interfaces in TypeScript definieren nur die Struktur von Objekten, ohne Logik",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Wahr: Interfaces deklarieren Attribute und deren Typen (z.B. User, Message, Room) ohne Implementierung.",
+    "xp": 10,
+    "tags": ["woche9", "uebung"]
   }
 ]
