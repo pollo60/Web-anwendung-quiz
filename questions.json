@@ -9697,5 +9697,70 @@
     "explanation": "✅ Richtig: Eine Angular-Komponente ist eine Einheit aus HTML-Template, TypeScript-Logik und CSS-Styles.",
     "xp": 10,
     "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Muss jede Komponente manuell im HTML verlinkt werden?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "❌ Falsch: Angular-Komponenten werden automatisch über Module registriert und müssen nicht manuell im HTML verlinkt werden. Sie können als Custom-Elements verwendet werden.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was kennzeichnet eine SPA (Single Page Application)?",
+    "options": [
+      "Die gesamte Anwendung besteht aus einer einzelnen HTML-Datei",
+      "JavaScript wird blockiert und deaktiviert",
+      "Inhalte werden dynamisch nachgeladen, ohne die Seite zu neuladen",
+      "Es werden klassische serverseitige Templates verwendet"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: Eine SPA lädt Inhalte dynamisch nach (oft per AJAX/HTTP-Requests), ohne dass der Benutzer die gesamte Seite neu laden muss. Die Anwendung läuft im Browser.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wozu dienen Hooks in Angular?",
+    "options": [
+      "Zum Speichern von Komponenten-Zuständen",
+      "Zur Filterung von HTTP-Requests",
+      "Zur Reaktion auf Lebenszyklus-Phasen einer Komponente",
+      "Zum Verschlüsseln von Passwörtern"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: Hooks (wie ngOnInit, ngOnDestroy) ermöglichen es, auf verschiedene Phasen des Komponenten-Lebenszyklus zu reagieren.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Ermöglicht das Angular Router-Modul Navigation zwischen Komponenten?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Wahr: Das Angular Router-Modul ermöglicht die Navigation zwischen Komponenten basierend auf URL-Routes.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist der Zweck der Angular CLI?",
+    "options": [
+      "Projektgenerierung, Builds und Development-Tools",
+      "Datenbankverbindungen verwalten",
+      "CSS-Styling durchführen",
+      "Test-Reports visualisieren"
+    ],
+    "correct": 0,
+    "explanation": "✅ Richtig: Die Angular CLI bietet Tools für Projektgenerierung, Entwicklung, Builds und Testing von Angular-Anwendungen.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
   }
 ]
