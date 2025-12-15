@@ -9762,5 +9762,85 @@
     "explanation": "✅ Richtig: Die Angular CLI bietet Tools für Projektgenerierung, Entwicklung, Builds und Testing von Angular-Anwendungen.",
     "xp": 10,
     "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wie werden Services verfügbar gemacht?",
+    "options": [
+      "Über ngClass",
+      "Über Static Imports",
+      "Über Provider",
+      "Über DOM-Events"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: Services werden über Provider (in Module oder Components) registriert, um sie der Anwendung verfügbar zu machen.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wozu dient ein Template?",
+    "options": [
+      "Mit ihrer Portnummer",
+      "Mit ihrer IP-Adresse",
+      "Mit einem Selector",
+      "Mit der Reihenfolge im Projektordner"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: Ein Template definiert die View einer Komponente und wird über einen Selector (z.B. <app-component>) in die Anwendung eingebunden.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wozu dient ngFor?",
+    "options": [
+      "Routing ersetzen",
+      "Compiler steuern",
+      "CSS-Klassen erzeugen",
+      "Listen iterieren"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: ngFor ist eine Angular-Direktive zur Iteration über Arrays und Listen, ähnlich wie eine for-Schleife in der View.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist ein Angular-Modul?",
+    "options": [
+      "FormsModule",
+      "RoomModule",
+      "BrowserAnimationsModule",
+      "RootModule (AppModule)"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: Das RootModule (AppModule) ist das Hauptmodul einer Angular-Anwendung, in dem andere Module und Komponenten registriert werden.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wird Routing automatisch aktiviert?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "❌ Falsch: Routing muss explizit in der Anwendung konfiguriert werden, z.B. durch Import von RouterModule und Definition von Routes.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Kann Angular ohne TypeScript verwendet werden?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "❌ Falsch: Angular ist auf TypeScript angewiesen. TypeScript wird in Angular zur Typsicherheit und zur Struktur des Codes verwendet.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
   }
 ]
