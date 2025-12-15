@@ -29,6 +29,7 @@
   
   let sharedGistId = GIST_ID;
   let currentUserName = null; // Trackt aktiven Nutzer, um Überschreibungen zu vermeiden
+  const sessionCache = {}; // Merkt pro Session den letzten bekannten Stand pro Nutzer
   // Setze die richtige Gist-ID im localStorage
   if (GIST_ID) localStorage.setItem('sharedGistId', GIST_ID);
   let syncInProgress = false;
@@ -41,6 +42,20 @@
       gemischt: [],
       offiziell: []
     };
+  }
+
+  function cacheProgress(name, progress) {
+    if (!name) return;
+    sessionCache[name] = {
+      xp: Number(progress.xp) || 0,
+      level: Number(progress.level) || 1,
+      lifetimeXP: Number(progress.lifetimeXP) || 0,
+      leaderboard: progress.leaderboard || createEmptyLeaderboard()
+    };
+  }
+
+  function getCachedProgress(name) {
+    return sessionCache[name] || null;
   }
 
   // In-memory debug log for easy copy/paste from console
@@ -253,14 +268,35 @@
     currentUserName = name;
 
     const remoteProgress = await loadProgress(name);
-    const fallbackProgress = remoteProgress || { xp: 0, level: 1, lifetimeXP: 0, leaderboard: createEmptyLeaderboard() };
+    const cachedProgress = getCachedProgress(name);
+
+    const combinedProgress = {
+      xp: Math.max(Number(remoteProgress && remoteProgress.xp) || 0, Number(cachedProgress && cachedProgress.xp) || 0),
+      level: Math.max(Number(remoteProgress && remoteProgress.level) || 1, Number(cachedProgress && cachedProgress.level) || 1),
+      lifetimeXP: Math.max(Number(remoteProgress && remoteProgress.lifetimeXP) || 0, Number(cachedProgress && cachedProgress.lifetimeXP) || 0),
+      leaderboard: (remoteProgress && remoteProgress.leaderboard) || (cachedProgress && cachedProgress.leaderboard) || createEmptyLeaderboard()
+    };
+
+    // Wenn gar nichts da ist: Standardwerte setzen
+    if (!remoteProgress && !cachedProgress) {
+      window.STATE.xp = 0;
+      window.STATE.level = 1;
+      window.STATE.lifetimeXP = 0;
+      window.STATE.leaderboard = createEmptyLeaderboard();
+      cacheProgress(name, window.STATE);
+      if (typeof window.displayStartLeaderboard === 'function') window.displayStartLeaderboard();
+      if (typeof window.updateXPDisplay === 'function') window.updateXPDisplay();
+      log('Fortschritt gesetzt (neu): Level', window.STATE.level, 'XP', window.STATE.xp, 'Lifetime', window.STATE.lifetimeXP);
+      return;
+    }
 
     // Wenn der Nutzer gewechselt wird, niemals mit dem vorherigen STATE mergen
     if (isSwitchingUser) {
-      window.STATE.xp = Number(fallbackProgress.xp) || 0;
-      window.STATE.level = Number(fallbackProgress.level) || 1;
-      window.STATE.lifetimeXP = Number(fallbackProgress.lifetimeXP) || 0;
-      window.STATE.leaderboard = fallbackProgress.leaderboard || createEmptyLeaderboard();
+      window.STATE.xp = combinedProgress.xp;
+      window.STATE.level = combinedProgress.level;
+      window.STATE.lifetimeXP = combinedProgress.lifetimeXP;
+      window.STATE.leaderboard = combinedProgress.leaderboard;
+      cacheProgress(name, { xp: window.STATE.xp, level: window.STATE.level, lifetimeXP: window.STATE.lifetimeXP, leaderboard: window.STATE.leaderboard });
 
       justLoadedRemote = true;
       if (typeof window.displayStartLeaderboard === 'function') window.displayStartLeaderboard();
@@ -274,59 +310,59 @@
       return;
     }
 
-    if (remoteProgress) {
-      const localProgress = {
-        xp: Number(window.STATE.xp) || 0,
-        level: Number(window.STATE.level) || 1,
-        lifetimeXP: Number(window.STATE.lifetimeXP) || 0
-      };
-      const mergedProgress = {
-        xp: Math.max(localProgress.xp, Number(remoteProgress.xp) || 0),
-        level: Math.max(localProgress.level, Number(remoteProgress.level) || 1),
-        lifetimeXP: Math.max(localProgress.lifetimeXP, Number(remoteProgress.lifetimeXP) || 0)
-      };
+    const localProgress = {
+      xp: Number(window.STATE.xp) || 0,
+      level: Number(window.STATE.level) || 1,
+      lifetimeXP: Number(window.STATE.lifetimeXP) || 0
+    };
+    const mergedProgress = {
+      xp: Math.max(localProgress.xp, combinedProgress.xp),
+      level: Math.max(localProgress.level, combinedProgress.level),
+      lifetimeXP: Math.max(localProgress.lifetimeXP, combinedProgress.lifetimeXP)
+    };
 
-      // Avoid regressions when the remote entry is stale
-      log('initForUser: merge local/remote', JSON.stringify({ local: localProgress, remote: remoteProgress, merged: mergedProgress }));
+    // Avoid regressions when the remote entry is stale
+    log('initForUser: merge local/combined', JSON.stringify({ local: localProgress, combined: combinedProgress, merged: mergedProgress }));
 
-      const needsPush = (
-        mergedProgress.xp > (Number(remoteProgress.xp) || 0) ||
-        mergedProgress.level > (Number(remoteProgress.level) || 1) ||
-        mergedProgress.lifetimeXP > (Number(remoteProgress.lifetimeXP) || 0)
-      );
+    const needsPush = (
+      mergedProgress.xp > combinedProgress.xp ||
+      mergedProgress.level > combinedProgress.level ||
+      mergedProgress.lifetimeXP > combinedProgress.lifetimeXP
+    );
 
-      justLoadedRemote = true;
-      window.STATE.xp = mergedProgress.xp;
-      window.STATE.level = mergedProgress.level;
-      window.STATE.lifetimeXP = mergedProgress.lifetimeXP;
-      setTimeout(() => {
-        justLoadedRemote = false;
-        if (needsPush) syncProgress(name); // push newer local data back up
-      }, 250);
-      // Falls eine gespeicherte Bestenliste vorhanden ist, lade sie (ersetze lokal)
-      if (remoteProgress.leaderboard) {
-        try {
-          log('initForUser: Remote leaderboard keys:', Object.keys(remoteProgress.leaderboard || {}));
-          window.STATE.leaderboard = remoteProgress.leaderboard;
-          if (typeof window.displayStartLeaderboard === 'function') {
-            window.displayStartLeaderboard();
-          }
-        } catch (e) {
-          logErr('Fehler beim Laden der Remote-Bestenliste:', e && e.message ? e.message : e);
+    justLoadedRemote = true;
+    window.STATE.xp = mergedProgress.xp;
+    window.STATE.level = mergedProgress.level;
+    window.STATE.lifetimeXP = mergedProgress.lifetimeXP;
+    window.STATE.leaderboard = combinedProgress.leaderboard;
+    cacheProgress(name, { ...mergedProgress, leaderboard: window.STATE.leaderboard });
+    setTimeout(() => {
+      justLoadedRemote = false;
+      if (needsPush) syncProgress(name); // push newer local data back up
+    }, 250);
+
+    // Bestehende Bestenliste anzeigen
+    if (window.STATE.leaderboard) {
+      try {
+        log('initForUser: Leaderboard keys:', Object.keys(window.STATE.leaderboard || {}));
+        if (typeof window.displayStartLeaderboard === 'function') {
+          window.displayStartLeaderboard();
         }
+      } catch (e) {
+        logErr('Fehler beim Laden der Remote-Bestenliste:', e && e.message ? e.message : e);
       }
-      
-      log('Fortschritt gemergt: Level', window.STATE.level, 'XP', window.STATE.xp, 'Lifetime', window.STATE.lifetimeXP);
-      
-      // Versuche, das UI zu aktualisieren (setze Flag um unnötiges Save zu verhindern)
-      justLoadedRemote = true;
-      if (typeof window.updateXPDisplay === 'function') {
-        window.updateXPDisplay();
-      } else if (typeof window.saveProgress === 'function') {
-        window.saveProgress();
-      }
-      setTimeout(() => { justLoadedRemote = false; }, 500);
     }
+    
+    log('Fortschritt gemergt: Level', window.STATE.level, 'XP', window.STATE.xp, 'Lifetime', window.STATE.lifetimeXP);
+    
+    // Versuche, das UI zu aktualisieren (setze Flag um unnötiges Save zu verhindern)
+    justLoadedRemote = true;
+    if (typeof window.updateXPDisplay === 'function') {
+      window.updateXPDisplay();
+    } else if (typeof window.saveProgress === 'function') {
+      window.saveProgress();
+    }
+    setTimeout(() => { justLoadedRemote = false; }, 500);
   }
 
   async function syncProgress(name) {
@@ -335,9 +371,11 @@
     const progress = {
       xp: window.STATE.xp || 0,
       level: window.STATE.level || 1,
-      lifetimeXP: window.STATE.lifetimeXP || 0
+      lifetimeXP: window.STATE.lifetimeXP || 0,
+      leaderboard: window.STATE.leaderboard || createEmptyLeaderboard()
     };
 
+    cacheProgress(name, progress);
     await saveProgress(name, progress);
   }
 
