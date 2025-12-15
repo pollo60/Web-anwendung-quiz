@@ -28,10 +28,20 @@
   const GIST_ID = '493c002f12b1a4a0f1a18b167967cc00'; // Feste Gist-ID
   
   let sharedGistId = GIST_ID;
+  let currentUserName = null; // Trackt aktiven Nutzer, um Überschreibungen zu vermeiden
   // Setze die richtige Gist-ID im localStorage
   if (GIST_ID) localStorage.setItem('sharedGistId', GIST_ID);
   let syncInProgress = false;
   let justLoadedRemote = false; // Flag um Save direkt nach Load zu verhindern
+
+  function createEmptyLeaderboard() {
+    return {
+      uebung: [],
+      'vorlesung-offiziell': [],
+      gemischt: [],
+      offiziell: []
+    };
+  }
 
   // In-memory debug log for easy copy/paste from console
   window.__gistLogs = window.__gistLogs || [];
@@ -239,7 +249,31 @@
   async function initForUser(name) {
     if (!name.trim() || !window.STATE) return;
     
+    const isSwitchingUser = currentUserName && currentUserName !== name;
+    currentUserName = name;
+
     const remoteProgress = await loadProgress(name);
+    const fallbackProgress = remoteProgress || { xp: 0, level: 1, lifetimeXP: 0, leaderboard: createEmptyLeaderboard() };
+
+    // Wenn der Nutzer gewechselt wird, niemals mit dem vorherigen STATE mergen
+    if (isSwitchingUser) {
+      window.STATE.xp = Number(fallbackProgress.xp) || 0;
+      window.STATE.level = Number(fallbackProgress.level) || 1;
+      window.STATE.lifetimeXP = Number(fallbackProgress.lifetimeXP) || 0;
+      window.STATE.leaderboard = fallbackProgress.leaderboard || createEmptyLeaderboard();
+
+      justLoadedRemote = true;
+      if (typeof window.displayStartLeaderboard === 'function') window.displayStartLeaderboard();
+      if (typeof window.updateXPDisplay === 'function') {
+        window.updateXPDisplay();
+      } else if (typeof window.saveProgress === 'function') {
+        window.saveProgress();
+      }
+      setTimeout(() => { justLoadedRemote = false; }, 500);
+      log('Fortschritt gesetzt (Benutzerwechsel): Level', window.STATE.level, 'XP', window.STATE.xp, 'Lifetime', window.STATE.lifetimeXP);
+      return;
+    }
+
     if (remoteProgress) {
       const localProgress = {
         xp: Number(window.STATE.xp) || 0,
@@ -401,11 +435,7 @@
 
           if (!existing) {
             log('Neuer Benutzer, erstelle initialen Eintrag...');
-            const payload = {
-              xp: (window.STATE && typeof window.STATE.xp === 'number') ? window.STATE.xp : 0,
-              level: (window.STATE && typeof window.STATE.level === 'number') ? window.STATE.level : 1,
-              lifetimeXP: (window.STATE && typeof window.STATE.lifetimeXP === 'number') ? window.STATE.lifetimeXP : 0
-            };
+            const payload = { xp: 0, level: 1, lifetimeXP: 0 };
             log('Initial payload:', payload);
             await saveProgress(name, payload);
           }
