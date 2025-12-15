@@ -9472,5 +9472,230 @@
     "explanation": "✅ Wahr: Interfaces deklarieren Attribute und deren Typen (z.B. User, Message, Room) ohne Implementierung.",
     "xp": 10,
     "tags": ["woche9", "uebung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wozu dienen Services?",
+    "options": [
+      "a. Für Layoutgestaltung",
+      "b. Für CSS-Animationen",
+      "c. Für Datenlogik & Wiederverwendbarkeit",
+      "d. Für HTML-Kommentare"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: Services bieten Datenlogik und sind wiederverwendbar über mehrere Komponenten hinweg.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welcher Datentyp ist typisch für API-Antworten?",
+    "options": ["a. MP3", "b. WAV", "c. PNG", "d. JSON"],
+    "correct": 3,
+    "explanation": "✅ Richtig: JSON ist das Standardformat für API-Antworten.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was bedeutet Production Build?",
+    "options": [
+      "a. Debugging wird aktiviert",
+      "b. Optimierter Build für Deployment",
+      "c. CSS wird deaktiviert",
+      "d. Code wird unformatiert gespeichert"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Production Build ist ein optimierter Build, der für Deployment in der Produktivumgebung gedacht ist.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Besteht jede Angular-Komponente mindestens aus HTML, TS und CSS?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Wahr: Eine vollständige Angular-Komponente hat typischerweise eine HTML-Template, eine TypeScript-Datei und eine CSS-Datei.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Sprache verwendet Angular hauptsächlich?",
+    "options": ["a. C++", "b. Java", "c. Python", "d. TypeScript"],
+    "correct": 3,
+    "explanation": "✅ Richtig: Angular verwendet hauptsächlich TypeScript.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Befehl zum Erstellen eines neuen Projekts",
+    "options": ["a. ng create project", "b. ngm start angular", "c. ng make app", "d. ng new app"],
+    "correct": 3,
+    "explanation": "✅ Richtig: Der Befehl 'ng new app' erstellt ein neues Angular-Projekt.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was macht ngIf?",
+    "options": [
+      "a. CSS-Bedingungen schreiben",
+      "b. TypeScript ersetzen",
+      "c. Angular Module erstellen",
+      "d. Bedingtes Anzeigen von HTML"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: ngIf ist eine strukturelle Direktive, die HTML-Elemente bedingt anzeigt oder versteckt.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welcher Hook startet nach Erstellen der Komponente?",
+    "options": ["a. ngIf", "b. ngDestroy", "c. ngOnInit", "d. ngLoop"],
+    "correct": 2,
+    "explanation": "✅ Richtig: ngOnInit ist der Lifecycle Hook, der nach dem Erstellen der Komponente aufgerufen wird.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Läuft Angular direkt ohne Entwicklungsserver im Browser?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Falsch: Angular erfordert einen Entwicklungsserver (z.B. den eingebauten 'ng serve').",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Können Komponenten ohne ein Modul verwendet werden?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Falsch: Komponenten müssen in einem Angular-Modul deklariert werden, um verwendet zu werden.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist das Ziel von Formularbindung?",
+    "options": [
+      "a. Modulimport",
+      "b. Styling",
+      "c. Benutzerinteraktion & Datenübertragung",
+      "d. Routing"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: Formularbindung synchronisiert Benutzereingaben mit Modelldaten und ermöglicht so Benutzerinteraktion und Datenübertragung.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wird ein Service pro Komponentenaufruf neu erstellt?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 1,
+    "explanation": "✅ Falsch: Services sind typischerweise Singletons, die nur einmal pro Anwendung instanziiert werden.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Warum verwendet Angular TypeScript?",
+    "options": [
+      "a. Weil Java Script verboten ist",
+      "b. Um CSS zu ersetzen",
+      "c. Für statische Typisierung & bessere Developer Tools",
+      "d. Nur aus Performancegründen"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: TypeScript bietet statische Typisierung und bessere Developer Tools für umfangreiche Anwendungen.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Lösung bietet Angular für Formulare?",
+    "options": [
+      "a. CSS-Driven Forms",
+      "b. SQL-Forms",
+      "c. Template-driven & Reactive Forms",
+      "d. HTTP-Forms"
+    ],
+    "correct": 2,
+    "explanation": "✅ Richtig: Angular bietet zwei Ansätze: Template-driven Forms und Reactive Forms.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist das Ziel von Routing?",
+    "options": [
+      "a. Datenbank connections anlegen",
+      "b. Module installieren",
+      "c. Styles neu laden",
+      "d. Navigation zwischen Views"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: Routing ermöglicht die Navigation zwischen verschiedenen Views/Components in einer Single Page Application.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Aufgabe hat HttpClient?",
+    "options": [
+      "a. CSS komprimieren",
+      "b. Routing steuern",
+      "c. DOM manipulieren",
+      "d. HTTP-Anfragen senden"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: HttpClient ist ein Service, der HTTP-Anfragen an Backend-Services sendet.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wohin kommen die Build-Dateien?",
+    "options": ["a. /dist", "b. /node", "c. /bin", "d. /src/app"],
+    "correct": 0,
+    "explanation": "✅ Richtig: Die Build-Dateien werden im /dist Ordner abgelegt.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist eine Angular-Komponente?",
+    "options": [
+      "a. Ein statisches HTML-Dokument",
+      "b. Einheit aus Template, Logik & Styles",
+      "c. Eine Datenbanktabelle",
+      "d. Ein HTTP-Endpoint"
+    ],
+    "correct": 1,
+    "explanation": "✅ Richtig: Eine Angular-Komponente ist eine Einheit aus HTML-Template, TypeScript-Logik und CSS-Styles.",
+    "xp": 10,
+    "tags": ["woche9", "offiziell"]
   }
 ]
