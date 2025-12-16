@@ -9842,5 +9842,45 @@
     "explanation": "❌ Falsch: Angular ist auf TypeScript angewiesen. TypeScript wird in Angular zur Typsicherheit und zur Struktur des Codes verwendet.",
     "xp": 10,
     "tags": ["woche9", "offiziell"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wie wird eine Route definiert?",
+    "options": [
+      "In app-routing.module.ts",
+      "In index.html",
+      "In style.css",
+      "Im Browser"
+    ],
+    "correct": 0,
+    "explanation": "✅ Richtig: Routen werden in der Datei app-routing.module.ts definiert, wo die Route-Konfigurationen für die Navigation festgelegt werden.",
+    "xp": 10,
+    "tags": ["offiziell", "woche9"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist Dependency Injection?",
+    "options": [
+      "Ein UI-Designkonzept",
+      "Ein TypeScript Compiler",
+      "Eine HTTP-Methode",
+      "Automatisiertes Bereitstellen benötigter Objekte"
+    ],
+    "correct": 3,
+    "explanation": "✅ Richtig: Dependency Injection ist ein Designmuster, bei dem Abhängigkeiten automatisch bereitgestellt werden, anstatt sie manuell zu erstellen. Dies verbessert Testbarkeit und Wartbarkeit.",
+    "xp": 15,
+    "tags": ["offiziell", "woche9"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wird eine Komponente durch den Decorator @Component definiert?",
+    "options": ["Wahr", "Falsch"],
+    "correct": 0,
+    "explanation": "✅ Wahr: Der @Component Decorator ist essenziell für die Definition einer Angular-Komponente und enthält Metadaten wie Selector, Template und Styles.",
+    "xp": 10,
+    "tags": ["offiziell", "woche9"]
   }
 ]
