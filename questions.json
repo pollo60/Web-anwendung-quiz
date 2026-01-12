@@ -4591,148 +4591,174 @@
   }
   ,
   {
-    "difficulty": 2,
-    "type": "checkbox",
-    "question": "Welche Aussagen unterscheiden HTML5 von HTML4? (Mehrfachauswahl)",
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Nennen Sie den wichtigsten Unterschied zwischen dem Internet und dem World Wide Web (WWW).",
     "options": [
-      "Einfachere Doctype-Deklaration: <!DOCTYPE html>",
-      "Semantische Elemente wie <header>, <nav>, <section>, <footer>",
-      "Native Medien-Elemente (<audio>, <video>) ohne Plugins",
-      "Framesets sind die empfohlene Layout-Technik"
+      "Das Internet ist ein Dienst, WWW ist ein Netz",
+      "Das Internet ist ein weltumspannendes Netz von Computern; WWW ist ein Dienst basierend auf dem Internet",
+      "Das Internet verwendet HTTP, WWW verwendet TCP/IP",
+      "Es gibt keinen Unterschied, beide Begriffe sind identisch"
     ],
-    "correct": [0, 1, 2],
-    "explanation": "HTML5 vereinfacht den Doctype, führt neue semantische Elemente ein und bringt native Audio-/Video-Tags; Framesets gelten als veraltet.",
-    "xp": 20,
-  "tags": ["woche4", "gemischt", "vl-offiziell"]
+    "correct": 1,
+    "explanation": "Das Internet ist ein weltumspannendes Netz von Computern und Netzen (Netz der Netze). Das WWW ist ein darauf basierender Dienst, der HTTP und HTML zur Vernetzung von Dokumenten nutzt.",
+    "xp": 12,
+    "tags": ["vl-offiziell", "vorlesung", "einfuehrung"]
   },
   {
     "difficulty": 2,
-    "type": "matching",
-    "question": "Ordne typische HTML5-Boilerplate-Elemente ihrem Zweck zu:",
-    "pairs": [
-      {"left": "<!DOCTYPE html>", "right": "Aktiviert Standards-Modus/HTML5"},
-      {"left": "<meta charset=\"utf-8\">", "right": "Zeichensatz festlegen"},
-      {"left": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">", "right": "Responsive Skalierung auf Mobilgeräten"},
-      {"left": "<link rel=\"stylesheet\" href=\"style.css\">", "right": "Externe CSS-Datei einbinden"},
-      {"left": "<script defer src=\"app.js\"></script>", "right": "JavaScript nicht-blockierend laden"}
+    "type": "multiple",
+    "question": "Was war das ARPANET und welche waren seine Hauptziele?",
+    "options": [
+      "Ein frühes Satellitennetzwerk zur globalen Kommunikation",
+      "Der Vorläufer des Internet mit dem Ziel, Computer zu vernetzen und Rechenleistung zu verbessern",
+      "Das erste kommerzielle Datennetzwerk der USA",
+      "Ein militärisches Verschlüsselungssystem aus den 1950er Jahren"
     ],
-    "explanation": "Diese Elemente bilden die Basis einer modernen HTML5-Seite für korrekte Darstellung und Performance.",
-    "xp": 20,
-  "tags": ["woche4", "gemischt", "vl-offiziell"]
+    "correct": 1,
+    "explanation": "Das ARPANET war der Vorläufer des Internet. Die Ziele waren die Vernetzung von Computern zur Verbesserung der Rechenleistung und die Erstellung eines widerstandsfähigen Netzes.",
+    "xp": 15,
+    "tags": ["vl-offiziell", "vorlesung", "einfuehrung"]
   },
   {
     "difficulty": 2,
-    "type": "matching",
-    "question": "Ordne Sitzungs-/Zustands-Management-Methoden ihrem Merkmal zu:",
-    "pairs": [
-      {"left": "Cookies", "right": "ID clientseitig gespeichert, an jede Anfrage gesendet"},
-      {"left": "URL-Rewriting", "right": "Session-ID in der URL (z. B. ;jsessionid=...)"},
-      {"left": "Hidden Fields", "right": "Daten nur bei Formular-Submit gesendet"},
-      {"left": "HttpSession", "right": "Serverseitiger Zustand, via Cookie/URL referenziert"},
-      {"left": "Local/SessionStorage", "right": "Persistenz im Browser, nicht automatisch an Server gesendet"}
+    "type": "multiple",
+    "question": "Wozu dienten die Interface Message Processors (IMPs) im ARPANET?",
+    "options": [
+      "Zur Speicherung von Benutzerinformationen",
+      "Zur Zerlegung von Host-Nachrichten und zur Vermittlung von Paketen",
+      "Zur Verschlüsselung von Datenverkehr",
+      "Zur Verwaltung von Benutzerzugriffen"
     ],
-    "explanation": "Web-Apps kombinieren häufig serverseitige Sessions mit clientseitigen Speichern und Cookies zur Wiedererkennung.",
-    "xp": 25,
-  "tags": ["woche4", "gemischt", "vl-offiziell"]
+    "correct": 1,
+    "explanation": "Die Interface Message Processors (IMPs) dienten zur Zerlegung von Host-Nachrichten in Pakete und zur Vermittlung dieser Pakete im Netz.",
+    "xp": 15,
+    "tags": ["vl-offiziell", "vorlesung", "einfuehrung"]
   },
   {
     "difficulty": 1,
     "type": "multiple",
-    "question": "Wer pflegt den aktuellen HTML-Standard (Living Standard)?",
-    "options": ["W3C", "WHATWG", "ECMA", "ISO"],
+    "question": "Welche Aussage beschreibt Paketvermittlung korrekt?",
+    "options": [
+      "Ein Verfahren zur direkten Verbindung zwischen zwei Computern",
+      "Ein Verfahren zur Datenübertragung, bei dem längere Nachrichten in Datenpakete aufgeteilt werden",
+      "Eine Methode zur Verschlüsselung von Daten",
+      "Ein Protokoll zur Verwaltung von Benutzer-Sessions"
+    ],
     "correct": 1,
-    "explanation": "Die WHATWG pflegt das HTML Living Standard. Das W3C hat frühere HTML-Versionen standardisiert.",
-    "xp": 15,
-  "tags": ["woche4", "gemischt", "vl-offiziell"]
+    "explanation": "Paketvermittlung ist ein Verfahren zur Datenübertragung in Rechnernetzen, bei dem längere Nachrichten in einzelne Datenpakete aufgeteilt und übermittelt werden.",
+    "xp": 12,
+    "tags": ["vl-offiziell", "vorlesung", "einfuehrung"]
   },
   {
     "difficulty": 1,
-    "type": "matching",
-    "question": "Wie kann CSS eingebunden werden? Ordne Methode → Beispiel zu:",
-    "pairs": [
-      {"left": "Inline-Stile", "right": "<h1 style=\"color:red\">..."},
-      {"left": "Interne Styles", "right": "<style> h1{color:red} </style>"},
-      {"left": "Externe Datei", "right": "<link rel=\"stylesheet\" href=\"style.css\">"},
-      {"left": "@import", "right": "@import url('theme.css');"}
+    "type": "multiple",
+    "question": "Was waren die grundlegenden Protokolle des Internet?",
+    "options": [
+      "HTTP und HTML",
+      "FTP und SMTP",
+      "TCP und IP",
+      "DNS und DHCP"
     ],
-    "explanation": "CSS kann inline, im <style>-Block, per <link> oder mit @import geladen werden.",
-    "xp": 15,
-  "tags": ["woche4", "gemischt", "vl-offiziell"]
-  },
-  {
-    "difficulty": 2,
-    "type": "matching",
-    "question": "Ordne Selektor-Typ → Beispiel zu:",
-    "pairs": [
-      {"left": "Typselektor", "right": "p"},
-      {"left": "Klassenselektor", "right": ".btn"},
-      {"left": "ID-Selektor", "right": "#main"},
-      {"left": "Attributselektor", "right": "input[type=\"text\"]"},
-      {"left": "Pseudoklasse", "right": "a:hover"}
-    ],
-    "explanation": "Die wichtigsten CSS-Selektoren adressieren Elemente nach Typ, Klasse, ID, Attributen oder Zustand.",
-    "xp": 20,
-  "tags": ["woche4", "gemischt", "vl-offiziell"]
+    "correct": 2,
+    "explanation": "TCP (Transmission Control Protocol) und IP (Internet Protocol) waren die grundlegenden Protokolle des Internet.",
+    "xp": 10,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
   },
   {
     "difficulty": 1,
-    "type": "matching",
-    "question": "Ordne Box-Model-Schicht → Beschreibung zu:",
-    "pairs": [
-      {"left": "content", "right": "Eigentlicher Inhalt (z. B. Text, Bild)"},
-      {"left": "padding", "right": "Innenabstand zwischen Inhalt und Rahmen"},
-      {"left": "border", "right": "Rahmenlinie um das Element"},
-      {"left": "margin", "right": "Außenabstand zum nächsten Element"}
+    "type": "multiple",
+    "question": "Wer erfand das World Wide Web (WWW)?",
+    "options": [
+      "Steve Jobs",
+      "Bill Gates",
+      "Tim Berners-Lee",
+      "Linus Torvalds"
     ],
-    "explanation": "Das CSS-Box-Modell besteht aus content, padding, border und margin in dieser Reihenfolge von innen nach außen.",
-    "xp": 15,
-  "tags": ["woche4", "gemischt", "vl-offiziell"]
+    "correct": 2,
+    "explanation": "Tim Berners-Lee erfand das World Wide Web (WWW).",
+    "xp": 10,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
   },
   {
     "difficulty": 2,
     "type": "checkbox",
-    "question": "Warum wird JavaScript überwiegend clientseitig eingesetzt? (Mehrfachauswahl)",
+    "question": "Welche sind Basiskonzepte des WWW? (Mehrfachauswahl)",
     "options": [
-      "Interaktive UI ohne Server-Roundtrip",
-      "Direkter Zugriff auf DOM und Browser-Events",
-      "Weil Browser kein HTML rendern können",
-      "Geringere Latenz und unmittelbares Feedback"
-    ],
-    "correct": [0, 1, 3],
-    "explanation": "JS reagiert im Browser direkt auf Nutzeraktionen, manipuliert das DOM und liefert schnelles Feedback; HTML wird natürlich weiterhin nativ gerendert.",
-    "xp": 20,
-  "tags": ["woche4", "gemischt", "vl-offiziell"]
-  },
-  {
-    "difficulty": 2,
-    "type": "checkbox",
-    "question": "Typische Anwendungsfälle für JavaScript im Browser sind … (Mehrfachauswahl)",
-    "options": [
-      "Formularvalidierung im Client",
-      "DOM- und Style-Manipulation",
-      "SPA-Routing und Navigation",
-      "SSL-Verschlüsselung auf Transportebene",
-      "Asynchrone Requests per fetch/AJAX"
+      "Client-Server Architektur",
+      "Hypermedia-Inhalte",
+      "Verlinkung von Objekten im Netz",
+      "Peer-to-Peer Netzwerk-Struktur",
+      "HTML zur Auszeichnung und HTTP zur Übertragung"
     ],
     "correct": [0, 1, 2, 4],
-    "explanation": "JavaScript validiert Formulare, steuert SPAs, manipuliert DOM/CSS und ruft Daten asynchron ab; SSL erledigt die Transportebene (TLS), nicht JS.",
-    "xp": 25,
-  "tags": ["woche4", "gemischt", "vl-offiziell"]
+    "explanation": "Die Basiskonzepte des WWW sind: Client-Server Architektur, Hypermedia-Inhalte, Verlinkung von Objekten im Netz, HTML zur Auszeichnung und HTTP zur Übertragung. P2P ist kein Basiskonzept des WWW.",
+    "xp": 20,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
   },
   {
     "difficulty": 1,
-    "type": "multiple",
-    "question": "Was beschreibt das Document Object Model (DOM) korrekt?",
-    "options": [
-      "Baumstruktur aus Knoten, die ein Dokument repräsentiert",
-      "JSON-Format zur Browserkonfiguration",
-      "Netzwerkprotokoll zur Datenübertragung",
-      "CSS-Spezifikation für Layout"
+    "type": "matching",
+    "question": "Ordne URL-Komponenten ihrem Bestandteil zu:",
+    "pairs": [
+      {"left": "Scheme (Schema)", "right": "http"},
+      {"left": "Hostname", "right": "example.com"},
+      {"left": "Port", "right": "8080"},
+      {"left": "Path", "right": "/api/users"},
+      {"left": "Query", "right": "id=123&name=test"}
     ],
-    "correct": 0,
-    "explanation": "Das DOM bildet HTML/XML als Baum von Knoten ab, den Skripte lesen und verändern können.",
+    "explanation": "Eine URL besteht aus Scheme, Hostname, optionalem Port, Path und optionalem Query-String.",
     "xp": 15,
-  "tags": ["woche4", "gemischt", "vl-offiziell"]
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche HTTP-Methoden existieren in HTTP/1.1? (Mehrfachauswahl)",
+    "options": [
+      "GET",
+      "HEAD",
+      "POST",
+      "EXECUTE",
+      "PUT",
+      "DELETE"
+    ],
+    "correct": [0, 1, 2, 4, 5],
+    "explanation": "Die HTTP-Methoden in HTTP/1.1 sind: GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS und CONNECT. EXECUTE ist keine gültige HTTP-Methode.",
+    "xp": 18,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Verbesserung brachte HTTP/1.1 hauptsächlich mit sich?",
+    "options": [
+      "Grafische Darstellung von Webseiten",
+      "Wiederverwendung der Verbindung (Keep-Alive) für mehrere Anfragen über die gleiche Verbindung",
+      "Automatische Verschlüsselung aller Daten",
+      "Direkte Datenbankanbindung im Browser"
+    ],
+    "correct": 1,
+    "explanation": "HTTP/1.1 ermöglichte die Wiederverwendung von Verbindungen (Keep-Alive), wodurch mehrere Anfragen über eine Verbindung möglich wurden. Dies führte zu kürzeren Antwortzeiten und geringerem Ressourcenverbrauch.",
+    "xp": 15,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
+  },
+  {
+    "difficulty": 3,
+    "type": "checkbox",
+    "question": "Welche Neuerungen bringt HTTP/2 mit sich? (Mehrfachauswahl)",
+    "options": [
+      "Eine einzelne TCP-Verbindung für die gesamte Kommunikation mit einem Webserver",
+      "Multiplexing von Streams mit Prioritäten",
+      "Binary-framing Schicht",
+      "Automatische Seitenverschlüsselung im Browser",
+      "Header Kompression (HPACK)",
+      "Server Push"
+    ],
+    "correct": [0, 1, 2, 4, 5],
+    "explanation": "HTTP/2 bringt mit sich: einzelne TCP-Verbindung, Multiplexing von Streams mit Prioritäten, Binary-Framing, Header-Kompression (HPACK) und Server Push. Automatische Verschlüsselung im Browser ist nicht spezifisch für HTTP/2.",
+    "xp": 25,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
   }
   ,
   {
@@ -9882,5 +9908,783 @@
     "explanation": "✅ Wahr: Der @Component Decorator ist essenziell für die Definition einer Angular-Komponente und enthält Metadaten wie Selector, Template und Styles.",
     "xp": 10,
     "tags": ["offiziell", "woche9"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist eine Ressource im Kontext von REST?",
+    "options": [
+      "Eine Datenbankconnection",
+      "Etwas, das adressiert werden kann, z.B. mittels einer URL",
+      "Ein JavaScript-Bibliotheken-Bundle",
+      "Ein serverseitiger Service-Container"
+    ],
+    "correct": 1,
+    "explanation": "Eine Ressource ist etwas, das adressiert werden kann, z.B. mittels einer URL. Sie ist ein zentrales Konzept von REST.",
+    "xp": 12,
+    "tags": ["vl-offiziell", "vorlesung", "architekturen"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist eine Repräsentation einer Ressource?",
+    "options": [
+      "Die URL, unter der die Ressource erreichbar ist",
+      "Eine Spezialisierung oder Format-Darstellung einer Ressource (z.B. Textdokument in XML)",
+      "Das HTML-Template, das die Ressource anzeigt",
+      "Der Name der Ressource in der Datenbank"
+    ],
+    "correct": 1,
+    "explanation": "Eine Repräsentation ist eine Spezialisierung einer Ressource, z.B. ein Textdokument (XML) einer Ressource ist eine Repräsentation.",
+    "xp": 12,
+    "tags": ["vl-offiziell", "vorlesung", "architekturen"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche sind REST-Prinzipien nach Fielding? (Mehrfachauswahl)",
+    "options": [
+      "Client-Server Architektur",
+      "Zustandslosigkeit",
+      "Caching",
+      "Einheitliche Schnittstellen",
+      "Geschichtete Systeme",
+      "Code on Demand",
+      "Direct Peer Connection"
+    ],
+    "correct": [0, 1, 2, 3, 4, 5],
+    "explanation": "Die REST-Prinzipien sind: Client-Server, Zustandslosigkeit, Caching, Einheitliche Schnittstellen, Geschichtete Systeme und Code on Demand. Direct Peer Connection ist kein REST-Prinzip.",
+    "xp": 20,
+    "tags": ["vl-offiziell", "vorlesung", "architekturen"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne HTTP-Methoden ihrer REST-Semantik zu:",
+    "pairs": [
+      {"left": "POST", "right": "Erstellung einer neuen Ressource"},
+      {"left": "PUT", "right": "Austausch einer vorhandenen Ressource oder Erstellung, falls nicht existent"},
+      {"left": "PATCH", "right": "Änderung einzelner Teile einer vorhandenen Ressource"},
+      {"left": "GET", "right": "Abruf einer Ressource (safe und idempotent)"},
+      {"left": "DELETE", "right": "Löschen einer Ressource"}
+    ],
+    "explanation": "In REST haben die HTTP-Methoden unterschiedliche Semantiken: POST für Neuerstellung, PUT für vollständige Ersetzung, PATCH für partielle Änderung, GET für Abruf, DELETE für Löschung.",
+    "xp": 18,
+    "tags": ["vl-offiziell", "vorlesung", "architekturen"]
+  },
+  {
+    "difficulty": 3,
+    "type": "multiple",
+    "question": "Was versteht man unter HATEOAS im Kontext von REST?",
+    "options": [
+      "Hash Table Encryption Over Application Server Security",
+      "Das Prinzip, dass Clients sich ausschließlich durch das Folgen von URIs im Hypermedia-Format durch die Anwendung bewegen können",
+      "Eine HTTP-Header-Sicherheits-Richtlinie",
+      "Ein Verfahren zur Datenbank-Optimierung"
+    ],
+    "correct": 1,
+    "explanation": "HATEOAS (Hypermedia As The Engine Of Application State) fordert, dass der REST-Client sich ausschließlich durch das Folgen von URIs im Hypermedia-Format durch die Anwendung bewegen kann, ohne weitere Informationen zu benötigen.",
+    "xp": 20,
+    "tags": ["vl-offiziell", "vorlesung", "architekturen"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche Operationen unterstützt GraphQL?",
+    "options": [
+      "Nur Lesen (Query)",
+      "Queries (Lesen) und Mutations (Schreiben)",
+      "Queries (Lesen), Mutations (Schreiben) und Subscriptions (Events/Updates)",
+      "Nur Schreiben (Mutation)"
+    ],
+    "correct": 2,
+    "explanation": "GraphQL unterstützt drei Operationen: Queries (Lesen von Daten), Mutations (Schreiben von Daten) und Subscriptions (Events und Live-Updates).",
+    "xp": 15,
+    "tags": ["vl-offiziell", "vorlesung", "architekturen"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welchen primären Fokus verfolgt GraphQL im Vergleich zu REST?",
+    "options": [
+      "Fokus auf einfache Dateioperationen",
+      "Fokus auf Relationen (Beziehungen) von Elementen (Graph) anstelle von isolierten Ressourcen",
+      "Fokus auf bessere Performance durch reduzierte Datenmengen",
+      "Fokus auf standardisierte HTTP-Methoden"
+    ],
+    "correct": 1,
+    "explanation": "GraphQL verfolgt einen Fokus auf Relationen (Beziehungen) von Elementen untereinander (Graph-Struktur), während REST sich auf isolierte Ressourcen konzentriert.",
+    "xp": 15,
+    "tags": ["vl-offiziell", "vorlesung", "architekturen"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Vorteile bietet GraphQL gegenüber REST bei Abfragen? (Mehrfachauswahl)",
+    "options": [
+      "Reduzierter Aufwand durch verschachtelte Anfragemöglichkeiten",
+      "Möglichkeit, die Antwort auf notwendige Daten zu reduzieren",
+      "Mittels Subscriptions können Daten in Echtzeit vom Server übertragen werden",
+      "GraphQL ist immer schneller als REST",
+      "GraphQL erfordert weniger Bandbreite"
+    ],
+    "correct": [0, 1, 2],
+    "explanation": "GraphQL bietet verschachtelte Anfragen (statt mehrerer REST-Requests), die Möglichkeit, nur benötigte Felder abzurufen, und Subscriptions für Echtzeit-Updates. Die Aussagen zur universellen Schnelligkeit und Bandbreite sind nicht immer wahr.",
+    "xp": 20,
+    "tags": ["vl-offiziell", "vorlesung", "architekturen"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welches Protokoll dient als Transportprotokoll für gRPC?",
+    "options": [
+      "HTTP/1.1",
+      "WebSockets",
+      "HTTP/2",
+      "TCP Raw"
+    ],
+    "correct": 2,
+    "explanation": "gRPC verwendet HTTP/2 als Transportprotokoll, das in Schicht 7 (Anwendungsschicht) des OSI-Modells zugeordnet wird.",
+    "xp": 12,
+    "tags": ["vl-offiziell", "vorlesung", "architekturen"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist das besondere Feature von gRPC, das es von GraphQL und REST unterscheidet?",
+    "options": [
+      "Automatische Datenverschlüsselung",
+      "gRPC Streaming basierend auf HTTP/2 Streams",
+      "Bessere Browser-Kompatibilität",
+      "Einfachere API-Dokumentation"
+    ],
+    "correct": 1,
+    "explanation": "Das besondere Feature von gRPC ist das Streaming, das auf HTTP/2 Streams basiert und bidirektionale Echtzeit-Kommunikation ermöglicht.",
+    "xp": 15,
+    "tags": ["vl-offiziell", "vorlesung", "architekturen"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Warum eignet sich gRPC nicht so einfach für öffentliche Schnittstellen mit einem Browser?",
+    "options": [
+      "Zu hohe Kosten für den Server",
+      "Browser unterstützen gRPC nicht nativ, daher ist es aufwendig, eine öffentliche Schnittstelle mit einem geeigneten gRPC-Client zu erstellen",
+      "gRPC ist nicht sicher genug",
+      "gRPC funktioniert nur mit localhost"
+    ],
+    "correct": 1,
+    "explanation": "Browser unterstützen gRPC nicht nativ. Dies macht es aufwendig und komplex, öffentliche Schnittstellen im Browser mit gRPC zu implementieren.",
+    "xp": 15,
+    "tags": ["vl-offiziell", "vorlesung", "architekturen"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wofür steht die Abkürzung AJAX?",
+    "options": [
+      "Asynchronous JSON And XML Exchange",
+      "Asynchronous JavaScript and XML",
+      "Active Java XML Extension",
+      "Application JavaScript API Extension"
+    ],
+    "correct": 1,
+    "explanation": "AJAX steht für Asynchronous JavaScript and XML. Es ermöglicht asynchrone Datenübertragungen ohne vollständiges Neuladen der Webseite.",
+    "xp": 10,
+    "tags": ["vl-offiziell", "vorlesung", "techniken"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Was unterscheidet AJAX von klassischen Web-Anwendungen? (Mehrfachauswahl)",
+    "options": [
+      "Kein vollständiges Neuladen aufgebauter Seiten erforderlich",
+      "Daten können verändert werden, ohne dass die komplette Webseite neu geladen wird",
+      "Webseiten brauchen keine HTML-Struktur",
+      "AJAX ermöglicht schnellere Reaktion auf Benutzereingaben"
+    ],
+    "correct": [0, 1, 3],
+    "explanation": "AJAX ermöglicht das Laden und Ändern von Daten ohne vollständiges Neuladen der Seite, was zu schnellerer Reaktion auf Benutzereingaben führt. HTML ist weiterhin erforderlich.",
+    "xp": 15,
+    "tags": ["vl-offiziell", "vorlesung", "techniken"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was zeichnet eine Single Page Application (SPA) aus?",
+    "options": [
+      "Eine Anwendung mit nur einer HTML-Datei, die nicht im Browser lädt",
+      "Eine einzelne Webseite, die im Browser läuft und sich nicht neu laden muss; nur Teile werden aktualisiert",
+      "Eine Anwendung, die auf mobilen Geräten optimiert ist",
+      "Eine Web-Anwendung ohne CSS-Styling"
+    ],
+    "correct": 1,
+    "explanation": "Eine SPA ist eine einzelne Webseite, die vollständig im Browser lädt und während der Nutzung nicht neu geladen werden muss. Der Inhalt wird dynamisch durch JavaScript-APIs aktualisiert.",
+    "xp": 15,
+    "tags": ["vl-offiziell", "vorlesung", "techniken"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was wird mit Responsive Web Design erreicht?",
+    "options": [
+      "Schnellere Ladezeiten der Website",
+      "Eine benutzerfreundliche Bedienung auf nahezu allen Endgeräten und verschiedenen Bildschirmgrößen",
+      "Bessere Sicherheit der Website",
+      "Automatische Suchmaschinen-Optimierung"
+    ],
+    "correct": 1,
+    "explanation": "Responsive Web Design ermöglicht eine benutzerfreundliche Bedienung auf nahezu allen Endgeräten und verschiedenen Bildschirmgrößen durch flexible Layouts und Media Queries.",
+    "xp": 12,
+    "tags": ["vl-offiziell", "vorlesung", "techniken"]
+  },
+  {
+    "difficulty": 3,
+    "type": "checkbox",
+    "question": "Welche Merkmale charakterisieren Progressive Web Apps (PWA)? (Mehrfachauswahl)",
+    "options": [
+      "Discoverable (auffindbar)",
+      "Installable (installierbar)",
+      "Connectivity Independent (funktioniert offline)",
+      "Progressive (funktioniert in allen Browsern)",
+      "Reengageable (wiederherstellbar)",
+      "Responsive (responsive)",
+      "Exclusive zum Apple Ecosystem"
+    ],
+    "correct": [0, 1, 2, 3, 4, 5],
+    "explanation": "PWAs sollten sein: Discoverable, Installable, Linkable, Connectivity Independent, Progressive, Reengageable, Responsive, Fresh, Safe und App-like. Das Apple Ecosystem ist kein Merkmal.",
+    "xp": 25,
+    "tags": ["vl-offiziell", "vorlesung", "techniken"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wie unterscheidet z.B. eine Suchmaschine eine Progressive Web App von einer Webseite?",
+    "options": [
+      "Durch die Dateigröße",
+      "Durch die Anwendungsmetadaten in einer Manifest-Datei",
+      "Durch die verwendete CSS-Version",
+      "Durch die Anzahl der JavaScript-Dateien"
+    ],
+    "correct": 1,
+    "explanation": "Die Anwendungsmetadaten einer PWA werden in einer Manifest-Datei definiert (z.B. manifest.json), die von Suchmaschinen ausgewertet werden kann.",
+    "xp": 12,
+    "tags": ["vl-offiziell", "vorlesung", "techniken"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Welche serverseitige Technologie bietet die niedrigste Abstraktionsebene?",
+    "options": [
+      "Java Servlets",
+      "PHP",
+      "Common Gateway Interface (CGI)",
+      "Java Server Pages (JSP)"
+    ],
+    "correct": 2,
+    "explanation": "CGI bietet die niedrigste Abstraktionsebene unter den serverseitigen Technologien, erfordert aber dafür, dass der Entwickler die meisten Sicherheits- und Ressourcen-Aspekte selbst verwaltet.",
+    "xp": 15,
+    "tags": ["vl-offiziell", "vorlesung", "techniken"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Nachteile hat CGI? (Mehrfachauswahl)",
+    "options": [
+      "Niedrige Abstraktionsebene",
+      "Sicherheit ist dem Entwickler überlassen",
+      "Hoher Ressourcenverbrauch (Prozess pro Request)",
+      "Keine Ressourcenüberwachung",
+      "Zu hohe Abstraktionsebene",
+      "Unzureichende Browser-Kompatibilität"
+    ],
+    "correct": [0, 1, 2, 3],
+    "explanation": "CGI hat folgende Nachteile: niedrige Abstraktionsebene, Sicherheitsverantwortung beim Entwickler, hoher Ressourcenverbrauch durch einen Prozess pro Request und keine automatische Ressourcenüberwachung.",
+    "xp": 18,
+    "tags": ["vl-offiziell", "vorlesung", "techniken"]
+  },
+  {
+    "difficulty": 1,
+    "type": "checkbox",
+    "question": "Welche Vorteile bieten Java Servlets im Gegensatz zu CGI? (Mehrfachauswahl)",
+    "options": [
+      "Einfacher zu schreiben",
+      "Schneller in der Ausführung",
+      "Sicherer in der Ausführung",
+      "Vollständige Java-API steht zur Verfügung (außer GUI)",
+      "Günstiger in der Lizenzierung"
+    ],
+    "correct": [0, 1, 2, 3],
+    "explanation": "Java Servlets bieten gegenüber CGI: einfachere Schreibweise, schnellere und sichere Ausführung, sowie Zugriff auf die komplette Java-API (außer GUI). Die Lizenzkosten sind nicht direkt ein Vorteil.",
+    "xp": 15,
+    "tags": ["vl-offiziell", "vorlesung", "techniken"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Vorteile bieten Web Frameworks? (Mehrfachauswahl)",
+    "options": [
+      "Ermöglichen einfache und schnelle Programmierung",
+      "Bauen auf Erfahrung und Tools anderer auf",
+      "Bieten Lösungen für häufige Probleme",
+      "Meist effizient, stabil und sicher",
+      "Die meisten sind frei verfügbar",
+      "Haben immer flache Lernkurven"
+    ],
+    "correct": [0, 1, 2, 3, 4],
+    "explanation": "Web Frameworks bieten viele Vorteile, aber haben oft eine steile Lernkurve, nicht eine flache. Die anderen Aussagen sind korrekt.",
+    "xp": 18,
+    "tags": ["vl-offiziell", "vorlesung", "techniken"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was war der erste Dienst des Internets?",
+    "options": [
+      "World Wide Web",
+      "E-Mail",
+      "FTP (File Transfer Protocol)",
+      "DNS (Domain Name System)"
+    ],
+    "correct": 1,
+    "explanation": "E-Mail war der erste Dienst des Internets.",
+    "xp": 10,
+    "tags": ["vl-offiziell", "vorlesung", "einfuehrung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist das Basisprotokoll des WWW?",
+    "options": [
+      "FTP – File Transfer Protocol",
+      "SMTP – Simple Mail Transfer Protocol",
+      "HTTP – Hypertext Transfer Protocol",
+      "TCP – Transmission Control Protocol"
+    ],
+    "correct": 2,
+    "explanation": "HTTP (Hypertext Transfer Protocol) ist das Basisprotokoll des WWW.",
+    "xp": 12,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ist eine Web-Anwendung?",
+    "options": [
+      "Ein lokal installiertes Programm ohne Internetverbindung",
+      "Eine Client-Server-Anwendung, die auf Webtechnologien (HTTP, HTML etc.) aufsetzt und über einen Browser zugänglich ist",
+      "Ein Desktop-Programm mit grafischer Oberfläche",
+      "Ein Protokoll zur Datenverschlüsselung"
+    ],
+    "correct": 1,
+    "explanation": "Eine Web-Anwendung ist eine Client-Server-Anwendung, die auf Webtechnologien aufsetzt und über eine URL und einen Webbrowser zugänglich ist. Sie erfordert eine Netzwerkverbindung.",
+    "xp": 15,
+    "tags": ["vl-offiziell", "vorlesung", "einfuehrung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche sind Vorteile einer web-basierten Anwendung? (Mehrfachauswahl)",
+    "options": [
+      "Parallele Nutzung durch mehrere Benutzer",
+      "Informationsaustausch in Echtzeit",
+      "Zugriff und Nutzbarkeit von überall",
+      "Nutzung nur durch Desktop-Computer möglich",
+      "Einfacher Datenaustausch über standardisierte Schnittstellen",
+      "Skalierbarkeit",
+      "Interaktion mit Anwendern für Updates nicht erforderlich"
+    ],
+    "correct": [0, 1, 2, 4, 5, 6],
+    "explanation": "Vorteile sind: Parallele Nutzung, Echtzeit-Austausch, Zugriff von überall, einfacher Datenaustausch, Skalierbarkeit und keine Update-Interaktion nötig. Web-Apps funktionieren nicht nur auf Desktop-Computern.",
+    "xp": 20,
+    "tags": ["vl-offiziell", "vorlesung", "einfuehrung"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "In welche Schichten lässt sich ein web-basiertes Anwendungssystem unterteilen?",
+    "options": [
+      "Frontend und Backend",
+      "Client und Server",
+      "Präsentation, Verarbeitung und Datenhaltung",
+      "HTML, CSS und JavaScript"
+    ],
+    "correct": 2,
+    "explanation": "Ein web-basiertes Anwendungssystem lässt sich in drei Schichten unterteilen: Präsentation (Nutzeroberfläche), Verarbeitung (Anwendungslogik) und Datenhaltung.",
+    "xp": 12,
+    "tags": ["vl-offiziell", "vorlesung", "einfuehrung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Wie waren die Rechner des ARPANET untergliedert?",
+    "options": [
+      "Client und Server",
+      "Hosts, Terminal IMPs und IMPs",
+      "Mainframe und Workstations",
+      "Router und Switches"
+    ],
+    "correct": 1,
+    "explanation": "Die Rechner des ARPANET waren in drei Kategorien untergliedert: Hosts, Terminal IMPs (Interface Message Processors) und IMPs.",
+    "xp": 15,
+    "tags": ["vl-offiziell", "vorlesung", "einfuehrung"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Nennen Sie alle HTTP-Methoden der Version 1.1",
+    "options": [
+      "GET, POST, PUT, DELETE",
+      "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, CONNECT",
+      "GET, POST, DELETE",
+      "GET, POST, PUT, DELETE, PATCH"
+    ],
+    "correct": 1,
+    "explanation": "Die HTTP-Methoden in HTTP/1.1 sind: GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS und CONNECT.",
+    "xp": 18,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welche Funktion hat das Keep-Alive Header-Feld?",
+    "options": [
+      "Authentifizierung des Benutzers",
+      "Offenhaltung von Verbindungen für mehrere Anfragen",
+      "Verschlüsselung der Daten",
+      "Kompression des Inhalts"
+    ],
+    "correct": 1,
+    "explanation": "Das Keep-Alive Header-Feld hält HTTP-Verbindungen offen, um mehrere Anfragen über die gleiche Verbindung zu ermöglichen.",
+    "xp": 12,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
+  },
+  {
+    "difficulty": 3,
+    "type": "matching",
+    "question": "Ordne HTTP/2 Stream-Prioritäten des Firefox-Browsers ihren Anteilen zu:",
+    "pairs": [
+      {"left": "Urgent (HTML)", "right": "44,44%"},
+      {"left": "Leader (CSS)", "right": "37,04%"},
+      {"left": "Other (JavaScript)", "right": "18,52%"}
+    ],
+    "explanation": "Bei HTTP/2 Streams: Urgent (240): 240/540 = 44,44%, Leader (200): 200/540 = 37,04%, Other (100): 100/540 = 18,52%",
+    "xp": 20,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Unterschiede gibt es zwischen HTML4 und HTML5? (Mehrfachauswahl)",
+    "options": [
+      "Einfachere Doctype-Deklaration in HTML5",
+      "Semantische Elemente in HTML5 (<header>, <nav>, <section>)",
+      "Native Medien-Elemente in HTML5 (<audio>, <video>)",
+      "HTML5 hat eine komplexere Syntax",
+      "HTML5 unterstützt neue APIs wie Geolocation und Canvas"
+    ],
+    "correct": [0, 1, 2, 4],
+    "explanation": "HTML5 hat eine einfachere Doctype, semantische Elemente, native Medien-Tags und neue APIs. HTML5 hat eine einfachere Syntax, nicht komplexer.",
+    "xp": 20,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Wer ist für die Standardisierung von HTML zuständig?",
+    "options": [
+      "Die IETF (Internet Engineering Task Force)",
+      "Die W3C (World Wide Web Consortium)",
+      "Die WHATWG (Web Hypertext Application Technology Working Group)",
+      "Die ISO (International Organization for Standardization)"
+    ],
+    "correct": 1,
+    "explanation": "Die W3C (World Wide Web Consortium) ist für die Standardisierung von HTML zuständig. Die WHATWG pflegt das HTML Living Standard.",
+    "xp": 12,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne CSS-Einbindungsmethoden ihren Beispielen zu:",
+    "pairs": [
+      {"left": "Linking", "right": "<link rel=\"stylesheet\" href=\"styles.css\">"},
+      {"left": "Embedding", "right": "<style>body {background-color: blue;}</style>"},
+      {"left": "Inline", "right": "<h1 style=\"color:blue;\">Text</h1>"}
+    ],
+    "explanation": "Linking für externe Dateien, Embedding für Seiten-spezifische Regeln im <style>-Block, Inline für einzelne Elemente.",
+    "xp": 15,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche CSS-Selektoren kennen Sie? (Mehrfachauswahl)",
+    "options": [
+      "Element-Selektoren (z.B. p, div)",
+      "ID-Selektoren (z.B. #main)",
+      "Klassen-Selektoren (z.B. .btn)",
+      "Attribut-Selektoren (z.B. input[type=\"text\"])",
+      "Pseudo-Elemente (z.B. ::before, ::after)",
+      "All-Selektoren (*)"
+    ],
+    "correct": [0, 1, 2, 3, 4, 5],
+    "explanation": "Die wichtigsten CSS-Selektoren sind: Element, ID, Klasse, Attribut, Pseudo-Element und All-Selektor.",
+    "xp": 18,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
+  },
+  {
+    "difficulty": 1,
+    "type": "matching",
+    "question": "Ordne Box-Model-Komponenten ihrer Funktion zu:",
+    "pairs": [
+      {"left": "content", "right": "Der eigentliche Inhalt"},
+      {"left": "padding", "right": "Innenabstand um den Inhalt"},
+      {"left": "border", "right": "Rahmenlinie"},
+      {"left": "margin", "right": "Außenabstand zum nächsten Element"}
+    ],
+    "explanation": "Das CSS Box-Model besteht aus content (Inhalt), padding (Innenabstand), border (Rahmen) und margin (Außenabstand).",
+    "xp": 15,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Warum wird JavaScript als clientseitige Technologie verwendet?",
+    "options": [
+      "Weil es billiger ist",
+      "Weil es die Standardtechnologie für alle Browser ist",
+      "Weil es auf dem Server läuft",
+      "Weil HTML allein nicht ausreicht"
+    ],
+    "correct": 1,
+    "explanation": "JavaScript ist für alle Browser und viele weitere Frameworks die Standardtechnologie zur Client-seitigen Programmierung.",
+    "xp": 12,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Anwendungsmöglichkeiten hat JavaScript? (Mehrfachauswahl)",
+    "options": [
+      "Generierung von Webseiten-Teilen beim Client",
+      "Validierung von Formulardaten vor dem Absenden",
+      "Reagieren auf Browser-Events (Maus, Tastatur)",
+      "Direkter Zugriff auf alle HTML-Elemente mittels DOM",
+      "Cookie-Management",
+      "Serverseitige Datenbankabfragen"
+    ],
+    "correct": [0, 1, 2, 3, 4],
+    "explanation": "JavaScript ermöglicht: Seiten-Generierung, Formular-Validierung, Event-Handling, DOM-Zugriff und Cookie-Management. Datenbankabfragen sind serverseitig.",
+    "xp": 18,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Was ist das Document Object Model (DOM)?",
+    "options": [
+      "Ein JavaScript-Framework",
+      "Eine standardisierte Programmierschnittstelle zur Strukturierung von HTML- und XML-Dokumenten",
+      "Ein CSS-Layout-System",
+      "Ein Datenbank-Management-System"
+    ],
+    "correct": 1,
+    "explanation": "Das DOM ist eine standardisierte Programmierschnittstelle (API) des W3C für die Strukturierung von HTML- und XML-Dokumenten.",
+    "xp": 12,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Was ermöglicht das WebSocket-Protokoll?",
+    "options": [
+      "Nur einseitige Kommunikation vom Server zum Client",
+      "Eine bidirektionale Kommunikation, initiiert durch HTTP",
+      "Verschlüsselte Datenübertragung",
+      "Caching von Webseiten"
+    ],
+    "correct": 1,
+    "explanation": "Das WebSocket-Protokoll ermöglicht eine bidirektionale Kommunikation, die durch HTTP initiiert wird, und ist besonders geeignet für Browser-basierte Echtzeitanwendungen.",
+    "xp": 15,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Welches Protokoll wird zum Aufbau einer WebSocket-Verbindung verwendet?",
+    "options": [
+      "WebSocket Protocol (WSP)",
+      "HTTP",
+      "TCP Raw",
+      "FTP"
+    ],
+    "correct": 1,
+    "explanation": "WebSocket-Verbindungen werden durch HTTP initiiert und dann zu einem WebSocket-Kanal upgradetet.",
+    "xp": 10,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Session-Management-Verfahren bei HTTP gibt es? (Mehrfachauswahl)",
+    "options": [
+      "Versteckte Felder eines HTML-Formulars",
+      "Zustand in der URI vermerken (URI Rewriting)",
+      "HTTP-Cookies",
+      "Local Storage und Session Storage",
+      "Direkte Speicherung im Browser-Memory"
+    ],
+    "correct": [0, 1, 2, 3],
+    "explanation": "Gültige Session-Management-Verfahren sind: Hidden Fields, URI Rewriting, Cookies und Local/Session Storage. Browser-Memory ist nicht persistent genug.",
+    "xp": 18,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne Session-Management-Methoden ihren Eigenschaften zu:",
+    "pairs": [
+      {"left": "Versteckte Felder", "right": "Einfach zu realisieren, aber nur bei Formular-Submit"},
+      {"left": "URI Rewriting", "right": "Mit jedem Browser kompatibel, aber Missbrauchsmöglichkeit"},
+      {"left": "HTTP-Cookies", "right": "Browser-Unterstützung nötig, max. 4 KB Größe"}
+    ],
+    "explanation": "Diese Verfahren haben unterschiedliche Vor- und Nachteile beim HTTP Session Management.",
+    "xp": 18,
+    "tags": ["vl-offiziell", "vorlesung", "web-standards"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Nennen Sie die Ziele der Modularisierung bzw. Komponentenbildung:",
+    "options": [
+      "Nur Performance-Verbesserung",
+      "Verteilung (Dezentralisierung), unabhängige und austauschbare Komponenten, aufgabenspezialisierte Komponenten",
+      "Reduzierung der Kosten",
+      "Vereinfachte Programmiersprache"
+    ],
+    "correct": 1,
+    "explanation": "Die Ziele der Modularisierung sind: Verteilung/Dezentralisierung, unabhängige und austauschbare Komponenten, sowie aufgabenspezialisierte Komponenten.",
+    "xp": 15,
+    "tags": ["vl-offiziell", "vorlesung", "architekturen"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne Architekturtypen ihren Vertretern zu:",
+    "pairs": [
+      {"left": "Statische Architektur", "right": "Enterprise Java Beans (EJB)"},
+      {"left": "Dynamische Architektur", "right": "Service-Oriented Architecture (SOA)"}
+    ],
+    "explanation": "Statische Architekturtypen werden durch EJB repräsentiert, dynamische durch SOA.",
+    "xp": 12,
+    "tags": ["vl-offiziell", "vorlesung", "architekturen"]
+  },
+  {
+    "difficulty": 2,
+    "type": "matching",
+    "question": "Ordne 3-Tier-Architektur Schichten ihren Funktionen zu:",
+    "pairs": [
+      {"left": "Tier 1", "right": "Presentation (Nutzeroberfläche)"},
+      {"left": "Tier 2", "right": "Control/Logic (Anwendungslogik)"},
+      {"left": "Tier 3", "right": "Data (Datenhaltung)"}
+    ],
+    "explanation": "Die 3-Tier-Architektur unterteilt sich in Präsentation, Logik/Kontrolle und Datenschicht.",
+    "xp": 15,
+    "tags": ["vl-offiziell", "vorlesung", "architekturen"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Warum reicht die Zwei-Schichten-Architektur für heutige Web-Anwendungen nicht aus?",
+    "options": [
+      "Weil sie zu schnell ist",
+      "Weil heutige Web-Anwendungen komplexe Aufgaben erfordern, die serverseitig und clientseitig erfüllt werden müssen",
+      "Weil HTML nicht mehr verwendet wird",
+      "Weil Sicherheit unwichtig ist"
+    ],
+    "correct": 1,
+    "explanation": "Heutige Web-Anwendungen sind keine einfachen Web-Seiten mehr. Es müssen komplexeste Aufgaben nicht nur serverseitig sondern auch clientseitig erfüllt werden, daher ist eine feinschichtigere Architektur notwendig.",
+    "xp": 15,
+    "tags": ["vl-offiziell", "vorlesung", "architekturen"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche HTTP-Methoden sind safe (sicher) und welche sind idempotent? (Mehrfachauswahl)",
+    "options": [
+      "GET ist safe und idempotent",
+      "POST ist safe und idempotent",
+      "PUT ist idempotent, aber nicht safe",
+      "DELETE ist idempotent, aber nicht safe",
+      "HEAD ist safe und idempotent"
+    ],
+    "correct": [0, 2, 3, 4],
+    "explanation": "Safe Methoden verändern keine Daten: GET, HEAD. Idempotent Methoden führen mehrfach zum gleichen Ergebnis: GET, HEAD, PUT, DELETE. POST ist weder safe noch idempotent.",
+    "xp": 20,
+    "tags": ["vl-offiziell", "vorlesung", "architekturen"]
+  },
+  {
+    "difficulty": 1,
+    "type": "multiple",
+    "question": "Skizzieren Sie das Richardson Maturity Model",
+    "options": [
+      "Ein Modell für HTML-Versionen",
+      "Ein Modell zur Bewertung der REST-Reifegrad einer API (Lv. 0-3: POX, Ressourcen, HTTP-Verben, HATEOAS)",
+      "Ein Sicherheitsprotokoll",
+      "Ein Datenbank-Design-Muster"
+    ],
+    "correct": 1,
+    "explanation": "Das Richardson Maturity Model bewertet den REST-Reifegrad einer API auf 4 Ebenen: Level 0 (POX), Level 1 (Ressourcen), Level 2 (HTTP-Verben), Level 3 (HATEOAS).",
+    "xp": 18,
+    "tags": ["vl-offiziell", "vorlesung", "architekturen"]
+  },
+  {
+    "difficulty": 2,
+    "type": "multiple",
+    "question": "Wofür steht PHP?",
+    "options": [
+      "Personal Homepage Processor",
+      "Hypertext Preprocessor",
+      "Protocol HTTP Processor",
+      "Personal Home Page (früher), Hypertext Preprocessor (heute)"
+    ],
+    "correct": 3,
+    "explanation": "PHP steht ursprünglich für 'Personal Home Page', wird heute aber als 'Hypertext Preprocessor' bezeichnet.",
+    "xp": 12,
+    "tags": ["vl-offiziell", "vorlesung", "techniken"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Vor- und Nachteile bietet CGI? (Mehrfachauswahl)",
+    "options": [
+      "Vorteile: Geringe Anforderungen und hohe Flexibilität",
+      "Nachteile: Hoher Ressourcenverbrauch (Prozess pro Request)",
+      "Vorteile: Sehr schnelle Ausführung",
+      "Nachteile: Niedrige Abstraktionsebene und Sicherheit liegt bei Entwickler",
+      "Vorteile: Kostenlos"
+    ],
+    "correct": [0, 1, 3],
+    "explanation": "CGI-Vorteile: geringe Anforderungen, Flexibilität. CGI-Nachteile: hoher Ressourcenverbrauch, niedrige Abstraktionsebene, Sicherheit beim Entwickler. CGI ist nicht besonders schnell.",
+    "xp": 18,
+    "tags": ["vl-offiziell", "vorlesung", "techniken"]
+  },
+  {
+    "difficulty": 2,
+    "type": "checkbox",
+    "question": "Welche Nachteile bieten Web Frameworks? (Mehrfachauswahl)",
+    "options": [
+      "Schnelle Entwicklungszyklen führen zu Anpassungsaufwand",
+      "Programmcode ist oft an Framework-Code gekoppelt",
+      "Sie lösen viele, aber nicht alle Probleme",
+      "Vorgegebene Grenzen bei der Entwicklung",
+      "Oft steile Lernkurve",
+      "Code ist ohne Framework-Kenntnisse schwer nachvollziehbar"
+    ],
+    "correct": [0, 1, 2, 3, 4, 5],
+    "explanation": "Web Framework Nachteile sind alle genannten Punkte: schnelle Entwicklungszyklen, Code-Kopplung, nicht alle Probleme gelöst, Grenzen, steile Lernkurve, schwere Nachvollziehbarkeit.",
+    "xp": 20,
+    "tags": ["vl-offiziell", "vorlesung", "techniken"]
   }
 ]
