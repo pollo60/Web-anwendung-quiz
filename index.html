@@ -166,12 +166,7 @@
                 <label style="display: block; margin-bottom: 15px; margin-top: 20px; color: #fff; font-weight: 600; font-size: 1.1em; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); text-align: center;">Wähle dein Level:</label>
                 
                 <div class="level-selection">
-                    <div class="level-card selected" data-level="gemischt">
-                        <div class="level-icon">⚖️</div>
-                        <div class="level-name">Gemischt</div>
-                        <div class="level-description">Alle Fragen</div>
-                    </div>
-                    <div class="level-card" data-level="klausurvorbereitung">
+                    <div class="level-card selected" data-level="klausurvorbereitung">
                         <div class="level-icon">🎯</div>
                         <div class="level-name">Klausurvorbereitung</div>
                         <div class="level-description">Optimiert für die Prüfung</div>
@@ -270,7 +265,7 @@
                 questionsLoaded: false,
                 wrongAnsweredQuestions: [],
                 // Quiz configuration
-                selectedLevel: 'gemischt',
+                selectedLevel: 'klausurvorbereitung',
                 selectedDifficulty: 'all',
                 activeModifiers: ['normal'],
                 // Quiz runtime
@@ -294,7 +289,6 @@
                 leaderboard: {
                     uebung: [],
                     'vorlesung-offiziell': [],
-                    gemischt: [],
                     offiziell: [],
                     klausurvorbereitung: []
                 }
@@ -373,11 +367,10 @@
         // Mapping for Spiel-Level (Modus) → Emoji/Label (used by both leaderboards)
         function getGameLevelInfo(levelKey) {
             const map = {
-                'gemischt': { emoji: '⚖️', label: 'Gemischt' },
+                'klausurvorbereitung': { emoji: '🎯', label: 'Klausurvorbereitung' },
                 'uebung': { emoji: '📝', label: 'Übung' },
                 'vorlesung-offiziell': { emoji: '🎓', label: 'VL Offiziell' },
-                'offiziell': { emoji: '📋', label: 'Offiziell' },
-                'klausurvorbereitung': { emoji: '🎯', label: 'Klausurvorbereitung' }
+                'offiziell': { emoji: '📋', label: 'Offiziell' }
             };
             return map[levelKey] || { emoji: '❓', label: 'Unbekannt' };
         }
@@ -539,7 +532,6 @@
             STATE.leaderboard = loadFromLocalStorage('leaderboard', {
                 uebung: [],
                 'vorlesung-offiziell': [],
-                gemischt: [],
                 offiziell: [],
                 klausurvorbereitung: []
             });
@@ -568,12 +560,10 @@
 
         function getQuestionsByLevel(levelKey) {
             const tagMapping = {
+                'klausurvorbereitung': ['offiziell', 'uebung'], // Prioritized tags for exam prep
                 'uebung': ['uebung'],
                 'vorlesung-offiziell': ['vl-offiziell'],
-                // Gemischt soll auch Fragen mit dem Tag "gemischt" enthalten
-                'gemischt': ['gemischt', 'uebung', 'neue-vorlesung', 'vl-offiziell', 'offiziell'],
-                'offiziell': ['offiziell'],
-                'klausurvorbereitung': ['offiziell', 'uebung'] // Prioritized tags
+                'offiziell': ['offiziell']
             };
             
             const tags = tagMapping[levelKey] || [];
@@ -587,13 +577,14 @@
                     const questionText = (q.question || '').toLowerCase();
                     const explanation = (q.explanation || '').toLowerCase();
                     const allText = questionText + ' ' + explanation;
+                    const questionTags = (q.tags || []).map(t => t.toLowerCase());
                     
-                    // Ausschlusskriterien (exclude these)
+                    // Ausschlusskriterien (nur spezifische Themen ausschließen)
                     const excludePatterns = [
-                        'unicode', 'utf-8', 'utf-16', 'byte-berechnung', 'zeichencodierung',
-                        'bonus', 'bonusfrage',
-                        'tcp.*handshake', 'udp.*handshake', '3-way-handshake',
-                        'servlet.*implementierung', 'servlet.*details', 'doget', 'dopost'
+                        'unicode.*umrechnung', 'utf-8.*byte', 'utf-16.*byte', 'byte.*berechnung.*utf', 'zeichencodierung.*byte',
+                        'bonusfrage', 'bonus.*semester',
+                        'tcp.*3-way.*handshake', 'udp.*handshake', 'syn.*ack.*handshake',
+                        'doget.*implementierung', 'dopost.*implementierung', 'servlet.*code.*beispiel'
                     ];
                     
                     // Check if question should be excluded
@@ -604,36 +595,41 @@
                     
                     if (shouldExclude) return false;
                     
-                    // Include questions about these relevant topics
+                    // Fragen mit Priority-Tags (offiziell/uebung) werden grundsätzlich einbezogen
+                    const hasPriorityTag = questionTags.includes('offiziell') || questionTags.includes('uebung');
+                    if (hasPriorityTag) return true;
+                    
+                    // Für andere Fragen: Erweiterte thematische Prüfung mit mehr Flexibilität
                     const includePatterns = [
-                        // Architekturen
-                        '2-tier', '3-tier', 'n-tier', 'tier.*architektur', 'schicht',
-                        // Protokolle & Standards
-                        'uri', 'url', 'http.*methode', 'http.*status', 'safe', 'idempotent',
-                        'http/2', 'multiplexing', 'priorisierung', 'statuscode',
-                        '200', '204', '206', '400', '404',
-                        // API-Technologien
-                        'rest', 'ressource', 'repräsentation', 'hateoas',
-                        'graphql', 'query', 'mutation', 'subscription',
-                        'grpc', 'protobuf', 'protocol buffers', 'rpc',
-                        // Frameworks
-                        'spring boot', 'bean', 'annotation', '@', 'lifecycle',
-                        'angular', 'component', 'service', 'dependency injection',
-                        // Web-Grundlagen
-                        'html', 'css', 'selector', 'json', 'xml'
+                        // Architekturen - erweitert
+                        'tier', 'architektur', 'schicht', 'layer', 'client.*server', 'mvc', 'model.*view',
+                        // Protokolle & Standards - erweitert
+                        'http', 'uri', 'url', 'get', 'post', 'put', 'delete', 'patch',
+                        'status.*code', 'status.*2', 'status.*4', '200', '201', '204', '206', '400', '401', '404',
+                        'safe', 'idempotent', 'multiplexing', 'stream', 'header',
+                        // API-Technologien - erweitert
+                        'rest', 'ressource', 'endpoint', 'api', 'hateoas', 'richardson',
+                        'graphql', 'query', 'mutation', 'subscription', 'resolver', 'schema',
+                        'grpc', 'protobuf', 'protocol buffer', 'rpc', '.proto',
+                        // Frameworks - erweitert
+                        'spring', 'boot', 'bean', 'autowired', 'component', '@', 'annotation',
+                        'controller', 'service', 'repository', 'dependency.*injection',
+                        'angular', 'typescript', 'decorator', 'directive', 'modul',
+                        // Web-Grundlagen - erweitert
+                        'html', 'tag', 'element', 'attribut', 'css', 'selector', 'class.*id',
+                        'json', 'xml', 'yaml', 'javascript', 'dom', 'ajax',
+                        // Zusätzliche relevante Themen
+                        'web.*anwendung', 'frontend', 'backend', 'server', 'client',
+                        'datenbank', 'sql', 'persistenz', 'caching', 'session',
+                        'thymeleaf', 'template', 'view', 'logging', 'git', 'test'
                     ];
                     
-                    // Question is included if it has priority tags OR matches relevant topics
                     const hasRelevantTopic = includePatterns.some(pattern => {
                         const regex = new RegExp(pattern, 'i');
                         return regex.test(allText);
                     });
                     
-                    // Always include if has priority tags (offiziell/uebung), 
-                    // otherwise only include if matches relevant topics
-                    const hasPriorityTag = q.tags && (q.tags.includes('offiziell') || q.tags.includes('uebung'));
-                    
-                    return hasPriorityTag || hasRelevantTopic;
+                    return hasRelevantTopic;
                 });
             }
             
@@ -1727,7 +1723,6 @@
                         STATE.leaderboard = {
                             uebung: [],
                             'vorlesung-offiziell': [],
-                            gemischt: [],
                             offiziell: [],
                             klausurvorbereitung: []
                         };
