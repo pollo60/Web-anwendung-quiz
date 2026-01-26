@@ -1,13 +1,9 @@
 [
   {
     "difficulty": 1,
-    "type": "multiple",
-    "question": "Eine Spring-Boot-Anwendung kann eigenständig und ohne externe Laufzeitabhängigkeiten ausgeführt werden",
-    "options": [
-      "Wahr",
-      "Falsch"
-    ],
-    "correct": 0,
+    "type": "fillblank",
+    "question": "Eine Spring-Boot-Anwendung kann als _____ _____ ohne externe Laufzeitabhängigkeiten ausgeführt werden.",
+    "blanks": ["Fat", "JAR"],
     "explanation": "Spring Boot-Anwendungen sind als Fat JARs/Executable JARs lauffähig und benötigen keine externen Laufzeitabhängigkeiten.",
     "xp": 10,
     "tags": [
@@ -18,10 +14,9 @@
   },
   {
     "difficulty": 2,
-    "type": "multiple",
-    "question": "Welche Annotation kennzeichnet einen gRPC-Dienst in Spring Boot?",
-    "options": ["@Service", "@RestController", "@GrpcService", "@RpcController"],
-    "correct": 2,
+    "type": "fillblank",
+    "question": "Die Annotation _____ kennzeichnet einen gRPC-Dienst in Spring Boot.",
+    "blanks": ["@GrpcService"],
     "explanation": "✅ Richtig: @GrpcService markiert gRPC-Server-Implementierungen in Spring-Umgebungen.",
     "xp": 15,
     "tags": ["offiziell", "woche7"]

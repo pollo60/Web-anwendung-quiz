@@ -171,6 +171,11 @@
                         <div class="level-name">Gemischt</div>
                         <div class="level-description">Alle Fragen</div>
                     </div>
+                    <div class="level-card" data-level="klausurvorbereitung">
+                        <div class="level-icon">🎯</div>
+                        <div class="level-name">Klausurvorbereitung</div>
+                        <div class="level-description">Optimiert für die Prüfung</div>
+                    </div>
                     <div class="level-card" data-level="uebung">
                         <div class="level-icon">📝</div>
                         <div class="level-name">Fragen zur Übung</div>
@@ -290,7 +295,8 @@
                     uebung: [],
                     'vorlesung-offiziell': [],
                     gemischt: [],
-                    offiziell: []
+                    offiziell: [],
+                    klausurvorbereitung: []
                 }
             };
         }
@@ -370,7 +376,8 @@
                 'gemischt': { emoji: '⚖️', label: 'Gemischt' },
                 'uebung': { emoji: '📝', label: 'Übung' },
                 'vorlesung-offiziell': { emoji: '🎓', label: 'VL Offiziell' },
-                'offiziell': { emoji: '📋', label: 'Offiziell' }
+                'offiziell': { emoji: '📋', label: 'Offiziell' },
+                'klausurvorbereitung': { emoji: '🎯', label: 'Klausurvorbereitung' }
             };
             return map[levelKey] || { emoji: '❓', label: 'Unbekannt' };
         }
@@ -533,7 +540,8 @@
                 uebung: [],
                 'vorlesung-offiziell': [],
                 gemischt: [],
-                offiziell: []
+                offiziell: [],
+                klausurvorbereitung: []
             });
         }
 
@@ -564,13 +572,72 @@
                 'vorlesung-offiziell': ['vl-offiziell'],
                 // Gemischt soll auch Fragen mit dem Tag "gemischt" enthalten
                 'gemischt': ['gemischt', 'uebung', 'neue-vorlesung', 'vl-offiziell', 'offiziell'],
-                'offiziell': ['offiziell']
+                'offiziell': ['offiziell'],
+                'klausurvorbereitung': ['offiziell', 'uebung'] // Prioritized tags
             };
             
             const tags = tagMapping[levelKey] || [];
-            return STATE.questionDatabase.filter(q => 
+            let questions = STATE.questionDatabase.filter(q => 
                 tags.some(tag => q.tags && q.tags.includes(tag))
             );
+            
+            // Special filtering for Klausurvorbereitung mode
+            if (levelKey === 'klausurvorbereitung') {
+                questions = questions.filter(q => {
+                    const questionText = (q.question || '').toLowerCase();
+                    const explanation = (q.explanation || '').toLowerCase();
+                    const allText = questionText + ' ' + explanation;
+                    
+                    // Ausschlusskriterien (exclude these)
+                    const excludePatterns = [
+                        'unicode', 'utf-8', 'utf-16', 'byte-berechnung', 'zeichencodierung',
+                        'bonus', 'bonusfrage',
+                        'tcp.*handshake', 'udp.*handshake', '3-way-handshake',
+                        'servlet.*implementierung', 'servlet.*details', 'doget', 'dopost'
+                    ];
+                    
+                    // Check if question should be excluded
+                    const shouldExclude = excludePatterns.some(pattern => {
+                        const regex = new RegExp(pattern, 'i');
+                        return regex.test(allText);
+                    });
+                    
+                    if (shouldExclude) return false;
+                    
+                    // Include questions about these relevant topics
+                    const includePatterns = [
+                        // Architekturen
+                        '2-tier', '3-tier', 'n-tier', 'tier.*architektur', 'schicht',
+                        // Protokolle & Standards
+                        'uri', 'url', 'http.*methode', 'http.*status', 'safe', 'idempotent',
+                        'http/2', 'multiplexing', 'priorisierung', 'statuscode',
+                        '200', '204', '206', '400', '404',
+                        // API-Technologien
+                        'rest', 'ressource', 'repräsentation', 'hateoas',
+                        'graphql', 'query', 'mutation', 'subscription',
+                        'grpc', 'protobuf', 'protocol buffers', 'rpc',
+                        // Frameworks
+                        'spring boot', 'bean', 'annotation', '@', 'lifecycle',
+                        'angular', 'component', 'service', 'dependency injection',
+                        // Web-Grundlagen
+                        'html', 'css', 'selector', 'json', 'xml'
+                    ];
+                    
+                    // Question is included if it has priority tags OR matches relevant topics
+                    const hasRelevantTopic = includePatterns.some(pattern => {
+                        const regex = new RegExp(pattern, 'i');
+                        return regex.test(allText);
+                    });
+                    
+                    // Always include if has priority tags (offiziell/uebung), 
+                    // otherwise only include if matches relevant topics
+                    const hasPriorityTag = q.tags && (q.tags.includes('offiziell') || q.tags.includes('uebung'));
+                    
+                    return hasPriorityTag || hasRelevantTopic;
+                });
+            }
+            
+            return questions;
         }
 
         function selectQuestions(level, difficulty, modifiers, count = 15) {
@@ -1661,7 +1728,8 @@
                             uebung: [],
                             'vorlesung-offiziell': [],
                             gemischt: [],
-                            offiziell: []
+                            offiziell: [],
+                            klausurvorbereitung: []
                         };
                         saveLeaderboard();
                         displayStartLeaderboard();
